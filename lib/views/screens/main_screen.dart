@@ -23,7 +23,7 @@ class MainScreen extends GetView<MainController> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'Home',
+              label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.assignment_outlined),

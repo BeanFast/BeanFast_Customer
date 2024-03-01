@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/screens/welcome_screen.dart';
 import 'package:beanfast_customer/views/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,11 +35,13 @@ class SplashView extends StatelessWidget {
             return Obx(() {
               switch (_authController.authState.value) {
                 case AuthState.authenticated:
-                  return const MainScreen();
+                  //  return const MainScreen();
+                  return const WelcomeView();
                 case AuthState.unauthenticated:
                   return LoginView();
                 default:
-                  return const ErrorView(errorMessage: 'Lỗi xác thực đăng nhập');// 
+                  return const ErrorView(
+                      errorMessage: 'Lỗi xác thực đăng nhập'); //
               }
             });
           }
@@ -56,11 +59,11 @@ class SplashView extends StatelessWidget {
         //   children: [
         //     Padding(
         //       padding: EdgeInsets.all(16.0),
-              child: CircularProgressIndicator(),
-            ),
-            // Text('Loading...'),
-        //   ],
-        // ),
+        child: CircularProgressIndicator(),
+      ),
+      // Text('Loading...'),
+      //   ],
+      // ),
       // ),
     );
   }
