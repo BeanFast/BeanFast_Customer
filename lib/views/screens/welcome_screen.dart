@@ -24,7 +24,7 @@ class WelcomeView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Spacer(),
+                  Spacer(),
                   Container(
                     color: Colors.black,
                     width: 250,
@@ -40,7 +40,7 @@ class WelcomeView extends StatelessWidget {
                     style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
-                  const Spacer(),
+                  Spacer(),
                   Container(
                     height: 50,
                     width: double.infinity,

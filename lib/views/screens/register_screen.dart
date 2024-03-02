@@ -1,12 +1,10 @@
-import 'package:beanfast_customer/views/screens/login_screen.dart';
+import 'package:beanfast_customer/views/screens/otp_confirmation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '/controllers/auth_controller.dart';
-
 class RegisterView extends StatelessWidget {
-  final RxBool _isChecked = false.obs;
+  final RegisterController registerController = Get.put(RegisterController());
+  final _formKey = GlobalKey<FormState>();
   RegisterView({super.key});
 
   @override
@@ -17,6 +15,7 @@ class RegisterView extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             child: Form(
+              key: _formKey,
               child: Column(
                 children: <Widget>[
                   const SizedBox(height: 10),
@@ -31,125 +30,156 @@ class RegisterView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 35),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Tên đăng nhập',
-                      border: OutlineInputBorder(),
+                  SizedBox(
+                    width: double.infinity, // Set the width
+                    height: 85,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Tên đăng nhập',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập tên đăng nhập';
+                        }
+                        if (value.length < 3) {
+                          return 'Tên đăng nhập phải có ít nhất 3 ký tự';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập tên đăng nhập';
-                      }
-                      if (value.length < 3) {
-                        return 'Tên đăng nhập phải có ít nhất 3 ký tự';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 15),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
+                  SizedBox(
+                    width: double.infinity, // Set the width
+                    height: 85,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        RegExp regex = RegExp(
+                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                        if (!regex.hasMatch(value!)) {
+                          return 'Email không hợp lệ';
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập tên đăng nhập';
-                      }
-                      if (value.length < 3) {
-                        return 'Tên đăng nhập phải có ít nhất 3 ký tự';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 15),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Số điện thoại',
-                      border: OutlineInputBorder(),
+                  SizedBox(
+                    width: double.infinity, // Set the width
+                    height: 85,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Số điện thoại',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vui lòng nhập số điện thoại';
+                        }
+                        if (value.length < 3) {
+                          return 'Số điện thoại không hợp lệ';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập tên đăng nhập';
-                      }
-                      if (value.length < 3) {
-                        return 'Tên đăng nhập phải có ít nhất 3 ký tự';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 15),
-                  TextFormField(
-                    // controller: _authController.passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Mật khẩu',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: const Icon(
-                          // _isPasswordHidden.value
-                          //     ? Icons.visibility
-                          //     :
-                          Icons.visibility,
+                  Obx(
+                    () => SizedBox(
+                      width: double.infinity, // Set the width
+                      height: 85,
+                      child: TextFormField(
+                        obscureText: registerController.isPasswordVisible.value,
+
+                        // controller: _authController.passwordController,
+                        decoration: InputDecoration(
+                          labelText: 'Mật khẩu',
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              registerController.isPasswordVisible.value
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed:
+                                registerController.togglePasswordVisibility,
+                          ),
                         ),
-                        onPressed: () {
-                          // _isPasswordHidden.value = !_isPasswordHidden.value;
+                        // obscureText: _isPasswordHidden.value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Vui lòng nhập mật khẩu';
+                          }
+                          if (value.length < 8) {
+                            return 'Mật khẩu phải có ít nhất 8 ký tự';
+                          }
+                          return null;
                         },
                       ),
                     ),
-                    // obscureText: _isPasswordHidden.value,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập mật khẩu';
-                      }
-                      if (value.length < 8) {
-                        return 'Mật khẩu phải có ít nhất 8 ký tự';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 15),
-                  TextFormField(
-                    // controller: _authController.passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Mật khẩu',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: const Icon(
-                          // _isPasswordHidden.value
-                          //     ? Icons.visibility
-                          //     :
-                          Icons.visibility,
+                  Obx(
+                    () => SizedBox(
+                      width: double.infinity, // Set the width
+                      height: 85,
+                      child: TextFormField(
+                        obscureText:
+                            registerController.isRePasswordVisible.value,
+
+                        // controller: _authController.passwordController,
+                        decoration: InputDecoration(
+                          labelText: 'Xác nhận mật khẩu',
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                           icon: Icon(
+                              registerController.isRePasswordVisible.value
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed:
+                                registerController.toggleRePasswordVisibility,
+                          ),
                         ),
-                        onPressed: () {
-                          // _isPasswordHidden.value = !_isPasswordHidden.value;
+                        // obscureText: _isPasswordHidden.value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Vui lòng nhập mật khẩu';
+                          }
+                          if (value.length < 8) {
+                            return 'Mật khẩu phải có ít nhất 8 ký tự';
+                          }
+                          return null;
                         },
                       ),
                     ),
-                    // obscureText: _isPasswordHidden.value,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập mật khẩu';
-                      }
-                      if (value.length < 8) {
-                        return 'Mật khẩu phải có ít nhất 8 ký tự';
-                      }
-                      return null;
-                    },
                   ),
                   Row(
                     children: [
-                      Checkbox(
-                        value: _isChecked.value,
-                        onChanged: (value) {
-                          _isChecked.value = value!;
-                        },
+                      Obx(
+                        () => SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: Checkbox(
+                            value: registerController.isChecked.value,
+                            onChanged: (value) {
+                              registerController.toggleIschecked();
+                            },
+                          ),
+                        ),
                       ),
                       const Spacer(),
                       TextButton(
                         onPressed: () {
                           // Your onPressed code for "Show điều khoản" here
                         },
-                        child: const Text('Chấp nhận điều khoản ứng dụng'),
+                        child: const Text('Chấp nhận với điều khoản'),
                       ),
                     ],
                   ),
@@ -176,7 +206,17 @@ class RegisterView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // If the form is valid, do something
+                        }
+                        Get.to(
+                          () => OtpConfirmationView(),
+                          binding: BindingsBuilder(() {
+                            Get.put(OTPController());
+                          }),
+                        );
+                      },
                       child: const Text('Đăng ký'),
                     ),
                   ),
@@ -185,5 +225,23 @@ class RegisterView extends StatelessWidget {
             ),
           )),
     );
+  }
+}
+
+class RegisterController extends GetxController {
+  var isPasswordVisible = true.obs;
+  var isRePasswordVisible = true.obs;
+  var isChecked = false.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
+
+  void toggleRePasswordVisibility() {
+    isRePasswordVisible.value = !isRePasswordVisible.value;
+  }
+
+  void toggleIschecked() {
+    isChecked.value = !isChecked.value;
   }
 }
