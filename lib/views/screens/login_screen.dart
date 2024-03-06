@@ -113,7 +113,7 @@ class LoginView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                Container(
+                SizedBox(
                   height: 64,
                   width: double.infinity,
                   child: TextButton(
@@ -133,7 +133,7 @@ class LoginView extends StatelessWidget {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {}
-                      // Get.offAll(const MainScreen());
+                      Get.offAll(const MainScreen());
                       // _authController.login();
                     },
                     child:

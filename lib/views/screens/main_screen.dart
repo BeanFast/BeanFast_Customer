@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/screens/deposit_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -138,25 +139,33 @@ class Screen1 extends StatelessWidget {
                               mainAxisSpacing: 10,
                             ),
                             itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.home_outlined,
-                                        size: 35,
+                              return GestureDetector(
+                                onTap: () {
+                                  if(index == 3){
+                                    Get.to(DepositeScreen());
+                                  }
+                                   print('Item $index clicked');
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.home_outlined,
+                                          size: 35,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Text(
-                                    "Theo dỗi đơn hàng",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
+                                    const Text(
+                                      "Theo dỗi đơn hàng",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
                               );
                             },
                           ),
