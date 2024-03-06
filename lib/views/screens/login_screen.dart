@@ -17,7 +17,14 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          'Đăng Nhập',
+          style: TextStyle(
+            fontSize: 30,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -26,17 +33,6 @@ class LoginView extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 10),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Đăng Nhập',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 35),
                 SizedBox(
                   width: double.infinity, // Set the width
                   height: 85,
@@ -57,11 +53,11 @@ class LoginView extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Obx(
                   () => SizedBox(
                     width: double.infinity, // Set the width
-                 height: 85,
+                    height: 85,
                     child: TextFormField(
                       controller: _authController.passwordController,
                       decoration: InputDecoration(
@@ -118,11 +114,8 @@ class LoginView extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  height: 50.0,
+                  height: 64,
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
                   child: TextButton(
                     style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all<Color>(
@@ -133,20 +126,18 @@ class LoginView extends StatelessWidget {
                           const EdgeInsets.all(16.0)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
+                          borderRadius: BorderRadius.circular(30),
                           side: const BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                    
-                      
-                      }
-                      // Get.to(const MainScreen());
+                      if (_formKey.currentState!.validate()) {}
+                      // Get.offAll(const MainScreen());
                       // _authController.login();
                     },
-                    child: const Text('Đăng nhập'),
+                    child:
+                        const Text('Đăng nhập', style: TextStyle(fontSize: 18)),
                   ),
                 ),
                 const SizedBox(height: 20),

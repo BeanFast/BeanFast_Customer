@@ -9,7 +9,6 @@ class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SizedBox(
         height: double.infinity,
         child: Padding(
@@ -17,13 +16,6 @@ class WelcomeView extends StatelessWidget {
             child: Form(
               child: Column(
                 children: <Widget>[
-                  const Text(
-                    'BeanFast App',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   Spacer(),
                   Container(
                     color: Colors.black,
@@ -42,10 +34,10 @@ class WelcomeView extends StatelessWidget {
                   ),
                   Spacer(),
                   Container(
-                    height: 50,
+                    height: 64,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: TextButton(
                       style: ButtonStyle(
@@ -58,7 +50,7 @@ class WelcomeView extends StatelessWidget {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
+                            borderRadius: BorderRadius.circular(30),
                             side: const BorderSide(color: Colors.grey),
                           ),
                         ),
@@ -66,12 +58,12 @@ class WelcomeView extends StatelessWidget {
                       onPressed: () {
                         Get.to(RegisterView());
                       },
-                      child: const Text('Đăng Ký'),
+                      child: Text('Đăng ký', style: TextStyle(fontSize: 18)),
                     ),
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    height: 50.0,
+                    height: 64,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
@@ -87,7 +79,7 @@ class WelcomeView extends StatelessWidget {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
+                            borderRadius: BorderRadius.circular(30),
                             side: const BorderSide(color: Colors.grey),
                           ),
                         ),
@@ -95,7 +87,7 @@ class WelcomeView extends StatelessWidget {
                       onPressed: () {
                         Get.to(LoginView());
                       },
-                      child: const Text('Đăng Nhập'),
+                      child: Text('Đăng nhập', style: TextStyle(fontSize: 18)),
                     ),
                   ),
                   const SizedBox(height: 20),

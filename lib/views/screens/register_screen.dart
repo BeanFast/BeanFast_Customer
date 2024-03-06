@@ -10,7 +10,14 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          'Đăng ký',
+          style: TextStyle(
+            fontSize: 30,
+          ),
+        ),
+      ),
       body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
@@ -19,57 +26,46 @@ class RegisterView extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   const SizedBox(height: 10),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Tạo tài khoản mới',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 35),
-                  SizedBox(
-                    width: double.infinity, // Set the width
-                    height: 85,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Tên đăng nhập',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Vui lòng nhập tên đăng nhập';
-                        }
-                        if (value.length < 3) {
-                          return 'Tên đăng nhập phải có ít nhất 3 ký tự';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  SizedBox(
-                    width: double.infinity, // Set the width
-                    height: 85,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        RegExp regex = RegExp(
-                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                        if (!regex.hasMatch(value!)) {
-                          return 'Email không hợp lệ';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 15),
+                  // SizedBox(
+                  //   width: double.infinity, // Set the width
+                  //   height: 85,
+                  //   child: TextFormField(
+                  //     decoration: const InputDecoration(
+                  //       labelText: 'Tên đăng nhập',
+                  //       border: OutlineInputBorder(),
+                  //     ),
+                  //     validator: (value) {
+                  //       if (value == null || value.isEmpty) {
+                  //         return 'Vui lòng nhập tên đăng nhập';
+                  //       }
+                  //       if (value.length < 3) {
+                  //         return 'Tên đăng nhập phải có ít nhất 3 ký tự';
+                  //       }
+                  //       return null;
+                  //     },
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 5),
+                  // SizedBox(
+                  //   width: double.infinity, // Set the width
+                  //   height: 85,
+                  //   child: TextFormField(
+                  //     decoration: const InputDecoration(
+                  //       labelText: 'Email',
+                  //       border: OutlineInputBorder(),
+                  //     ),
+                  //     validator: (value) {
+                  //       RegExp regex = RegExp(
+                  //           r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                  //       if (!regex.hasMatch(value!)) {
+                  //         return 'Email không hợp lệ';
+                  //       } else {
+                  //         return null;
+                  //       }
+                  //     },
+                  //   ),
+                  // ),
+    
                   SizedBox(
                     width: double.infinity, // Set the width
                     height: 85,
@@ -89,7 +85,7 @@ class RegisterView extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(height: 15),
+                const SizedBox(height: 5),
                   Obx(
                     () => SizedBox(
                       width: double.infinity, // Set the width
@@ -124,7 +120,7 @@ class RegisterView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                 const SizedBox(height: 5),
                   Obx(
                     () => SizedBox(
                       width: double.infinity, // Set the width
@@ -138,7 +134,7 @@ class RegisterView extends StatelessWidget {
                           labelText: 'Xác nhận mật khẩu',
                           border: const OutlineInputBorder(),
                           suffixIcon: IconButton(
-                           icon: Icon(
+                            icon: Icon(
                               registerController.isRePasswordVisible.value
                                   ? Icons.visibility
                                   : Icons.visibility_off,
@@ -185,11 +181,8 @@ class RegisterView extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   Container(
-                    height: 50.0,
+                    height: 64,
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
                     child: TextButton(
                       style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(
@@ -201,7 +194,7 @@ class RegisterView extends StatelessWidget {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
+                            borderRadius: BorderRadius.circular(30),
                             side: const BorderSide(color: Colors.grey),
                           ),
                         ),
@@ -217,7 +210,7 @@ class RegisterView extends StatelessWidget {
                           }),
                         );
                       },
-                      child: const Text('Đăng ký'),
+                      child: const Text('Đăng ký', style: TextStyle(fontSize: 18)),
                     ),
                   ),
                 ],
