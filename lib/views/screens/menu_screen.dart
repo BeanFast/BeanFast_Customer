@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -30,95 +33,111 @@ class MenuScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Obx(() {
-              return Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: 50,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          HexColor("#26AA91")), // Text color
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.white), // Background color
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(16.0)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: const BorderSide(color: Color(0xFF26AA91)),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              Obx(() {
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    height: 40,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            HexColor("#26AA91")), // Text color
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Background color
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.all(10)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: Color(0xFF26AA91)),
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2025),
+                        );
+                        if (picked != null &&
+                            picked != menuController.selectedDate.value) {
+                          menuController.updateDate(picked);
+                        }
+                      },
+                      child: Text(
+                        "Ngày: ${DateFormat('dd-MM-yyyy').format(menuController.selectedDate.value)}",
+                      ),
+                    ),
+                  ),
+                );
+              }),
+              const SizedBox(height: 10),
+              const Text(
+                "Categories",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //Category List
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    10,
+                    (index) => Container(
+                      alignment: Alignment.center,
+                      height: 40,
+                      margin: const EdgeInsets.only(right: 15),
+                      child: TextButton(
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              HexColor("#26AA91")), // Text color
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.white), // Background color
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.all(10)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: const BorderSide(color: Color(0xFF26AA91)),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.snackbar('Click category', index.toString());
+                        },
+                        child: Text(
+                          'Bánh mì $index',
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ),
                     ),
-                    onPressed: () async {
-                      final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2025),
-                      );
-                      if (picked != null &&
-                          picked != menuController.selectedDate.value) {
-                        menuController.updateDate(picked);
-                      }
-                    },
-                    child: Text(
-                      "Ngày: ${DateFormat('dd-MM-yyyy').format(menuController.selectedDate.value)}",
-                    ),
-                  ),
-                ),
-              );
-            }),
-            TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    HexColor("#26AA91")), // Text color
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Colors.white), // Background color
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(16.0)),
-                shape:
-                    MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: const BorderSide(color: Color(0xFF26AA91)),
                   ),
                 ),
               ),
-              onPressed: () async {},
-              child: const Text(
-                "Bánh mì",
-              ),
-            ),
-            
-            const SizedBox(height: 20),
-            CarouselSlider(
-              options: CarouselOptions(
-                // autoPlay: true,
-                // autoPlayInterval: Duration(seconds: 15),
-                height: 206,
-                viewportFraction: 0.45,
-              ),
-              items: [
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzilsrox1351bECnEzpdGsKYjKdEDN7fSAQ&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzilsrox1351bECnEzpdGsKYjKdEDN7fSAQ&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzilsrox1351bECnEzpdGsKYjKdEDN7fSAQ&usqp=CAU',
-              ].map((imageUrl) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return GestureDetector(
+              const SizedBox(height: 10),
+              //FoodCombo List
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    7,
+                    (index) => GestureDetector(
                       onTap: () {
-                        // Handle the tap
-                        Get.snackbar(
-                          "SnakeBar Title",
-                          'Image clicked: $imageUrl',
-                          snackPosition: SnackPosition.TOP,
-                        );
+                        Get.snackbar('Click food detail', index.toString());
                       },
                       child: Card(
                         child: Padding(
@@ -128,16 +147,16 @@ class MenuScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Image.network(
-                                imageUrl,
+                                'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
                                 fit: BoxFit.cover,
-                                height: 100,
                                 width: 150,
+                                height: 100,
                               ),
                               const SizedBox(height: 5),
-                              const SizedBox(
-                                width: 130,
+                              SizedBox(
+                                width: 140,
                                 child: Text(
-                                  'Combo Burger + nước ngọt',
+                                  'Combo Burger + nước ngọt số $index',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 14),
@@ -152,7 +171,7 @@ class MenuScreen extends StatelessWidget {
                                     const SizedBox(
                                       width: 100,
                                       child: Text(
-                                        '15.000.000 VNĐ',
+                                        '150.000 VNĐ',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -162,11 +181,10 @@ class MenuScreen extends StatelessWidget {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 50,
+                                      width: 40,
                                       child: IconButton(
                                           onPressed: () {},
-                                          icon: const Icon(
-                                              Icons.add_shopping_cart)),
+                                          icon: const Icon(Icons.add_outlined)),
                                     ),
                                   ],
                                 ),
@@ -175,60 +193,252 @@ class MenuScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 20),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 10, right: 10, top: 20, bottom: 20),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Phương thức thanh toán',
-                          style: TextStyle(fontSize: 16)),
-                      SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: Image.network(
-                          'https://vnpay.vn/s1/statics.vnpay.vn/2023/9/06ncktiwd6dc1694418196384.png',
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 50),
-            SizedBox(
-              height: 64,
-              width: double.infinity,
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all<Color>(
-                      Colors.white), // Text color
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Colors.green), // Background color
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(16.0)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: const BorderSide(color: Colors.grey),
                     ),
                   ),
                 ),
-                onPressed: () {},
-                child: const Text('Nạp tiền', style: TextStyle(fontSize: 18)),
               ),
-            ),
-          ],
+              const SizedBox(height: 15),
+              const Text(
+                "Giảm giá",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //Food On Sale list
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: List.generate(
+                      2,
+                      (index) => Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Stack(
+                              children: [
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5, bottom: 5, right: 10, left: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 100,
+                                              height: 100,
+                                              child: Image.network(
+                                                'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 100,
+                                              padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                  top: 10,
+                                                  right: 10,
+                                                  bottom: 10),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            216,
+                                                    child: Text(
+                                                      'Nước ngọt số $index',
+                                                      style: const TextStyle(
+                                                          fontSize: 16),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            216,
+                                                    child: Row(
+                                                      children: [
+                                                        const Text(
+                                                          '150.000',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              fontSize: 16,
+                                                              color:
+                                                                  Colors.red),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                        SizedBox(
+                                                          width: (MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width -
+                                                                  216) /
+                                                              2,
+                                                          child: const Text(
+                                                            '150.000 đ',
+                                                            style: TextStyle(
+                                                                fontSize: 16,
+                                                                color:
+                                                                    Colors.red),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxLines: 1,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                          child: IconButton(
+                                            onPressed: () {},
+                                            icon:
+                                                const Icon(Icons.add_outlined),
+                                            iconSize: 20,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const Positioned(
+                                  top: 10,
+                                  right: 10,
+                                  child: Icon(Icons.local_offer,
+                                      color: Colors.red), // Sale icon
+                                ),
+                              ],
+                            ),
+                          )),
+                ),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                "Nước uống",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //Food list
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: List.generate(
+                      3,
+                      (index) => Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 5, bottom: 5, right: 10, left: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          height: 100,
+                                          child: Image.network(
+                                            'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 100,
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              top: 10,
+                                              right: 10,
+                                              bottom: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    216,
+                                                child: Text(
+                                                  'Nước ngọt số $index',
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    216,
+                                                child: const Text(
+                                                  '150.000',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.red),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                      child: IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.add_outlined),
+                                        iconSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
