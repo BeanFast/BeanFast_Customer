@@ -2,7 +2,6 @@ import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
 
 class DepositeScreen extends StatelessWidget {
@@ -19,7 +18,7 @@ class DepositeScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: ListView(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [

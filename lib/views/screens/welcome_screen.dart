@@ -16,7 +16,7 @@ class WelcomeView extends StatelessWidget {
             child: Form(
               child: Column(
                 children: <Widget>[
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     color: Colors.black,
                     width: 250,
@@ -32,7 +32,7 @@ class WelcomeView extends StatelessWidget {
                     style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     height: 64,
                     width: double.infinity,
@@ -58,7 +58,7 @@ class WelcomeView extends StatelessWidget {
                       onPressed: () {
                         Get.to(RegisterView());
                       },
-                      child: Text('Đăng ký', style: TextStyle(fontSize: 18)),
+                      child: const Text('Đăng ký', style: TextStyle(fontSize: 18)),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -87,7 +87,7 @@ class WelcomeView extends StatelessWidget {
                       onPressed: () {
                         Get.to(LoginView());
                       },
-                      child: Text('Đăng nhập', style: TextStyle(fontSize: 18)),
+                      child: const Text('Đăng nhập', style: TextStyle(fontSize: 18)),
                     ),
                   ),
                   const SizedBox(height: 20),

@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/screens/menu_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Text(
                           homeController.moneyValue.value,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.bold),
@@ -78,7 +79,9 @@ class HomeScreen extends StatelessWidget {
                             MainIconButton(
                               icon: Icons.list_alt_outlined,
                               text: "Đặt hàng",
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(MenuScreen());
+                              },
                             ),
                             MainIconButton(
                               icon: Icons.input_outlined,
