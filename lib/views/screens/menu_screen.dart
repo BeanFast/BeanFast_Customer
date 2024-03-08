@@ -1,12 +1,6 @@
-import 'dart:ui';
-
 import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -46,6 +40,7 @@ class MenuScreen extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
                     height: 40,
+                    width: 170,
                     child: TextButton(
                       style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(
@@ -74,8 +69,14 @@ class MenuScreen extends StatelessWidget {
                           menuController.updateDate(picked);
                         }
                       },
-                      child: Text(
-                        "Ngày: ${DateFormat('dd-MM-yyyy').format(menuController.selectedDate.value)}",
+                      child: Row(
+                        children: [
+                          Text(
+                            "Ngày: ${DateFormat('dd/MM/yyyy').format(menuController.selectedDate.value)}",
+                          ),
+                          const SizedBox(width: 8),
+                          const Icon(Icons.arrow_drop_down),
+                        ],
                       ),
                     ),
                   ),
@@ -96,32 +97,43 @@ class MenuScreen extends StatelessWidget {
                 child: Row(
                   children: List.generate(
                     10,
-                    (index) => Container(
-                      alignment: Alignment.center,
-                      height: 40,
-                      margin: const EdgeInsets.only(right: 15),
-                      child: TextButton(
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              HexColor("#26AA91")), // Text color
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.white), // Background color
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.all(10)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: const BorderSide(color: Color(0xFF26AA91)),
+                    (index) => Obx(
+                      () => Container(
+                        alignment: Alignment.center,
+                        height: 40,
+                        margin: const EdgeInsets.only(right: 15),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                              menuController.selectedIndex.value == index
+                                  ? Colors.white
+                                  : HexColor("#26AA91"),
+                            ), // Text color
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              menuController.selectedIndex.value == index
+                                  ? HexColor("#26AA91")
+                                  : Colors.white,
+                            ), // Background color
+                            padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.all(10),
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side:
+                                    const BorderSide(color: Color(0xFF26AA91)),
+                              ),
                             ),
                           ),
-                        ),
-                        onPressed: () {
-                          Get.snackbar('Click category', index.toString());
-                        },
-                        child: Text(
-                          'Bánh mì $index',
-                          style: const TextStyle(fontSize: 14),
+                          onPressed: () {
+                            menuController.selectedIndex.value = index;
+                            // Get.snackbar('Click category', index.toString());
+                          },
+                          child: Text(
+                            'Bánh mì $index',
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ),
                       ),
                     ),
@@ -451,6 +463,8 @@ class MenuController extends GetxController {
   void updateDate(DateTime newDate) {
     selectedDate.value = newDate;
   }
+
+  RxInt selectedIndex = 0.obs;
 }
 
 class CurrencyInputFormatter extends TextInputFormatter {

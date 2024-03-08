@@ -23,12 +23,12 @@ class DepositeScreen extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Số tiền nạp (đ)', style: TextStyle(fontSize: 18)),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  height: 64,
+                  height: 55,
                   width: 110,
                   child: TextButton(
                     style: ButtonStyle(
@@ -37,7 +37,7 @@ class DepositeScreen extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(16.0)),
+                          const EdgeInsets.all(10)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -49,11 +49,11 @@ class DepositeScreen extends StatelessWidget {
                       depositeController.updateMoney('100.000');
                     },
                     child:
-                        const Text('110.000', style: TextStyle(fontSize: 16)),
+                        const Text('100.000', style: TextStyle(fontSize: 16)),
                   ),
                 ),
                 SizedBox(
-                  height: 64,
+                  height: 55,
                   width: 110,
                   child: TextButton(
                     style: ButtonStyle(
@@ -62,7 +62,7 @@ class DepositeScreen extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(16.0)),
+                          const EdgeInsets.all(10.0)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -78,7 +78,7 @@ class DepositeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 64,
+                  height: 55,
                   width: 110,
                   child: TextButton(
                     style: ButtonStyle(
@@ -87,7 +87,7 @@ class DepositeScreen extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(16.0)),
+                          const EdgeInsets.all(10.0)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -109,7 +109,7 @@ class DepositeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  height: 64,
+                  height: 55,
                   width: 110,
                   child: TextButton(
                     style: ButtonStyle(
@@ -118,7 +118,7 @@ class DepositeScreen extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(16.0)),
+                          const EdgeInsets.all(10.0)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -134,7 +134,7 @@ class DepositeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 64,
+                  height: 55,
                   width: 110,
                   child: TextButton(
                     style: ButtonStyle(
@@ -143,7 +143,7 @@ class DepositeScreen extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(16.0)),
+                          const EdgeInsets.all(10.0)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -159,7 +159,7 @@ class DepositeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 64,
+                  height: 55,
                   width: 110,
                   child: TextButton(
                     style: ButtonStyle(
@@ -168,7 +168,7 @@ class DepositeScreen extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(16.0)),
+                          const EdgeInsets.all(10.0)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -198,6 +198,7 @@ class DepositeScreen extends StatelessWidget {
                 maxLength: 15,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.all(16),
                   labelText: 'Giá trị',
                   counterText: '',
                   border: OutlineInputBorder(),
@@ -227,7 +228,8 @@ class DepositeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Phương thức thanh toán', style: TextStyle(fontSize: 16)),
+                      const Text('Phương thức thanh toán',
+                          style: TextStyle(fontSize: 16)),
                       SizedBox(
                         width: 60,
                         height: 60,
@@ -252,14 +254,16 @@ class DepositeScreen extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Text('Nạp tiền:', style: TextStyle(fontSize: 16)),
+                          const Text('Nạp tiền:',
+                              style: TextStyle(fontSize: 16)),
                           const Spacer(),
                           Obx(() => Text(depositeController.money.value)),
                         ],
                       ),
                       Row(
                         children: [
-                          const Text('Tổng thanh toán:', style: TextStyle(fontSize: 16)),
+                          const Text('Tổng thanh toán:',
+                              style: TextStyle(fontSize: 16)),
                           const Spacer(),
                           Obx(() => Text(depositeController.money.value)),
                         ],
@@ -271,7 +275,7 @@ class DepositeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 50),
             SizedBox(
-              height: 64,
+              height: 55,
               width: double.infinity,
               child: TextButton(
                 style: ButtonStyle(
@@ -280,7 +284,7 @@ class DepositeScreen extends StatelessWidget {
                   backgroundColor: MaterialStateProperty.all<Color>(
                       Colors.green), // Background color
                   padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(16.0)),
+                      const EdgeInsets.all(10.0)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
