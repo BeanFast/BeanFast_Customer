@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '/controllers/main_controller.dart';
 import 'account_screen.dart';
 import 'home_screen.dart';
+import 'order_preparing_tab.dart';
 import 'order_screen.dart';
 import 'transaction_screen.dart';
 
