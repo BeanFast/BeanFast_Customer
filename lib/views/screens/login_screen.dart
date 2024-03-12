@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/controllers/main_controller.dart';
 import 'package:beanfast_customer/views/screens/main_screen.dart';
 import 'package:beanfast_customer/views/screens/register_screen.dart';
 import 'package:flutter/material.dart';

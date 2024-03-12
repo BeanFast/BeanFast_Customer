@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:beanfast_customer/views/screens/login_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class OtpConfirmationView extends StatelessWidget {
   final OTPController otpController = Get.find();

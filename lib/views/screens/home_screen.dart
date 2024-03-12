@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/screens/cart_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
-              // Handle the icon tap here
+             Get.to(const CartScreen());
             },
           ),
         ],
