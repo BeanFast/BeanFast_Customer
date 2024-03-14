@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/enums/status_enum.dart';
 import 'package:beanfast_customer/models/order.dart';
+import 'package:beanfast_customer/views/screens/order_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +15,7 @@ class OrderItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.snackbar("Order Id 1", "1", snackPosition: SnackPosition.TOP);
+        Get.to(const OrderDetailScreen());
       },
       child: Container(
         color:ThemeColor.bgColor,
