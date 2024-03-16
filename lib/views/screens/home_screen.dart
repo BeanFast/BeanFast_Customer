@@ -1,7 +1,9 @@
+import 'package:beanfast_customer/views/screens/add_new_account_screen.dart';
 import 'package:beanfast_customer/views/screens/cart_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '/controllers/home_controller.dart';
@@ -26,7 +28,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
-             Get.to(const CartScreen());
+              Get.to(const CartScreen());
             },
           ),
         ],
@@ -81,7 +83,8 @@ class HomeScreen extends StatelessWidget {
                               icon: Icons.list_alt_outlined,
                               text: "Đặt hàng",
                               onPressed: () {
-                                Get.to(MenuScreen());
+                                showUserDialog(context);
+                                // Get.to(MenuScreen());
                               },
                             ),
                             MainIconButton(
@@ -222,4 +225,83 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void showUserDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Chọn người muốn đặt'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  Get.to(MenuScreen());
+                },
+                child: const Card(
+                  child: ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Nguyễn Huỳnh Phi'),
+                    subtitle: Text('Trường tiểu học'),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.to(MenuScreen());
+                },
+                child: const Card(
+                  child: ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Nguyễn Huỳnh Phi'),
+                    subtitle: Text('Trường tiểu học'),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.to(MenuScreen());
+                },
+                child: const Card(
+                  child: ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text('Nguyễn Huỳnh Phi'),
+                    subtitle: Text('Trường tiểu học'),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 55,
+                width: double.infinity,
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Colors.white), // Text color
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.green), // Background color
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.all(10.0)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: const BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    Get.to(CreateStudentScreen());
+                  },
+                  child: const Text('Thêm người mới',
+                      style: TextStyle(fontSize: 18)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
