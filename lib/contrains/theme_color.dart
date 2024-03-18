@@ -12,9 +12,12 @@ class ThemeColor {
   static Color bgColor1 = HexColor("#EEEEEE");
   static Color bgColor2 = HexColor('#F3FBF7');
   static Color bgColor3 = HexColor('#F5FFF6');
+  static Color bgTitleColor = HexColor('#E4FAF6');
   static Color primaryColor = HexColor('#C3EBD7');
   static Color inputColor = HexColor('#26AA91');
   static Color textColor = HexColor('#070908');
+  static Color iconButtonColor = HexColor('#5f5f5f');
+
   
 }
 Color HexColor(String hex) {

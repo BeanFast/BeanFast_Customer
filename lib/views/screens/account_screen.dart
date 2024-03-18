@@ -15,7 +15,7 @@ class AccountScreen extends StatelessWidget {
     // ignore: unused_local_variable
     double height = MediaQuery.of(context).size.height;
     bool randomBool = Random().nextBool();
-    bool isValid = randomBool;
+    bool isValid = true;
     double topCardheight = isValid ? 160 : 340;
     return Stack(
       fit: StackFit.expand,
