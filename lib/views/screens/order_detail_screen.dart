@@ -23,7 +23,7 @@ class OrderDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BannerOrderStatus(status: OrderStatus.fromInt(order.status!)),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -37,24 +37,66 @@ class OrderDetailScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Card(
+                            color: Colors.green,
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(Icons.location_on, size: 20),
+                                          Text('Địa chỉ nhận hàng',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                              )),
+                                        ],
+                                      ),
+                                      Text('Trường tiểu học ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                          )),
+                                    ],
+                                  ),
+                                  const Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('Cổng số 1',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        )),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Row(
+                                        children: [
+                                          Icon(Icons.timelapse, size: 20),
+                                          Text('Thời gian hoàn thành',
+                                              style: TextStyle(fontSize: 14)),
+                                        ],
+                                      ),
+                                      Text(
+                                          DateFormat('hh:mm dd/MM/yyyy')
+                                              .format(DateTime.now()),
+                                          style: const TextStyle(fontSize: 14)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
+                        const SizedBox(height: 10),
+                        Card(
                           // color: ThemeColor.bgColor,
                           color: Colors.green,
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             child: Column(
                               children: [
-                                const Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('8/3/2024',
-                                        style: TextStyle(fontSize: 14)),
-                                    Text('#123456789',
-                                        style: TextStyle(fontSize: 14)),
-                                    TextOrderStatus(
-                                        status: OrderStatus.preparing),
-                                  ],
-                                ),
                                 const SizedBox(height: 5),
                                 const Row(
                                   mainAxisAlignment:
@@ -88,13 +130,11 @@ class OrderDetailScreen extends StatelessWidget {
                                                         .width -
                                                     130,
                                                 height: 80,
-                                                padding:
-                                                    const EdgeInsets.only(
-                                                        left: 10),
+                                                padding: const EdgeInsets.only(
+                                                    left: 10),
                                                 child: const Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                      CrossAxisAlignment.start,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
@@ -104,13 +144,12 @@ class OrderDetailScreen extends StatelessWidget {
                                                         style: TextStyle(
                                                           // color: Color(0xFF26AA91),
                                                           fontSize: 14,
-                                                          overflow:
-                                                              TextOverflow
-                                                                  .ellipsis,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                         )),
                                                     Align(
-                                                      alignment: Alignment
-                                                          .centerRight,
+                                                      alignment:
+                                                          Alignment.centerRight,
                                                       child: Text('x1',
                                                           maxLines: 1,
                                                           style: TextStyle(
@@ -122,8 +161,8 @@ class OrderDetailScreen extends StatelessWidget {
                                                           )),
                                                     ),
                                                     Align(
-                                                      alignment: Alignment
-                                                          .centerRight,
+                                                      alignment:
+                                                          Alignment.centerRight,
                                                       child: Text('150.000 đ',
                                                           maxLines: 1,
                                                           style: TextStyle(
@@ -168,28 +207,6 @@ class OrderDetailScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const Divider(thickness: 1),
-                                const Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Địa chỉ nhận hàng',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        )),
-                                    Text('Trường tiểu học ',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        )),
-                                  ],
-                                ),
-                                const Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text('Cổng số 1',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      )),
-                                ),
                               ],
                             ),
                           ),
@@ -206,10 +223,10 @@ class OrderDetailScreen extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text('Thời gian đặt hàng',
+                                    const Text('Mã đơn hàng',
                                         style: TextStyle(fontSize: 14)),
                                     Text(
-                                        DateFormat('hh:mm dd/MM/yyyy')
+                                        DateFormat('#68686868')
                                             .format(DateTime.now()),
                                         style: const TextStyle(fontSize: 14)),
                                   ],
@@ -220,53 +237,6 @@ class OrderDetailScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text('Thời gian đặt hàng',
-                                        style: TextStyle(fontSize: 14)),
-                                    SizedBox(
-                                      width: 150,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text('Từ ',
-                                              style: TextStyle(fontSize: 14)),
-                                          Text(
-                                              DateFormat('hh:mm dd/MM/yyyy')
-                                                  .format(DateTime.now()),
-                                              style: const TextStyle(
-                                                  fontSize: 14)),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    const Spacer(),
-                                    SizedBox(
-                                      width: 150,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text('Đến ',
-                                              style: TextStyle(fontSize: 14)),
-                                          Text(
-                                              DateFormat('hh:mm dd/MM/yyyy')
-                                                  .format(DateTime.now()),
-                                              style: const TextStyle(
-                                                  fontSize: 14)),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text('Thời gian hoàn thành',
                                         style: TextStyle(fontSize: 14)),
                                     Text(
                                         DateFormat('hh:mm dd/MM/yyyy')
