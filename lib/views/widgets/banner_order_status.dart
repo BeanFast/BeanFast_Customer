@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '/enums/status_enum.dart';
 
-class TextOrderStatus extends StatelessWidget {
+class BannerOrderStatus extends StatelessWidget {
   final OrderStatus status;
-  const TextOrderStatus({super.key, required this.status});
+  const BannerOrderStatus({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,17 @@ class TextOrderStatus extends StatelessWidget {
         color = Colors.black;
     }
 
-    return Text(status.message,
-        style:
-            TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.bold));
+    return Container(
+      color: const Color.fromARGB(255, 106, 180, 108),
+      // height: 40,
+      padding: const EdgeInsets.only(left: 10, bottom: 5, right: 10, top: 20),
+      child: const Align(
+        alignment: Alignment.centerLeft,
+          child: Text('Đang chuẩn bị hàng',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold
+              ))),
+    );
   }
 }

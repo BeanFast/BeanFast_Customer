@@ -1,10 +1,10 @@
-import 'package:beanfast_customer/enums/status_enum.dart';
-import 'package:beanfast_customer/models/order.dart';
-import 'package:beanfast_customer/views/screens/order_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../contrains/theme_color.dart';
+import '/enums/status_enum.dart';
+import '/models/order.dart';
+import '/views/screens/order_detail_screen.dart';
+import '/contrains/theme_color.dart';
 import 'text_order_status_widget.dart';
 
 class OrderItem extends StatelessWidget {
@@ -14,34 +14,26 @@ class OrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.snackbar("Order Id 1", "1", snackPosition: SnackPosition.TOP);
         Get.to(const OrderDetailScreen());
       },
       child: Container(
-        color:ThemeColor.bgColor,
+        color: ThemeColor.bgColor,
         margin: const EdgeInsets.only(bottom: 10),
         child: Container(
           padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('6/1/2024',
+                  const Text('Tên profile A',
                       style: TextStyle(
-                        // color: Color(0xFF26AA91),
-                        fontSize: 14,
+                        fontSize: 18,
                       )),
-                  TextOrderStatus(status: OrderStatus.completed),
+                  TextOrderStatus(status: OrderStatus.fromInt(order.status!)),
                 ],
               ),
-              const SizedBox(height: 5),
-              const Text('Tên profile A',
-                  style: TextStyle(
-                    // color: Color(0xFF26AA91),
-                    fontSize: 18,
-                  )),
               const SizedBox(height: 5),
               SizedBox(
                 height: 80,
@@ -49,47 +41,49 @@ class OrderItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.network(
-                      'https://via.placeholder.com/150',
+                      'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
                       width: 80,
-                      height: 80,
+                      height: Get.height,
                       fit: BoxFit.cover,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 130,
-                      height: 80,
-                      padding: const EdgeInsets.only(left: 10),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Nước ngọt',
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số',
+                              style: TextStyle(fontSize: 16),
+                              overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: TextStyle(
-                                // color: Color(0xFF26AA91),
-                                fontSize: 14,
-                                overflow: TextOverflow.ellipsis,
-                              )),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text('x1',
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'x1',
                                 maxLines: 1,
                                 style: TextStyle(
-                                  // color: Color(0xFF26AA91),
                                   fontSize: 14,
                                   overflow: TextOverflow.ellipsis,
-                                )),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text('150.000 đ',
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                '150.000 đ',
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 14,
                                   overflow: TextOverflow.ellipsis,
-                                )),
-                          ),
-                        ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -101,21 +95,23 @@ class OrderItem extends StatelessWidget {
                 children: [
                   Text('2 sản phẩm',
                       style: TextStyle(
-                        color: Color(0xFF26AA91),
                         fontSize: 14,
                       )),
                   Row(
                     children: [
-                      Text('Thành tiền ',
-                          style: TextStyle(
-                            // color: Color(0xFF26AA91),
-                            fontSize: 14,
-                          )),
-                      Text('300.000 đ',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 14,
-                          ))
+                      Text(
+                        'Thành tiền ',
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '300.000 đ',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14,
+                        ),
+                      )
                     ],
                   ),
                 ],
@@ -124,16 +120,18 @@ class OrderItem extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Điểm tích luỹ',
-                      style: TextStyle(
-                        // color: Color(0xFF26AA91),
-                        fontSize: 14,
-                      )),
-                  Text('100 điểm',
-                      style: TextStyle(
-                        // color: Color(0xFF26AA91),
-                        fontSize: 14,
-                      )),
+                  Text(
+                    'Điểm tích luỹ',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    '100 điểm',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                 ],
               ),
             ],

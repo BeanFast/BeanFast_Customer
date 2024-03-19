@@ -1,15 +1,16 @@
+import 'package:beanfast_customer/enums/status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import 'order_delivering_tab.dart';
-import 'order_preparing_tab.dart';
+import '/controllers/order_controller.dart';
+import 'order_tabview.dart';
 
 class OrderScreen extends GetView<OrderController> {
   const OrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final OrderController controller = Get.put(OrderController());
+    Get.put(OrderController());
     return Scaffold(
         appBar: AppBar(
           // title: const Text(
@@ -28,8 +29,7 @@ class OrderScreen extends GetView<OrderController> {
                 );
 
                 if (pickedDateRange != null &&
-                    pickedDateRange !=
-                        controller.selectedDateRange.value) {
+                    pickedDateRange != controller.selectedDateRange.value) {
                   controller.selectedDateRange.value = pickedDateRange;
                 }
               },
@@ -53,11 +53,9 @@ class OrderScreen extends GetView<OrderController> {
         body: const DefaultTabController(
           length: 4,
           child: Column(
-            // mainAxisSize: MainAxisSize.min,
             children: [
               TabBar(
                 isScrollable: true,
-                // indicatorPadding: EdgeInsets.zero,
                 tabs: [
                   Tab(text: 'Đang chuẩn bị'),
                   Tab(text: 'Đang giao'),
@@ -68,53 +66,23 @@ class OrderScreen extends GetView<OrderController> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    OrderPreparingTab(), // Đang chuẩn bị
-                    OrderDeliveringTab(), // Đang giao
-                    OrderCompletedTab(), // Hoàn thành
-                    OrderCancelledTab(), // Đã hủy
+                    OrderTabBarView(
+                      orderStatus: OrderStatus.preparing,
+                    ), // Đang chuẩn bị
+                    OrderTabBarView(
+                      orderStatus: OrderStatus.delivering,
+                    ), // Đang giao
+                    OrderTabBarView(
+                      orderStatus: OrderStatus.completed,
+                    ), // Hoàn thành
+                    OrderTabBarView(
+                      orderStatus: OrderStatus.cancelled,
+                    ), // Đã hủy
                   ],
                 ),
               ),
             ],
           ),
-        )
-        );
-  }
-}
-
-class OrderCancelledTab extends StatelessWidget {
-  const OrderCancelledTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('OrderCancelledTab'),
-    );
-  }
-}
-
-class OrderCompletedTab extends StatelessWidget {
-  const OrderCompletedTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('OrderCompletedTab'),
-    );
-  }
-}
-
-class OrderController extends GetxController {
-  Rx<DateTime> selectedDate = DateTime.now().obs;
-  RxString dropdownValue = 'Hoàn thành 1'.obs;
-
-  Rx<DateTimeRange> selectedDateRange = Rx<DateTimeRange>(
-    DateTimeRange(
-      start: DateTime.now().subtract(Duration(days: 7)),
-      end: DateTime.now(),
-    ),
-  );
-  void updateStatus(String status) {
-    dropdownValue.value = status;
+        ));
   }
 }

@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/enums/status_enum.dart';
+
 import 'base_model.dart';
 import 'order_activity.dart';
 import 'order_detail.dart';
