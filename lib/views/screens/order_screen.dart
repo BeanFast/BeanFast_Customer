@@ -2,6 +2,7 @@ import 'package:beanfast_customer/enums/status_enum.dart';
 import 'package:beanfast_customer/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 import '/controllers/order_controller.dart';
@@ -38,14 +39,14 @@ class OrderScreen extends GetView<OrderController> {
                 children: [
                   Obx(
                     () => Text(
-                      ' ${DateFormat('dd/MM/yyyy').format(controller.selectedDateRange.value.start)}'
-                      ' - ${DateFormat('dd/MM/yyyy').format(controller.selectedDateRange.value.end)}',
+                      ' ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.start)}'
+                      ' - ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.end)}',
                       style: const TextStyle(
                           color: Color(0xFF26AA91), fontSize: 14),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(Icons.arrow_drop_down),
+                  const Icon(Icons.filter_list, color: Color(0xFF26AA91)),
                 ],
               ),
             ),
@@ -58,7 +59,7 @@ class OrderScreen extends GetView<OrderController> {
             children: [
               TabBar(
                 isScrollable: true,
-                // indicatorPadding: EdgeInsets.zero,
+                tabAlignment: TabAlignment.start,
                 tabs: [
                   Tab(text: 'Đang chuẩn bị'),
                   Tab(text: 'Đang giao'),
