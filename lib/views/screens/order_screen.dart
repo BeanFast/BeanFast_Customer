@@ -1,4 +1,5 @@
 import 'package:beanfast_customer/enums/status_enum.dart';
+import 'package:beanfast_customer/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -53,9 +54,11 @@ class OrderScreen extends GetView<OrderController> {
         body: const DefaultTabController(
           length: 4,
           child: Column(
+            // mainAxisSize: MainAxisSize.min,
             children: [
               TabBar(
                 isScrollable: true,
+                // indicatorPadding: EdgeInsets.zero,
                 tabs: [
                   Tab(text: 'Đang chuẩn bị'),
                   Tab(text: 'Đang giao'),
@@ -78,11 +81,36 @@ class OrderScreen extends GetView<OrderController> {
                     OrderTabBarView(
                       orderStatus: OrderStatus.cancelled,
                     ), // Đã hủy
+                    // OrderDeliveringTab(), // Đang giao
+                    // OrderCompletedTab(), // Hoàn thành
+                    // OrderCancelledTab(), // Đã hủy
                   ],
                 ),
               ),
             ],
           ),
         ));
+  }
+}
+
+class OrderCancelledTab extends StatelessWidget {
+  const OrderCancelledTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('OrderCancelledTab'),
+    );
+  }
+}
+
+class OrderCompletedTab extends StatelessWidget {
+  const OrderCompletedTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('OrderCompletedTab'),
+    );
   }
 }
