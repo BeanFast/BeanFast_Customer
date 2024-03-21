@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/views/widgets/banner_order_status.dart';
-import '/enums/status_enum.dart';
-import '/views/widgets/text_order_status_widget.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   const OrderDetailScreen({super.key});

@@ -1,9 +1,9 @@
 import 'package:beanfast_customer/views/screens/add_new_account_screen.dart';
 import 'package:beanfast_customer/views/screens/cart_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
+import 'package:beanfast_customer/views/screens/notification_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '/controllers/home_controller.dart';
@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {
-              // Handle the icon tap here
+              Get.to(const NotificationScreen());
             },
           ),
           IconButton(
@@ -233,46 +233,89 @@ void showUserDialog(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('Chọn người muốn đặt'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Get.to(MenuScreen());
-                },
-                child: const Card(
-                  child: ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Nguyễn Huỳnh Phi'),
-                    subtitle: Text('Trường tiểu học'),
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.4 + 80,
+          child: Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: SingleChildScrollView(
+                  child: Card(
+                    child: ListBody(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(MenuScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Trường tiểu học'),
+                          ),
+                        ),
+                        const Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(MenuScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Trường tiểu học'),
+                          ),
+                        ),
+                        const Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(MenuScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Trường tiểu học'),
+                          ),
+                        ),
+                        const Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(MenuScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Trường tiểu học'),
+                          ),
+                        ),
+                        const Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(MenuScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Trường tiểu học'),
+                          ),
+                        ),
+                        const Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(MenuScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Trường tiểu học'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(MenuScreen());
-                },
-                child: const Card(
-                  child: ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Nguyễn Huỳnh Phi'),
-                    subtitle: Text('Trường tiểu học'),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(MenuScreen());
-                },
-                child: const Card(
-                  child: ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Nguyễn Huỳnh Phi'),
-                    subtitle: Text('Trường tiểu học'),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               SizedBox(
                 height: 55,
                 width: double.infinity,
