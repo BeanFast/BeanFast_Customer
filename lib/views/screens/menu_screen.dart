@@ -1,4 +1,5 @@
 import 'package:beanfast_customer/contrains/theme_color.dart';
+import 'package:beanfast_customer/views/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -149,7 +150,7 @@ class MenuScreen extends StatelessWidget {
                     7,
                     (index) => GestureDetector(
                       onTap: () {
-                        Get.snackbar('Click food detail', index.toString());
+                        Get.to(const ProductDetailScreen());
                       },
                       child: Card(
                         child: Padding(
@@ -183,7 +184,7 @@ class MenuScreen extends StatelessWidget {
                                     const SizedBox(
                                       width: 100,
                                       child: Text(
-                                        '150.000 VNĐ',
+                                        '150.000đ',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -224,92 +225,80 @@ class MenuScreen extends StatelessWidget {
                 child: Column(
                   children: List.generate(
                       2,
-                      (index) => Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            child: Stack(
-                              children: [
-                                Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5, bottom: 5, right: 10, left: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                              child: Image.network(
-                                                'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                                fit: BoxFit.cover,
+                      (index) => GestureDetector(
+                            onTap: () {
+                              Get.to(const ProductDetailScreen());
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: Stack(
+                                children: [
+                                  Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5,
+                                          bottom: 5,
+                                          right: 10,
+                                          left: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 100,
+                                                height: 100,
+                                                child: Image.network(
+                                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                            ),
-                                            Container(
-                                              height: 100,
-                                              padding: const EdgeInsets.only(
-                                                  left: 10,
-                                                  top: 10,
-                                                  right: 10,
-                                                  bottom: 10),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            216,
-                                                    child: Text(
-                                                      'Nước ngọt số $index',
-                                                      style: const TextStyle(
-                                                          fontSize: 16),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
+                                              Container(
+                                                height: 100,
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    top: 10,
+                                                    right: 10,
+                                                    bottom: 10),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              216,
+                                                      child: Text(
+                                                        'Nước ngọt số $index',
+                                                        style: const TextStyle(
+                                                            fontSize: 16),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            216,
-                                                    child: Row(
-                                                      children: [
-                                                        const Text(
-                                                          '150.000',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                              fontSize: 16,
-                                                              color:
-                                                                  Colors.red),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 5),
-                                                        SizedBox(
-                                                          width: (MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width -
-                                                                  216) /
-                                                              2,
-                                                          child: const Text(
-                                                            '150.000 đ',
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              216,
+                                                      child: Row(
+                                                        children: [
+                                                          const Text(
+                                                            '150.000',
                                                             style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
                                                                 fontSize: 16,
                                                                 color:
                                                                     Colors.red),
@@ -318,35 +307,56 @@ class MenuScreen extends StatelessWidget {
                                                                     .ellipsis,
                                                             maxLines: 1,
                                                           ),
-                                                        ),
-                                                      ],
+                                                          const SizedBox(
+                                                              width: 5),
+                                                          SizedBox(
+                                                            width: (MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width -
+                                                                    216) /
+                                                                2,
+                                                            child: const Text(
+                                                              '150.000đ',
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                      .red),
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              maxLines: 1,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 30,
-                                          child: IconButton(
-                                            onPressed: () {},
-                                            icon:
-                                                const Icon(Icons.add_outlined),
-                                            iconSize: 20,
+                                            ],
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 30,
+                                            child: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                  Icons.add_outlined),
+                                              iconSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Positioned(
-                                  top: 10,
-                                  right: 10,
-                                  child: Icon(Icons.local_offer,
-                                      color: Colors.red), // Sale icon
-                                ),
-                              ],
+                                  const Positioned(
+                                    top: 10,
+                                    right: 10,
+                                    child: Icon(Icons.local_offer,
+                                        color: Colors.red), // Sale icon
+                                  ),
+                                ],
+                              ),
                             ),
                           )),
                 ),
@@ -365,88 +375,91 @@ class MenuScreen extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: List.generate(
-                      3,
-                      (index) => Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 5, bottom: 5, right: 10, left: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                    3,
+                    (index) => GestureDetector(
+                      onTap: () {
+                        Get.to(const ProductDetailScreen());
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 5, bottom: 5, right: 10, left: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
                                   children: [
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 100,
-                                          height: 100,
-                                          child: Image.network(
-                                            'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 100,
-                                          padding: const EdgeInsets.only(
-                                              left: 10,
-                                              top: 10,
-                                              right: 10,
-                                              bottom: 10),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    216,
-                                                child: Text(
-                                                  'Nước ngọt số $index',
-                                                  style: const TextStyle(
-                                                      fontSize: 16),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    216,
-                                                child: const Text(
-                                                  '150.000',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.red),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                     SizedBox(
-                                      height: 30,
-                                      child: IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.add_outlined),
-                                        iconSize: 20,
+                                      width: 100,
+                                      height: 100,
+                                      child: Image.network(
+                                        'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 100,
+                                      padding: const EdgeInsets.only(
+                                          left: 10,
+                                          top: 10,
+                                          right: 10,
+                                          bottom: 10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                216,
+                                            child: Text(
+                                              'Nước ngọt số $index',
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                216,
+                                            child: const Text(
+                                              '150.000đ',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.red),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
+                                SizedBox(
+                                  height: 30,
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.add_outlined),
+                                    iconSize: 20,
+                                  ),
+                                ),
+                              ],
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

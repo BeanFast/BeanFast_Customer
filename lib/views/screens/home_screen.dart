@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/views/screens/add_new_account_screen.dart';
 import 'package:beanfast_customer/views/screens/cart_screen.dart';
+import 'package:beanfast_customer/views/screens/gift_exchange_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
 import 'package:beanfast_customer/views/screens/notification_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -83,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                               icon: Icons.list_alt_outlined,
                               text: "Đặt hàng",
                               onPressed: () {
-                                showUserDialog(context);
+                                showUserDialogForMenu(context);
                                 // Get.to(MenuScreen());
                               },
                             ),
@@ -97,7 +98,9 @@ class HomeScreen extends StatelessWidget {
                             MainIconButton(
                               icon: Icons.card_giftcard_outlined,
                               text: "Đổi thưởng",
-                              onPressed: () {},
+                              onPressed: () {
+                                showUserDialogForGiftExchange(context);
+                              },
                             ),
                             MainIconButton(
                               icon: Icons.gamepad_outlined,
@@ -113,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                       options: CarouselOptions(
                         autoPlay: true,
                         height: 150,
-                        autoPlayInterval: Duration(seconds: 15),
+                        autoPlayInterval: const Duration(seconds: 15),
                       ),
                       items: [
                         // Replace these with your image widgets
@@ -185,7 +188,7 @@ class HomeScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Image.network(
                                       'https://cdn-icons-png.flaticon.com/512/3486/3486989.png',
                                       fit: BoxFit.cover,
@@ -227,7 +230,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-void showUserDialog(BuildContext context) {
+void showUserDialogForMenu(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -339,6 +342,69 @@ void showUserDialog(BuildContext context) {
                   },
                   child: const Text('Thêm người mới',
                       style: TextStyle(fontSize: 18)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showUserDialogForGiftExchange(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Chọn người đổi quà'),
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.4,
+          child: Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: SingleChildScrollView(
+                  child: Card(
+                    child: ListBody(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(const GiftExchangeScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Điểm: 120.000'),
+                          ),
+                        ),
+                        const Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(const GiftExchangeScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Điểm: 120.000'),
+                          ),
+                        ),
+                        const Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(const GiftExchangeScreen());
+                          },
+                          child: const ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text('Nguyễn Huỳnh Phi'),
+                            subtitle: Text('Điểm: 120.000'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
