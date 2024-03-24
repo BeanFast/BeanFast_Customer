@@ -10,19 +10,27 @@ class TransactionScreen extends StatelessWidget {
         Get.put(TransactionController());
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          decoration: InputDecoration(
-            hintText: 'Tìm kiếm giao dịch',
-            filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(0),
+        toolbarHeight: 80,
+        title: Container(
+          alignment: Alignment.center,
+          height: 50,
+          child: TextField(
+            style: TextStyle(height: 1), // Adjust the height as needed
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(right: 10),
+              hintText: 'Tìm kiếm giao dịch',
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius:
+                    BorderRadius.circular(100), // Set the border radius to 10
+              ),
+              prefixIcon: const Icon(Icons.search),
             ),
-            prefixIcon: const Icon(Icons.search),
+            onChanged: (value) {
+              // Handle search operation here
+            },
           ),
-          onChanged: (value) {
-            // Handle search operation here
-          },
         ),
         actions: <Widget>[
           IconButton(
