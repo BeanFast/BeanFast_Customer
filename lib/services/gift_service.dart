@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
@@ -8,9 +9,10 @@ class GiftService {
 
   final ApiService _apiService = getx.Get.put(ApiService());
 
-  Future<dynamic> getAll() async {
+  Future<Response> getAll() async {
     final response = await _apiService.request.get('$baseUrl?page=1&size=100');
-    return response.data;
+    // logger.i(response.data);
+    return response;
   }
 
   Future<Response> getById(String id) async {

@@ -7,6 +7,7 @@ import '/contrains/theme_color.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/views/widgets/order_item_widget.dart';
+import 'loading_screen.dart';
 
 class OrderTabBarView extends GetView<OrderController> {
   final OrderStatus orderStatus;
@@ -48,25 +49,4 @@ class OrderTabBarView extends GetView<OrderController> {
   }
 }
 
-class LoadingScreen extends StatelessWidget {
-  final Future<dynamic> Function() future;
-  final Widget child;
 
-  const LoadingScreen({super.key, required this.future, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: future(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          return child; // Return empty container when the data is loaded
-        }
-      },
-    );
-  }
-}

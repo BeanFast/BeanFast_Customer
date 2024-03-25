@@ -6,6 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../controllers/exchange_gift_controller.dart';
+import 'loading_screen.dart';
+
 class GiftExchangeScreen extends StatelessWidget {
   const GiftExchangeScreen({super.key});
 
@@ -36,17 +39,16 @@ class GiftExchangeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body:  DefaultTabController(
+      body: DefaultTabController(
         length: 3,
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [
             const TabBar(
               isScrollable: true,
-              
               tabAlignment: TabAlignment.start,
               tabs: [
-                Tab(text: 'Đổi thưởng'),
+                Tab(text: 'Quà'),
                 Tab(text: 'Tích điểm/ Dùng điểm'),
                 Tab(text: 'Lịch sử đổi thưởng'),
               ],
@@ -54,10 +56,8 @@ class GiftExchangeScreen extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  // Đổi thưởng
-                  const ExchageGift(),
-                  // Thống kê
-                  const PointManagement(),
+                  const ExchageGift(), // Đổi thưởng
+                  const PointManagement(), // Thống kê
                   Container(
                     child: const Center(child: Text('Lịch sử đổi thưởng')),
                   ),
@@ -156,125 +156,129 @@ class PointManagement extends StatelessWidget {
   }
 }
 
-class ExchageGift extends StatelessWidget {
+class ExchageGift extends GetView<ExchangeGiftController> {
   const ExchageGift({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-        child: Column(
-          children: List.generate(
-            3,
-            (index) => GestureDetector(
-              onTap: () {},
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 5, bottom: 5, right: 10, left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 100,
-                              alignment: Alignment.center,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[200],
-                                // border: Border.all(
-                                //     color: Colors.grey, width: 1.5),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.network(
-                                    'https://via.placeholder.com/50',
-                                    width: 50,
-                                    height: 50,
-                                  ),
-                                  const Text(
-                                    'Đồ chơi',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 100,
-                              padding: const EdgeInsets.only(
-                                  left: 10, top: 10, right: 10, bottom: 10),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width -
-                                        100 -
-                                        150,
-                                    child: Text(
-                                      'Đồ chơi trẻ em số $index',
-                                      style: const TextStyle(fontSize: 16),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width -
-                                        100 -
-                                        150,
-                                    child: const Text(
-                                      '150.000',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.red),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30,
-                          width: 100,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              // foregroundColor:
-                              //     MaterialStateProperty.all<Color>(
-                              //         Colors.white), // Text color
-                              // backgroundColor:
-                              //     MaterialStateProperty.all<Color>(
-                              //         Colors.green), // Background color
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.all(5)),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
+    Get.put(ExchangeGiftController());
+    return LoadingScreen(
+      future: controller.getData,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          child: Column(
+            children: List.generate(
+              3,
+              (index) => GestureDetector(
+                onTap: () {},
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 5, bottom: 5, right: 10, left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 100,
+                                alignment: Alignment.center,
+                                height: 100,
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  // side: const BorderSide(color: Colors.grey),
+                                  color: Colors.grey[200],
+                                  // border: Border.all(
+                                  //     color: Colors.grey, width: 1.5),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.network(
+                                      'https://via.placeholder.com/50',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                    const Text(
+                                      'Đồ chơi',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  ],
                                 ),
                               ),
-                            ),
-                            onPressed: () {},
-                            child: const Text('Đổi quà',
-                                style: TextStyle(fontSize: 14)),
+                              Container(
+                                height: 100,
+                                padding: const EdgeInsets.only(
+                                    left: 10, top: 10, right: 10, bottom: 10),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          100 -
+                                          150,
+                                      child: Text(
+                                        'Đồ chơi trẻ em số $index',
+                                        style: const TextStyle(fontSize: 16),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          100 -
+                                          150,
+                                      child: const Text(
+                                        '150.000',
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.red),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 30,
+                            width: 100,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                // foregroundColor:
+                                //     MaterialStateProperty.all<Color>(
+                                //         Colors.white), // Text color
+                                // backgroundColor:
+                                //     MaterialStateProperty.all<Color>(
+                                //         Colors.green), // Background color
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                    const EdgeInsets.all(5)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    // side: const BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {},
+                              child: const Text('Đổi quà',
+                                  style: TextStyle(fontSize: 14)),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -48,6 +48,7 @@ class OrderDetailScreen extends StatelessWidget {
                                   Row(
                                     children: [
                                       Icon(Icons.location_on, size: 20),
+                                      SizedBox(width: 8),
                                       Text('Địa chỉ nhận hàng',
                                           style: TextStyle(
                                             fontSize: 14,
@@ -74,8 +75,10 @@ class OrderDetailScreen extends StatelessWidget {
                                 children: [
                                   const Row(
                                     children: [
-                                      Icon(Icons.timelapse, size: 20),
-                                      Text('Thời gian hoàn thành',
+                                      Icon(Icons.local_shipping_outlined,
+                                          size: 20),
+                                      SizedBox(width: 8),
+                                      Text('Thông tin vận chuyển',
                                           style: TextStyle(fontSize: 14)),
                                     ],
                                   ),
