@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -19,6 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      localizationsDelegates: const [
+         GlobalMaterialLocalizations.delegate
+       ],
+       supportedLocales: const [
+         Locale('vi')
+       ],
       debugShowCheckedModeBanner: false,
       title: 'BeanFast',
       theme: AppTheme.defaulTheme,

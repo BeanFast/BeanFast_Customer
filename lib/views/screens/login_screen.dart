@@ -17,9 +17,6 @@ class LoginView extends GetView<AuthController> {
       appBar: AppBar(
         title: const Text(
           'Đăng Nhập',
-          style: TextStyle(
-            fontSize: 30,
-          ),
         ),
       ),
       body: SingleChildScrollView(

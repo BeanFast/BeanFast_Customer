@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -62,7 +60,7 @@ class ProductDetailScreen extends StatelessWidget {
                             style: TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: 16,
-                                color: Colors.red),
+                                color: Colors.grey),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),

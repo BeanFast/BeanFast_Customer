@@ -15,7 +15,7 @@ class TransactionScreen extends StatelessWidget {
           alignment: Alignment.center,
           height: 50,
           child: TextField(
-            style: TextStyle(height: 1), // Adjust the height as needed
+            style: const TextStyle(height: 1), // Adjust the height as needed
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(right: 10),
               hintText: 'Tìm kiếm giao dịch',

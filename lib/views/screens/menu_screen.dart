@@ -60,10 +60,11 @@ class MenuScreen extends StatelessWidget {
                       ),
                       onPressed: () async {
                         final DateTime? picked = await showDatePicker(
+                          locale: const Locale("vi", "VI"),
                           context: context,
                           initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2025),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime.now().add(const Duration(days: 7)),
                         );
                         if (picked != null &&
                             picked != menuController.selectedDate.value) {
@@ -83,16 +84,16 @@ class MenuScreen extends StatelessWidget {
                   ),
                 );
               }),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               const Text(
-                "Categories",
+                "Loại sản phẩm",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               //Category List
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -210,16 +211,16 @@ class MenuScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
               const Text(
                 "Giảm giá",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               //Food On Sale list
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
@@ -300,8 +301,8 @@ class MenuScreen extends StatelessWidget {
                                                                     TextDecoration
                                                                         .lineThrough,
                                                                 fontSize: 16,
-                                                                color:
-                                                                    Colors.red),
+                                                                color: Colors
+                                                                    .grey),
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,

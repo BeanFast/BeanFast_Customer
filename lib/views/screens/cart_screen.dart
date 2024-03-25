@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '/contrains/theme_color.dart';
@@ -12,7 +11,7 @@ class CartScreen extends StatelessWidget {
     final CartController cartController = Get.put(CartController());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Giỏ hàng', style: TextStyle(fontSize: 30)),
+        title: const Text('Giỏ hàng'),
       ),
       body: Column(
         children: [

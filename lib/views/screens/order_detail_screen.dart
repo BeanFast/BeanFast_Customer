@@ -17,7 +17,7 @@ class OrderDetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ThemeColor.bgColor1,
       appBar: AppBar(
-        title: const Text('Chi tiết đơn hàng', style: TextStyle(fontSize: 26)),
+        title: const Text('Chi tiết đơn hàng'),
       ),
       body: SingleChildScrollView(
         child: Column(
