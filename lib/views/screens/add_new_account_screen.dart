@@ -1,5 +1,4 @@
 import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -16,9 +15,6 @@ class CreateStudentScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Thông tin học sinh',
-          style: TextStyle(
-            fontSize: 30,
-          ),
         ),
       ),
       body: Padding(
@@ -88,6 +84,7 @@ class CreateStudentScreen extends StatelessWidget {
                           onPressed: () async {
                             final DateTime? picked = await showDatePicker(
                               context: context,
+                              locale: const Locale("vi", "VI"),
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2025),
@@ -265,9 +262,7 @@ class CreateStudentScreen extends StatelessWidget {
                         if (_formKey.currentState!.validate()) {
                           // If the form is valid, do something
                         }
-                        Get.offAll(
-                          () => const HomeScreen(),
-                        );
+                        Get.back();
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -46,12 +46,12 @@ class WelcomeView extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Colors.green), // Background color
                         padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(16.0)),
+                            const EdgeInsets.all(10)),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
-                            side: const BorderSide(color: Colors.grey),
+                            side: const BorderSide(color: Colors.green),
                           ),
                         ),
                       ),
@@ -75,7 +75,7 @@ class WelcomeView extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Colors.green), // Background color
                         padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(16.0)),
+                            const EdgeInsets.all(10)),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(

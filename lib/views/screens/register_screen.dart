@@ -13,9 +13,7 @@ class RegisterView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Đăng ký',
-          style: TextStyle(
-            fontSize: 30,
-          ),
+         
         ),
       ),
       body: Padding(

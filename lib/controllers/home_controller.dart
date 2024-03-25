@@ -7,6 +7,6 @@ class HomeController extends GetxController {
   void toggleMoneyVisibility() {
     isMoneyVisible.value = !isMoneyVisible.value;
     moneyValue.value =
-        isMoneyVisible.value ? '70.967.000.000 VND' : '********* VND';
+        isMoneyVisible.value ? '78.967.000.000đ' : '*********đ';
   }
 }

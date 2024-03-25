@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:beanfast_customer/views/widgets/account_icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -331,12 +332,11 @@ class AccountScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SettingItem(
-                            title: "Nút số 1",
+                            title: "Danh sách học sinh",
                             icon: Ionicons.earth,
                             iconColor: Colors.red,
                             onTap: () {
-                              Get.snackbar('on Tap', 'Tap',
-                                  snackPosition: SnackPosition.TOP);
+                              Get.to(const StudentListScreen());
                             },
                           ),
                           const SizedBox(height: 10),

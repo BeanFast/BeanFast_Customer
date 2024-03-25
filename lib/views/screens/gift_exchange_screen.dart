@@ -1,10 +1,6 @@
 import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class GiftExchangeScreen extends StatelessWidget {
   const GiftExchangeScreen({super.key});
@@ -15,7 +11,7 @@ class GiftExchangeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Đổi quà',
-          style: TextStyle(color: Colors.black, fontSize: 30),
+        
         ),
         actions: <Widget>[
           Container(

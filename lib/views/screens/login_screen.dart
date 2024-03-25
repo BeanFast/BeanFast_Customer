@@ -19,9 +19,6 @@ class LoginView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Đăng Nhập',
-          style: TextStyle(
-            fontSize: 30,
-          ),
         ),
       ),
       body: SingleChildScrollView(

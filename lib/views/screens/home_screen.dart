@@ -20,17 +20,83 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              Get.to(const NotificationScreen());
-            },
+          Stack(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 5),
+                width: 50,
+                height: 50,
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.notifications_outlined, size: 30),
+                    onPressed: () {
+                      Get.to(const NotificationScreen());
+                    },
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 5,
+                right: 3,
+                width: 20,
+                height: 20,
+                child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '99+',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )),
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            onPressed: () {
-              Get.to(const CartScreen());
-            },
+          Stack(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 5),
+                width: 50,
+                height: 50,
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined, size: 30),
+                    onPressed: () {
+                      Get.to(const CartScreen());
+                    },
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 5,
+                right: 3,
+                width: 20,
+                height: 20,
+                child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '99+',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )),
+              ),
+            ],
           ),
         ],
       ),

@@ -22,6 +22,7 @@ class OrderScreen extends GetView<OrderController> {
             onPressed: () async {
               final DateTimeRange? pickedDateRange = await showDateRangePicker(
                 context: context,
+                locale: const Locale("vi", "VI"),
                 firstDate: DateTime(DateTime.now().year - 5),
                 lastDate: DateTime.now(),
                 initialDateRange: controller.selectedDateRange.value,

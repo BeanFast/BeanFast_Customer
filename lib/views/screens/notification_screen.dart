@@ -10,8 +10,9 @@ class NotificationScreen extends StatelessWidget {
         Get.put(NotificationController());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Thông báo',
-            style: TextStyle(color: Colors.black, fontSize: 30)),
+        title: const Text(
+          'Thông báo',
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.done_all, color: Colors.black),

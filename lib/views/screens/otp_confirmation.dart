@@ -15,9 +15,7 @@ class OtpConfirmationView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Xác nhận OTP',
-          style: TextStyle(
-            fontSize: 30,
-          ),
+          
         ),
       ),
       body: SafeArea(
@@ -167,7 +165,7 @@ class OtpConfirmationView extends StatelessWidget {
                             final seconds = otpController.counter.value % 60;
                             return Text(
                               '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                              style: TextStyle(fontSize: 16, color: Colors.green),
+                              style: const TextStyle(fontSize: 16, color: Colors.green),
                             );
                           }),
                         ],
@@ -178,14 +176,14 @@ class OtpConfirmationView extends StatelessWidget {
                                 Get.snackbar(
                                   'BeanFast', // title
                                   'Đã gửi lại OTP', // message
-                                  icon: Icon(Icons.notifications),
+                                  icon: const Icon(Icons.notifications),
                                   shouldIconPulse: true,
                                   onTap: (val) {
                                     // handle the tap
                                   },
                                   barBlur: 20,
                                   isDismissible: true,
-                                  duration: Duration(seconds: 3),
+                                  duration: const Duration(seconds: 3),
                                 );
                                 otpController.startTimer();
                               }
@@ -195,14 +193,14 @@ class OtpConfirmationView extends StatelessWidget {
                                 Get.snackbar(
                                   'BeanFast', // title
                                   'Vui lòng đợi trong ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')} để nhận được mã mới', // message
-                                  icon: Icon(Icons.notifications),
+                                  icon: const Icon(Icons.notifications),
                                   shouldIconPulse: true,
                                   onTap: (val) {
                                     // handle the tap
                                   },
                                   barBlur: 20,
                                   isDismissible: true,
-                                  duration: Duration(seconds: 3),
+                                  duration: const Duration(seconds: 3),
                                 );
                               },
                         child: const Text('Gửi lại',
