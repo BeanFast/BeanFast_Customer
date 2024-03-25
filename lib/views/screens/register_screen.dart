@@ -180,7 +180,7 @@ class RegisterView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  Container(
+                  SizedBox(
                     height: 64,
                     width: double.infinity,
                     child: TextButton(
