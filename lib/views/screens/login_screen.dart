@@ -1,13 +1,11 @@
-import 'package:beanfast_customer/views/screens/main_screen.dart';
 import 'package:beanfast_customer/views/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/controllers/auth_controller.dart';
 
-class LoginView extends StatelessWidget {
-  final AuthController _authController = Get.find();
-  final LoginController loginController = Get.put(LoginController());
+class LoginView extends GetView<AuthController> {
+  final AuthController _authController = Get.put(AuthController());
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,17 +34,17 @@ class LoginView extends StatelessWidget {
                   width: double.infinity, // Set the width
                   height: 85,
                   child: TextFormField(
-                    controller: _authController.usernameController,
+                    controller: _authController.phoneController,
                     decoration: const InputDecoration(
-                      labelText: 'Tên đăng nhập',
+                      labelText: 'Số điện thoại',
                       border: OutlineInputBorder(),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Vui lòng nhập tên đăng nhập';
+                        return 'Vui lòng nhập số diện thoại';
                       }
-                      if (value.length < 3) {
-                        return 'Tên đăng nhập phải có ít nhất 3 ký tự';
+                      if (value.length < 10) {
+                        return 'Số điện thoại có độ dài ít nhất là 10';
                       }
                       return null;
                     },
@@ -64,16 +62,16 @@ class LoginView extends StatelessWidget {
                         border: const OutlineInputBorder(),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            loginController.isPasswordVisible.value
+                            controller.isPasswordVisible.value
                                 ? Icons.visibility
                                 : Icons.visibility_off,
                           ),
                           onPressed: () {
-                            loginController.togglePasswordVisibility();
+                            controller.togglePasswordVisibility();
                           },
                         ),
                       ),
-                      obscureText: loginController.isPasswordVisible.value,
+                      obscureText: controller.isPasswordVisible.value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Vui lòng nhập mật khẩu';
@@ -86,6 +84,13 @@ class LoginView extends StatelessWidget {
                     ),
                   ),
                 ),
+                Obx(() => Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                        controller.errorMessage.value,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                )),
                 const SizedBox(height: 20),
                 Row(
                   children: [
@@ -94,9 +99,9 @@ class LoginView extends StatelessWidget {
                         height: 24,
                         width: 24,
                         child: Checkbox(
-                          value: loginController.isChecked.value,
+                          value: controller.isChecked.value,
                           onChanged: (value) {
-                            loginController.toggleIschecked();
+                            controller.toggleIschecked();
                           },
                         ),
                       ),
@@ -131,9 +136,9 @@ class LoginView extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
-                      Get.offAll(const MainScreen());
-                      // _authController.login();
+                      // if (_formKey.currentState!.validate()) {
+                        _authController.login();
+                      // }
                     },
                     child:
                         const Text('Đăng nhập', style: TextStyle(fontSize: 18)),
@@ -158,18 +163,5 @@ class LoginView extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class LoginController extends GetxController {
-  var isPasswordVisible = true.obs;
-  var isChecked = false.obs;
-
-  void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
-  }
-
-  void toggleIschecked() {
-    isChecked.value = !isChecked.value;
   }
 }

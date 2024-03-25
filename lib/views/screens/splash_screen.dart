@@ -2,10 +2,12 @@ import 'package:beanfast_customer/views/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/logger.dart';
 import '/controllers/auth_controller.dart';
 import '/enums/auth_state_enum.dart';
 import 'error_screen.dart';
 import 'login_screen.dart';
+import 'main_screen.dart';
 
 class SplashView extends StatelessWidget {
   SplashView({super.key});
@@ -13,7 +15,7 @@ class SplashView extends StatelessWidget {
   final AuthController _authController = Get.find();
 
   Future<void> initializeSettings() async {
-    print('initializeSettings');
+    logger.i('initializeSettings');
     _authController.checkLoginStatus();
 
     //Simulate other services for 3 seconds
@@ -34,8 +36,8 @@ class SplashView extends StatelessWidget {
             return Obx(() {
               switch (_authController.authState.value) {
                 case AuthState.authenticated:
-                  //  return const MainScreen();
-                  return const WelcomeView();
+                  return const MainScreen();
+                // return const WelcomeView();
                 case AuthState.unauthenticated:
                   return LoginView();
                 default:

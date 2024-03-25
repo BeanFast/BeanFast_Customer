@@ -1,20 +1,31 @@
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../services/auth_service.dart';
 import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
 
-
-
 class AuthController extends GetxController with CacheManager {
-
   late Rx<Account?> account;
   Rx<AuthState> authState = AuthState.unauthenticated.obs;
   // final RxBool logged = false.obs;
 
-  final usernameController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+
+  RxString errorMessage = ''.obs;
+  var isPasswordVisible = true.obs;
+  var isChecked = false.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
+
+  void toggleIschecked() {
+    isChecked.value = !isChecked.value;
+  }
 
   // final _authState = Rx<AuthState>(AuthState.unknown);
 
@@ -25,10 +36,9 @@ class AuthController extends GetxController with CacheManager {
 
   void checkLoginStatus() {
     final token = getToken();
-    print('token: $token');
-    if (token != null) {
-      changeAuthState(AuthState.authenticated);
-    }
+    token != null
+        ? changeAuthState(AuthState.authenticated)
+        : changeAuthState(AuthState.unauthenticated);
   }
 
   // @override
@@ -83,24 +93,24 @@ class AuthController extends GetxController with CacheManager {
   //   }
   // }
   void login() async {
-    changeAuthState(AuthState.authenticated);
-    String token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-    //Token is cached
-    await saveToken(token);
+    phoneController.text = '0372266084';
+    passwordController.text = '12345678';
+    try {
+      var response = await AuthService()
+          .login(phoneController.text, passwordController.text);
+      if (response.statusCode == 200) {
+        changeAuthState(AuthState.authenticated);
+        await saveToken(response.data['data']['accessToken']); //Token is cached
+      }
+    } catch (e) {
+      errorMessage.value = 'Số điện thoại hoặc mật khẩu không đúng';
+    }
   }
 
   void logOut() {
     changeAuthState(AuthState.unauthenticated);
     removeToken();
   }
-  // void signOut() {
-  //   try {
-  //     auth.signOut();
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
 }
 
 mixin CacheManager {

@@ -27,8 +27,8 @@ class OrderItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Tên profile A',
-                      style: TextStyle(
+                  Text(order.profile!.fullName.toString(),
+                      style: const TextStyle(
                         fontSize: 18,
                       )),
                   TextOrderStatus(status: OrderStatus.fromInt(order.status!)),
@@ -41,7 +41,7 @@ class OrderItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.network(
-                      'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                      order.orderDetails![0].food!.imagePath.toString(),
                       width: 80,
                       height: Get.height,
                       fit: BoxFit.cover,
@@ -49,22 +49,22 @@ class OrderItem extends StatelessWidget {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.only(left: 10),
-                        child: const Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số Nước ngọt số',
-                              style: TextStyle(fontSize: 16),
+                              order.orderDetails![0].food!.name.toString(),
+                              style: const TextStyle(fontSize: 16),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                'x1',
+                                'x${order.orderDetails![0].quantity.toString()}',
                                 maxLines: 1,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -73,9 +73,9 @@ class OrderItem extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                '150.000 đ',
+                                order.orderDetails![0].price.toString(),
                                 maxLines: 1,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.red,
                                   fontSize: 14,
                                   overflow: TextOverflow.ellipsis,
@@ -90,24 +90,24 @@ class OrderItem extends StatelessWidget {
                 ),
               ),
               const Divider(thickness: 1),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('2 sản phẩm',
-                      style: TextStyle(
+                  Text('${order.orderDetails!.length} sản phẩm',
+                      style: const TextStyle(
                         fontSize: 14,
                       )),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Thành tiền ',
                         style: TextStyle(
                           fontSize: 14,
                         ),
                       ),
                       Text(
-                        '300.000 đ',
-                        style: TextStyle(
+                        order.totalPrice.toString(),
+                        style: const TextStyle(
                           color: Colors.red,
                           fontSize: 14,
                         ),
@@ -117,18 +117,18 @@ class OrderItem extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 5),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Điểm tích luỹ',
                     style: TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    '100 điểm',
-                    style: TextStyle(
+                    order.rewardPoints.toString(),
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),

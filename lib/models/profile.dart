@@ -49,7 +49,7 @@ class Profile extends BaseModel {
         gender: json['gender'],
         nickName: json['nickName'],
         avatarPath: json['avatarPath'],
-        dob: json['dob'],
+        // dob: json['dob'],
         className: json['className'],
         currentBMI: json['currentBMI'],
       );

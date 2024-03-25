@@ -80,9 +80,6 @@ class OrderScreen extends GetView<OrderController> {
                     OrderTabBarView(
                       orderStatus: OrderStatus.cancelled,
                     ), // Đã hủy
-                    // OrderDeliveringTab(), // Đang giao
-                    // OrderCompletedTab(), // Hoàn thành
-                    // OrderCancelledTab(), // Đã hủy
                   ],
                 ),
               ),

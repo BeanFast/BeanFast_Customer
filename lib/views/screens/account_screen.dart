@@ -1,11 +1,12 @@
 import 'dart:math';
 
+import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/views/widgets/account_icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends GetView<AuthController> {
   const AccountScreen({super.key});
 
   @override
@@ -423,7 +424,9 @@ class AccountScreen extends StatelessWidget {
                           height: 40,
                           width: width / 2 - 15,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.logOut();
+                            },
                             style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
