@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:beanfast_customer/enums/status_enum.dart';
 
 import 'base_model.dart';
@@ -33,6 +35,11 @@ class Order extends BaseModel {
     this.deliveryDate,
     this.rewardPoints,
     this.feedback,
+    this.sessionDetail,
+    this.profile,
+    this.orderDetails,
+    this.transactions,
+    this.orderActivities,
   }) : super(id: id, status: status);
 
   factory Order.fromJson(dynamic json) => Order(
@@ -41,11 +48,18 @@ class Order extends BaseModel {
         sessionDetailId: json["sessionDetailId"],
         profileId: json['profileId'],
         code: json['code'],
-        totalPrice: json['totalPrice'],
+        totalPrice: double.parse(json['totalPrice'].toString()),
         paymentDate: DateTime.parse(json['paymentDate']),
-        deliveryDate: DateTime.parse(json['deliveryDate']),
+        deliveryDate: null,
         rewardPoints: json['rewardPoints'],
-        feedback: json['feedback'],
+        feedback: json['feedback'] ?? '',
+        profile: Profile.fromJson(json['profile']),
+        orderDetails: json['orderDetails']?.map<OrderDetail>((item) {
+          return OrderDetail.fromJson(item);
+        }).toList(),
+        orderActivities: json['orderActivities']?.map<OrderActivity>((item) {
+          return OrderActivity.fromJson(item);
+        }).toList(),
       );
 
   // Map<String, dynamic> toJson() {

@@ -1,13 +1,16 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as getx;
 
 import '/interceptors/app_interceptor.dart';
 
-class ApiService extends GetxService {
+class ApiService extends getx.GetxService {
   // final String baseUrl;
   late Dio _dio;
+
   static BaseOptions options = BaseOptions(
-      baseUrl: 'https://65dde6e6dccfcd562f55c399.mockapi.io/',
+      baseUrl: 'https://beanfast.id.vn/api/v1/',
       headers: {
         Headers.contentTypeHeader: "application/json",
         Headers.acceptHeader: "text/plain"

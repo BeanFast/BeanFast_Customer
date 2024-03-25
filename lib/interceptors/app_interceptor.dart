@@ -1,14 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide Response;
+// import 'package:get/get.dart' hide Response;
 
+import '../controllers/auth_controller.dart';
 import '/utils/logger.dart';
-import '/views/screens/error_screen.dart';
 
-class AppInterceptor extends Interceptor {
+class AppInterceptor extends Interceptor with CacheManager {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // Xử lý trước khi gửi yêu cầu
     logger.i('Custom Interceptor - onRequest');
+    String? token = getToken();
+    if (token != null) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
     return super.onRequest(options, handler);
   }
 
@@ -23,8 +26,10 @@ class AppInterceptor extends Interceptor {
   onError(DioException err, ErrorInterceptorHandler handler) {
     // Xử lý khi có lỗi
     logger.i('Custom Interceptor - onError');
+    logger.i(err);
 
-    Get.offAll(const ErrorView(errorMessage: 'Đã xảy ra lỗi'));
+    // Get.offAll(const ErrorView(errorMessage: 'Đã xảy ra lỗi'));
+
     // if (err.response?.statusCode == 400 || err.response?.statusCode == 500) {
     //   // Xử lý lỗi 400 hoặc 500 ở đây
     //   print('Error ${err.response?.statusCode}: ${err.message}');

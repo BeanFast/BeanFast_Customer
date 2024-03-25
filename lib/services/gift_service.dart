@@ -3,13 +3,13 @@ import 'package:get/get.dart' as getx;
 
 import '/services/api_service.dart';
 
-class FoodService {
-  final String baseUrl = 'foods';
+class GiftService {
+  final String baseUrl = 'gifts';
 
   final ApiService _apiService = getx.Get.put(ApiService());
 
   Future<dynamic> getAll() async {
-    final response = await _apiService.request.get(baseUrl);
+    final response = await _apiService.request.get('$baseUrl?page=1&size=100');
     return response.data;
   }
 

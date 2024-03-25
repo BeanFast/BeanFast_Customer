@@ -14,8 +14,8 @@ class Food extends BaseModel {
   String? imagePath;
   Category? category;
   List<OrderDetail>? orderDetails;
-  List<Combo>? masterCombos ;
-  List<Combo>? combos ;
+  List<Combo>? masterCombos;
+  List<Combo>? combos;
   List<MenuDetail>? menuDetails;
 
   Food({
@@ -41,7 +41,7 @@ class Food extends BaseModel {
         categoryId: json["categoryId"],
         code: json["code"],
         name: json['name'],
-        price: json['price'],
+        price: double.parse(json['price'].toString()),
         description: json['description'],
         isCombo: json['isCombo'],
         imagePath: json['imagePath'] ?? "",
