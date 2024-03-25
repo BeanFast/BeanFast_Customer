@@ -12,7 +12,7 @@ enum Status {
 enum OrderStatus {
   preparing(1, 'Chờ chuẩn bị'),
   delivering(2, 'Chờ giao hàng'),
-  completed(3, 'Đã giao'),
+  completed(3, 'Hoàn thành'),
   cancelled(4, 'Đã hủy');
 
   const OrderStatus(this.code, this.message);

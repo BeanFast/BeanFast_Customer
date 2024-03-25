@@ -18,14 +18,18 @@ class OrderTabBarView extends GetView<OrderController> {
     return LoadingScreen(
         future: controller.getData,
         child: Obx(() => controller.listData.isEmpty
-            ? Column(
-                children: [
-                  Text(controller.statusCode.value),
-                  Image.asset(
-                    "assets/images/image_icon_order.jpg",
-                  ),
-                ],
-              )
+            ? Center(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(controller.statusCode.value),
+                    Image.asset(
+                      "assets/images/order_image.png",
+                    ),
+                  ],
+                ),
+            )
             : SingleChildScrollView(
                 child: Container(
                   color: ThemeColor.bgColor1,

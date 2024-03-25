@@ -21,11 +21,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       localizationsDelegates: const [
-         GlobalMaterialLocalizations.delegate
-       ],
-       supportedLocales: const [
-         Locale('vi')
-       ],
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('vi'),
+      ],
       debugShowCheckedModeBanner: false,
       title: 'BeanFast',
       theme: AppTheme.defaulTheme,

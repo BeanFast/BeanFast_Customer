@@ -14,8 +14,8 @@ class ExchangeGiftController extends GetxController {
       var response = await GiftService().getAll();
       List<Gift> list = [];
       for (var e in response.data['data']['items']) {
-        logger.i(e.toString());
-        // list.add(Gift.fromJson(e));
+        // logger.i(e.toString());
+        list.add(Gift.fromJson(e));
       }
       listData.value = list;
       logger.i(listData.length.toString());

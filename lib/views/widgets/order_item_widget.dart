@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/formater.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/views/screens/order_detail_screen.dart';
@@ -73,7 +74,8 @@ class OrderItem extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                order.orderDetails![0].price.toString(),
+                                Formater.formatPrice(
+                                    order.orderDetails![0].price.toString()),
                                 maxLines: 1,
                                 style: const TextStyle(
                                   color: Colors.red,
@@ -106,7 +108,7 @@ class OrderItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        order.totalPrice.toString(),
+                        Formater.formatPrice(order.totalPrice.toString()),
                         style: const TextStyle(
                           color: Colors.red,
                           fontSize: 14,

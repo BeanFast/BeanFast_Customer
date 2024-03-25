@@ -11,7 +11,6 @@ class GiftService {
 
   Future<Response> getAll() async {
     final response = await _apiService.request.get('$baseUrl?page=1&size=100');
-    // logger.i(response.data);
     return response;
   }
 
