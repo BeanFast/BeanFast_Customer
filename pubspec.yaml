@@ -38,6 +38,8 @@ dependencies:
   logger: ^2.0.2+1
   carousel_slider: ^4.0.0
   fl_chart: ^0.66.2
+  image_picker: ^0.8.4+4
+  permission_handler: ^9.0.1
   
 
   # The following adds the Cupertino Icons font to your application.

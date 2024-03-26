@@ -96,15 +96,16 @@ class PointManagement extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(color: Colors.grey)),
-                          child: const Icon(
-                            Icons.point_of_sale,
-                          )),
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(color: Colors.grey)),
+                        child: const Icon(
+                          Icons.point_of_sale,
+                        ),
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Column(
