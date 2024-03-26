@@ -12,21 +12,22 @@ class OrderScreen extends GetView<OrderController> {
   Widget build(BuildContext context) {
     Get.put(OrderController());
     return Scaffold(
-      appBar: AppBar(
-        // title: const Text(
-        //   'Đơn hàng',
-        //   style: TextStyle(fontSize: 30),
-        // ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              final DateTimeRange? pickedDateRange = await showDateRangePicker(
-                context: context,
-                locale: const Locale("vi", "VI"),
-                firstDate: DateTime(DateTime.now().year - 5),
-                lastDate: DateTime.now(),
-                initialDateRange: controller.selectedDateRange.value,
-              );
+        appBar: AppBar(
+          // title: const Text(
+          //   'Đơn hàng',
+          //   style: TextStyle(fontSize: 30),
+          // ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                final DateTimeRange? pickedDateRange =
+                    await showDateRangePicker(
+                  context: context,
+                  locale: const Locale("vi", "VI"),
+                  firstDate: DateTime.now().subtract(const Duration(days: 180)),
+                  lastDate: DateTime.now(),
+                  initialDateRange: controller.selectedDateRange.value,
+                );
 
                 if (pickedDateRange != null &&
                     pickedDateRange != controller.selectedDateRange.value) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class TransactionScreen extends StatelessWidget {
@@ -10,10 +11,9 @@ class TransactionScreen extends StatelessWidget {
         Get.put(TransactionController());
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
         title: Container(
           alignment: Alignment.center,
-          height: 50,
+          height: 40,
           child: TextField(
             style: const TextStyle(height: 1), // Adjust the height as needed
             decoration: InputDecoration(
@@ -101,6 +101,8 @@ class TransactionScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text('Nội dung chuyển khoản 1',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold)),
@@ -110,33 +112,40 @@ class TransactionScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text('03:11 - 03/03/2024',
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14)),
-                                      const SizedBox(height: 5),
-                                      Obx(
-                                        () => SizedBox(
-                                          child: Text(
-                                            'Số dư ví: ${transactionController.moneyValue.value}',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey,
-                                            ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text('03:11 - 03/03/2024',
+                                            maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 14)),
+                                        const SizedBox(height: 5),
+                                        Obx(
+                                          () => SizedBox(
+                                            child: Text(
+                                              'Số dư ví: ${transactionController.moneyValue.value}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                     alignment: Alignment.bottomRight,
                                     width: 120,
                                     child: const Text('+200.000.000đ',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16)),

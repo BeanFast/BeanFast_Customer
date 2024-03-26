@@ -1,6 +1,7 @@
 import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/exchange_gift_controller.dart';
@@ -111,26 +112,28 @@ class PointManagement extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Giao địch mã $index',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold)),
                             const SizedBox(height: 5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('03:11 - 03/03/2024',
-                                        style: TextStyle(
-                                            color: Colors.grey, fontSize: 14)),
-                                    SizedBox(height: 5),
-                                  ],
+                                const Expanded(
+                                  child: Text('03:11 - 03/03/2024',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 14)),
                                 ),
                                 Container(
                                   alignment: Alignment.bottomRight,
                                   width: 120,
                                   child: const Text('+200.000 điểm',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16)),
@@ -172,61 +175,77 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                     onTap: () {},
                     child: Card(
                       // margin: const EdgeInsets.only(left: 10, right: 10),
-                      color: Colors.amber,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 5, bottom: 5),
-                        child: SizedBox(
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Container(
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            height: 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Container(
                                   width: 100,
-                                  child: Image.network(
-                                    color: Colors.red,
-                                    gift.imagePath.toString(),
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12),
+                                    ),
+                                    child: Image.network(
+                                      color: Colors.red,
+                                      gift.imagePath.toString(),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, top: 10, right: 10, bottom: 10),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: SizedBox(
-                                          child: Text(
-                                            gift.name.toString(),
-                                            style:
-                                                const TextStyle(fontSize: 16),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10,
+                                        top: 10,
+                                        right: 10,
+                                        bottom: 10),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: SizedBox(
+                                            child: Text(
+                                              gift.name.toString(),
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        child: Text(
-                                          '150.000',
-                                          style: TextStyle(
-                                              fontSize: 16, color: Colors.red),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
+                                        const SizedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '150.000',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.red),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              ),
+                                              SizedBox(width: 5),
+                                              Icon(Icons.card_giftcard,
+                                                  color: Colors.orange)
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: SizedBox(
+                                Container(
+                                  width: 70,
+                                  margin: const EdgeInsets.only(right: 10),
                                   child: TextButton(
                                     style: ButtonStyle(
                                       padding:
@@ -236,20 +255,41 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(8),
-                                          // side: const BorderSide(color: Colors.grey),
+                                              BorderRadius.circular(12),
                                         ),
                                       ),
                                     ),
                                     onPressed: () {},
                                     child: const Text('Đổi quà',
-                                        style: TextStyle(fontSize: 14)),
+                                        style: TextStyle(fontSize: 16)),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 3),
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                '40%',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );

@@ -85,9 +85,9 @@ class CreateStudentScreen extends StatelessWidget {
                             final DateTime? picked = await showDatePicker(
                               context: context,
                               locale: const Locale("vi", "VI"),
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2025),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now()
+                                  .subtract(const Duration(days: 4 * 365)),
                             );
                             if (picked != null &&
                                 picked !=
@@ -124,14 +124,14 @@ class CreateStudentScreen extends StatelessWidget {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Vui lòng nhập chiều cao';
+                              return 'Không hợp lệ';
                             }
                             if (!isNumeric(value)) {
-                              return 'Chiều cao phải là số';
+                              return 'Không hợp lệ';
                             }
                             if (double.parse(value) < 0.5 ||
                                 double.parse(value) > 3.0) {
-                              return 'Chiều cao không hợp lệ';
+                              return 'Không hợp lệ';
                             }
                             return null;
                           },
@@ -149,14 +149,14 @@ class CreateStudentScreen extends StatelessWidget {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Vui lòng nhập cân nặng';
+                              return 'Không hợp lệ';
                             }
                             if (!isNumeric(value)) {
-                              return 'Cân nặng phải là số';
+                              return 'Không hợp lệ';
                             }
                             if (double.parse(value) < 1.0 ||
                                 double.parse(value) > 500.0) {
-                              return 'Cân nặng không hợp lệ';
+                              return 'Không hợp lệ';
                             }
                             return null;
                           },
@@ -262,7 +262,7 @@ class CreateStudentScreen extends StatelessWidget {
                         if (_formKey.currentState!.validate()) {
                           // If the form is valid, do something
                         }
-                        Get.back();
+                        // Get.back();
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -283,7 +283,8 @@ class CreateStudentScreen extends StatelessWidget {
 }
 
 class CreateStudentController extends GetxController {
-  Rx<DateTime> selectedDate = DateTime.now().obs;
+  Rx<DateTime> selectedDate =
+      DateTime.now().subtract(Duration(days: 4 * 365)).obs;
 
   void updateDate(DateTime newDate) {
     selectedDate.value = newDate;

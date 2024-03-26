@@ -52,14 +52,17 @@ class CartScreen extends StatelessWidget {
                 color: ThemeColor.bgColor1,
                 child: Column(
                   children: List.generate(
-                      4,
+                      2,
                       (index) => Container(
                             color: ThemeColor.bgColor,
                             margin: const EdgeInsets.only(bottom: 10),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(left: 10),
                                   height: 50,
                                   width: Get.width,
                                   decoration: BoxDecoration(
@@ -71,14 +74,9 @@ class CartScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  child: Center(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        ' Profile number $index',
-                                        style: Get.textTheme.titleMedium,
-                                      ),
-                                    ),
+                                  child: Text(
+                                    ' Profile number $index',
+                                    style: Get.textTheme.titleMedium,
                                   ),
                                 ),
                                 Padding(
@@ -87,28 +85,39 @@ class CartScreen extends StatelessWidget {
                                   child: Column(
                                     children: List.generate(
                                       2,
-                                      (index) => Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10, bottom: 10),
+                                      (index) => Card(
                                         child: SizedBox(
-                                          // height: 200,
+                                          height: 125,
                                           child: Row(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
                                               SizedBox(
-                                                width: 100,
-                                                height: 100,
-                                                child: Image.network(
-                                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                                  fit: BoxFit.cover,
+                                                width: 125,
+                                                height: 125,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  12),
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  12)),
+                                                  child: Image.network(
+                                                    'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                               Expanded(
                                                 child: Container(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 10, right: 10),
+                                                          left: 10,
+                                                          right: 10,
+                                                          top: 5,
+                                                          bottom: 5),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -125,6 +134,7 @@ class CartScreen extends StatelessWidget {
                                                           maxLines: 1,
                                                         ),
                                                       ),
+                                                      const SizedBox(height: 2),
                                                       SizedBox(
                                                         child: Text(
                                                           'Loại: $index',
@@ -136,6 +146,7 @@ class CartScreen extends StatelessWidget {
                                                           maxLines: 1,
                                                         ),
                                                       ),
+                                                      const SizedBox(height: 2),
                                                       const Row(
                                                         children: [
                                                           Text(
@@ -165,24 +176,24 @@ class CartScreen extends StatelessWidget {
                                                           ),
                                                         ],
                                                       ),
+                                                      const SizedBox(height: 2),
                                                       Container(
-                                                        width: 122,
-                                                        height: 36,
-                                                        margin: const EdgeInsets.only(top: 10),
+                                                        width: 124,
+                                                        height: 40,
                                                         decoration:
                                                             BoxDecoration(
-                                                          border: Border.all(
-                                                              color: Colors
-                                                                  .grey),
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  25),
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.grey),
                                                         ),
                                                         child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
                                                             IconButton(
-                                                              color: ThemeColor.iconButtonColor,
+                                                              color: ThemeColor
+                                                                  .iconButtonColor,
                                                               onPressed: () =>
                                                                   cartController
                                                                       .decrease(
@@ -193,7 +204,7 @@ class CartScreen extends StatelessWidget {
                                                             ),
                                                             Obx(
                                                               () => SizedBox(
-                                                                width: 24,
+                                                                width: 26,
                                                                 child: Text(
                                                                   '${cartController.quantities[index.toString()] ?? 0}',
                                                                   textAlign:
@@ -203,7 +214,8 @@ class CartScreen extends StatelessWidget {
                                                               ),
                                                             ),
                                                             IconButton(
-                                                              color: ThemeColor.iconButtonColor,
+                                                              color: ThemeColor
+                                                                  .iconButtonColor,
                                                               onPressed: () =>
                                                                   cartController
                                                                       .increase(

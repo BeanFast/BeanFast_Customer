@@ -398,7 +398,7 @@ void showUserDialogForMenu(BuildContext context) {
                         const EdgeInsets.all(10.0)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(14),
                         side: const BorderSide(color: Colors.grey),
                       ),
                     ),
@@ -427,53 +427,55 @@ void showUserDialogForGiftExchange(BuildContext context) {
         content: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.4,
-          child: Column(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: SingleChildScrollView(
-                  child: Card(
-                    child: ListBody(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(const GiftExchangeScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Điểm: 120.000'),
-                          ),
-                        ),
-                        const Divider(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(const GiftExchangeScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Điểm: 120.000'),
-                          ),
-                        ),
-                        const Divider(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(const GiftExchangeScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Điểm: 120.000'),
-                          ),
-                        ),
-                      ],
+          child: SingleChildScrollView(
+            child: Card(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(const GiftExchangeScreen());
+                    },
+                    child: const ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Nguyễn Huỳnh Phi'),
+                      subtitle: Text('Điểm: 120.000'),
                     ),
                   ),
-                ),
+                  const Divider(),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(const GiftExchangeScreen());
+                    },
+                    child: const ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Nguyễn Huỳnh Phi'),
+                      subtitle: Text('Điểm: 120.000'),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(const GiftExchangeScreen());
+                    },
+                    child: const ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Nguyễn Huỳnh Phi'),
+                      subtitle: Text('Điểm: 120.000'),
+                    ),
+                  ),
+                  const Divider(),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(const GiftExchangeScreen());
+                    },
+                    child: const ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Nguyễn Huỳnh Phi'),
+                      subtitle: Text('Điểm: 120.000'),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       );
