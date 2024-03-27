@@ -98,7 +98,7 @@ class StudentListScreen extends GetView<ProfileController> {
                       ),
                     ),
                     onPressed: () {
-                      Get.to( StudentFormScreen());
+                      Get.to(const StudentFormScreen());
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,

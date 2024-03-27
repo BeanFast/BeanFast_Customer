@@ -1,25 +1,17 @@
 import 'dart:io';
 
 import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/controllers/profile_controller.dart';
+import 'package:beanfast_customer/controllers/profile_form_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-class StudentFormScreen extends GetView<ProfileController> {
-   StudentFormScreen({super.key});
-  final _formKey = GlobalKey<FormState>();
-  final ImagePicker _picker = ImagePicker();
-  String? imagePath;
-  final String check = '2';
+class StudentFormScreen extends GetView<ProfileFormController> {
+  const StudentFormScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    Get.put(ProfileController());
-    final CreateStudentController createStudentController =
-        Get.put(CreateStudentController());
+    Get.put(ProfileFormController());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -35,21 +27,99 @@ class StudentFormScreen extends GetView<ProfileController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Obx(() => SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: controller.imagePath.isEmpty
-                            ? const Text('No image selected')
-                            : Image.network(
-                                controller.imagePath.value,
-                                fit: BoxFit.cover,
+                  Obx(
+                    () => controller.imagePath.value.isNotEmpty
+                        ? ClipOval(
+                            child: Image.file(
+                              File(controller.imagePath.value),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Container(), // Show an empty container when no image is selected
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 55,
+                    width: 100,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Text color
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.green), // Background color
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.all(10)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              padding: const EdgeInsets.only(
+                                top: 20,
+                                bottom: 20,
+                                right: 10,
+                                left: 10,
                               ),
-                      )),
+                              child: Wrap(
+                                children: <Widget>[
+                                  const SizedBox(
+                                    child: Center(
+                                      child: Text(
+                                        "Lựa chọn phương thức",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    leading: const Icon(Icons.camera_outlined),
+                                    title: const Text('Chụp ảnh'),
+                                    onTap: () async {
+                                      controller.pickPhotoFormCamera();
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: const Icon(
+                                        Icons.photo_library_outlined),
+                                    title:
+                                        const Text('Chọn ảnh từ thư viện ảnh'),
+                                    onTap: () async {
+                                      controller.pickPhotoFormStorage();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.save_outlined),
+                          Text('Tải ảnh', style: TextStyle(fontSize: 14)),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   SizedBox(
                     width: double.infinity,
                     height: 85,
                     child: TextFormField(
+                      controller: controller.fullnameController,
                       decoration: const InputDecoration(
                         labelText: 'Họ và tên',
                         border: OutlineInputBorder(),
@@ -66,6 +136,7 @@ class StudentFormScreen extends GetView<ProfileController> {
                     width: double.infinity,
                     height: 85,
                     child: TextFormField(
+                      controller: controller.nickNameController,
                       decoration: const InputDecoration(
                         labelText: 'Biệt danh',
                         border: OutlineInputBorder(),
@@ -83,10 +154,9 @@ class StudentFormScreen extends GetView<ProfileController> {
                       Obx(
                         () => Radio(
                           value: 'Nam',
-                          groupValue: createStudentController.gender.value,
+                          groupValue: controller.gender.value,
                           onChanged: (value) {
-                            createStudentController.gender.value =
-                                value as String;
+                            controller.gender.value = value as String;
                           },
                         ),
                       ),
@@ -94,10 +164,9 @@ class StudentFormScreen extends GetView<ProfileController> {
                       Obx(
                         () => Radio(
                           value: 'Nữ',
-                          groupValue: createStudentController.gender.value,
+                          groupValue: controller.gender.value,
                           onChanged: (value) {
-                            createStudentController.gender.value =
-                                value as String;
+                            controller.gender.value = value as String;
                           },
                         ),
                       ),
@@ -137,16 +206,14 @@ class StudentFormScreen extends GetView<ProfileController> {
                                   .subtract(const Duration(days: 4 * 365)),
                             );
                             if (picked != null &&
-                                picked !=
-                                    createStudentController
-                                        .selectedDate.value) {
-                              createStudentController.updateDate(picked);
+                                picked != controller.selectedDate.value) {
+                              controller.updateDate(picked);
                             }
                           },
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Ngày sinh: ${DateFormat('dd/MM/yyyy').format(createStudentController.selectedDate.value)}",
+                              "Ngày sinh: ${DateFormat('dd/MM/yyyy').format(controller.selectedDate.value)}",
                               style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w400),
                             ),
@@ -163,6 +230,7 @@ class StudentFormScreen extends GetView<ProfileController> {
                         width: 140,
                         height: 85,
                         child: TextFormField(
+                          controller: controller.heightController,
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           decoration: const InputDecoration(
@@ -188,6 +256,7 @@ class StudentFormScreen extends GetView<ProfileController> {
                         width: 130,
                         height: 85,
                         child: TextFormField(
+                          controller: controller.weightController,
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           decoration: const InputDecoration(
@@ -280,7 +349,7 @@ class StudentFormScreen extends GetView<ProfileController> {
                                       margin: const EdgeInsets.only(bottom: 20),
                                       child: TextField(
                                         onChanged: (value) {
-                                          createStudentController
+                                          controller
                                               .updateFilteredSchools(value);
                                         },
                                         decoration: const InputDecoration(
@@ -292,8 +361,8 @@ class StudentFormScreen extends GetView<ProfileController> {
                                     Obx(
                                       () => Expanded(
                                         child: ListView.builder(
-                                          itemCount: createStudentController
-                                              .filteredSchools.length,
+                                          itemCount:
+                                              controller.filteredSchools.length,
                                           itemBuilder: (context, index) {
                                             return Container(
                                               decoration: const BoxDecoration(
@@ -317,29 +386,26 @@ class StudentFormScreen extends GetView<ProfileController> {
                                                         color: Colors.grey),
                                                   ),
                                                   child: Image.network(
-                                                    createStudentController
+                                                    controller
                                                         .filteredSchools[index]
-                                                        .image,
+                                                        .imagePath!,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
-                                                title: Text(
-                                                    createStudentController
-                                                        .filteredSchools[index]
-                                                        .name),
-                                                subtitle: Text(
-                                                    createStudentController
-                                                        .filteredSchools[index]
-                                                        .shortDescription),
+                                                title: Text(controller
+                                                    .filteredSchools[index]
+                                                    .name!),
+                                                subtitle: Text(controller
+                                                    .filteredSchools[index]
+                                                    .address!),
                                                 onTap: () {
                                                   // Update the selected school
-                                                  createStudentController
-                                                          .selectedSchool
+                                                  controller.selectedSchool
                                                           .value =
-                                                      createStudentController
+                                                      controller
                                                           .filteredSchools[
                                                               index]
-                                                          .name;
+                                                          .name!;
                                                   // Close the bottom sheet
                                                   Get.back();
                                                 },
@@ -359,11 +425,9 @@ class StudentFormScreen extends GetView<ProfileController> {
                           alignment: Alignment.centerLeft,
                           child: Obx(
                             () => Text(
-                              createStudentController
-                                      .selectedSchool.value.isEmpty
+                              controller.selectedSchool.value.isEmpty
                                   ? 'Chọn trường học'
-                                  : createStudentController
-                                      .selectedSchool.value,
+                                  : controller.selectedSchool.value,
                               style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w400),
                             ),
@@ -373,140 +437,8 @@ class StudentFormScreen extends GetView<ProfileController> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Obx(
-                    () => createStudentController.imagePath.value.isNotEmpty
-                        ? ClipOval(
-                            child: Image.file(
-                              File(createStudentController.imagePath.value),
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : Container(), // Show an empty container when no image is selected
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 55,
-                    width: 100,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white), // Text color
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.green), // Background color
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(10)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: const BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        // controller.pickImage();
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Container(
-                              padding: const EdgeInsets.only(
-                                top: 20,
-                                bottom: 20,
-                                right: 10,
-                                left: 10,
-                              ),
-                              child: Wrap(
-                                children: <Widget>[
-                                  const SizedBox(
-                                    child: Center(
-                                      child: Text(
-                                        "Lựa chọn phương thức",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(Icons.camera_outlined),
-                                    title: const Text('Chụp ảnh'),
-                                    onTap: () async {
-                                      // Logic for taking a picture
-                                      var status =
-                                          await Permission.camera.status;
-                                      if (!status.isGranted) {
-                                        status =
-                                            await Permission.camera.request();
-                                      }
-
-                                      final XFile? image =
-                                          await _picker.pickImage(
-                                              source: ImageSource.camera);
-
-                                      if (image != null) {
-                                        createStudentController
-                                            .imagePath.value = image.path;
-                                        Get.back();
-                                      } else {
-                                        // User canceled the picker
-                                        print('No picture taken.');
-                                      }
-                                    },
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(
-                                        Icons.photo_library_outlined),
-                                    title:
-                                        const Text('Chọn ảnh từ thư viện ảnh'),
-                                    onTap: () async {
-                                      // await Permission.photos.request();
-                                      var status =
-                                          await Permission.photos.status;
-                                      if (!status.isGranted) {
-                                        status =
-                                            await Permission.photos.request();
-                                      }
-
-                                      if (status.isGranted) {
-                                        final XFile? image =
-                                            await _picker.pickImage(
-                                                source: ImageSource.gallery);
-
-                                        if (image != null) {
-                                          // Use the selected image
-                                          createStudentController
-                                              .imagePath.value = image.path;
-
-                                          Get.back();
-                                        } else {
-                                          // User canceled the picker
-                                          Get.snackbar('Thông báo',
-                                              'No image selected.');
-                                        }
-                                      } else {
-                                        Get.snackbar(
-                                            'Thông báo', 'Permission denied.');
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.save_outlined),
-                          Text('Tải ảnh', style: TextStyle(fontSize: 14)),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // controller.messageErrors.map((e) => SizedBox(height: 64, child: Text(e.toString()))
+                  // ).toList(),
                   const SizedBox(height: 30),
                   SizedBox(
                     height: 64,
@@ -528,15 +460,13 @@ class StudentFormScreen extends GetView<ProfileController> {
                         ),
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          if (createStudentController
-                              .selectedSchool.value.isEmpty) {
+                        if (controller.formKey.currentState!.validate()) {
+                          if (controller.selectedSchool.value.isEmpty) {
                             Get.snackbar('Lỗi', 'Vui lòng chọn trường');
                           } else {
-                            //true
+                            controller.submitForm();
                           }
                         }
-                        Get.back();
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -556,92 +486,9 @@ class StudentFormScreen extends GetView<ProfileController> {
   }
 }
 
-class CreateStudentController extends GetxController {
-  Rx<DateTime> selectedDate =
-      DateTime.now().subtract(const Duration(days: 4 * 365)).obs;
-
-  void updateDate(DateTime newDate) {
-    selectedDate.value = newDate;
-  }
-
-  Rx<DateTimeRange> selectedDateRange = Rx<DateTimeRange>(
-    DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 7)),
-      end: DateTime.now(),
-    ),
-  );
-
-  //bottom sheet
-  var selectedSchool = ''.obs;
-  var schools = <School>[].obs;
-  RxList<School> filteredSchools = <School>[].obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    // Add your initial list of schools here
-    schools.addAll([
-      School(
-          name: 'School 1',
-          image:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTgMLFHseMBhcKd12N6gXsGljxQcBvtJ_qKHf_ytWKdQ&s',
-          shortDescription: 'This is school 1'),
-      School(
-          name: 'School 2',
-          image:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTgMLFHseMBhcKd12N6gXsGljxQcBvtJ_qKHf_ytWKdQ&s',
-          shortDescription: 'This is school 2'),
-      School(
-          name: 'School 3',
-          image:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTgMLFHseMBhcKd12N6gXsGljxQcBvtJ_qKHf_ytWKdQ&s',
-          shortDescription: 'This is school 3'),
-      School(
-          name: 'School 4',
-          image:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTgMLFHseMBhcKd12N6gXsGljxQcBvtJ_qKHf_ytWKdQ&s',
-          shortDescription: 'This is school 4'),
-      School(
-          name: 'School 5',
-          image:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTgMLFHseMBhcKd12N6gXsGljxQcBvtJ_qKHf_ytWKdQ&s',
-          shortDescription: 'This is school 5'),
-    ]);
-    updateFilteredSchools();
-  }
-
-  void updateFilteredSchools([String? searchQuery]) {
-    if (searchQuery != null && searchQuery.isNotEmpty) {
-      filteredSchools.value = schools
-          .where((school) =>
-              school.name.toLowerCase().contains(searchQuery.toLowerCase()))
-          .toList();
-    } else {
-      filteredSchools.value = schools.toList();
-    }
-  }
-
-  //Update image
-  var imagePath = ''.obs;
-  //gender
-  var gender = 'Nam'.obs;
-}
-
 bool isNumeric(String s) {
   if (s == null) {
     return false;
   }
   return double.tryParse(s) != null;
-}
-
-class School {
-  final String name;
-  final String image;
-  final String shortDescription;
-
-  School({
-    required this.name,
-    required this.image,
-    required this.shortDescription,
-  });
 }

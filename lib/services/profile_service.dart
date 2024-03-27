@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:beanfast_customer/models/profile.dart';
 import 'package:dio/dio.dart';
@@ -27,16 +28,24 @@ class ProfileService {
   }
 
   Future create(Profile model) async {
-    File file = File('/path/to/your/file');
-
+    logger.e(model.bmis!.last.height);
+    logger.e(model.bmis!.last.weight);
+    logger.e(model.bmis!.last.age);
+    logger.e(model.fullName);
+    logger.e(model.className);
+    logger.e(model.avatarPath!);
+    logger.e(model.gender);
+    logger.e(model.nickName);
+    logger.e(model.school!.id);
+    logger.e(model.dob);
     FormData formData = FormData.fromMap({
       'Bmi.Height': model.bmis!.last.height,
       'Bmi.Weight': model.bmis!.last.weight,
       'Bmi.Age': model.bmis!.last.age,
       'FullName': model.fullName,
       'Class': model.className,
-      'Image':
-          await MultipartFile.fromFile(file.path, filename: 'uploadFile.jpg'),
+      'Image': await MultipartFile.fromFile(model.avatarPath!,
+          filename: 'uploadFile.jpg'),
       'Gender': model.gender,
       'NickName': model.nickName,
       'SchoolId': model.school!.id,

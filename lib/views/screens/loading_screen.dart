@@ -15,7 +15,7 @@ class LoadingScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           // return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: Colors.blue),));
-          return Center(child: Text('a', style: TextStyle(color: Colors.blue),));
+          return Center(child: Text('Error: ${snapshot.error}', style: const TextStyle(color: Colors.blue),));
         } else {
           return child; // Return empty container when the data is loaded
         }

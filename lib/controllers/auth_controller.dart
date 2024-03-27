@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -92,6 +91,8 @@ class AuthController extends GetxController with CacheManager {
   //     print(e.toString());
   //   }
   // }
+  
+
   void login() async {
     phoneController.text = '0372266084';
     passwordController.text = '12345678';

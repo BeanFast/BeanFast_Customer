@@ -1,22 +1,24 @@
 import 'package:beanfast_customer/views/screens/cart_screen.dart';
 import 'package:beanfast_customer/views/screens/gift_exchange_screen.dart';
+import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
 import 'package:beanfast_customer/views/screens/notification_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/profile.dart';
 import '/controllers/home_controller.dart';
 import '/views/widgets/main_icon_button_widget.dart';
 import 'deposit_screen.dart';
 import 'student_form_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final HomeController homeController = Get.put(HomeController());
+    Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -112,16 +114,16 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: Icon(
-                            homeController.isMoneyVisible.value
+                            controller.isMoneyVisible.value
                                 ? Icons.visibility
                                 : Icons.visibility_off,
                           ),
                           onPressed: () {
-                            homeController.toggleMoneyVisibility();
+                            controller.toggleMoneyVisibility();
                           },
                         ),
                         Text(
-                          homeController.moneyValue.value,
+                          controller.moneyValue.value,
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -151,7 +153,6 @@ class HomeScreen extends StatelessWidget {
                               text: "Đặt hàng",
                               onPressed: () {
                                 showUserDialogForMenu(context);
-                                // Get.to(MenuScreen());
                               },
                             ),
                             MainIconButton(
@@ -294,128 +295,93 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-void showUserDialogForMenu(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Chọn người muốn đặt'),
-        content: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.4 + 80,
-          child: Column(
-            children: [
-              SizedBox(
+  void showUserDialogForMenu(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return LoadingScreen(
+            future: controller.getProfiles,
+            child: AlertDialog(
+              title: const Text('Chọn học sinh'),
+              content: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: SingleChildScrollView(
-                  child: Card(
-                    child: ListBody(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(MenuScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Trường tiểu học'),
-                          ),
+                height: MediaQuery.of(context).size.height * 0.4 + 80,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: SingleChildScrollView(
+                        child: Card(
+                          child: Obx(() => Column(
+                                children: controller.listProfile.map((e) {
+                                  return ItemProfile(model: e);
+                                }).toList(),
+                              )),
                         ),
-                        const Divider(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(MenuScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Trường tiểu học'),
-                          ),
-                        ),
-                        const Divider(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(MenuScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Trường tiểu học'),
-                          ),
-                        ),
-                        const Divider(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(MenuScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Trường tiểu học'),
-                          ),
-                        ),
-                        const Divider(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(MenuScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Trường tiểu học'),
-                          ),
-                        ),
-                        const Divider(),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(MenuScreen());
-                          },
-                          child: const ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Nguyễn Huỳnh Phi'),
-                            subtitle: Text('Trường tiểu học'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 55,
-                width: double.infinity,
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        Colors.white), // Text color
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.green), // Background color
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.all(10.0)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        side: const BorderSide(color: Colors.grey),
                       ),
                     ),
-                  ),
-                  onPressed: () {
-                    Get.to(StudentFormScreen());
-                  },
-                  child: const Text('Thêm người mới',
-                      style: TextStyle(fontSize: 18)),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 55,
+                      width: double.infinity,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Colors.white), // Text color
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.green), // Background color
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.all(10.0)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              side: const BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.to(StudentFormScreen());
+                        },
+                        child: const Text('Thêm người mới',
+                            style: TextStyle(fontSize: 18)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ));
+      },
+    );
+  }
+}
+
+class ItemProfile extends StatelessWidget {
+  final Profile model;
+
+  const ItemProfile({super.key, required this.model});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Get.to(const MenuScreen(
+              schoolId: 'b254a297-cae1-4d26-afe2-b093227ded0a',
+            ));
+          },
+          child: ListTile(
+            leading: const Icon(Icons.person),
+            title: Text(model.fullName.toString()),
+            subtitle: Text(model.school!.name.toString()),
           ),
         ),
-      );
-    },
-  );
+        const Divider(),
+      ],
+    );
+  }
 }
 
 void showUserDialogForGiftExchange(BuildContext context) {
