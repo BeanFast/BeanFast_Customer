@@ -15,20 +15,18 @@ class CartScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Obx(
-            () => SizedBox(
-              height: 43,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+          SizedBox(
+            height: 50,
+            child: Obx(
+              () => Row(
                 children: [
                   IconButton(
                     icon: Icon(
                       cartController.isMoneyVisible.value
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      size: 16,
                     ),
-                    iconSize: 20,
                     onPressed: () {
                       cartController.toggleMoneyVisibility();
                     },
