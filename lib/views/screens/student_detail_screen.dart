@@ -1,308 +1,182 @@
-import 'package:beanfast_customer/views/screens/add_new_account_screen.dart';
+import 'package:beanfast_customer/controllers/profile_controller.dart';
+import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-class StudentDetailScreen extends StatelessWidget {
-  const StudentDetailScreen({super.key});
+import '../widgets/row_info_item_widget.dart';
+import 'student_form_screen.dart';
+
+class StudentDetailScreen extends GetView<ProfileController> {
+  const StudentDetailScreen({super.key, required this.id});
+  final String id;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thông tin học sinh'),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr0A_VRvBAuUbJRjVZBMBBmm5YTLN0RUr_WFlJ_wwxEA&s',
-                    ),
-                    radius: 15,
-                  ),
-                ),
-                title: const Text(
-                  'Nguyễn Huỳnh Phi',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: const Text(
-                  'PhiPhiPh1',
-                ),
-                trailing: TextButton(
-                  onPressed: () {
-                    Get.to(CreateStudentScreen());
-                  },
-                  child: const Text(
-                    'Thay đổi',
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Thẻ nhận hàng',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      5,
-                      (index) => Container(
-                        margin: const EdgeInsets.only(right: 20),
-                        width: 300,
-                        height: 170,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+    Get.put(ProfileController());
+    return LoadingScreen(
+      future: () async {
+        return await controller.getById(id);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Thông tin học sinh'),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          controller.model.value.avatarPath.toString(),
                         ),
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: SizedBox(
-                                  width: Get.width,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
-                                    ),
-                                    child: Image.network(
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr0A_VRvBAuUbJRjVZBMBBmm5YTLN0RUr_WFlJ_wwxEA&s',
-                                      fit: BoxFit.cover,
+                        radius: 15,
+                      ),
+                    ),
+                    title: Text(
+                      controller.model.value.fullName.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      controller.model.value.nickName.toString(),
+                    ),
+                    trailing: TextButton(
+                      onPressed: () {
+                        Get.to(StudentFormScreen());
+                      },
+                      child: const Text(
+                        'Thay đổi',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Thẻ nhận hàng',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: controller.model.value.loyaltyCards!.map((e) {
+                          return Container(
+                            margin: const EdgeInsets.only(right: 20),
+                            width: 300,
+                            height: 170,
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Card(
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: Get.width,
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                        ),
+                                        child: Image.network(
+                                          e.backgroundImagePath!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Container(
+                                    height: 25,
+                                    alignment: Alignment.center,
+                                    width: Get.width,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10)),
+                                    ),
+                                    child: const Text('Đang dùng'),
+                                  ),
+                                ],
                               ),
-                              Container(
-                                height: 25,
-                                alignment: Alignment.center,
-                                width: Get.width,
-                                decoration: const BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10)),
-                                ),
-                                child: const Text('Đang dùng'),
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Thông tin học sinh',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Card(
-                child: Container(
-                  padding: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 30,
-                    bottom: 30,
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Thông tin học sinh',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(height: 20),
+                  Card(
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        top: 30,
+                        bottom: 30,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(
-                              child: Text(
-                            'Biệt danh: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          )),
-                          const Expanded(
-                            child: Text(
-                              'Trường tiểu học nguyễn văn ABCDEF',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
+                          RowInfoItemWidget(
+                              titel: 'Tên: ',
+                              data: controller.model.value.fullName.toString()),
+                          RowInfoItemWidget(
+                              titel: 'Biệt danh: ',
+                              data: controller.model.value.nickName.toString()),
+                          RowInfoItemWidget(
+                              titel: 'Giới tính: ',
+                              data: controller.model.value.gender!
+                                  ? 'Nam'
+                                  : 'Nữ'),
+                          RowInfoItemWidget(
+                              titel: 'Ngày sinh: ',
+                              data: DateFormat('dd/MM/yyyy')
+                                  .format(controller.model.value.dob!)),
+                          RowInfoItemWidget(
+                              titel: 'BMI: ',
+                              data:
+                                  controller.model.value.currentBMI.toString()),
+                          RowInfoItemWidget(
+                              titel: 'Lớp: ',
+                              data:
+                                  controller.model.value.className.toString()),
+                          RowInfoItemWidget(
+                              titel: 'Trường: ',
+                              data: controller.model.value.school!.name
+                                  .toString()),
                         ],
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              child: Text(
-                            'Tên: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          )),
-                          const Expanded(
-                            child: Text(
-                              'Nguyễn Huỳnh Phi',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              child: Text(
-                            'Giới tính: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          )),
-                          const Expanded(
-                            child: Text(
-                              'Nam',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              child: Text(
-                            'Ngày sinh: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          )),
-                          const Expanded(
-                            child: Text(
-                              '15/06/2001',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              child: Text(
-                            'BMI: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          )),
-                          const Expanded(
-                            child: Text(
-                              '29.5',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              child: Text(
-                            'Trường: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          )),
-                          const Expanded(
-                            child: Text(
-                              'Trường tiểu học nguyễn văn ABCDEFGHJKLMN',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              child: Text(
-                            'Lớp: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          )),
-                          const Expanded(
-                            child: Text(
-                              'Trường tiểu học nguyễn văn A',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

@@ -1,14 +1,14 @@
 import 'package:beanfast_customer/contrains/theme_color.dart';
+import 'package:beanfast_customer/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class CreateStudentScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-
-  CreateStudentScreen({super.key});
+class StudentFormScreen extends GetView<ProfileController> {
+  const StudentFormScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(ProfileController());
     final CreateStudentController createStudentController =
         Get.put(CreateStudentController());
     return Scaffold(
@@ -21,10 +21,20 @@ class CreateStudentScreen extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             child: Form(
-              key: _formKey,
+              key: controller.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  Obx(() => SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: controller.imagePath.isEmpty
+                            ? const Text('No image selected')
+                            : Image.network(
+                                controller.imagePath.value,
+                                fit: BoxFit.cover,
+                              ),
+                      )),
                   const SizedBox(height: 10),
                   SizedBox(
                     width: double.infinity,
@@ -227,7 +237,9 @@ class CreateStudentScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.pickImage();
+                      },
                       child: const Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -259,7 +271,7 @@ class CreateStudentScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (controller.formKey.currentState!.validate()) {
                           // If the form is valid, do something
                         }
                         // Get.back();

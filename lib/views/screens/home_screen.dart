@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/views/screens/add_new_account_screen.dart';
 import 'package:beanfast_customer/views/screens/cart_screen.dart';
 import 'package:beanfast_customer/views/screens/gift_exchange_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
@@ -10,6 +9,7 @@ import 'package:get/get.dart';
 import '/controllers/home_controller.dart';
 import '/views/widgets/main_icon_button_widget.dart';
 import 'deposit_screen.dart';
+import 'student_form_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -404,7 +404,7 @@ void showUserDialogForMenu(BuildContext context) {
                     ),
                   ),
                   onPressed: () {
-                    Get.to(CreateStudentScreen());
+                    Get.to(StudentFormScreen());
                   },
                   child: const Text('Thêm người mới',
                       style: TextStyle(fontSize: 18)),

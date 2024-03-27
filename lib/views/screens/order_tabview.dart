@@ -2,7 +2,7 @@ import 'package:beanfast_customer/controllers/order_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils/logger.dart';
+import '/utils/logger.dart';
 import '/contrains/theme_color.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
@@ -16,14 +16,13 @@ class OrderTabBarView extends GetView<OrderController> {
   Widget build(BuildContext context) {
     controller.orderStatus = orderStatus;
     return LoadingScreen(
-        future: controller.getData,
+        future: controller.getByStatus,
         child: Obx(() => controller.listData.isEmpty
             ? Center(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(controller.statusCode.value),
                     Image.asset(
                       "assets/images/order_image.png",
                     ),

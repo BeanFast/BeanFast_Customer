@@ -183,7 +183,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Container(
+                                 SizedBox(
                                   width: 100,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.only(
@@ -191,7 +191,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                       bottomLeft: Radius.circular(12),
                                     ),
                                     child: Image.network(
-                                      color: Colors.red,
+                                      // color: Colors.red,
                                       gift.imagePath.toString(),
                                       fit: BoxFit.cover,
                                     ),
