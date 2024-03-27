@@ -13,12 +13,12 @@ class RegisterView extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Đăng ký',
-         
         ),
       ),
       body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
+            reverse: true,
             child: Form(
               key: _formKey,
               child: Column(
@@ -63,7 +63,7 @@ class RegisterView extends StatelessWidget {
                   //     },
                   //   ),
                   // ),
-    
+
                   SizedBox(
                     width: double.infinity, // Set the width
                     height: 85,
@@ -83,7 +83,7 @@ class RegisterView extends StatelessWidget {
                       },
                     ),
                   ),
-                const SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Obx(
                     () => SizedBox(
                       width: double.infinity, // Set the width
@@ -118,7 +118,7 @@ class RegisterView extends StatelessWidget {
                       ),
                     ),
                   ),
-                 const SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Obx(
                     () => SizedBox(
                       width: double.infinity, // Set the width
@@ -208,7 +208,8 @@ class RegisterView extends StatelessWidget {
                           }),
                         );
                       },
-                      child: const Text('Đăng ký', style: TextStyle(fontSize: 18)),
+                      child:
+                          const Text('Đăng ký', style: TextStyle(fontSize: 18)),
                     ),
                   ),
                 ],

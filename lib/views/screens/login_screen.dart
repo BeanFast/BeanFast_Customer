@@ -20,6 +20,7 @@ class LoginView extends GetView<AuthController> {
         ),
       ),
       body: SingleChildScrollView(
+        reverse: true,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Form(
@@ -82,12 +83,12 @@ class LoginView extends GetView<AuthController> {
                   ),
                 ),
                 Obx(() => Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
                         controller.errorMessage.value,
                         style: const TextStyle(color: Colors.red),
                       ),
-                )),
+                    )),
                 const SizedBox(height: 20),
                 Row(
                   children: [
@@ -134,7 +135,7 @@ class LoginView extends GetView<AuthController> {
                     ),
                     onPressed: () {
                       // if (_formKey.currentState!.validate()) {
-                        _authController.login();
+                      _authController.login();
                       // }
                     },
                     child:

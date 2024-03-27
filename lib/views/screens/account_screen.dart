@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:beanfast_customer/controllers/auth_controller.dart';
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:beanfast_customer/views/widgets/account_icon_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ class AccountScreen extends GetView<AuthController> {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
-    // ignore: unused_local_variable
     double height = MediaQuery.of(context).size.height;
     bool randomBool = Random().nextBool();
     bool isValid = true;
@@ -72,9 +72,9 @@ class AccountScreen extends GetView<AuthController> {
                                         const SizedBox(
                                           height: 20,
                                         ),
-                                        const Text(
-                                          'Nguyen Huynh Phi',
-                                          style: TextStyle(
+                                        Text(
+                                          currentUser.value.fullName!,
+                                          style: const TextStyle(
                                             fontSize: 16,
                                           ),
                                         ),
@@ -83,9 +83,9 @@ class AccountScreen extends GetView<AuthController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            const Text(
-                                              '0966324244',
-                                              style: TextStyle(
+                                            Text(
+                                              currentUser.value.phone!,
+                                              style: const TextStyle(
                                                 fontSize: 14,
                                               ),
                                             ),
@@ -143,7 +143,7 @@ class AccountScreen extends GetView<AuthController> {
                                                     Row(
                                                       children: [
                                                         Image.network(
-                                                          'https://www.globaldata.net.au/wp-content/uploads/2023/11/phone-validate-banner.png',
+                                                          'https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png',
                                                           width: 100,
                                                           height: 100,
                                                           fit: BoxFit.cover,
@@ -305,7 +305,7 @@ class AccountScreen extends GetView<AuthController> {
                                 child: Center(
                                   child: ClipOval(
                                     child: Image.network(
-                                      'https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png',
+                                      currentUser.value.avatarPath!,
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,

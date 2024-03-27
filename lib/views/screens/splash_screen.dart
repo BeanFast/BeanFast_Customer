@@ -1,9 +1,7 @@
 import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../models/user.dart';
 import '../../services/auth_service.dart';
 import '../../utils/logger.dart';
 import '/controllers/auth_controller.dart';

@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../services/auth_service.dart';
+import '../utils/constants.dart';
+import '../utils/formater.dart';
+import '/services/auth_service.dart';
 import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
 
 class AuthController extends GetxController with CacheManager {
+  var isMoneyVisible = false.obs;
+  RxString moneyValue = '********* đ'.obs;
+
+  
+
   late Rx<Account?> account;
   Rx<AuthState> authState = AuthState.unauthenticated.obs;
   // final RxBool logged = false.obs;
@@ -17,6 +24,13 @@ class AuthController extends GetxController with CacheManager {
   RxString errorMessage = ''.obs;
   var isPasswordVisible = true.obs;
   var isChecked = false.obs;
+
+   void toggleMoneyVisibility() {
+    isMoneyVisible.value = !isMoneyVisible.value;
+    moneyValue.value = isMoneyVisible.value
+        ? Formater.formatMoney(currentUser.value.balance.toString())
+        : '********* đ';
+  }
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;

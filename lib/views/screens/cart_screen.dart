@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,30 +10,44 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CartController cartController = Get.put(CartController());
+    var authController = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Giỏ hàng'),
       ),
       body: Column(
         children: [
-          SizedBox(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              boxShadow: [
+                BoxShadow(
+                  color:
+                      Colors.grey.withOpacity(0.5), // Màu của đổ bóng và độ mờ
+                  spreadRadius: 5, // Độ lan rộng của đổ bóng
+                  blurRadius: 7, // Độ mờ của đổ bóng
+                  offset: const Offset(0, 3), // Vị trí của đổ bóng (dx, dy)
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
             height: 50,
             child: Obx(
               () => Row(
                 children: [
                   IconButton(
                     icon: Icon(
-                      cartController.isMoneyVisible.value
+                      authController.isMoneyVisible.value
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                       size: 16,
                     ),
                     onPressed: () {
-                      cartController.toggleMoneyVisibility();
+                      authController.toggleMoneyVisibility();
                     },
                   ),
                   Text(
-                    cartController.moneyValue.value,
+                    authController.moneyValue.value,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,

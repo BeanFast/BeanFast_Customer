@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class StudentFormScreen extends GetView<ProfileFormController> {
-  const StudentFormScreen({super.key});
+  const StudentFormScreen({super.key, required this.isUpdate});
+  final bool isUpdate;
 
   @override
   Widget build(BuildContext context) {

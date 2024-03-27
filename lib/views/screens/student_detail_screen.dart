@@ -53,7 +53,7 @@ class StudentDetailScreen extends GetView<ProfileController> {
                     ),
                     trailing: TextButton(
                       onPressed: () {
-                        Get.to(StudentFormScreen());
+                        Get.to(const StudentFormScreen(isUpdate: true));
                       },
                       child: const Text(
                         'Thay đổi',

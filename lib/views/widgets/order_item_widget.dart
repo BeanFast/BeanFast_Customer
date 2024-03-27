@@ -74,7 +74,7 @@ class OrderItem extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                Formater.formatPrice(
+                                Formater.formatMoney(
                                     order.orderDetails![0].price.toString()),
                                 maxLines: 1,
                                 style: const TextStyle(
@@ -108,7 +108,7 @@ class OrderItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        Formater.formatPrice(order.totalPrice.toString()),
+                        Formater.formatMoney(order.totalPrice.toString()),
                         style: const TextStyle(
                           color: Colors.red,
                           fontSize: 14,

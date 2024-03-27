@@ -20,6 +20,7 @@ class OtpConfirmationView extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          reverse: true,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
