@@ -3,11 +3,8 @@ import 'package:beanfast_customer/views/screens/gift_exchange_screen.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
 import 'package:beanfast_customer/views/screens/notification_screen.dart';
-import 'package:beanfast_customer/views/screens/qr_scanner_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../models/profile.dart';
@@ -163,7 +160,7 @@ class HomeScreen extends GetView<HomeController> {
                                     text: "Trò chơi",
                                     isNew: true,
                                     onPressed: () {
-                                      Get.to(QRScanScreen());
+                                      // Get.to(QRScanScreen());
                                     },
                                   ),
                                 ],
