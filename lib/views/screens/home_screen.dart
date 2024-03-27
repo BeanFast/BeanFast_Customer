@@ -2,8 +2,11 @@ import 'package:beanfast_customer/views/screens/cart_screen.dart';
 import 'package:beanfast_customer/views/screens/gift_exchange_screen.dart';
 import 'package:beanfast_customer/views/screens/menu_screen.dart';
 import 'package:beanfast_customer/views/screens/notification_screen.dart';
+import 'package:beanfast_customer/views/screens/qr_scanner_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '/controllers/home_controller.dart';
@@ -105,73 +108,92 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Column(
             children: [
-              Container(
-                  color: Colors.transparent,
-                  child: Obx(
-                    () => Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            homeController.isMoneyVisible.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            homeController.toggleMoneyVisibility();
-                          },
-                        ),
-                        Text(
-                          homeController.moneyValue.value,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  )),
               Expanded(
                   child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      // color: Colors.blue,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
+                      child: Card(
+                        color: Colors.grey[200],
+                        child: Column(
                           children: [
-                            MainIconButton(
-                              icon: Icons.list_alt_outlined,
-                              text: "Đặt hàng",
-                              onPressed: () {
-                                showUserDialogForMenu(context);
-                                // Get.to(MenuScreen());
-                              },
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MainIconButton(
+                                    icon: Icons.list_alt_outlined,
+                                    text: "Đặt hàng",
+                                    isNew: false,
+                                    onPressed: () {
+                                      showUserDialogForMenu(context);
+                                      // Get.to(MenuScreen());
+                                    },
+                                  ),
+                                  MainIconButton(
+                                    icon: Icons.input_outlined,
+                                    text: "Nạp tiền",
+                                    isNew: false,
+                                    onPressed: () {
+                                      Get.to(DepositeScreen());
+                                    },
+                                  ),
+                                  MainIconButton(
+                                    icon: Icons.card_giftcard_outlined,
+                                    text: "Đổi thưởng",
+                                    isNew: true,
+                                    onPressed: () {
+                                      showUserDialogForGiftExchange(context);
+                                    },
+                                  ),
+                                  MainIconButton(
+                                    icon: Icons.gamepad_outlined,
+                                    text: "Trò chơi",
+                                    isNew: true,
+                                    onPressed: () {
+                                      Get.to( QRScannerScreen());
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                            MainIconButton(
-                              icon: Icons.input_outlined,
-                              text: "Nạp tiền",
-                              onPressed: () {
-                                Get.to(DepositeScreen());
-                              },
-                            ),
-                            MainIconButton(
-                              icon: Icons.card_giftcard_outlined,
-                              text: "Đổi thưởng",
-                              onPressed: () {
-                                showUserDialogForGiftExchange(context);
-                              },
-                            ),
-                            MainIconButton(
-                              icon: Icons.gamepad_outlined,
-                              text: "Trò chơi",
-                              onPressed: () {},
+                            SizedBox(
+                              height: 40,
+                              child: Obx(
+                                () => Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(
+                                        homeController.isMoneyVisible.value
+                                            ? Icons.visibility_outlined
+                                            : Icons.visibility_off_outlined,
+                                        size: 16,
+                                      ),
+                                      onPressed: () {
+                                        homeController.toggleMoneyVisibility();
+                                      },
+                                    ),
+                                    Text(
+                                      homeController.moneyValue.value,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -230,9 +252,7 @@ class HomeScreen extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
-                        childAspectRatio:
-                            (MediaQuery.of(context).size.height - 50 - 25) /
-                                (4 * 240),
+                        childAspectRatio: (Get.height - 50 - 25) / (4 * 240),
                       ),
                       itemBuilder: (context, index) {
                         return InkWell(
@@ -246,7 +266,6 @@ class HomeScreen extends StatelessWidget {
                           child: Card(
                             child: Container(
                               decoration: BoxDecoration(
-                                // color: Colors.red,
                                 color: Colors.blue,
                                 borderRadius: BorderRadius.circular(20),
                               ),

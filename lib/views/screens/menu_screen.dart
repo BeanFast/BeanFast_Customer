@@ -572,28 +572,7 @@ class MenuScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  // Positioned(
-                                  //   top: 4,
-                                  //   right: 4,
-                                  //   child: Container(
-                                  //     padding: const EdgeInsets.symmetric(
-                                  //         horizontal: 6, vertical: 3),
-                                  //     decoration: const BoxDecoration(
-                                  //       color: Colors.red,
-                                  //       borderRadius: BorderRadius.only(
-                                  //         bottomLeft: Radius.circular(12),
-                                  //         topRight: Radius.circular(12),
-                                  //       ),
-                                  //     ),
-                                  //     child: const Text(
-                                  //       'SALE',
-                                  //       style: TextStyle(
-                                  //         color: Colors.white,
-                                  //         fontSize: 12,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
+
                                 ],
                               ),
                             ),
