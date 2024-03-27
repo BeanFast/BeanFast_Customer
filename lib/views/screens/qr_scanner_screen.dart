@@ -1,69 +1,70 @@
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class QRScanScreen extends StatefulWidget {
-  @override
-  _QRScanScreenState createState() => _QRScanScreenState();
+class QRScanController extends GetxController {
+  var qrData = Rx<String?>(null);
+  final qrKey = GlobalKey(debugLabel: 'QR');
+
+  void onQRViewCreated(QRViewController controller) {
+    controller.scannedDataStream.listen((scanData) {
+      if (scanData != null) {
+        qrData.value = scanData.code ?? '';
+      }
+    });
+  }
 }
 
-class _QRScanScreenState extends State<QRScanScreen> {
-  String qrCodeResult = "Chưa quét mã QR";
+class QRScanScreen extends StatelessWidget {
+  final QRScanController qrScanController = Get.put(QRScanController());
 
-  Future<void> scanQR() async {
-        var status = await Permission.camera.status;
-    if (!status.isGranted) {
-      status = await Permission.camera.request();
-    }
-    try {
-      var result = await BarcodeScanner.scan();
-      setState(() {
-        qrCodeResult = result.rawContent;
-      });
-    } catch (e) {
-      setState(() {
-        qrCodeResult = "Lỗi khi quét mã QR: $e";
-      });
-    }
-  }
+  QRScanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quét mã QR'),
+        title: const Text('QR Scan Screen'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              qrCodeResult,
-              style: TextStyle(fontSize: 20),
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            bottom: 70,
+            child: QRView(
+              key: qrScanController.qrKey,
+              onQRViewCreated: qrScanController.onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                borderColor: Colors.white,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 10,
+                cutOutSize: 300,
+              ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                scanQR();
-              },
-              child: Text('Quét mã QR'),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 70,
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx(
+                    () => Text('QR Data: ${qrScanController.qrData.value}',
+                        textAlign: TextAlign.center),
+                  ),
+                  const Icon(Icons.qr_code_scanner, size: 30),
+                  const Text('Đang quét mã QR...'),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
-  }
-}
-
-Future<void> scanQR() async {
-  try {
-    var result = await BarcodeScanner.scan();
-    if (result.type == ResultType.Barcode) {
-      // Xử lý mã QR được quét ở đây
-      print(result.rawContent);
-    }
-  } catch (e) {
-    // Xử lý lỗi nếu có
-    print('Error scanning QR code: $e');
   }
 }

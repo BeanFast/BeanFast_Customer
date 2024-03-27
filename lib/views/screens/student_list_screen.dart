@@ -1,6 +1,4 @@
 import 'package:beanfast_customer/controllers/profile_controller.dart';
-import 'package:beanfast_customer/models/profile.dart';
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,6 @@ class StudentListScreen extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     Get.put(ProfileController());
-    logger.i('a');
     return LoadingScreen(
         future: controller.getData,
         child: Scaffold(

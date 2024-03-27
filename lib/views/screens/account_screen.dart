@@ -14,7 +14,6 @@ class AccountScreen extends GetView<AuthController> {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
-    // ignore: unused_local_variable
     double height = MediaQuery.of(context).size.height;
     bool randomBool = Random().nextBool();
     bool isValid = true;
@@ -143,7 +142,7 @@ class AccountScreen extends GetView<AuthController> {
                                                     Row(
                                                       children: [
                                                         Image.network(
-                                                          'https://www.globaldata.net.au/wp-content/uploads/2023/11/phone-validate-banner.png',
+                                                          'https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png',
                                                           width: 100,
                                                           height: 100,
                                                           fit: BoxFit.cover,

@@ -15,7 +15,20 @@ class CartScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              boxShadow: [
+                BoxShadow(
+                  color:
+                      Colors.grey.withOpacity(0.5), // Màu của đổ bóng và độ mờ
+                  spreadRadius: 5, // Độ lan rộng của đổ bóng
+                  blurRadius: 7, // Độ mờ của đổ bóng
+                  offset: const Offset(0, 3), // Vị trí của đổ bóng (dx, dy)
+                ),
+              ],
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
             height: 50,
             child: Obx(
               () => Row(

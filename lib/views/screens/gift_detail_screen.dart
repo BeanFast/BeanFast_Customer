@@ -20,13 +20,13 @@ class GiftDetailScreen extends StatelessWidget {
                     'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
                     fit: BoxFit.cover),
               ),
-              Card(
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Stack(
+                children: [
+                  Card(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
@@ -38,69 +38,79 @@ class GiftDetailScreen extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 3),
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
+                          Row(
+                            children: [
+                              // const Text(
+                              //   '150.000',
+                              //   style: TextStyle(
+                              //       decoration: TextDecoration.lineThrough,
+                              //       fontSize: 16,
+                              //       color: Colors.grey),
+                              //   overflow: TextOverflow.ellipsis,
+                              //   maxLines: 1,
+                              // ),
+                              // const SizedBox(width: 5),
+                              const SizedBox(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '150.000',
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.red),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Icon(Icons.card_giftcard,
+                                        color: Colors.orange)
+                                  ],
                                 ),
                               ),
-                              child: const Text(
-                                '40%',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
+                              const Spacer(),
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {},
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          // const Text(
-                          //   '150.000',
-                          //   style: TextStyle(
-                          //       decoration: TextDecoration.lineThrough,
-                          //       fontSize: 16,
-                          //       color: Colors.grey),
-                          //   overflow: TextOverflow.ellipsis,
-                          //   maxLines: 1,
-                          // ),
-                          // const SizedBox(width: 5),
-                          const SizedBox(
-                            child: Row(
-                              children: [
-                                Text(
-                                  '150.000',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.red),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                SizedBox(width: 5),
-                                Icon(Icons.card_giftcard, color: Colors.orange)
-                              ],
-                            ),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 3),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            '40%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Card(
                 child: Container(

@@ -7,29 +7,32 @@ class RowInfoItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+              child: Text(
+            titel,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[600],
+            ),
+          )),
+          Expanded(
             child: Text(
-          titel,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.grey[600],
-          ),
-        )),
-        Expanded(
-          child: Text(
-            data,
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-              fontSize: 18,
+              data,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                fontSize: 18,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 10),
-      ],
+          const SizedBox(height: 10),
+        ],
+      ),
     );
   }
 }
