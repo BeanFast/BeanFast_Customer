@@ -1,7 +1,9 @@
+import 'package:beanfast_customer/views/screens/product_detail_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/cart_controller.dart';
 import '/views/widgets/item_profile_widget.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/home_controller.dart';
@@ -312,6 +314,7 @@ class HomeScreen extends GetView<HomeController> {
 }
 
 List<Widget> headerActionWidget() {
+  Get.put(CartController());
   return <Widget>[
     Stack(
       children: [
@@ -329,26 +332,29 @@ List<Widget> headerActionWidget() {
             ),
           ),
         ),
-        Positioned(
-          top: 5,
-          right: 3,
-          width: 20,
-          height: 20,
-          child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.red,
-              ),
-              child: const Center(
-                child: Text(
-                  '99+',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
+        Visibility(
+          visible: true,
+          child: Positioned(
+            top: 5,
+            right: 3,
+            width: 20,
+            height: 20,
+            child: Container(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
                 ),
-              )),
+                child: const Center(
+                  child: Text(
+                    '99+',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )),
+          ),
         ),
       ],
     ),
@@ -368,26 +374,29 @@ List<Widget> headerActionWidget() {
             ),
           ),
         ),
-        Positioned(
-          top: 5,
-          right: 3,
-          width: 20,
-          height: 20,
-          child: Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.red,
-              ),
-              child: const Center(
-                child: Text(
-                  '99+',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
+        Visibility(
+          visible: Get.find<CartController>().itemCount.value != 0,
+          child: Positioned(
+            top: 5,
+            right: 3,
+            width: 20,
+            height: 20,
+            child: Container(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
                 ),
-              )),
+                child: Center(
+                  child: Text(
+                    Get.find<CartController>().itemCount.value.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )),
+          ),
         ),
       ],
     ),

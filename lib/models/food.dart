@@ -44,7 +44,7 @@ class Food extends BaseModel {
         price: double.parse(json['price'].toString()),
         description: json['description'],
         isCombo: json['isCombo'],
-        imagePath: json['imagePath'] ?? "",
+        imagePath: json['imagePath'] ?? 'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
       );
 
   // Map<String, dynamic> toJson() {

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '/models/order.dart';
 import '/services/order_service.dart';
 import '/enums/status_enum.dart';
-import '/utils/logger.dart';
 
 class OrderController extends GetxController {
   RxList<Order> listData = <Order>[].obs;

@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../controllers/cart_controller.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({super.key});
@@ -66,34 +67,34 @@ class ProductDetailScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const Spacer(),
-                                Obx(
-                                  () {
-                                    return cartController.quantity.value == 0
-                                        ? IconButton(
-                                            icon: const Icon(Icons.add),
-                                            onPressed: cartController.increase,
-                                          )
-                                        : Row(
-                                            children: <Widget>[
-                                              IconButton(
-                                                icon: const Icon(Icons.remove),
-                                                onPressed:
-                                                    cartController.decrease,
-                                              ),
-                                              Container(
-                                                  alignment: Alignment.center,
-                                                  width: 20,
-                                                  child: Text(
-                                                      '${cartController.quantity.value}')),
-                                              IconButton(
-                                                icon: const Icon(Icons.add),
-                                                onPressed:
-                                                    cartController.increase,
-                                              ),
-                                            ],
-                                          );
-                                  },
-                                ),
+                                // Obx(
+                                //   () {
+                                //     return cartController.quantity.value == 0
+                                //         ? IconButton(
+                                //             icon: const Icon(Icons.add),
+                                //             onPressed: cartController.increase,
+                                //           )
+                                //         : Row(
+                                //             children: <Widget>[
+                                //               IconButton(
+                                //                 icon: const Icon(Icons.remove),
+                                //                 onPressed:
+                                //                     cartController.decrease,
+                                //               ),
+                                //               Container(
+                                //                   alignment: Alignment.center,
+                                //                   width: 20,
+                                //                   child: Text(
+                                //                       '${cartController.quantity.value}')),
+                                //               IconButton(
+                                //                 icon: const Icon(Icons.add),
+                                //                 onPressed:
+                                //                     cartController.increase,
+                                //               ),
+                                //             ],
+                                //           );
+                                //   },
+                                // ),
                               ],
                             ),
                           ],
@@ -226,20 +227,4 @@ class ProductDetailScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class CartController extends GetxController {
-  RxInt quantity = 0.obs;
-
-  void increase() {
-    quantity.value++;
-  }
-
-  void decrease() {
-    if (quantity.value >= 1) {
-      quantity.value--;
-    }
-  }
-
-  void addToCart() {}
 }

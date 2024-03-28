@@ -2,14 +2,15 @@ import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/cart_controller.dart';
 import '/contrains/theme_color.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends GetView<CartController> {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.put(CartController());
+    Get.put(CartController());
     var authController = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
@@ -208,7 +209,7 @@ class CartScreen extends StatelessWidget {
                                                               color: ThemeColor
                                                                   .iconButtonColor,
                                                               onPressed: () =>
-                                                                  cartController
+                                                                  controller
                                                                       .decrease(
                                                                           index
                                                                               .toString()),
@@ -219,7 +220,7 @@ class CartScreen extends StatelessWidget {
                                                               () => SizedBox(
                                                                 width: 26,
                                                                 child: Text(
-                                                                  '${cartController.quantities[index.toString()] ?? 0}',
+                                                                  '${controller.quantities[index.toString()] ?? 0}',
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -230,7 +231,7 @@ class CartScreen extends StatelessWidget {
                                                               color: ThemeColor
                                                                   .iconButtonColor,
                                                               onPressed: () =>
-                                                                  cartController
+                                                                  controller
                                                                       .increase(
                                                                           index
                                                                               .toString()),
@@ -317,32 +318,5 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class CartController extends GetxController {
-  RxMap<String, int> quantities = <String, int>{}.obs;
-
-  void increase(String itemId) {
-    if (quantities[itemId] != null) {
-      quantities.update(itemId, (value) => value + 1);
-    } else {
-      quantities[itemId] = 1;
-    }
-  }
-
-  void decrease(String itemId) {
-    if (quantities[itemId] != null && quantities[itemId]! > 1) {
-      quantities.update(itemId, (value) => value - 1);
-    }
-  }
-
-  var isMoneyVisible = false.obs;
-  RxString moneyValue = '********* đ'.obs;
-
-  void toggleMoneyVisibility() {
-    isMoneyVisible.value = !isMoneyVisible.value;
-    moneyValue.value =
-        isMoneyVisible.value ? '70.967.000.000 đ' : '********* đ';
   }
 }

@@ -1,18 +1,38 @@
+import 'package:beanfast_customer/models/food.dart';
+import 'package:beanfast_customer/models/session.dart';
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '../models/menu.dart';
+import '../models/menu_detail.dart';
 import '../services/menu_service.dart';
 
 class MenuController extends GetxController {
-  Rx<Menu> listData = Menu().obs;
+  List<Session> listSession = [];
+  Rx<Menu> model = Menu().obs;
   Rx<DateTime> selectedDate = DateTime.now().obs;
+  RxSet<String> listCategoryId = <String>{}.obs;
+  RxList<MenuDetail> listCombos = <MenuDetail>[].obs;
+  RxList<MenuDetail> listFoods = <MenuDetail>[].obs;
 
   Future getData(String schoolId) async {
     try {
-      listData.value = await MenuService().getBySchoolId(schoolId);
+      listSession = await MenuService().getSessionsBySchoolId(schoolId);
+      model.value = listSession.last.menu!;
+      updateFoodsAndCombos(model.value.menuDetails!);
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  void updateFoodsAndCombos(List<MenuDetail> list) {
+    listFoods.clear();
+    listCombos.clear();
+    for (var e in list) {
+      e.food!.isCombo! ? listCombos.add(e) : listFoods.add(e);
+    }
+    logger.e('combos - ${listCombos.length}');
+    logger.e('foods - ${listFoods.length}');
   }
 
   void updateDate(DateTime newDate) {

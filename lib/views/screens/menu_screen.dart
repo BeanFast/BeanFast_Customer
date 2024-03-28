@@ -1,13 +1,13 @@
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/views/screens/loading_screen.dart';
-import 'package:beanfast_customer/views/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/controllers/menu_controller.dart' as beanfast;
-import '/models/menu.dart';
+import '/contrains/theme_color.dart';
+import '/utils/formater.dart';
+import '/views/screens/loading_screen.dart';
+import '/views/screens/product_detail_screen.dart';
+import 'home_screen.dart';
 
 class MenuScreen extends GetView<beanfast.MenuController> {
   const MenuScreen({super.key, required this.schoolId});
@@ -17,20 +17,7 @@ class MenuScreen extends GetView<beanfast.MenuController> {
     Get.put(beanfast.MenuController());
     return Scaffold(
       appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              // Handle the icon tap here
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            onPressed: () {
-              // Handle the icon tap here
-            },
-          ),
-        ],
+        actions: headerActionWidget(),
       ),
       body: LoadingScreen(
         future: () async {
@@ -155,80 +142,82 @@ class MenuScreen extends GetView<beanfast.MenuController> {
                 //FoodCombo List
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      7,
-                      (index) => GestureDetector(
-                        onTap: () {
-                          Get.to(const ProductDetailScreen());
-                        },
-                        child: Card(
-                          child: SizedBox(
-                            height: 200,
-                            width: 150,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
+                  child: Obx(
+                    () => Row(
+                      children: controller.listCombos.map((e) {
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(const ProductDetailScreen());
+                          },
+                          child: Card(
+                            child: SizedBox(
+                              height: 200,
+                              width: 150,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
+                                    child: Image.network(
+                                      'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                      fit: BoxFit.cover,
+                                      width: 150,
+                                      height: 100,
+                                    ),
                                   ),
-                                  child: Image.network(
-                                    'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                    fit: BoxFit.cover,
-                                    width: 150,
-                                    height: 100,
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Text(
+                                      e.food!.name.toString(),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  child: Text(
-                                    'Combo Burger + nước ngọt số $index',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Expanded(
-                                        child: SizedBox(
-                                          child: Text(
-                                            '150.000đ',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.red,
+                                  const Spacer(),
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: SizedBox(
+                                            child: Text(
+                                              Formater.formatMoney(
+                                                  e.price.toString()),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.red,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 40,
-                                        child: IconButton(
-                                            onPressed: () {},
-                                            icon:
-                                                const Icon(Icons.add_outlined)),
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          width: 40,
+                                          child: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                  Icons.add_outlined)),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
@@ -245,193 +234,181 @@ class MenuScreen extends GetView<beanfast.MenuController> {
                 SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Column(
-                    children: List.generate(
-                        2,
-                        (index) => GestureDetector(
-                              onTap: () {
-                                Get.to(const ProductDetailScreen());
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                child: Stack(
-                                  children: [
-                                    Card(
-                                      child: SizedBox(
+                    children: controller.listFoods.map((e) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(const ProductDetailScreen());
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          child: Stack(
+                            children: [
+                              Card(
+                                child: SizedBox(
+                                  height: 100,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SizedBox(
+                                        width: 100,
                                         height: 100,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  topLeft: Radius.circular(12),
-                                                  bottomLeft:
-                                                      Radius.circular(12),
-                                                ),
-                                                child: Image.network(
-                                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10,
-                                                    top: 10,
-                                                    bottom: 10),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      child: Text(
-                                                        'Nước ngọt số $index',
-                                                        style: const TextStyle(
-                                                            fontSize: 16),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                      ),
-                                                    ),
-                                                    const Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          '150.000',
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                              fontSize: 16,
-                                                              color:
-                                                                  Colors.grey),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        ),
-                                                        SizedBox(width: 5),
-                                                        Expanded(
-                                                          child: SizedBox(
-                                                            child: Text(
-                                                              '150.000đ',
-                                                              style: TextStyle(
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                      .red),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              maxLines: 1,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: 110,
-                                              height: 40,
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  bottomRight:
-                                                      Radius.circular(12),
-                                                ),
-                                              ),
-                                              child: Obx(
-                                                () => Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    if (controller.amountsSale1[
-                                                            index] !=
-                                                        0)
-                                                      SizedBox(
-                                                        width: 40,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            controller
-                                                                .increaseAmountSale1(
-                                                                    index);
-                                                          },
-                                                          icon: const Icon(Icons
-                                                              .remove_outlined),
-                                                        ),
-                                                      ),
-                                                    if (controller.amountsSale1[
-                                                            index] !=
-                                                        0)
-                                                      Container(
-                                                        width: 28,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          '${controller.amountsSale1[index]}',
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 16),
-                                                        ),
-                                                      ),
-                                                    SizedBox(
-                                                      width: 40,
-                                                      child: IconButton(
-                                                        onPressed: () {
-                                                          controller
-                                                              .increaseAmountSale1(
-                                                                  index);
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons.add_outlined),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 4,
-                                      right: 4,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6, vertical: 3),
-                                        decoration: const BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.only(
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(12),
                                             bottomLeft: Radius.circular(12),
-                                            topRight: Radius.circular(12),
                                           ),
-                                        ),
-                                        child: const Text(
-                                          'SALE',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
+                                          child: Image.network(
+                                            e.food!.imagePath.toString(),
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, top: 10, bottom: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                child: Text(
+                                                  e.food!.name.toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    Formater.formatMoney(e
+                                                        .food!.price
+                                                        .toString()),
+                                                    style: const TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough,
+                                                        fontSize: 16,
+                                                        color: Colors.grey),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      child: Text(
+                                                        Formater.formatMoney(
+                                                            e.price.toString()),
+                                                        style: const TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.red),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 110,
+                                        height: 40,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(12),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            // if (controller
+                                            //         .amountsSale1[index] !=
+                                            //     0)
+                                            //   SizedBox(
+                                            //     width: 40,
+                                            //     child: IconButton(
+                                            //       onPressed: () {
+                                            //         controller
+                                            //             .increaseAmountSale1(
+                                            //                 index);
+                                            //       },
+                                            //       icon: const Icon(
+                                            //           Icons.remove_outlined),
+                                            //     ),
+                                            //   ),
+                                            // if (controller
+                                            //         .amountsSale1[index] !=
+                                            //     0)
+                                            //   Container(
+                                            //     width: 28,
+                                            //     alignment: Alignment.center,
+                                            //     child: Text(
+                                            //       '${controller.amountsSale1[index]}',
+                                            //       style: const TextStyle(
+                                            //           fontSize: 16),
+                                            //     ),
+                                            //   ),
+                                            // SizedBox(
+                                            //   width: 40,
+                                            //   child: IconButton(
+                                            //     onPressed: () {
+                                            //       controller
+                                            //           .increaseAmountSale1(
+                                            //               index);
+                                            //     },
+                                            //     icon: const Icon(
+                                            //         Icons.add_outlined),
+                                            //   ),
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            )),
+                              Positioned(
+                                top: 4,
+                                right: 4,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 3),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'SALE',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -446,326 +423,165 @@ class MenuScreen extends GetView<beanfast.MenuController> {
                 const SizedBox(height: 10),
                 SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: List.generate(
-                        3,
-                        (index) => GestureDetector(
-                              onTap: () {
-                                Get.to(const ProductDetailScreen());
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                child: Stack(
-                                  children: [
-                                    Card(
-                                      child: SizedBox(
-                                        height: 100,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  topLeft: Radius.circular(12),
-                                                  bottomLeft:
-                                                      Radius.circular(12),
-                                                ),
-                                                child: Image.network(
-                                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
+                  child: Obx(
+                    () => Column(
+                      children: controller.listFoods.map((e) {
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(const ProductDetailScreen());
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Stack(
+                              children: [
+                                Card(
+                                  child: SizedBox(
+                                    height: 100,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          height: 100,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              bottomLeft: Radius.circular(12),
                                             ),
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10,
-                                                    top: 10,
-                                                    bottom: 10),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      child: Text(
-                                                        'Nước ngọt số $index',
-                                                        style: const TextStyle(
-                                                            fontSize: 16),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 5),
-                                                    const SizedBox(
-                                                      child: Text(
-                                                        '150.000đ',
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color: Colors.red),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                            child: Image.network(
+                                              e.food!.imagePath.toString(),
+                                              fit: BoxFit.cover,
                                             ),
-                                            Container(
-                                              width: 110,
-                                              height: 40,
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  bottomRight:
-                                                      Radius.circular(12),
-                                                ),
-                                              ),
-                                              child: Obx(
-                                                () => Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    if (controller.amountsCate1[
-                                                            index] !=
-                                                        0)
-                                                      SizedBox(
-                                                        width: 40,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            controller
-                                                                .decreaseAmountCate1(
-                                                                    index);
-                                                          },
-                                                          icon: const Icon(Icons
-                                                              .remove_outlined),
-                                                        ),
-                                                      ),
-                                                    if (controller.amountsCate1[
-                                                            index] !=
-                                                        0)
-                                                      Container(
-                                                        width: 28,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          '${controller.amountsCate1[index]}',
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 16),
-                                                        ),
-                                                      ),
-                                                    SizedBox(
-                                                      width: 40,
-                                                      child: IconButton(
-                                                        onPressed: () {
-                                                          controller
-                                                              .increaseAmountCate1(
-                                                                  index);
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons.add_outlined),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    // Positioned(
-                                    //   top: 4,
-                                    //   right: 4,
-                                    //   child: Container(
-                                    //     padding: const EdgeInsets.symmetric(
-                                    //         horizontal: 6, vertical: 3),
-                                    //     decoration: const BoxDecoration(
-                                    //       color: Colors.red,
-                                    //       borderRadius: BorderRadius.only(
-                                    //         bottomLeft: Radius.circular(12),
-                                    //         topRight: Radius.circular(12),
-                                    //       ),
-                                    //     ),
-                                    //     child: const Text(
-                                    //       'SALE',
-                                    //       style: TextStyle(
-                                    //         color: Colors.white,
-                                    //         fontSize: 12,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                const Text(
-                  "Nước uống",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                //Food list
-                const SizedBox(height: 10),
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: List.generate(
-                        3,
-                        (index) => GestureDetector(
-                              onTap: () {
-                                Get.to(const ProductDetailScreen());
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                child: Stack(
-                                  children: [
-                                    Card(
-                                      child: SizedBox(
-                                        height: 100,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  topLeft: Radius.circular(12),
-                                                  bottomLeft:
-                                                      Radius.circular(12),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, top: 10, bottom: 10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  child: Text(
+                                                    e.food!.name.toString(),
+                                                    style: const TextStyle(
+                                                        fontSize: 16),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
                                                 ),
-                                                child: Image.network(
-                                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                                  fit: BoxFit.cover,
+                                                const SizedBox(width: 5),
+                                                SizedBox(
+                                                  child: Text(
+                                                    Formater.formatMoney(
+                                                        e.price.toString()),
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.red),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10,
-                                                    top: 10,
-                                                    bottom: 10),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      child: Text(
-                                                        'Nước ngọt số $index',
-                                                        style: const TextStyle(
-                                                            fontSize: 16),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 5),
-                                                    const SizedBox(
-                                                      child: Text(
-                                                        '150.000đ',
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color: Colors.red),
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 1,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: 110,
-                                              height: 40,
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  bottomRight:
-                                                      Radius.circular(12),
-                                                ),
-                                              ),
-                                              child: Obx(
-                                                () => Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    if (controller.amountsCate1[
-                                                            index] !=
-                                                        0)
-                                                      SizedBox(
-                                                        width: 40,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            controller
-                                                                .decreaseAmountCate1(
-                                                                    index);
-                                                          },
-                                                          icon: const Icon(Icons
-                                                              .remove_outlined),
-                                                        ),
-                                                      ),
-                                                    if (controller.amountsCate1[
-                                                            index] !=
-                                                        0)
-                                                      Container(
-                                                        width: 28,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          '${controller.amountsCate1[index]}',
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 16),
-                                                        ),
-                                                      ),
-                                                    SizedBox(
-                                                      width: 40,
-                                                      child: IconButton(
-                                                        onPressed: () {
-                                                          controller
-                                                              .increaseAmountCate1(
-                                                                  index);
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons.add_outlined),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                        Container(
+                                          width: 110,
+                                          height: 40,
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              bottomRight: Radius.circular(12),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              // if (controller
+                                              //         .amountsCate1[index] !=
+                                              //     0)
+                                              //   SizedBox(
+                                              //     width: 40,
+                                              //     child: IconButton(
+                                              //       onPressed: () {
+                                              //         controller
+                                              //             .decreaseAmountCate1(
+                                              //                 index);
+                                              //       },
+                                              //       icon: const Icon(
+                                              //           Icons.remove_outlined),
+                                              //     ),
+                                              //   ),
+                                              // if (controller
+                                              //         .amountsCate1[index] !=
+                                              //     0)
+                                              //   Container(
+                                              //     width: 28,
+                                              //     alignment: Alignment.center,
+                                              //     child: Text(
+                                              //       '${controller.amountsCate1[index]}',
+                                              //       style: const TextStyle(
+                                              //           fontSize: 16),
+                                              //     ),
+                                              //   ),
+                                              // SizedBox(
+                                              //   width: 40,
+                                              //   child: IconButton(
+                                              //     onPressed: () {
+                                              //       controller
+                                              //           .increaseAmountCate1(
+                                              //               index);
+                                              //     },
+                                              //     icon: const Icon(
+                                              //         Icons.add_outlined),
+                                              //   ),
+                                              // ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            )),
+                                // Positioned(
+                                //   top: 4,
+                                //   right: 4,
+                                //   child: Container(
+                                //     padding: const EdgeInsets.symmetric(
+                                //         horizontal: 6, vertical: 3),
+                                //     decoration: const BoxDecoration(
+                                //       color: Colors.red,
+                                //       borderRadius: BorderRadius.only(
+                                //         bottomLeft: Radius.circular(12),
+                                //         topRight: Radius.circular(12),
+                                //       ),
+                                //     ),
+                                //     child: const Text(
+                                //       'SALE',
+                                //       style: TextStyle(
+                                //         color: Colors.white,
+                                //         fontSize: 12,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ],
@@ -777,27 +593,27 @@ class MenuScreen extends GetView<beanfast.MenuController> {
   }
 }
 
-class CurrencyInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    if (newValue.text.isEmpty) {
-      return newValue.copyWith(text: '');
-    } else if (newValue.text.compareTo(oldValue.text) != 0) {
-      int selectionIndexFromTheRight =
-          newValue.text.length - newValue.selection.end;
-      final f = NumberFormat("#,###", "vi_VN");
-      int num = int.parse(newValue.text.replaceAll(f.symbols.GROUP_SEP, ''));
-      final newString = f.format(num);
-      return TextEditingValue(
-        text: newString,
-        selection: TextSelection.collapsed(
-            offset: newString.length - selectionIndexFromTheRight),
-      );
-    } else {
-      return newValue;
-    }
-  }
-}
+// class CurrencyInputFormatter extends TextInputFormatter {
+//   @override
+//   TextEditingValue formatEditUpdate(
+//     TextEditingValue oldValue,
+//     TextEditingValue newValue,
+//   ) {
+//     if (newValue.text.isEmpty) {
+//       return newValue.copyWith(text: '');
+//     } else if (newValue.text.compareTo(oldValue.text) != 0) {
+//       int selectionIndexFromTheRight =
+//           newValue.text.length - newValue.selection.end;
+//       final f = NumberFormat("#,###", "vi_VN");
+//       int num = int.parse(newValue.text.replaceAll(f.symbols.GROUP_SEP, ''));
+//       final newString = f.format(num);
+//       return TextEditingValue(
+//         text: newString,
+//         selection: TextSelection.collapsed(
+//             offset: newString.length - selectionIndexFromTheRight),
+//       );
+//     } else {
+//       return newValue;
+//     }
+//   }
+// }
