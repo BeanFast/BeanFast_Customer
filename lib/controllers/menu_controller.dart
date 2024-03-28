@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/models/food.dart';
 import 'package:beanfast_customer/models/session.dart';
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:get/get.dart';
@@ -11,9 +10,26 @@ class MenuController extends GetxController {
   List<Session> listSession = [];
   Rx<Menu> model = Menu().obs;
   Rx<DateTime> selectedDate = DateTime.now().obs;
+  var selectedSession = ''.obs;
+  var sessions = [
+    'Morning',
+    'Afternoon',
+    'Evening',
+    'Morning',
+    'Afternoon',
+    'Evening',
+    'Morning',
+    'Afternoon',
+    'Evening',
+    'Morning',
+    'Afternoon',
+    'Evening'
+  ];
   RxSet<String> listCategoryId = <String>{}.obs;
   RxList<MenuDetail> listCombos = <MenuDetail>[].obs;
   RxList<MenuDetail> listFoods = <MenuDetail>[].obs;
+  var isValidate = false.obs;
+ 
 
   Future getData(String schoolId) async {
     try {
