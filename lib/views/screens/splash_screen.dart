@@ -34,8 +34,10 @@ class SplashView extends StatelessWidget {
           return waitingView();
         } else {
           if (snapshot.hasError) {
+            // logger.e('snapshot.hasError');
             return ErrorView(errorMessage: snapshot.error.toString());
           } else {
+            // logger.e('else');
             return Obx(() {
               switch (_authController.authState.value) {
                 case AuthState.authenticated:

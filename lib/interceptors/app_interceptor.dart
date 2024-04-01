@@ -1,4 +1,8 @@
+import 'package:beanfast_customer/enums/auth_state_enum.dart';
+import 'package:beanfast_customer/views/screens/login_screen.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' as getx;
+import 'package:jwt_decoder/jwt_decoder.dart';
 // import 'package:get/get.dart' hide Response;
 
 import '../controllers/auth_controller.dart';
@@ -10,8 +14,19 @@ class AppInterceptor extends Interceptor with CacheManager {
     logger.i('Custom Interceptor - onRequest');
     String? token = getToken();
     if (token != null) {
+      // Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      // final expiryTimestamp = decodedToken["exp"];
+      // final currentTime = DateTime.now().millisecondsSinceEpoch;
+      // if (currentTime >= expiryTimestamp) {
+      //   logger.e(currentTime >= expiryTimestamp);
+      //   // removeToken();
+      //   AuthController().changeAuthState(AuthState.unauthenticated);
+      //   return;
+      // } else {
       options.headers['Authorization'] = 'Bearer $token';
+      // }
     }
+
     return super.onRequest(options, handler);
   }
 
@@ -30,6 +45,22 @@ class AppInterceptor extends Interceptor with CacheManager {
 
     // Get.offAll(const ErrorView(errorMessage: 'Đã xảy ra lỗi'));
 
+    if (err.response?.statusCode == 401) {
+      String? token = getToken();
+      logger.e('token ${token}');
+      if (token != null) {
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+        final expiryTimestamp = decodedToken["exp"];
+        final currentTime = DateTime.now().millisecondsSinceEpoch;
+        if (currentTime >= expiryTimestamp) {
+          logger.e(currentTime >= expiryTimestamp);
+          AuthController().logOut();
+          // getx.Get.off(LoginView());
+        }
+      }
+
+      logger.e('end');
+    }
     // if (err.response?.statusCode == 400 || err.response?.statusCode == 500) {
     //   // Xử lý lỗi 400 hoặc 500 ở đây
     //   print('Error ${err.response?.statusCode}: ${err.message}');

@@ -2,34 +2,26 @@ import 'package:beanfast_customer/models/session.dart';
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:get/get.dart';
 
-import '../models/menu.dart';
-import '../models/menu_detail.dart';
-import '../services/menu_service.dart';
+import '/models/menu.dart';
+import '/models/menu_detail.dart';
+import '/services/menu_service.dart';
+
+class MenuModel {
+  List<MenuDetail> listDiscountedCombo = [];
+  List<MenuDetail> listDiscountedFood = [];
+  List<MenuDetail> listCombo = [];
+  List<MenuDetail> listFood = [];
+  final Map<String, String> listCategories = {};
+}
 
 class MenuController extends GetxController {
   List<Session> listSession = [];
   Rx<Menu> model = Menu().obs;
+  Rx<MenuModel> menuModel = MenuModel().obs;
   Rx<DateTime> selectedDate = DateTime.now().obs;
-  var selectedSession = ''.obs;
-  var sessions = [
-    'Morning',
-    'Afternoon',
-    'Evening',
-    'Morning',
-    'Afternoon',
-    'Evening',
-    'Morning',
-    'Afternoon',
-    'Evening',
-    'Morning',
-    'Afternoon',
-    'Evening'
-  ];
+
   RxSet<String> listCategoryId = <String>{}.obs;
-  RxList<MenuDetail> listCombos = <MenuDetail>[].obs;
-  RxList<MenuDetail> listFoods = <MenuDetail>[].obs;
   var isValidate = false.obs;
- 
 
   Future getData(String schoolId) async {
     try {
@@ -42,20 +34,28 @@ class MenuController extends GetxController {
   }
 
   void updateFoodsAndCombos(List<MenuDetail> list) {
-    listFoods.clear();
-    listCombos.clear();
+    MenuModel model = MenuModel();
     for (var e in list) {
-      e.food!.isCombo! ? listCombos.add(e) : listFoods.add(e);
+      model.listCategories
+          .putIfAbsent(e.food!.category!.name!, () => e.food!.category!.name!);
+      if (e.food!.price != e.price) {
+        e.food!.isCombo!
+            ? model.listDiscountedCombo.add(e)
+            : model.listDiscountedFood.add(e);
+      } else {
+        e.food!.isCombo! ? model.listCombo.add(e) : model.listFood.add(e);
+      }
     }
-    logger.e('combos - ${listCombos.length}');
-    logger.e('foods - ${listFoods.length}');
+    logger.e('combos - ${model.listCombo.length}');
+    logger.e('foods - ${model.listFood.length}');
+    menuModel.value = model;
   }
 
   void updateDate(DateTime newDate) {
     selectedDate.value = newDate;
   }
 
-  RxInt selectedIndex = 0.obs;
+  RxString selectedCategoryId = ''.obs;
 
   static const int saleItem = 3;
   RxInt selectedDiscountIndex = 0.obs;

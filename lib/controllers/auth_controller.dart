@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../utils/constants.dart';
 import '../utils/formater.dart';
+import '../utils/logger.dart';
 import '/services/auth_service.dart';
 import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
@@ -111,6 +112,7 @@ class AuthController extends GetxController with CacheManager {
     phoneController.text = '0372266084';
     passwordController.text = '12345678';
     try {
+      logger.e('login');
       var response = await AuthService()
           .login(phoneController.text, passwordController.text);
       if (response.statusCode == 200) {

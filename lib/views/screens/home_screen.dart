@@ -63,7 +63,7 @@ class HomeScreen extends GetView<HomeController> {
                                     onPressed: () {
                                       showProfilesDialog(context, () {
                                         Get.back();
-                                        Get.to(const MenuScreen(
+                                        Get.to(const SessionScreen(
                                           schoolId:
                                               'b254a297-cae1-4d26-afe2-b093227ded0a',
                                         ));
