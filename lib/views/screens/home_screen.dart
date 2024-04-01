@@ -1,19 +1,18 @@
-import 'package:beanfast_customer/views/screens/product_detail_screen.dart';
+import 'package:beanfast_customer/views/screens/myLoadingWidget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/cart_controller.dart';
-import '/views/widgets/item_profile_widget.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/home_controller.dart';
+import '/views/widgets/item_profile_widget.dart';
 import '/views/widgets/main_icon_button_widget.dart';
 import 'cart_screen.dart';
 import 'gift_exchange_screen.dart';
 import 'loading_screen.dart';
 import 'menu_screen.dart';
 import 'notification_screen.dart';
-import 'deposit_screen.dart';
 import 'qr_scanner_screen.dart';
 import 'student_form_screen.dart';
 
@@ -72,10 +71,12 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                   MainIconButton(
                                     icon: Icons.input_outlined,
-                                    text: "Nạp tiền",
+                                    text: "Test Loading",
+                                    // text: "Nạp tiền",
                                     isNew: false,
                                     onPressed: () {
-                                      Get.to(DepositeScreen());
+                                      Get.to(const MyLoadingWidget());
+                                      // Get.to(DepositeScreen());
                                     },
                                   ),
                                   MainIconButton(
