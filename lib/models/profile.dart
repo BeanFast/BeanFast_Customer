@@ -1,4 +1,5 @@
 import 'package:beanfast_customer/models/bmi.dart';
+import 'package:beanfast_customer/utils/logger.dart';
 
 import 'base_model.dart';
 import 'exchange_gift.dart';
@@ -49,8 +50,7 @@ class Profile extends BaseModel {
     School school = School();
     if (json['school'] != null) {
       school = School.fromJson(json['school']);
-    }
-    if (json['schoolName'] != null) {
+    } else if (json['schoolName'] != null) {
       school = School(name: json['schoolName']);
     }
     return Profile(

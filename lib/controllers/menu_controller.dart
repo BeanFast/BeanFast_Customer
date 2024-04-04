@@ -1,10 +1,9 @@
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '/models/session.dart';
 import '/models/menu.dart';
 import '/models/menu_detail.dart';
-import '../services/session_service.dart';
+import '/services/session_service.dart';
 
 class MenuModel {
   List<MenuDetail> listDiscountedCombo = [];

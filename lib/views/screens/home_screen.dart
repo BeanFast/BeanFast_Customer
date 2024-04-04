@@ -65,10 +65,7 @@ class HomeScreen extends GetView<HomeController> {
                                       showProfilesDialog(context, () {
                                         // currentUser.value
                                         Get.back();
-                                        Get.to(const SessionScreen(
-                                          schoolId:
-                                              'b254a297-cae1-4d26-afe2-b093227ded0a',
-                                        ));
+                                        Get.to(const SessionScreen());
                                       });
                                     },
                                   ),

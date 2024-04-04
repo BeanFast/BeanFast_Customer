@@ -1,7 +1,8 @@
-import 'package:beanfast_customer/models/profile.dart';
 import 'package:get/get.dart';
 
-import '../services/profile_service.dart';
+import '/models/profile.dart';
+import '/services/profile_service.dart';
+import '/utils/constants.dart';
 
 class ProfileController extends GetxController {
   RxString imagePath = ''.obs;
@@ -29,6 +30,14 @@ class ProfileController extends GetxController {
   Future getById(String id) async {
     try {
       model.value = await ProfileService().getById(id);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future getCurrentProfile(String id) async {
+    try {
+      currentProfile.value = await ProfileService().getById(id);
     } catch (e) {
       throw Exception(e);
     }
