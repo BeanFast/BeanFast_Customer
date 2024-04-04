@@ -1,20 +1,26 @@
+import 'package:beanfast_customer/controllers/cart_controller.dart';
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '/models/menu_detail.dart';
 import '/utils/formater.dart';
 
-class MenuItem extends StatelessWidget {
+class MenuItem extends GetView<CartController> {
   final void Function() onTap;
   final String title;
+  final String sessionId;
   final List<MenuDetail> list;
   final bool isCombo;
 
-  const MenuItem(
-      {super.key,
-      required this.onTap,
-      required this.list,
-      required this.title,
-      required this.isCombo});
+  const MenuItem({
+    super.key,
+    required this.sessionId,
+    required this.onTap,
+    required this.list,
+    required this.title,
+    required this.isCombo,
+  });
   @override
   Widget build(Object context) {
     return Visibility(
@@ -200,50 +206,71 @@ class MenuItem extends StatelessWidget {
                                           bottomRight: Radius.circular(12),
                                         ),
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          // if (controller
-                                          //         .amountsSale1[index] !=
-                                          //     0)
-                                          SizedBox(
-                                            width: 40,
-                                            child: IconButton(
-                                              onPressed: () {
-                                                // controller
-                                                //     .increaseAmountSale1(
-                                                //         index);
-                                              },
-                                              icon: const Icon(
-                                                  Icons.remove_outlined),
+                                      child: Obx(
+                                        () => Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Visibility(
+                                              visible: controller.ifAbsent(
+                                                  currentProfile.value.id!,
+                                                  sessionId,
+                                                  e.id!),
+                                              child: SizedBox(
+                                                width: 40,
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    controller.decreaseItemCart(
+                                                        currentProfile
+                                                            .value.id!,
+                                                        sessionId,
+                                                        e.id!);
+                                                  },
+                                                  icon: const Icon(
+                                                      Icons.remove_outlined),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          // if (controller
-                                          //         .amountsSale1[index] !=
-                                          //     0)
-                                          Container(
-                                            width: 28,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              '1',
-                                              style:
-                                                  const TextStyle(fontSize: 16),
+                                            Visibility(
+                                              visible: controller.ifAbsent(
+                                                  currentProfile.value.id!,
+                                                  sessionId,
+                                                  e.id!),
+                                              child: Container(
+                                                width: 28,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  controller.ifAbsent(
+                                                          currentProfile
+                                                              .value.id!,
+                                                          sessionId,
+                                                          e.id!)
+                                                      ? controller.listCart[
+                                                              currentProfile
+                                                                  .value.id!]![
+                                                              sessionId]![e.id!]
+                                                          .toString()
+                                                      : '0',
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: 40,
-                                            child: IconButton(
-                                              onPressed: () {
-                                                // controller
-                                                //     .increaseAmountSale1(
-                                                //         index);
-                                              },
-                                              icon: const Icon(
-                                                  Icons.add_outlined),
+                                            SizedBox(
+                                              width: 40,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  controller.increaseItemCart(
+                                                      currentProfile.value.id!,
+                                                      sessionId,
+                                                      e.id!);
+                                                },
+                                                icon: const Icon(
+                                                    Icons.add_outlined),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

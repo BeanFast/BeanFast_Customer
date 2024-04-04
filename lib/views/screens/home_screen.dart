@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/product_detail_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,7 @@ class HomeScreen extends GetView<HomeController> {
                                     isNew: false,
                                     onPressed: () {
                                       showProfilesDialog(context, () {
+                                        // currentUser.value
                                         Get.back();
                                         Get.to(const SessionScreen(
                                           schoolId:
@@ -270,7 +272,8 @@ class HomeScreen extends GetView<HomeController> {
                                 children: controller.listProfile.map((e) {
                                   return ItemProfile(
                                     model: e,
-                                    onPressed: onPressed,
+                                    onPressed: () =>
+                                        {currentProfile.value = e, onPressed()},
                                   );
                                 }).toList(),
                               )),
@@ -374,28 +377,31 @@ List<Widget> headerActionWidget() {
             ),
           ),
         ),
-        Visibility(
-          visible: Get.find<CartController>().itemCount.value != 0,
-          child: Positioned(
-            top: 5,
-            right: 3,
-            width: 20,
-            height: 20,
-            child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
-                ),
-                child: Center(
-                  child: Text(
-                    Get.find<CartController>().itemCount.value.toString(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
+        // if (Get.find<CartController>().itemCount.value != 0)
+        Obx(
+          () => Visibility(
+            visible: Get.find<CartController>().itemCount.value != 0,
+            child: Positioned(
+              top: 5,
+              right: 3,
+              width: 20,
+              height: 20,
+              child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
                   ),
-                )),
+                  child: Center(
+                    child: Text(
+                      Get.find<CartController>().itemCount.value.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )),
+            ),
           ),
         ),
       ],

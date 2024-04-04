@@ -5,7 +5,7 @@ import 'package:get/get.dart' as getx;
 import 'package:jwt_decoder/jwt_decoder.dart';
 // import 'package:get/get.dart' hide Response;
 
-import '../controllers/auth_controller.dart';
+import '/controllers/auth_controller.dart';
 import '/utils/logger.dart';
 
 class AppInterceptor extends Interceptor with CacheManager {
@@ -13,19 +13,20 @@ class AppInterceptor extends Interceptor with CacheManager {
   onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     logger.i('Custom Interceptor - onRequest');
     String? token = getToken();
-    if (token != null) {
-      // Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-      // final expiryTimestamp = decodedToken["exp"];
-      // final currentTime = DateTime.now().millisecondsSinceEpoch;
-      // if (currentTime >= expiryTimestamp) {
-      //   logger.e(currentTime >= expiryTimestamp);
-      //   // removeToken();
-      //   AuthController().changeAuthState(AuthState.unauthenticated);
-      //   return;
-      // } else {
-      options.headers['Authorization'] = 'Bearer $token';
-      // }
-    }
+    // if (token != null) {
+    //   Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    //   final expiryTimestamp = decodedToken["exp"];
+    //   final currentTime = DateTime.now().millisecondsSinceEpoch;
+    //   if (currentTime >= expiryTimestamp) {
+    //     logger.e(currentTime >= expiryTimestamp);
+    //       // removeToken();
+    //     AuthController().changeAuthState(AuthState.unauthenticated);
+    //     logger.e('onRequest');
+    //     // return;
+    //   } else {
+    options.headers['Authorization'] = 'Bearer $token';
+    //   }
+    // }
 
     return super.onRequest(options, handler);
   }
@@ -47,19 +48,29 @@ class AppInterceptor extends Interceptor with CacheManager {
 
     if (err.response?.statusCode == 401) {
       String? token = getToken();
-      logger.e('token ${token}');
+      logger.e('token - $token');
       if (token != null) {
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
         final expiryTimestamp = decodedToken["exp"];
         final currentTime = DateTime.now().millisecondsSinceEpoch;
         if (currentTime >= expiryTimestamp) {
           logger.e(currentTime >= expiryTimestamp);
-          AuthController().logOut();
-          // getx.Get.off(LoginView());
+          removeToken();
+          AuthController().changeAuthState(AuthState.unauthenticated);
+          logger.e('onError - 401');
         }
       }
-
       logger.e('end');
+      // if (token != null) {
+      //   Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+      //   final expiryTimestamp = decodedToken["exp"];
+      //   final currentTime = DateTime.now().millisecondsSinceEpoch;
+      //   if (currentTime >= expiryTimestamp) {
+      //     logger.e(currentTime >= expiryTimestamp);
+      //     AuthController().logOut();
+      //     getx.Get.off(LoginView());
+      //   }
+      // }
     }
     // if (err.response?.statusCode == 400 || err.response?.statusCode == 500) {
     //   // Xử lý lỗi 400 hoặc 500 ở đây

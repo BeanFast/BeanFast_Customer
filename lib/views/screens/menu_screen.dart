@@ -17,19 +17,20 @@ class SessionScreen extends GetView<beanfast.MenuController> {
   Widget build(BuildContext context) {
     Get.put(beanfast.MenuController());
     return Scaffold(
-        appBar: AppBar(
-          actions: headerActionWidget(),
-        ),
-        body: LoadingScreen(
-          future: () async {
-            controller.getData(schoolId);
-          },
-          child: Obx(() {
-            return controller.isValidate.value
-                ? const MenuScreen()
-                : menuDetailScreen(context);
-          }),
-        ));
+      appBar: AppBar(
+        actions: headerActionWidget(),
+      ),
+      body: LoadingScreen(
+        future: () async {
+          // controller.getData(schoolId);
+        },
+        child: Obx(() {
+          return controller.isValidate.value
+              ? const MenuScreen()
+              : menuDetailScreen(context);
+        }),
+      ),
+    );
   }
 
   Widget menuDetailScreen(BuildContext context) {
@@ -42,6 +43,7 @@ class SessionScreen extends GetView<beanfast.MenuController> {
         lastDate: DateTime.now().add(const Duration(days: 7)),
       );
       if (picked != null && picked != controller.selectedDate.value) {
+        await controller.getData(schoolId, picked);
         final session = await secsionPicker(context);
         if (session != null) {
           controller.updateDate(picked);
@@ -92,7 +94,10 @@ class SessionScreen extends GetView<beanfast.MenuController> {
                       Navigator.of(context).pop(controller
                           .listSession[index].orderStartTime
                           .toString());
+                      controller.selectedSession.value =
+                          controller.listSession[index];
                       controller.isValidate.value = true;
+                      controller.getMenu();
                     },
                   ),
                 ),
@@ -235,6 +240,7 @@ class MenuScreen extends GetView<beanfast.MenuController> {
                   onTap: () {
                     Get.to(const ProductDetailScreen());
                   },
+                  sessionId: controller.selectedSession.value.id!,
                   list: controller.menuModel.value.listCombo),
             ),
             const SizedBox(height: 20),
@@ -245,17 +251,17 @@ class MenuScreen extends GetView<beanfast.MenuController> {
                   onTap: () {
                     Get.to(const ProductDetailScreen());
                   },
+                  sessionId: controller.selectedSession.value.id!,
                   list: controller.menuModel.value.listDiscountedFood),
             ),
-            Obx(
-              () => MenuItem(
-                  isCombo: false,
-                  title: 'Sản phẩm',
-                  onTap: () {
-                    Get.to(const ProductDetailScreen());
-                  },
-                  list: controller.menuModel.value.listFood),
-            ),
+            MenuItem(
+                isCombo: false,
+                title: 'Sản phẩm',
+                onTap: () {
+                  Get.to(const ProductDetailScreen());
+                },
+                sessionId: controller.selectedSession.value.id!,
+                list: controller.menuModel.value.listFood),
           ],
         ),
       ),

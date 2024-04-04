@@ -1,10 +1,10 @@
-import 'package:beanfast_customer/models/session.dart';
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:get/get.dart';
 
+import '/models/session.dart';
 import '/models/menu.dart';
 import '/models/menu_detail.dart';
-import '/services/menu_service.dart';
+import '../services/session_service.dart';
 
 class MenuModel {
   List<MenuDetail> listDiscountedCombo = [];
@@ -18,19 +18,32 @@ class MenuController extends GetxController {
   List<Session> listSession = [];
   Rx<Menu> model = Menu().obs;
   Rx<MenuModel> menuModel = MenuModel().obs;
+  Rx<Session> selectedSession = Session().obs;
   Rx<DateTime> selectedDate = DateTime.now().obs;
 
   RxSet<String> listCategoryId = <String>{}.obs;
   var isValidate = false.obs;
 
-  Future getData(String schoolId) async {
-    try {
-      listSession = await MenuService().getSessionsBySchoolId(schoolId);
-      model.value = listSession.last.menu!;
-      updateFoodsAndCombos(model.value.menuDetails!);
-    } catch (e) {
-      throw Exception(e);
-    }
+  Future getData(String schoolId, DateTime dateTime) async {
+    // try {
+    listSession =
+        await SessionService().getSessionsBySchoolId(schoolId, dateTime);
+
+    // model.value = listSession.last.menu!;
+    // updateFoodsAndCombos(model.value.menuDetails!);
+    // } catch (e) {
+    //   throw Exception(e);
+    // }
+  }
+
+  void getMenu() {
+    model.value = listSession
+        .where((e) =>
+            e.orderStartTime!.isBefore(selectedDate.value) &&
+            e.orderEndTime!.isAfter(selectedDate.value))
+        .first
+        .menu!;
+    updateFoodsAndCombos(model.value.menuDetails!);
   }
 
   void updateFoodsAndCombos(List<MenuDetail> list) {
@@ -46,8 +59,6 @@ class MenuController extends GetxController {
         e.food!.isCombo! ? model.listCombo.add(e) : model.listFood.add(e);
       }
     }
-    logger.e('combos - ${model.listCombo.length}');
-    logger.e('foods - ${model.listFood.length}');
     menuModel.value = model;
   }
 
