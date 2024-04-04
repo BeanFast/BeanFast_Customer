@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 

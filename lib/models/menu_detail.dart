@@ -1,6 +1,5 @@
 import 'base_model.dart';
 import 'food.dart';
-import 'loyaty_card.dart';
 import 'menu.dart';
 
 class MenuDetail extends BaseModel {

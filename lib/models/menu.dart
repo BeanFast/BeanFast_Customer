@@ -1,5 +1,3 @@
-import 'package:beanfast_customer/utils/logger.dart';
-
 import 'base_model.dart';
 import 'kitchen.dart';
 import 'menu_detail.dart';

@@ -1,10 +1,6 @@
-import 'dart:io';
-import 'dart:math';
-
 import 'package:beanfast_customer/models/profile.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../utils/logger.dart';
 import '/services/api_service.dart';
