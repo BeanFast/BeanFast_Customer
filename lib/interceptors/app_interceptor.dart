@@ -1,8 +1,6 @@
-import 'package:beanfast_customer/enums/auth_state_enum.dart';
-import 'package:beanfast_customer/views/screens/login_screen.dart';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
 import 'package:jwt_decoder/jwt_decoder.dart';
+
 // import 'package:get/get.dart' hide Response;
 
 import '../controllers/auth_controller.dart';

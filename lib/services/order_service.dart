@@ -1,10 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
+import '/enums/status_enum.dart';
 import '/models/food.dart';
 import '/models/order.dart';
-import '/utils/logger.dart';
-import '/enums/status_enum.dart';
 import '/services/api_service.dart';
 import 'food_service.dart';
 

@@ -18,7 +18,7 @@ class GiftExchangeScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           Container(
-            width: 150,
+            width: 170,
             margin: const EdgeInsets.only(right: 10),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -26,10 +26,10 @@ class GiftExchangeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Icon(Icons.card_giftcard, color: Colors.black),
-                Text('Điểm: 100.000'),
+                Text('Điểm: 100.000.000'),
               ],
             ),
           ),
@@ -173,7 +173,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                 children: controller.listData.map((gift) {
                   return GestureDetector(
                     onTap: () {
-                        Get.to(const GiftDetailScreen());
+                      Get.to(const GiftDetailScreen());
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 5, top: 5),
@@ -189,6 +189,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                 children: [
                                   SizedBox(
                                     width: 100,
+                                    height: 100,
                                     child: ClipRRect(
                                       borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(12),
@@ -205,9 +206,9 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                     child: Container(
                                       padding: const EdgeInsets.only(
                                           left: 10,
-                                          top: 10,
+                                          top: 5,
                                           right: 10,
-                                          bottom: 10),
+                                          bottom: 5),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,

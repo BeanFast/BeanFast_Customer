@@ -1,4 +1,5 @@
-import 'package:beanfast_customer/views/screens/myLoadingWidget.dart';
+import 'package:beanfast_customer/views/screens/deposit_screen.dart';
+import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,6 @@ import 'gift_exchange_screen.dart';
 import 'loading_screen.dart';
 import 'menu_screen.dart';
 import 'notification_screen.dart';
-import 'qr_scanner_screen.dart';
 import 'student_form_screen.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -71,12 +71,12 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                   MainIconButton(
                                     icon: Icons.input_outlined,
-                                    text: "Test Loading",
+                                    text: "Nạp tiền",
                                     // text: "Nạp tiền",
                                     isNew: false,
                                     onPressed: () {
-                                      Get.to(const MyLoadingWidget());
-                                      // Get.to(DepositeScreen());
+                                      // Get.to(const MyLoadingWidget());
+                                      Get.to(DepositeScreen());
                                     },
                                   ),
                                   MainIconButton(
@@ -95,7 +95,11 @@ class HomeScreen extends GetView<HomeController> {
                                     text: "Trò chơi",
                                     isNew: true,
                                     onPressed: () {
-                                      Get.to(QRScanScreen());
+                                      showProfilesDialog(context, () {
+                                        Get.back();
+                                        Get.to(const GameSelectScreen());
+                                      });
+                                      // Get.to(QRScanScreen());
                                     },
                                   ),
                                 ],

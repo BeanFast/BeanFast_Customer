@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/models/menu.dart';
 import 'package:beanfast_customer/models/session.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:get/get.dart' as getx;
