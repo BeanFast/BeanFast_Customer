@@ -144,30 +144,30 @@ class StudentDetailScreen extends GetView<ProfileController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           RowInfoItemWidget(
-                              titel: 'Tên: ',
+                              title: 'Tên: ',
                               data: controller.model.value.fullName.toString()),
                           RowInfoItemWidget(
-                              titel: 'Biệt danh: ',
+                              title: 'Biệt danh: ',
                               data: controller.model.value.nickName.toString()),
                           RowInfoItemWidget(
-                              titel: 'Giới tính: ',
+                              title: 'Giới tính: ',
                               data: controller.model.value.gender!
                                   ? 'Nam'
                                   : 'Nữ'),
                           RowInfoItemWidget(
-                              titel: 'Ngày sinh: ',
+                              title: 'Ngày sinh: ',
                               data: DateFormat('dd/MM/yyyy')
                                   .format(controller.model.value.dob!)),
                           RowInfoItemWidget(
-                              titel: 'BMI: ',
+                              title: 'BMI: ',
                               data:
                                   controller.model.value.currentBMI.toString()),
                           RowInfoItemWidget(
-                              titel: 'Lớp: ',
+                              title: 'Lớp: ',
                               data:
                                   controller.model.value.className.toString()),
                           RowInfoItemWidget(
-                              titel: 'Trường: ',
+                              title: 'Trường: ',
                               data: controller.model.value.school!.name
                                   .toString()),
                         ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RowInfoItemWidget extends StatelessWidget {
-  const RowInfoItemWidget({super.key, required this.titel, required this.data});
-  final String titel;
+  const RowInfoItemWidget({super.key, required this.title, required this.data});
+  final String title;
   final String data;
 
   @override
@@ -15,7 +15,7 @@ class RowInfoItemWidget extends StatelessWidget {
         children: [
           SizedBox(
               child: Text(
-            titel,
+            title,
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey[600],
