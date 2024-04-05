@@ -9,6 +9,7 @@ import 'package:beanfast_customer/views/widgets/account_icon_button_widget.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 class AccountScreen extends GetView<AuthController> {
   const AccountScreen({super.key});
@@ -54,7 +55,6 @@ class AccountScreen extends GetView<AuthController> {
                                   left: 0,
                                   right: 0,
                                   child: Card(
-                                    color: const Color.fromARGB(255, 243, 243, 243),
                                     child: SizedBox(
                                       height: topCardheight,
                                       width: innerWidth,
@@ -241,7 +241,7 @@ class AccountScreen extends GetView<AuthController> {
                                                   child: ElevatedButton(
                                                     onPressed: () {
                                                       Get.to(
-                                                          AccountProfileScreen());
+                                                          const AccountProfileScreen());
                                                     },
                                                     style: ButtonStyle(
                                                         backgroundColor:
@@ -251,11 +251,7 @@ class AccountScreen extends GetView<AuthController> {
                                                                         .blue),
                                                         foregroundColor:
                                                             MaterialStateProperty.all<Color>(
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    1)),
+                                                                 Colors.white),
                                                         shape: MaterialStateProperty.all<
                                                                 RoundedRectangleBorder>(
                                                             const RoundedRectangleBorder(
@@ -343,7 +339,7 @@ class AccountScreen extends GetView<AuthController> {
                           children: [
                             SettingItem(
                               title: "Danh sách học sinh",
-                              icon: Ionicons.people_circle_outline,
+                              icon: Iconsax.people,
                               iconColor: Colors.amber,
                               onTap: () {
                                 Get.to(const StudentListScreen());

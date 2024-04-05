@@ -43,6 +43,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   jwt_decoder: ^2.0.1
   webview_flutter: ^3.0.0
+  iconsax: ^0.0.8
   #game
   confetti: ^0.7.0
   flip_card: ^0.6.0

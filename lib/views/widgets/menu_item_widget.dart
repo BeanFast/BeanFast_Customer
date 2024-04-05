@@ -111,7 +111,7 @@ class MenuItem extends GetView<CartController> {
                     return GestureDetector(
                       onTap: onTap,
                       child: Container(
-                        margin: const EdgeInsets.only(bottom: 10),
+                        margin: const EdgeInsets.only(bottom: 5),
                         child: Stack(
                           children: [
                             Card(
