@@ -4,6 +4,7 @@ import 'package:beanfast_customer/game/matching_card/data.dart';
 import 'package:beanfast_customer/game/matching_card/game_over_screen.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyFlipCardGame extends StatefulWidget {
   const MyFlipCardGame({super.key});
@@ -116,29 +117,49 @@ class _MyFlipCardGameState extends State<MyFlipCardGame> {
               false;
         },
         child: Scaffold(
-          body: SafeArea(
+          body: Container(
+            height: Get.height,
+            decoration: const BoxDecoration(
+              color: Colors.red,
+              image: DecorationImage(
+                image: AssetImage(
+                    "assets/game_assets/matching_card/background_game.png"), // Replace with your image
+                fit: BoxFit.cover,
+              ),
+            ),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Cặp còn lại: $_left',
-                          style: theme.bodyMedium,
-                        ),
-                        Text(
-                          'Thời gian: ${gameDuration}s',
-                          style: theme.bodyMedium,
-                        ),
-                        Text(
-                          'Điếm ngược: $_time',
-                          style: theme.bodyMedium,
-                        )
-                      ],
+                    padding: const EdgeInsets.only(top: 70, bottom: 20),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'Cặp còn lại: $_left',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                          ),
+                          Text(
+                            'Thời gian: ${gameDuration}s',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                          ),
+                          Text(
+                            'Điếm ngược: $_time',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -157,8 +178,9 @@ class _MyFlipCardGameState extends State<MyFlipCardGame> {
                     itemBuilder: (context, index) => _start
                         ? Container(
                             decoration: BoxDecoration(
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.grey, width: 1),
+                              //  border: Border.all(color: Colors.grey, width: 1),
                             ),
                             child: FlipCard(
                                 key: _cardStateKeys[index],
@@ -222,7 +244,7 @@ class _MyFlipCardGameState extends State<MyFlipCardGame> {
                                 front: Container(
                                   decoration: BoxDecoration(
                                     color: Colors.pink,
-                                    borderRadius: BorderRadius.circular(5),
+                                    borderRadius: BorderRadius.circular(12),
                                     image: const DecorationImage(
                                       fit: BoxFit.cover,
                                       image: AssetImage(
@@ -230,7 +252,6 @@ class _MyFlipCardGameState extends State<MyFlipCardGame> {
                                       ),
                                     ),
                                   ),
-                                  margin: const EdgeInsets.all(4.0),
                                 ),
                                 back: getItem(index)),
                           )

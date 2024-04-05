@@ -1,6 +1,7 @@
 import 'package:beanfast_customer/enums/status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '/controllers/order_controller.dart';
@@ -45,7 +46,7 @@ class OrderScreen extends GetView<OrderController> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(Icons.filter_list, color: Color(0xFF26AA91)),
+                  const Icon(Iconsax.filter_search, color: Color(0xFF26AA91)),
                 ],
               ),
             ),

@@ -176,7 +176,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                       Get.to(const GiftDetailScreen());
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(bottom: 5, top: 5),
+                      margin: const EdgeInsets.only(bottom: 5),
                       child: Card(
                         child: Stack(
                           children: [

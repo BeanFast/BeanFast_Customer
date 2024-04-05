@@ -18,7 +18,8 @@ class DepositeScreen extends StatelessWidget {
         'Nạp tiền',
       )),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding:
+            const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
         child: Column(
           children: [
             Expanded(
@@ -28,7 +29,7 @@ class DepositeScreen extends StatelessWidget {
                   children: [
                     const Text('Số tiền nạp (đ)',
                         style: TextStyle(fontSize: 18)),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -299,8 +300,8 @@ class DepositeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 55,
-              width: double.infinity,
+              width: Get.width / 1.2,
+              height: Get.height / 15,
               child: TextButton(
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all<Color>(

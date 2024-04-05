@@ -46,8 +46,10 @@ class Order extends BaseModel {
         code: json['code'],
         totalPrice: double.parse(json['totalPrice'].toString()),
         paymentDate: DateTime.parse(json['paymentDate']),
-        deliveryDate: null,
-        rewardPoints: json['rewardPoints'],
+        deliveryDate: json['deliveryDate'] != null
+            ? DateTime.parse(json['deliveryDate'])
+            : null,
+        rewardPoints: int.parse(json['rewardPoints'].toString()),
         feedback: json['feedback'] ?? '',
         profile: Profile.fromJson(json['profile']),
         orderDetails: json['orderDetails']?.map<OrderDetail>((item) {

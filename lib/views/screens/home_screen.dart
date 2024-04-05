@@ -5,6 +5,7 @@ import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '/controllers/auth_controller.dart';
 import '/controllers/cart_controller.dart';
@@ -46,7 +47,7 @@ class HomeScreen extends GetView<HomeController> {
                         child: Column(
                           children: [
                             Container(
-                              decoration:  BoxDecoration(
+                              decoration: BoxDecoration(
                                 color: ThemeColor.itemColor,
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(12),
@@ -58,7 +59,7 @@ class HomeScreen extends GetView<HomeController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   MainIconButton(
-                                    icon: Icons.list_alt_outlined,
+                                    icon: Iconsax.shop_add,
                                     text: "Đặt hàng",
                                     isNew: false,
                                     onPressed: () {
@@ -70,7 +71,7 @@ class HomeScreen extends GetView<HomeController> {
                                     },
                                   ),
                                   MainIconButton(
-                                    icon: Icons.input_outlined,
+                                    icon: Iconsax.wallet_add,
                                     text: "Nạp tiền",
                                     // text: "Nạp tiền",
                                     isNew: false,
@@ -80,7 +81,7 @@ class HomeScreen extends GetView<HomeController> {
                                     },
                                   ),
                                   MainIconButton(
-                                    icon: Icons.card_giftcard_outlined,
+                                    icon: Iconsax.gift,
                                     text: "Đổi thưởng",
                                     isNew: true,
                                     onPressed: () {
@@ -91,7 +92,7 @@ class HomeScreen extends GetView<HomeController> {
                                     },
                                   ),
                                   MainIconButton(
-                                    icon: Icons.gamepad_outlined,
+                                    icon: Iconsax.game,
                                     text: "Trò chơi",
                                     isNew: true,
                                     onPressed: () {
@@ -270,29 +271,23 @@ class HomeScreen extends GetView<HomeController> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.4,
                       child: SingleChildScrollView(
-                        child: Card(
-                          child: Obx(() => Column(
-                                children: controller.listProfile.map((e) {
-                                  return ItemProfile(
-                                    model: e,
-                                    onPressed: () =>
-                                        {currentProfile.value = e, onPressed()},
-                                  );
-                                }).toList(),
-                              )),
-                        ),
+                        child: Obx(() => Column(
+                              children: controller.listProfile.map((e) {
+                                return ItemProfile(
+                                  model: e,
+                                  onPressed: () =>
+                                      {currentProfile.value = e, onPressed()},
+                                );
+                              }).toList(),
+                            )),
                       ),
                     ),
                     const SizedBox(height: 20),
                     SizedBox(
-                      height: 55,
+                      height: 45,
                       width: double.infinity,
                       child: TextButton(
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Colors.white), // Text color
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.green), // Background color
                           padding: MaterialStateProperty.all<EdgeInsets>(
                               const EdgeInsets.all(10.0)),
                           shape:
@@ -331,7 +326,7 @@ List<Widget> headerActionWidget() {
           child: Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              icon: const Icon(Icons.notifications_outlined, size: 30),
+              icon: const Icon(Iconsax.notification, size: 30),
               onPressed: () {
                 Get.to(const NotificationScreen());
               },
@@ -373,7 +368,7 @@ List<Widget> headerActionWidget() {
           child: Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              icon: const Icon(Icons.shopping_cart_outlined, size: 30),
+              icon: const Icon(Iconsax.shopping_cart, size: 30),
               onPressed: () {
                 Get.to(const CartScreen());
               },
