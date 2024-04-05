@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/profile_form_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -441,41 +442,44 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                   // controller.messageErrors.map((e) => SizedBox(height: 64, child: Text(e.toString()))
                   // ).toList(),
                   const SizedBox(height: 30),
-                  SizedBox(
-                    height: 64,
-                    width: double.infinity,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white), // Text color
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.green), // Background color
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(10)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            side: const BorderSide(color: Colors.grey),
+                  Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                     width: Get.width / 1.2,
+                            height: Get.height / 15,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Colors.white), // Text color
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.green), // Background color
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.all(10)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              side: const BorderSide(color: Colors.grey),
+                            ),
                           ),
                         ),
-                      ),
-                      onPressed: () {
-                        if (controller.formKey.currentState!.validate()) {
-                          if (controller.selectedSchool.value.isEmpty) {
-                            Get.snackbar('Lỗi', 'Vui lòng chọn trường');
-                          } else {
-                            controller.submitForm();
+                        onPressed: () {
+                          if (controller.formKey.currentState!.validate()) {
+                            if (controller.selectedSchool.value.isEmpty) {
+                              Get.snackbar('Lỗi', 'Vui lòng chọn trường');
+                            } else {
+                              controller.submitForm();
+                            }
                           }
-                        }
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.save_outlined),
-                          SizedBox(width: 10),
-                          Text('Lưu', style: TextStyle(fontSize: 18)),
-                        ],
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.save_outlined),
+                            SizedBox(width: 10),
+                            Text('Lưu', style: TextStyle(fontSize: 18)),
+                          ],
+                        ),
                       ),
                     ),
                   ),

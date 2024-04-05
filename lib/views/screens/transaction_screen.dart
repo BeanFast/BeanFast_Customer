@@ -63,7 +63,17 @@ class TransactionScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 height: 50,
                 alignment: Alignment.centerLeft,
-                color: Colors.blue[300],
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 198, 229, 245),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: const Offset(0, 2), // changes position of shadow
+                    ),
+                  ],
+                ),
                 child: const Text('Tháng 3/2024',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
@@ -80,7 +90,10 @@ class TransactionScreen extends StatelessWidget {
                   },
                   child: Container(
                     height: 95,
-                    color: index % 2 == 0 ? Colors.white : Colors.grey[300],
+                    color: index % 2 == 0
+                        ? Colors.white
+                        : const Color.fromARGB(255, 198, 225, 244)
+                            .withOpacity(0.3),
                     padding: const EdgeInsets.all(10),
                     child: Row(
                       children: [
@@ -93,6 +106,7 @@ class TransactionScreen extends StatelessWidget {
                                 border: Border.all(color: Colors.grey)),
                             child: const Icon(
                               Icons.account_balance_wallet,
+                              color: Colors.blue,
                             )),
                         const SizedBox(width: 10),
                         Expanded(
