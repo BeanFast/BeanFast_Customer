@@ -1,12 +1,10 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/views/screens/register_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '/controllers/auth_controller.dart';
+import '/views/screens/register_screen.dart';
 
 class LoginView extends GetView<AuthController> {
   final AuthController _authController = Get.put(AuthController());
