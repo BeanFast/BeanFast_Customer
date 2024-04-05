@@ -29,7 +29,7 @@ class OrderTabBarView extends GetView<OrderController> {
             )
             : SingleChildScrollView(
                 child: Container(
-                  color: ThemeColor.bgColor1,
+                  color: ThemeColor.bgColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

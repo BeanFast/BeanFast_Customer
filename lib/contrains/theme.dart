@@ -60,9 +60,9 @@ class AppTheme {
         elevation: 0.8,
         hoverElevation: 1),
     cardTheme: CardTheme(
-      color: ThemeColor.bgColor2,
+      color: ThemeColor.itemColor,
       shadowColor: ThemeColor.bgColor,
-      elevation: 0.5,
+      elevation: 1,
     ),
     dialogBackgroundColor: ThemeColor.bgColor2,
   );

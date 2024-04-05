@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/profile_form_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -43,7 +42,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    height: 55,
+                    height: 50,
                     width: 100,
                     child: TextButton(
                       style: ButtonStyle(
@@ -56,7 +55,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(15),
                             side: const BorderSide(color: Colors.grey),
                           ),
                         ),
