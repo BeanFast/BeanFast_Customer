@@ -1,6 +1,3 @@
-import 'package:beanfast_customer/models/bmi.dart';
-import 'package:beanfast_customer/utils/logger.dart';
-
 import 'base_model.dart';
 import 'exchange_gift.dart';
 import 'order.dart';
@@ -8,6 +5,7 @@ import 'school.dart';
 import 'user.dart';
 import 'wallet.dart';
 import 'loyaty_card.dart';
+import 'bmi.dart';
 
 class Profile extends BaseModel {
   String? userId;

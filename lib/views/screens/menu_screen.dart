@@ -36,7 +36,7 @@ class SessionScreen extends GetView<beanfast.MenuController> {
   }
 
   Widget menuDetailScreen(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final DateTime? picked = await showDatePicker(
         locale: const Locale("vi", "VI"),
         context: context,

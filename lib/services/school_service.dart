@@ -1,6 +1,5 @@
 import 'package:get/get.dart' as getx;
 
-import '../utils/logger.dart';
 import '/models/school.dart';
 import '/services/api_service.dart';
 
