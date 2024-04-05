@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/profile_controller.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_detail_screen.dart';

@@ -1,5 +1,4 @@
 import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

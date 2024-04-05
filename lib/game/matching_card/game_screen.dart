@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:beanfast_customer/game/matching_card/data.dart';
 import 'package:beanfast_customer/game/matching_card/game_over_screen.dart';
 import 'package:flip_card/flip_card.dart';
@@ -88,138 +89,160 @@ class _MyFlipCardGameState extends State<MyFlipCardGame> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    return _isFinished
-        ? GameOverScreen(
-            duration: gameDuration,
-          )
-        : Scaffold(
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Cặp còn lại: $_left',
-                            style: theme.bodyMedium,
-                          ),
-                          Text(
-                            'Thời gian: ${gameDuration}s',
-                            style: theme.bodyMedium,
-                          ),
-                          Text(
-                            'Điếm ngược: $_time',
-                            style: theme.bodyMedium,
-                          )
-                        ],
-                      ),
+    if (_isFinished) {
+      return GameOverScreen(
+        duration: gameDuration,
+      );
+    } else {
+      return WillPopScope(
+        onWillPop: () async {
+          return await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Xác nhận thoát trò chơi'),
+                  content: const Text('Bạn có muốn thoát trò chơi không?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text('Không'),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemBuilder: (context, index) => _start
-                          ? Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border:
-                                    Border.all(color: Colors.grey, width: 1),
-                              ),
-                              child: FlipCard(
-                                  key: _cardStateKeys[index],
-                                  onFlip: () {
-                                    if (!_flip) {
-                                      _flip = true;
-                                      _previousIndex = index;
-                                    } else {
-                                      _flip = false;
-                                      if (_previousIndex != index) {
-                                        if (_data[_previousIndex] !=
-                                            _data[index]) {
-                                          _wait = true;
-
-                                          Future.delayed(
-                                              const Duration(
-                                                  milliseconds: 1500), () {
-                                            _cardStateKeys[_previousIndex]
-                                                .currentState!
-                                                .toggleCard();
-
-                                            _previousIndex = index;
-                                            _cardStateKeys[_previousIndex]
-                                                .currentState!
-                                                .toggleCard();
-
-                                            Future.delayed(
-                                                const Duration(
-                                                    milliseconds: 160), () {
-                                              setState(() {
-                                                _wait = false;
-                                              });
-                                            });
-                                          });
-                                        } else {
-                                          _cardFlips[_previousIndex] = false;
-                                          _cardFlips[index] = false;
-
-                                          setState(() {
-                                            _left -= 1;
-                                          });
-                                          if (_cardFlips
-                                              .every((t) => t == false)) {
-                                            Future.delayed(
-                                                const Duration(
-                                                    milliseconds: 160), () {
-                                              setState(() {
-                                                _isFinished = true;
-                                                _start = false;
-                                              });
-                                              _durationTimer.cancel();
-                                            });
-                                          }
-                                        }
-                                      }
-                                    }
-                                    setState(() {});
-                                  },
-                                  flipOnTouch:
-                                      _wait ? false : _cardFlips[index],
-                                  direction: FlipDirection.HORIZONTAL,
-                                  front: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.pink,
-                                      borderRadius: BorderRadius.circular(5),
-                                      image: const DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                          "assets/game_assets/matching_card/hidden.png",
-                                        ),
-                                      ),
-                                    ),
-                                    margin: const EdgeInsets.all(4.0),
-                                  ),
-                                  back: getItem(index)),
-                            )
-                          : getItem(index),
-                      itemCount: _data.length,
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: const Text('Có'),
                     ),
                   ],
                 ),
+              ) ??
+              false;
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'Cặp còn lại: $_left',
+                          style: theme.bodyMedium,
+                        ),
+                        Text(
+                          'Thời gian: ${gameDuration}s',
+                          style: theme.bodyMedium,
+                        ),
+                        Text(
+                          'Điếm ngược: $_time',
+                          style: theme.bodyMedium,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  GridView.builder(
+                    padding: const EdgeInsets.all(8),
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemBuilder: (context, index) => _start
+                        ? Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.grey, width: 1),
+                            ),
+                            child: FlipCard(
+                                key: _cardStateKeys[index],
+                                onFlip: () {
+                                  if (!_flip) {
+                                    _flip = true;
+                                    _previousIndex = index;
+                                  } else {
+                                    _flip = false;
+                                    if (_previousIndex != index) {
+                                      if (_data[_previousIndex] !=
+                                          _data[index]) {
+                                        _wait = true;
+
+                                        Future.delayed(
+                                            const Duration(milliseconds: 1500),
+                                            () {
+                                          _cardStateKeys[_previousIndex]
+                                              .currentState!
+                                              .toggleCard();
+
+                                          _previousIndex = index;
+                                          _cardStateKeys[_previousIndex]
+                                              .currentState!
+                                              .toggleCard();
+
+                                          Future.delayed(
+                                              const Duration(milliseconds: 160),
+                                              () {
+                                            setState(() {
+                                              _wait = false;
+                                            });
+                                          });
+                                        });
+                                      } else {
+                                        _cardFlips[_previousIndex] = false;
+                                        _cardFlips[index] = false;
+
+                                        setState(() {
+                                          _left -= 1;
+                                        });
+                                        if (_cardFlips
+                                            .every((t) => t == false)) {
+                                          Future.delayed(
+                                              const Duration(milliseconds: 160),
+                                              () {
+                                            setState(() {
+                                              _isFinished = true;
+                                              _start = false;
+                                            });
+                                            _durationTimer.cancel();
+                                          });
+                                        }
+                                      }
+                                    }
+                                  }
+                                  setState(() {});
+                                },
+                                flipOnTouch: _wait ? false : _cardFlips[index],
+                                direction: FlipDirection.HORIZONTAL,
+                                front: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.pink,
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: const DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                        "assets/game_assets/matching_card/hidden.png",
+                                      ),
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.all(4.0),
+                                ),
+                                back: getItem(index)),
+                          )
+                        : getItem(index),
+                    itemCount: _data.length,
+                  ),
+                ],
               ),
             ),
-          );
+          ),
+        ),
+      );
+    }
   }
 }

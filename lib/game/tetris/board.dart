@@ -303,146 +303,167 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[800],
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          // SCORE
-          SizedBox(
-              height: 70,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: Card(
-                  color: Colors.black,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Current Score',
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 15),
-                        ),
-                        Text(
-                          '$currentScore',
-                          style: const TextStyle(
-                              color: Colors.amber, fontSize: 25),
-                        ),
-                      ],
-                    ),
+    return WillPopScope(
+      onWillPop: () async {
+        return await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Xác nhận thoát trò chơi'),
+                content: const Text('Bạn có muốn thoát trò chơi không?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('Không'),
                   ),
-                ),
-              )),
-          // GAME
-          Expanded(
-            child: GridView.builder(
-              itemCount: rowLength * colLength,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: rowLength),
-              itemBuilder: (context, index) {
-                // get row and col of each index
-                int row = (index / rowLength).floor();
-                int col = index % rowLength;
-                // current piece
-                if (currentPiece.position.contains(index)) {
-                  return Pixel(color: currentPiece.color);
-                }
-
-                // landed pieces
-                else if (gameBoard[row][col] != null) {
-                  final Tetromino? tetrominoType = gameBoard[row][col];
-                  return Pixel(color: tetrominoColors[tetrominoType]);
-                }
-
-                // blank pixel
-                else {
-                  return Pixel(color: Colors.black);
-                }
-              },
-            ),
-          ),
-
-          // GAME CONTROLs
-          Container(
-            height: 90,
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // play
-                SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: GestureDetector(
-                    onTap: isPlaying ? null : startGame,
-                    child: Card(
-                        color: Colors.black,
-                        child: Center(
-                          child: Text(
-                            isPlaying ? 'Playing' : 'Play',
-                            style: const TextStyle(color: Colors.amber),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text('Có'),
+                  ),
+                ],
+              ),
+            ) ??
+            false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey[800],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            // SCORE
+            SizedBox(
+                height: 70,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Card(
+                    color: Colors.black,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Current Score',
+                            style: TextStyle(color: Colors.white, fontSize: 15),
                           ),
-                        )),
-                  ),
-                ),
-
-                // left
-                SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: GestureDetector(
-                    onTap: moveLeft,
-                    child: const Card(
-                      color: Colors.black,
-                      child: Icon(
-                        Icons.arrow_left_rounded,
-                        color: Colors.amber,
-                        size: 50,
+                          Text(
+                            '$currentScore',
+                            style: const TextStyle(
+                                color: Colors.amber, fontSize: 25),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
+                )),
+            // GAME
+            Expanded(
+              child: GridView.builder(
+                itemCount: rowLength * colLength,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: rowLength),
+                itemBuilder: (context, index) {
+                  // get row and col of each index
+                  int row = (index / rowLength).floor();
+                  int col = index % rowLength;
+                  // current piece
+                  if (currentPiece.position.contains(index)) {
+                    return Pixel(color: currentPiece.color);
+                  }
 
-                // rotate
-                SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: GestureDetector(
-                    onTap: rotatePiece,
-                    child: const Card(
-                      color: Colors.black,
-                      child: Icon(
-                        Icons.rotate_right,
-                        color: Colors.amber,
-                      ),
-                    ),
-                  ),
-                ),
+                  // landed pieces
+                  else if (gameBoard[row][col] != null) {
+                    final Tetromino? tetrominoType = gameBoard[row][col];
+                    return Pixel(color: tetrominoColors[tetrominoType]);
+                  }
 
-                // right
-                SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: GestureDetector(
-                    onTap: moveRight,
-                    child: const Card(
-                      color: Colors.black,
-                      child: Icon(
-                        Icons.arrow_right_rounded,
-                        color: Colors.amber,
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                  // blank pixel
+                  else {
+                    return Pixel(color: Colors.black);
+                  }
+                },
+              ),
             ),
-          )
-        ],
+
+            // GAME CONTROLs
+            Container(
+              height: 90,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // play
+                  SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: GestureDetector(
+                      onTap: isPlaying ? null : startGame,
+                      child: Card(
+                          color: Colors.black,
+                          child: Center(
+                            child: Text(
+                              isPlaying ? 'Playing' : 'Play',
+                              style: const TextStyle(color: Colors.amber),
+                            ),
+                          )),
+                    ),
+                  ),
+
+                  // left
+                  SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: GestureDetector(
+                      onTap: moveLeft,
+                      child: const Card(
+                        color: Colors.black,
+                        child: Icon(
+                          Icons.arrow_left_rounded,
+                          color: Colors.amber,
+                          size: 50,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // rotate
+                  SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: GestureDetector(
+                      onTap: rotatePiece,
+                      child: const Card(
+                        color: Colors.black,
+                        child: Icon(
+                          Icons.rotate_right,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // right
+                  SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: GestureDetector(
+                      onTap: moveRight,
+                      child: const Card(
+                        color: Colors.black,
+                        child: Icon(
+                          Icons.arrow_right_rounded,
+                          color: Colors.amber,
+                          size: 50,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -320,7 +320,31 @@ class DepositeScreen extends StatelessWidget {
                 onPressed: () async {
                   var url = await TransactionService()
                       .createVnpayRequest(depositeController.moneyInt);
-                  Get.to(() => SafeArea(
+                  Get.to(
+                    () => WillPopScope(
+                      onWillPop: () async {
+                        return await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Xác nhận'),
+                                content: const Text('Bạn có muốn thoát không?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(false),
+                                    child: const Text('Không'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                    child: const Text('Đúng'),
+                                  ),
+                                ],
+                              ),
+                            ) ??
+                            false;
+                      },
+                      child: SafeArea(
                         child: Scaffold(
                           appBar: AppBar(),
                           body: WebView(
@@ -328,7 +352,9 @@ class DepositeScreen extends StatelessWidget {
                             javascriptMode: JavascriptMode.unrestricted,
                           ),
                         ),
-                      ));
+                      ),
+                    ),
+                  );
                 },
                 child: const Text('Nạp tiền', style: TextStyle(fontSize: 18)),
               ),
