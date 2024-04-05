@@ -116,6 +116,7 @@ class AuthController extends GetxController with CacheManager {
       var response = await AuthService()
           .login(phoneController.text, passwordController.text);
       if (response.statusCode == 200) {
+        removeToken();
         changeAuthState(AuthState.authenticated);
         await saveToken(response.data['data']['accessToken']); //Token is cached
       }

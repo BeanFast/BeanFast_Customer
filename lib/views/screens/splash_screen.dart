@@ -1,4 +1,5 @@
 import 'package:beanfast_customer/utils/constants.dart';
+import 'package:beanfast_customer/views/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,7 +48,7 @@ class SplashView extends StatelessWidget {
                   return const MainScreen();
                 // return const WelcomeView();
                 case AuthState.unauthenticated:
-                  return LoginView();
+                  return const MainScreen();
                 default:
                   return const ErrorView(
                       errorMessage: 'Lỗi xác thực đăng nhập'); //

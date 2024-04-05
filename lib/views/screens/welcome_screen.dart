@@ -1,99 +1,172 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:beanfast_customer/views/screens/login_screen.dart';
 import 'package:beanfast_customer/views/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
-class WelcomeView extends StatelessWidget {
-  const WelcomeView({super.key});
+class WelcomeScreen extends StatelessWidget {
+  final Duration duration = const Duration(milliseconds: 800);
+
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SizedBox(
-        height: double.infinity,
-        child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Form(
-              child: Column(
-                children: <Widget>[
-                  const Spacer(),
-                  Container(
-                    color: Colors.black,
-                    width: 250,
-                    height: 250,
-                    child: Image.network(
-                      'https://play-lh.googleusercontent.com/nGpFXOAY4jShndUA63DtfD5D-sDApplKpDCuLpmELuY4vr2KfREUOhKkLPuovu0U1jc',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  const Text(
-                    "Don't skip breakfast, we've got you covered.",
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                  const Spacer(),
-                  Container(
-                    height: 64,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: TextButton(
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white), // Text color
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.green), // Background color
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(10)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            side: const BorderSide(color: Colors.green),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        Get.to(RegisterView());
-                      },
-                      child: const Text('Đăng ký', style: TextStyle(fontSize: 18)),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    height: 64,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: TextButton(
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white), // Text color
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.green), // Background color
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(10)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            side: const BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        Get.to(LoginView());
-                      },
-                      child: const Text('Đăng nhập', style: TextStyle(fontSize: 18)),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+      backgroundColor: const Color.fromARGB(255, 239, 239, 239),
+      body: Container(
+        margin: const EdgeInsets.all(8),
+        width: size.width,
+        height: size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ///
+            FadeInUp(
+              duration: duration,
+              delay: const Duration(milliseconds: 2000),
+              child: Container(
+                margin: const EdgeInsets.only(
+                  top: 50,
+                  left: 5,
+                  right: 5,
+                ),
+                width: size.width,
+                height: size.height / 2,
+                child: Lottie.asset("assets/wl.json", animate: true),
               ),
-            )),
+            ),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            /// TITLE
+            FadeInUp(
+              duration: duration,
+              delay: const Duration(milliseconds: 1600),
+              child: const Text(
+                "Bean Fast",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            ///
+            const SizedBox(
+              height: 10,
+            ),
+
+            /// SUBTITLE
+            FadeInUp(
+              duration: duration,
+              delay: const Duration(milliseconds: 1000),
+              child: const Text(
+                "Don't waste time, just order your food",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    height: 1.2,
+                    color: Colors.grey,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+
+            ///
+            Expanded(child: Container()),
+
+            /// GOOGLE BTN
+            FadeInUp(
+              duration: duration,
+              delay: const Duration(milliseconds: 600),
+              child: SButton(
+                size: size,
+                borderColor: Colors.grey,
+                color: Colors.white,
+                text: "Login",
+                textStyle: const TextStyle(color: Colors.black, fontSize: 18),
+                onPressed: () {
+                  Get.to(LoginView());
+                },
+              ),
+            ),
+
+            ///
+            const SizedBox(
+              height: 20,
+            ),
+
+            /// GITHUB BTN
+            FadeInUp(
+              duration: duration,
+              delay: const Duration(milliseconds: 200),
+              child: SButton(
+                size: size,
+                borderColor: Colors.white,
+                color: const Color.fromARGB(255, 54, 54, 54),
+                text: "Sign up",
+                textStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                onPressed: () {
+                  Get.to(RegisterView());
+                },
+              ),
+            ),
+
+            ///
+            const SizedBox(
+              height: 40,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SButton extends StatelessWidget {
+  const SButton({
+    super.key,
+    required this.size,
+    required this.color,
+    required this.borderColor,
+    required this.text,
+    required this.textStyle,
+    required this.onPressed,
+  });
+
+  final Size size;
+  final Color color;
+  final Color borderColor;
+  final String text;
+  final TextStyle? textStyle;
+  final Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: size.width / 1.2,
+        height: size.height / 15,
+        decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 1)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              text,
+              style: textStyle,
+            ),
+          ],
+        ),
       ),
     );
   }
