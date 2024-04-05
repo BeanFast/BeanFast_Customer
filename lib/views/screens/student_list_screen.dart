@@ -22,44 +22,43 @@ class StudentListScreen extends GetView<ProfileController> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  child: Card(
-              
-                    child: Obx(
-                      () => Column(
-                        children: controller.listData.map((e) {
-                          return GestureDetector(
-                            onTap: () {
-                              Get.to(StudentDetailScreen(id: e.id.toString()));
-                            },
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                //  color: index % 2 == 0 ? Colors.white : Colors.grey[300],
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1,
+                  child: Obx(
+                    () => Column(
+                      children: controller.listData.map((e) {
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(StudentDetailScreen(id: e.id.toString()));
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image:
+                                        NetworkImage(e.avatarPath.toString()),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              child: ListTile(
-                                leading: const Icon(Icons.person),
-                                title: Text(
-                                  e.fullName.toString(),
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                subtitle: Text(e.className.toString()),
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    Get.snackbar('title', '222',
-                                        snackPosition: SnackPosition.TOP);
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                ),
+                              title: Text(
+                                e.fullName.toString(),
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              subtitle: Text(e.className.toString()),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  Get.to(
+                                      const StudentFormScreen(isUpdate: true));
+                                },
+                                icon: const Icon(Icons.edit),
                               ),
                             ),
-                          );
-                        }).toList(),
-                      ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),

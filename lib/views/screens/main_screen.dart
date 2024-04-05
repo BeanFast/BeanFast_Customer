@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '/utils/constants.dart';
 import 'account_screen.dart';
@@ -26,22 +27,23 @@ class MainScreen extends StatelessWidget {
           onTap: changePage,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
+              icon: Icon(Iconsax.home),
               label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.assignment_outlined),
+              icon: Icon(Iconsax.box),
               label: 'Đơn hàng',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.history_outlined),
+              icon: Icon(Iconsax.calendar_tick),
               label: 'Giao dịch',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
+              icon: Icon(Iconsax.profile_2user),
               label: 'Tôi',
             ),
           ],
+          unselectedItemColor: Colors.black54,
         ),
       ),
     );

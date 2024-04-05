@@ -11,15 +11,27 @@ class ItemProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GestureDetector(
-          onTap: onPressed,
-          child: ListTile(
-            leading: const Icon(Icons.person),
-            title: Text(model.fullName.toString()),
-            subtitle: Text(model.school!.name.toString()),
+        Card(
+          child: GestureDetector(
+            onTap: onPressed,
+            child: ListTile(
+              leading: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(model.avatarPath.toString()),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              title: Text(model.fullName.toString()),
+              subtitle: Text(model.school!.name.toString()),
+            ),
           ),
         ),
-        const Divider(),
+    
       ],
     );
   }

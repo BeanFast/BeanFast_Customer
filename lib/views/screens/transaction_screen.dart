@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 class TransactionScreen extends StatelessWidget {
   const TransactionScreen({super.key});
@@ -25,7 +26,7 @@ class TransactionScreen extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(100), // Set the border radius to 10
               ),
-              prefixIcon: const Icon(Icons.search),
+              prefixIcon:  const Icon(Iconsax.search_normal),
             ),
             onChanged: (value) {
               // Handle search operation here
@@ -34,7 +35,7 @@ class TransactionScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.filter_list_alt),
+            icon: const Icon(Iconsax.filter_search),
             onPressed: () {
               showFilterDialog(context);
             },
@@ -105,7 +106,7 @@ class TransactionScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(25),
                                 border: Border.all(color: Colors.grey)),
                             child: const Icon(
-                              Icons.account_balance_wallet,
+                              Iconsax.empty_wallet_change,
                               color: Colors.blue,
                             )),
                         const SizedBox(width: 10),

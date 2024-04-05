@@ -14,12 +14,12 @@ class DepositeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Nạp tiền',
-        ),
-      ),
+          title: const Text(
+        'Nạp tiền',
+      )),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding:
+            const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
         child: Column(
           children: [
             Expanded(
@@ -29,7 +29,7 @@ class DepositeScreen extends StatelessWidget {
                   children: [
                     const Text('Số tiền nạp (đ)',
                         style: TextStyle(fontSize: 18)),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -300,8 +300,8 @@ class DepositeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 55,
-              width: double.infinity,
+              width: Get.width / 1.2,
+              height: Get.height / 15,
               child: TextButton(
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all<Color>(
@@ -320,6 +320,7 @@ class DepositeScreen extends StatelessWidget {
                 onPressed: () async {
                   var url = await TransactionService()
                       .createVnpayRequest(depositeController.moneyInt);
+                  print(url);
                   Get.to(
                     () => WillPopScope(
                       onWillPop: () async {
@@ -337,7 +338,7 @@ class DepositeScreen extends StatelessWidget {
                                   TextButton(
                                     onPressed: () =>
                                         Navigator.of(context).pop(true),
-                                    child: const Text('Đúng'),
+                                    child: const Text('Có'),
                                   ),
                                 ],
                               ),
@@ -350,6 +351,28 @@ class DepositeScreen extends StatelessWidget {
                           body: WebView(
                             initialUrl: url,
                             javascriptMode: JavascriptMode.unrestricted,
+                            javascriptChannels: {
+                              JavascriptChannel(
+                                name: 'Pay',
+                                onMessageReceived: (JavascriptMessage message) {
+                                  var resultMessage = message.message;
+                                  print(
+                                      'onMessageReceivedbool' + resultMessage);
+                                  if (resultMessage == 'true') {
+                                    print(
+                                        'onMessageReceived : ${resultMessage}');
+
+                                    Get.snackbar(
+                                        'Thông báo', 'Nạp tiền thành công',
+                                        snackPosition: SnackPosition.TOP);
+                                  } else {
+                                    print(
+                                        'onMessageReceived : ${resultMessage}');
+                                    Get.off(DepositeScreen());
+                                  }
+                                },
+                              ),
+                            },
                           ),
                         ),
                       ),

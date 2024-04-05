@@ -4,6 +4,7 @@ import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/profile_form_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 class StudentFormScreen extends GetView<ProfileFormController> {
@@ -84,15 +85,14 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                     ),
                                   ),
                                   ListTile(
-                                    leading: const Icon(Icons.camera_outlined),
+                                    leading: const Icon(Iconsax.camera),
                                     title: const Text('Chụp ảnh'),
                                     onTap: () async {
                                       controller.pickPhotoFormCamera();
                                     },
                                   ),
                                   ListTile(
-                                    leading: const Icon(
-                                        Icons.photo_library_outlined),
+                                    leading: const Icon(Iconsax.gallery_add),
                                     title:
                                         const Text('Chọn ảnh từ thư viện ảnh'),
                                     onTap: () async {
@@ -109,7 +109,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Icon(Icons.save_outlined),
+                          Icon(Iconsax.document_copy),
                           Text('Tải ảnh', style: TextStyle(fontSize: 14)),
                         ],
                       ),
@@ -444,8 +444,8 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                     width: Get.width / 1.2,
-                            height: Get.height / 15,
+                      width: Get.width / 1.2,
+                      height: Get.height / 15,
                       child: TextButton(
                         style: ButtonStyle(
                           foregroundColor: MaterialStateProperty.all<Color>(
@@ -474,7 +474,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.save_outlined),
+                            Icon(Iconsax.document_copy),
                             SizedBox(width: 10),
                             Text('Lưu', style: TextStyle(fontSize: 18)),
                           ],
