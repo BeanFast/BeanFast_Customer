@@ -1,4 +1,5 @@
 import 'package:beanfast_customer/contrains/theme_color.dart';
+import 'package:beanfast_customer/services/transaction_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -206,35 +207,36 @@ class DepositeScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width, // Set the width
                       height: 85,
                       child: TextFormField(
-                        controller: depositeController.textController,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          CurrencyInputFormatter(),
-                        ],
-                        maxLength: 15,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.all(16),
-                          labelText: 'Giá trị',
-                          counterText: '',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Vui lòng nhập giá trị';
-                          }
-                          final number = num.tryParse(value);
-                          if (number == null) {
-                            return 'Vui lòng nhập đúng giá trị';
-                          }
-                          if (number <= 0) {
-                            return 'Vui lòng nhập đúng giá trị';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) =>
-                            depositeController.updateMoney(value),
-                      ),
+                          controller: depositeController.textController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CurrencyInputFormatter(),
+                          ],
+                          maxLength: 15,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.all(16),
+                            labelText: 'Giá trị',
+                            counterText: '',
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Vui lòng nhập giá trị';
+                            }
+                            final number = num.tryParse(value);
+                            if (number == null) {
+                              return 'Vui lòng nhập đúng giá trị';
+                            }
+                            if (number <= 0) {
+                              return 'Vui lòng nhập đúng giá trị';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) => {
+                                print("money: " + value),
+                                depositeController.updateMoney(value),
+                              }),
                     ),
                     Card(
                       child: Padding(
@@ -314,7 +316,13 @@ class DepositeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  print("Int money: ");
+                  print(depositeController.moneyInt);
+                  var url = await TransactionService()
+                      .createVnpayRequest(depositeController.moneyInt);
+                  print(url);
+                },
                 child: const Text('Nạp tiền', style: TextStyle(fontSize: 18)),
               ),
             ),
@@ -328,9 +336,14 @@ class DepositeScreen extends StatelessWidget {
 class DepositeController extends GetxController {
   final textController = TextEditingController();
   RxString money = ''.obs;
-
+  int moneyInt = 0;
   void updateMoney(String value) {
-    textController.text = value;
+    if (value.isNotEmpty) {
+      textController.text = value;
+      moneyInt = int.parse(value.replaceAll(".", ""));
+    } else {
+      moneyInt = 0;
+    }
     money.value = value.isEmpty ? ' đ' : '$value đ';
   }
 }
