@@ -15,10 +15,10 @@ class OrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(const OrderDetailScreen());
+        Get.to(OrderDetailScreen(orderId: order.id!));
       },
       child: Container(
-        color: ThemeColor.bgColor,
+        color: ThemeColor.itemColor,
         margin: const EdgeInsets.only(bottom: 10),
         child: Container(
           padding: const EdgeInsets.all(10),

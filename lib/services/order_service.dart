@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
-import '../utils/logger.dart';
+import '/utils/logger.dart';
 import '/enums/status_enum.dart';
 import '/models/food.dart';
 import '/models/order.dart';
@@ -27,8 +27,14 @@ class OrderService {
   }
 
   Future<Order> getById(String id) async {
-    final response = await _apiService.request.get('food/$id');
-    return Order.fromJson(response.data['data']);
+    final response = await _apiService.request.get('$baseUrl/$id');
+    Order order = Order.fromJson(response.data['data']);
+    for (var i = 0; i < order.orderDetails!.length; i++) {
+      var responseFood =
+          await FoodService().getById(order.orderDetails![i].foodId!);
+      order.orderDetails![i].food = Food.fromJson(responseFood.data['data']);
+    }
+    return order;
   }
 
   Future<Response> createOrder(String sessionDetailId, String profileId,

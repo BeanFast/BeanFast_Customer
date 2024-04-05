@@ -34,10 +34,10 @@ class Session extends BaseModel {
         orderEndTime: DateTime.parse(json['orderEndTime']),
         deliveryStartTime: DateTime.parse(json['deliveryStartTime']),
         deliveryEndTime: DateTime.parse(json['deliveryEndTime']),
-        menu: Menu.fromJson(json['menu']),
+        menu: json['menu'] == null ? Menu() : Menu.fromJson(json['menu']),
         sessionDetails: json['sessionDetails']?.map<SessionDetail>((item) {
-        return SessionDetail.fromJson(item);
-      }).toList(),
+          return SessionDetail.fromJson(item);
+        }).toList(),
       );
 
   // Map<String, dynamic> toJson() {

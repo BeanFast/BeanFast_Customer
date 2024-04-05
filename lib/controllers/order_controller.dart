@@ -1,13 +1,14 @@
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/models/order.dart';
+import '/utils/logger.dart';
 import '/services/order_service.dart';
 import '/enums/status_enum.dart';
 
 class OrderController extends GetxController {
   RxList<Order> listData = <Order>[].obs;
+  Rx<Order> model = Order().obs;
   OrderStatus orderStatus = OrderStatus.preparing;
   Rx<DateTime> selectedDate = DateTime.now().obs;
   RxString dropdownValue = 'Hoàn thành 1'.obs;
@@ -20,6 +21,14 @@ class OrderController extends GetxController {
   );
   void updateStatus(String status) {
     dropdownValue.value = status;
+  }
+
+  Future getById(String id) async {
+    try {
+      model.value = await OrderService().getById(id);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future getByStatus() async {

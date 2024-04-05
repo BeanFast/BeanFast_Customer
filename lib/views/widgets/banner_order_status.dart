@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '/models/order.dart';
+import '/contrains/theme_color.dart';
 import '/enums/status_enum.dart';
 
 class BannerOrderStatus extends StatelessWidget {
-  final OrderStatus status;
-  const BannerOrderStatus({super.key, required this.status});
+  final Order order;
+  const BannerOrderStatus({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.black;
+    OrderStatus status = OrderStatus.fromInt(order.status!);
+    Color color = ThemeColor.bgColor;
+    Text text = const Text('');
     switch (status) {
       case OrderStatus.preparing:
-        color = Colors.grey[300]!;
+        // color = Colors.grey[300]!;
+        text = const Text('Đang chuẩn bị hàng',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold));
         break;
       case OrderStatus.delivering:
-        color = Colors.grey[300]!;
+        // color = Colors.grey[300]!;
+        text = Text(
+          'Đơn hàng sẽ được giao vào lúc ${DateFormat('hh:mm').format(order.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('hh:mm dd/MM/yy').format(order.sessionDetail!.session!.deliveryEndTime!)}. Vui lòng kiểm tra trước khi nhận hàng',
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        );
         break;
       case OrderStatus.completed:
-        color = Colors.green;
+        text = const Text(
+          'Cảm ơn bạn chọn BeanFast!',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        );
         break;
       case OrderStatus.cancelled:
-        color = Colors.red;
+        text = const Text(
+          'Đơn hàng đã bị huỷ. Vui lòng liên hệ với chúng tôi để biết thêm chi tiết.',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        );
         break;
       default:
         color = Colors.black;
@@ -32,44 +55,12 @@ class BannerOrderStatus extends StatelessWidget {
       padding: const EdgeInsets.only(left: 10, bottom: 10, right: 10, top: 10),
       child: Row(
         children: [
-          const Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Đang chuẩn bị hàng',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-                Text(
-                  'Đơn hàng sẽ được chuẩn bị trước ngày 1/1/2024.',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                // Text(
-                //   'Đơn hàng sẽ được giao vào lúc 7h30 đến 8h ngày 1/1/2024. Vui lòng kiểm tra trước khi nhận hàng',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //   ),
-                // ),
-                // Text(
-                //   'Cảm ơn bạn chọn BeanFast!',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //   ),
-                // ),
-                // Text(
-                //   'Đơn hàng đã bị huỷ vào 7h30. Vui lòng liên hệ với chúng tôi để biết thêm chi tiết.',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //   ),
-                // ),
-              ],
-            ),
+          Expanded(
+            child: text,
           ),
-          Container(
+          const SizedBox(
             width: 90,
-            child: const Icon(
+            child: Icon(
               Icons.car_rental,
               color: Colors.white,
               size: 90,

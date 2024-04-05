@@ -58,6 +58,9 @@ class Order extends BaseModel {
         orderActivities: json['orderActivities']?.map<OrderActivity>((item) {
           return OrderActivity.fromJson(item);
         }).toList(),
+        sessionDetail: json['sessionDetail'] == null
+            ? SessionDetail()
+            : SessionDetail.fromJson(json['sessionDetail']),
       );
 
   // Map<String, dynamic> toJson() {
