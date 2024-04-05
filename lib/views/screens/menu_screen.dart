@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '/controllers/profile_controller.dart';
+import '/utils/constants.dart';
 import '/contrains/theme_color.dart';
 import '/controllers/menu_controller.dart' as beanfast;
 import '/views/screens/loading_screen.dart';
@@ -10,12 +12,12 @@ import '/views/widgets/menu_item_widget.dart';
 import 'home_screen.dart';
 
 class SessionScreen extends GetView<beanfast.MenuController> {
-  const SessionScreen({super.key, required this.schoolId});
-  final String schoolId;
+  const SessionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Get.put(beanfast.MenuController());
+
     return Scaffold(
       appBar: AppBar(
         actions: headerActionWidget(),
@@ -34,7 +36,7 @@ class SessionScreen extends GetView<beanfast.MenuController> {
   }
 
   Widget menuDetailScreen(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final DateTime? picked = await showDatePicker(
         locale: const Locale("vi", "VI"),
         context: context,
@@ -43,7 +45,9 @@ class SessionScreen extends GetView<beanfast.MenuController> {
         lastDate: DateTime.now().add(const Duration(days: 7)),
       );
       if (picked != null && picked != controller.selectedDate.value) {
-        await controller.getData(schoolId, picked);
+        var profileController = Get.put(ProfileController());
+        await profileController.getCurrentProfile(currentProfile.value.id!);
+        await controller.getData(currentProfile.value.school!.id!, picked);
         final session = await secsionPicker(context);
         if (session != null) {
           controller.updateDate(picked);
@@ -55,7 +59,7 @@ class SessionScreen extends GetView<beanfast.MenuController> {
       }
     });
     return Container(
-      color: Colors.blue,
+      color: ThemeColor.bgColor,
     );
   }
 

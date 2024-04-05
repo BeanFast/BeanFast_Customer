@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/game/matching_card/start_game_screen.dart';
 import 'package:beanfast_customer/game/pac_man/pacman_homepage.dart';
 import 'package:beanfast_customer/game/tetris/board.dart';
@@ -74,8 +75,9 @@ class GameSelectScreen extends StatelessWidget {
                 games[index].onClick();
               },
               child: Container(
-                margin: const EdgeInsets.only(bottom: 5, top: 5),
+                margin: const EdgeInsets.only(bottom: 0, top: 0),
                 child: Card(
+             
                   child: Stack(
                     children: [
                       SizedBox(

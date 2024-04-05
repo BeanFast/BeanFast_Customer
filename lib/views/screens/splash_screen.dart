@@ -48,7 +48,7 @@ class SplashView extends StatelessWidget {
                   return const MainScreen();
                 // return const WelcomeView();
                 case AuthState.unauthenticated:
-                  return const MainScreen();
+                  return  LoginView();
                 default:
                   return const ErrorView(
                       errorMessage: 'Lỗi xác thực đăng nhập'); //

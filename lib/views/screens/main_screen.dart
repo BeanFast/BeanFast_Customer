@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/controllers/main_controller.dart';
+import '/utils/constants.dart';
 import 'account_screen.dart';
 import 'home_screen.dart';
 import 'order_screen.dart';
 import 'transaction_screen.dart';
 
-class MainScreen extends GetView<MainController> {
+class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
@@ -19,11 +19,11 @@ class MainScreen extends GetView<MainController> {
       const AccountScreen()
     ];
     return Scaffold(
-      body: Obx(() => screens[controller.selectedIndex.value]),
+      body: Obx(() => screens[selectedMenuIndex.value]),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
-          currentIndex: controller.selectedIndex.value,
-          onTap: controller.changePage,
+          currentIndex: selectedMenuIndex.value,
+          onTap: changePage,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),

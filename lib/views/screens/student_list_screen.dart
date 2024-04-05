@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/profile_controller.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_detail_screen.dart';
@@ -23,6 +24,7 @@ class StudentListScreen extends GetView<ProfileController> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Card(
+              
                     child: Obx(
                       () => Column(
                         children: controller.listData.map((e) {
@@ -36,7 +38,7 @@ class StudentListScreen extends GetView<ProfileController> {
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Colors.grey,
-                                    width: 0.5,
+                                    width: 1,
                                   ),
                                 ),
                               ),
@@ -81,16 +83,11 @@ class StudentListScreen extends GetView<ProfileController> {
                 child: SizedBox(
                   child: TextButton(
                     style: ButtonStyle(
-                      // foregroundColor: MaterialStateProperty.all<Color>(
-                      //     Colors.white), // Text color
-                      // backgroundColor: MaterialStateProperty.all<Color>(
-                      //     Colors.green), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.all(5)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          // side: const BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),

@@ -1,5 +1,13 @@
+import 'package:beanfast_customer/enums/menu_index_enum.dart';
+import 'package:beanfast_customer/models/location.dart';
+import 'package:beanfast_customer/models/school.dart';
+import 'package:beanfast_customer/services/order_service.dart';
+import 'package:beanfast_customer/utils/constants.dart';
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:get/get.dart';
 
+import '/services/school_service.dart';
+import '/views/screens/splash_screen.dart';
 import '/models/session.dart';
 import '/models/menu_detail.dart';
 import '/models/profile.dart';
@@ -9,9 +17,13 @@ import '/services/profile_service.dart';
 class CartController extends GetxController {
   RxInt itemCount = 0.obs;
   RxDouble total = RxDouble(0);
-  Map<String, Profile> listProfile = <String, Profile>{};
-  Map<String, Session> listSession = <String, Session>{};
+  double totalPrice = 0;
+  Map<String, Profile> listProfile = <String, Profile>{}; // key: profileId
+  Map<String, Session> listSession = <String, Session>{}; // key: sessionId
+  Map<String, Location> listLocation = <String, Location>{}; // key: locationId
   Map<String, MenuDetail> listMenuDetail = <String, MenuDetail>{};
+  Map<String, String> listSessionDetailId =
+      <String, String>{}; // key: sessionId, value: sessionDetailId
   RxMap<String, Map<String, RxMap<String, RxInt>>> listCart =
       <String, Map<String, RxMap<String, RxInt>>>{}.obs;
 
@@ -28,6 +40,8 @@ class CartController extends GetxController {
         try {
           Session sessionData = await SessionService().getById(session.key);
           listSession.putIfAbsent(sessionData.id!, () => sessionData);
+          listSessionDetailId.putIfAbsent(
+              sessionData.id!, () => sessionData.sessionDetails![0].id!);
           for (var menuDetail in sessionData.menu!.menuDetails!.toList()) {
             if (session.value.containsKey(menuDetail.id)) {
               listMenuDetail.putIfAbsent(menuDetail.id!, () => menuDetail);
@@ -43,12 +57,59 @@ class CartController extends GetxController {
     updateTotal();
   }
 
+  Future getLocationsData() async {
+    try {
+      for (var cart in listCart.entries) {
+        School school = await SchoolService()
+            .getById(listProfile[cart.key]!.school!.id.toString());
+        school.locations?.forEach((e) {
+          listLocation.putIfAbsent(e.id!, () => e);
+        });
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  void updateSessionDetai(String sessionId, String sessionDetailId) {
+    listSessionDetailId.update(
+      sessionId,
+      (value) => sessionDetailId,
+      ifAbsent: () => sessionDetailId,
+    );
+  }
+
+  Future<void> checkout() async {
+    logger.e('start checkout');
+    try {
+      for (var cart in listCart.entries) {
+        for (var session in cart.value.entries) {
+          Map<String, int> map = {};
+
+          for (var menuDetail in session.value.entries) {
+            map[menuDetail.key] = menuDetail.value.value;
+          }
+          var response = await OrderService()
+              .createOrder(listSessionDetailId[session.key]!, cart.key, map);
+          logger.e('checkout - ${response.data}');
+        }
+      }
+      listCart.clear();
+      changePage(MenuIndexState.order.index);
+      Get.offAll(SplashView());
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
   void updateTotal() {
     total.value = 0;
+    totalPrice = 0;
     listCart.forEach((profileId, listSession) {
       listSession.forEach((sessionId, cart) {
         cart.forEach((key, value) {
           if (listMenuDetail[key] != null) {
+            totalPrice += listMenuDetail[key]!.food!.price!;
             total.value += value * listMenuDetail[key]!.price!;
           }
         });

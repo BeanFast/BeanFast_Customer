@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/product_detail_screen.dart';
 import 'package:beanfast_customer/views/screens/deposit_screen.dart';
@@ -6,10 +7,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/cart_controller.dart';
+import '/controllers/cart_controller.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/home_controller.dart';
 import '/views/widgets/item_profile_widget.dart';
+import '/views/screens/deposit_screen.dart';
+import '/views/screens/game_select_screen.dart';
 import '/views/widgets/main_icon_button_widget.dart';
 import 'cart_screen.dart';
 import 'gift_exchange_screen.dart';
@@ -17,6 +20,7 @@ import 'loading_screen.dart';
 import 'menu_screen.dart';
 import 'notification_screen.dart';
 import 'student_form_screen.dart';
+import '/utils/constants.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
@@ -42,13 +46,13 @@ class HomeScreen extends GetView<HomeController> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Card(
-                        color: Colors.grey[200],
+                        color: Colors.grey[300],
                         child: Column(
                           children: [
                             Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
+                              decoration:  BoxDecoration(
+                                color: ThemeColor.itemColor,
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(12),
                                 ),
                               ),
@@ -65,10 +69,7 @@ class HomeScreen extends GetView<HomeController> {
                                       showProfilesDialog(context, () {
                                         // currentUser.value
                                         Get.back();
-                                        Get.to(const SessionScreen(
-                                          schoolId:
-                                              'b254a297-cae1-4d26-afe2-b093227ded0a',
-                                        ));
+                                        Get.to(const SessionScreen());
                                       });
                                     },
                                   ),

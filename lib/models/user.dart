@@ -8,7 +8,7 @@ class User extends BaseModel {
   String? email;
   String? avatarPath;
   String? deviceToken;
-  int? balance;
+  double? balance;
 
   User({
     id,
@@ -23,9 +23,9 @@ class User extends BaseModel {
   }) : super(id: id, status: status);
 
   factory User.fromJson(dynamic json) {
-    int balance = 0;
+    double balance = 0;
     if (json['balance'] != null) {
-      balance = json['balance'];
+      balance = double.parse(json['balance'].toString());
     }
     return User(
       id: json["id"],

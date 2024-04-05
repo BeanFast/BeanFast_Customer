@@ -1,5 +1,3 @@
-import 'package:beanfast_customer/models/bmi.dart';
-
 import 'base_model.dart';
 import 'exchange_gift.dart';
 import 'order.dart';
@@ -7,6 +5,7 @@ import 'school.dart';
 import 'user.dart';
 import 'wallet.dart';
 import 'loyaty_card.dart';
+import 'bmi.dart';
 
 class Profile extends BaseModel {
   String? userId;
@@ -49,8 +48,7 @@ class Profile extends BaseModel {
     School school = School();
     if (json['school'] != null) {
       school = School.fromJson(json['school']);
-    }
-    if (json['schoolName'] != null) {
+    } else if (json['schoolName'] != null) {
       school = School(name: json['schoolName']);
     }
     return Profile(

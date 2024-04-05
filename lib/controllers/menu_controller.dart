@@ -1,10 +1,10 @@
-import 'package:beanfast_customer/utils/logger.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import '/models/session.dart';
 import '/models/menu.dart';
 import '/models/menu_detail.dart';
-import '../services/session_service.dart';
+import '/services/session_service.dart';
 
 class MenuModel {
   List<MenuDetail> listDiscountedCombo = [];
@@ -25,22 +25,22 @@ class MenuController extends GetxController {
   var isValidate = false.obs;
 
   Future getData(String schoolId, DateTime dateTime) async {
-    // try {
+    try {
     listSession =
         await SessionService().getSessionsBySchoolId(schoolId, dateTime);
 
     // model.value = listSession.last.menu!;
     // updateFoodsAndCombos(model.value.menuDetails!);
-    // } catch (e) {
-    //   throw Exception(e);
-    // }
+    } on DioException catch (e) {
+      throw Exception(e);
+    }
   }
 
   void getMenu() {
     model.value = listSession
         .where((e) =>
-            e.orderStartTime!.isBefore(selectedDate.value) &&
-            e.orderEndTime!.isAfter(selectedDate.value))
+            e.deliveryStartTime!.isBefore(selectedDate.value) &&
+            e.deliveryEndTime!.isAfter(selectedDate.value))
         .first
         .menu!;
     updateFoodsAndCombos(model.value.menuDetails!);

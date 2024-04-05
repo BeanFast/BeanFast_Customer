@@ -18,6 +18,7 @@ class LoginView extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: const Text(
           'Đăng Nhập',
@@ -25,10 +26,9 @@ class LoginView extends GetView<AuthController> {
       ),
       body: SingleChildScrollView(
         reverse: true,
-        child: Form(
-          key: _formKey,
-          child: Container(
-            color: Colors.black.withOpacity(0.1),
+        child: Container(
+          child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 SizedBox(

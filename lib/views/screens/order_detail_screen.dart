@@ -15,7 +15,6 @@ class OrderDetailScreen extends StatelessWidget {
     Order order = Order();
     order.status = 1;
     return Scaffold(
-      backgroundColor: ThemeColor.bgColor1,
       appBar: AppBar(
         title: const Text('Chi tiết đơn hàng'),
       ),

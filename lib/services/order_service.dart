@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
+import '../utils/logger.dart';
 import '/enums/status_enum.dart';
 import '/models/food.dart';
 import '/models/order.dart';
@@ -27,5 +29,26 @@ class OrderService {
   Future<Order> getById(String id) async {
     final response = await _apiService.request.get('food/$id');
     return Order.fromJson(response.data['data']);
+  }
+
+  Future<Response> createOrder(String sessionDetailId, String profileId,
+      Map<String, int> listCart) async {
+    List<Map<String, dynamic>> orderDetails = [];
+    listCart.forEach((key, value) {
+      Map<String, dynamic> orderDetail = {
+        "quantity": value,
+        "note": "aa",
+        "menuDetailId": key,
+      };
+      orderDetails.add(orderDetail);
+    });
+    Map<String, dynamic> data = {
+      'sessionDetailId': sessionDetailId,
+      'profileId': profileId,
+      'orderDetails': orderDetails,
+    };
+    logger.e('data - $data');
+    final response = await _apiService.request.post(baseUrl, data: data);
+    return response;
   }
 }
