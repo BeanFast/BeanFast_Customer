@@ -10,9 +10,9 @@ class SessionService {
 
   Future<List<Session>> getSessionsBySchoolId(
       String schoolId, DateTime dateTime) async {
-    String date = DateFormat('dd-MM-yyyy').format(dateTime);
+    String date = DateFormat('yyyy-MM-dd').format(dateTime);
     final response = await _apiService.request
-        .get('$baseUrl?SchoolId=$schoolId&OrderTime=$date');
+        .get('$baseUrl?Orderable=true&SchoolId=$schoolId&DeliveryTime=$date');
     List<Session> list = [];
     for (var e in response.data['data']) {
       list.add(Session.fromJson(e));

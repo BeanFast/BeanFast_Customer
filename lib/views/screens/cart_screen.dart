@@ -331,27 +331,43 @@ class CartScreen extends GetView<CartController> {
                   SizedBox(
                     height: 50,
                     width: 140,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white), // Text color
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.green), // Background color
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(5)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            side: const BorderSide(color: Colors.grey),
+                    child: Obx(
+                      () => TextButton(
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                                  (states) {
+                            // if (states.contains(MaterialState.disabled)) {
+                            //   return Colors.grey;
+                            // }
+                            return Colors.white;
+                          }),
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                                  (states) {
+                            if (states.contains(MaterialState.disabled)) {
+                              return Colors.grey;
+                            }
+                            return Colors.green;
+                          }),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.all(5)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              side: const BorderSide(color: Colors.grey),
+                            ),
                           ),
                         ),
+                        onPressed: controller.listCart.isEmpty
+                            ? null
+                            : () {
+                                Get.to(const CheckOutDetailScreen());
+                              },
+                        child: const Text('Đặt hàng',
+                            style: TextStyle(fontSize: 18)),
                       ),
-                      onPressed: () {
-                        Get.to(const CheckOutDetailScreen());
-                      },
-                      child: const Text('Đặt hàng',
-                          style: TextStyle(fontSize: 18)),
                     ),
                   ),
                 ],

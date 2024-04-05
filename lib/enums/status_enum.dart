@@ -10,10 +10,10 @@ enum Status {
 }
 
 enum OrderStatus {
-  preparing(1, 'Chờ chuẩn bị'),
-  delivering(2, 'Chờ giao hàng'),
-  completed(3, 'Hoàn thành'),
-  cancelled(4, 'Đã hủy');
+  preparing(3, 'Chờ chuẩn bị'),
+  delivering(4, 'Chờ giao hàng'),
+  completed(5, 'Hoàn thành'),
+  cancelled(6, 'Đã hủy');
 
   const OrderStatus(this.code, this.message);
 
@@ -22,13 +22,13 @@ enum OrderStatus {
 
   static OrderStatus fromInt(int code) {
     switch (code) {
-      case 1:
-        return OrderStatus.preparing;
-      case 2:
-        return OrderStatus.delivering;
       case 3:
-        return OrderStatus.completed;
+        return OrderStatus.preparing;
       case 4:
+        return OrderStatus.delivering;
+      case 5:
+        return OrderStatus.completed;
+      case 6:
         return OrderStatus.cancelled;
       default:
         return OrderStatus.preparing;

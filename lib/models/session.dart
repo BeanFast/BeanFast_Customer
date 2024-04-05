@@ -10,7 +10,7 @@ class Session extends BaseModel {
   DateTime? deliveryStartTime;
   DateTime? deliveryEndTime;
   Menu? menu;
-  List<SessionDetail>? sessionDetail;
+  List<SessionDetail>? sessionDetails;
 
   Session({
     id,
@@ -21,7 +21,8 @@ class Session extends BaseModel {
     this.orderEndTime,
     this.deliveryStartTime,
     this.deliveryEndTime,
-    this.menu
+    this.menu,
+    this.sessionDetails,
   }) : super(id: id, status: status);
 
   factory Session.fromJson(dynamic json) => Session(
@@ -34,6 +35,9 @@ class Session extends BaseModel {
         deliveryStartTime: DateTime.parse(json['deliveryStartTime']),
         deliveryEndTime: DateTime.parse(json['deliveryEndTime']),
         menu: Menu.fromJson(json['menu']),
+        sessionDetails: json['sessionDetails']?.map<SessionDetail>((item) {
+        return SessionDetail.fromJson(item);
+      }).toList(),
       );
 
   // Map<String, dynamic> toJson() {

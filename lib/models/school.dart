@@ -27,6 +27,7 @@ class School extends BaseModel {
     this.name,
     this.address,
     this.imagePath,
+    this.locations,
   }) : super(id: id, status: status);
 
   factory School.fromJson(dynamic json) {
@@ -39,6 +40,11 @@ class School extends BaseModel {
       name: json['name'],
       address: json['address'],
       imagePath: json['imagePath'] ?? "",
+      locations: json['locations'] == null
+          ? []
+          : json['locations']?.map<Location>((item) {
+              return Location.fromJson(item);
+            }).toList(),
     );
   }
 
