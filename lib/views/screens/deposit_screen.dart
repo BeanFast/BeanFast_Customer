@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DepositeScreen extends StatelessWidget {
   final DepositeController depositeController = Get.put(DepositeController());
@@ -317,11 +318,17 @@ class DepositeScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  print("Int money: ");
-                  print(depositeController.moneyInt);
                   var url = await TransactionService()
                       .createVnpayRequest(depositeController.moneyInt);
-                  print(url);
+                  Get.to(() => SafeArea(
+                        child: Scaffold(
+                          appBar: AppBar(),
+                          body: WebView(
+                            initialUrl: url,
+                            javascriptMode: JavascriptMode.unrestricted,
+                          ),
+                        ),
+                      ));
                 },
                 child: const Text('Nạp tiền', style: TextStyle(fontSize: 18)),
               ),
