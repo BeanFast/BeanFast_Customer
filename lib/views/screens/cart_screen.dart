@@ -19,7 +19,6 @@ class CartScreen extends GetView<CartController> {
       appBar: AppBar(
         title: const Text('Giỏ hàng'),
       ),
-      backgroundColor: ThemeColor.bgColor1,
       body: LoadingScreen(
         future: controller.getData,
         child: Column(
@@ -82,7 +81,6 @@ class CartScreen extends GetView<CartController> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(12)),
                               child: Card(
-                                color: ThemeColor.bgColor,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,

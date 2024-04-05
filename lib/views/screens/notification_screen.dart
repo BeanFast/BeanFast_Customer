@@ -23,7 +23,7 @@ class NotificationScreen extends StatelessWidget {
         ],
       ),
       body: Card(
-        //  color: Colors.green,
+
         child: ListView.builder(
           itemCount: notificationController.notifications.length,
           itemBuilder: (context, index) {

@@ -16,7 +16,7 @@ class MainIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 5, bottom: 5),
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       width: Get.width / 4 - 10,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

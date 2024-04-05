@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/product_detail_screen.dart';
 import 'package:beanfast_customer/views/screens/deposit_screen.dart';
@@ -42,13 +43,13 @@ class HomeScreen extends GetView<HomeController> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Card(
-                        color: Colors.grey[200],
+                        color: Colors.grey[300],
                         child: Column(
                           children: [
                             Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
+                              decoration:  BoxDecoration(
+                                color: ThemeColor.itemColor,
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(12),
                                 ),
                               ),

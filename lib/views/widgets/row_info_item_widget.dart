@@ -16,9 +16,9 @@ class RowInfoItemWidget extends StatelessWidget {
           SizedBox(
               child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
-              color: Colors.grey[600],
+              color: Colors.black54,
             ),
           )),
           Expanded(
@@ -26,7 +26,7 @@ class RowInfoItemWidget extends StatelessWidget {
               data,
               textAlign: TextAlign.right,
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
               ),
             ),
           ),

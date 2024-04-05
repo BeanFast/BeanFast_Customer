@@ -8,8 +8,9 @@ class ThemeColor {
   // // static Color m3BaseColor = const Color.fromRGBO(255,157,139, 1);
   // static Color cardBgColor = const Color.fromRGBO(255, 244, 233, 1);
   //E4FAF6
-  static Color bgColor = HexColor("#FFFFFF");
-  static Color bgColor1 = HexColor("#EEEEEE");
+  static Color bgColor = HexColor("#EDEDED");
+  static Color itemColor = HexColor("#FFFFFF");
+
   static Color bgColor2 = HexColor('#F3FBF7');
   static Color bgColor3 = HexColor('#F5FFF6');
   static Color bgTitleColor = HexColor('#E4FAF6');
@@ -18,7 +19,6 @@ class ThemeColor {
   static Color textColor = HexColor('#070908');
   static Color iconButtonColor = HexColor('#5f5f5f');
 
-  
 }
 Color HexColor(String hex) {
   final buffer = StringBuffer();

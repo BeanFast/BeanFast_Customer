@@ -29,7 +29,7 @@ class CheckOutDetailScreen extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         left: 5, right: 5),
                                     child: Card(
-                                      color: ThemeColor.bgColor,
+                                    
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
