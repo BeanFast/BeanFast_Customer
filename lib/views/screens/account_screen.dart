@@ -16,6 +16,7 @@ class AccountScreen extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -54,7 +55,7 @@ class AccountScreen extends GetView<AuthController> {
                                   bottom: 0,
                                   left: 0,
                                   right: 0,
-                                  child: Card(                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                  child: Card(
                                     child: SizedBox(
                                       height: topCardheight,
                                       width: innerWidth,
@@ -250,8 +251,10 @@ class AccountScreen extends GetView<AuthController> {
                                                                     Colors
                                                                         .blue),
                                                         foregroundColor:
-                                                            MaterialStateProperty.all<Color>(
-                                                                 Colors.white),
+                                                            MaterialStateProperty
+                                                                .all<Color>(
+                                                                    Colors
+                                                                        .white),
                                                         shape: MaterialStateProperty.all<
                                                                 RoundedRectangleBorder>(
                                                             const RoundedRectangleBorder(
@@ -372,12 +375,9 @@ class AccountScreen extends GetView<AuthController> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
+                       Text(
                         "Tiện ích",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: theme.headlineMedium,
                       ),
                       const SizedBox(height: 10),
                       Card(
@@ -446,7 +446,9 @@ class AccountScreen extends GetView<AuthController> {
                                           10), // Adjust the value as needed
                                     ),
                                   ))),
-                              child: const Text('Đăng xuất'),
+                              child: Text('Đăng xuất',
+                                  style: theme.titleSmall!
+                                      .copyWith(color: Colors.white)),
                             ),
                           ),
                           SizedBox(
@@ -469,21 +471,17 @@ class AccountScreen extends GetView<AuthController> {
                                           10), // Adjust the value as needed
                                     ),
                                   ))),
-                              child: const Text('Đổi tài khoản'),
+                              child: Text('Đổi tài khoản',
+                                  style: theme.titleSmall!
+                                      .copyWith(color: Colors.white)),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Align(
+                      Align(
                         alignment: Alignment.center,
-                        child: Text(
-                          "Phiên bản 1.0.0",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
-                        ),
+                        child: Text("Phiên bản 1.0.0", style: theme.bodySmall),
                       )
                     ],
                   ),

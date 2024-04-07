@@ -1,8 +1,6 @@
-import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/screens/deposit_screen.dart';
-import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -11,11 +9,8 @@ import '/controllers/auth_controller.dart';
 import '/controllers/cart_controller.dart';
 import '/controllers/home_controller.dart';
 import '/views/widgets/item_profile_widget.dart';
-import '/views/widgets/main_icon_button_widget.dart';
 import 'cart_screen.dart';
-import 'gift_exchange_screen.dart';
 import 'loading_screen.dart';
-import 'menu_screen.dart';
 import 'notification_screen.dart';
 import 'student_form_screen.dart';
 
@@ -28,225 +23,254 @@ class HomeScreen extends GetView<HomeController> {
     var authController = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 90,
         actions: headerActionWidget(),
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Column(
-            children: [
-              Expanded(
-                  child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Card(
-                        color: Colors.grey[300],
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: ThemeColor.itemColor,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(12),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  MainIconButton(
-                                    icon: Iconsax.shop_add,
-                                    text: "Đặt hàng",
-                                    isNew: false,
-                                    onPressed: () {
-                                      showProfilesDialog(context, () {
-                                        // currentUser.value
-                                        Get.back();
-                                        Get.to(const SessionScreen());
-                                      });
-                                    },
-                                  ),
-                                  MainIconButton(
-                                    icon: Iconsax.wallet_add,
-                                    text: "Nạp tiền",
-                                    // text: "Nạp tiền",
-                                    isNew: false,
-                                    onPressed: () {
-                                      // Get.to(const MyLoadingWidget());
-                                      Get.to(DepositeScreen());
-                                    },
-                                  ),
-                                  MainIconButton(
-                                    icon: Iconsax.gift,
-                                    text: "Đổi thưởng",
-                                    isNew: true,
-                                    onPressed: () {
-                                      showProfilesDialog(context, () {
-                                        Get.back();
-                                        Get.to(const GiftExchangeScreen());
-                                      });
-                                    },
-                                  ),
-                                  MainIconButton(
-                                    icon: Iconsax.game,
-                                    text: "Trò chơi",
-                                    isNew: true,
-                                    onPressed: () {
-                                      showProfilesDialog(context, () {
-                                        Get.back();
-                                        Get.to(const GameSelectScreen());
-                                      });
-                                      // Get.to(QRScanScreen());
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 40,
-                              child: Obx(
-                                () => Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        authController.isMoneyVisible.value
-                                            ? Icons.visibility_outlined
-                                            : Icons.visibility_off_outlined,
-                                        size: 16,
-                                      ),
-                                      onPressed: () {
-                                        authController.toggleMoneyVisibility();
-                                      },
-                                    ),
-                                    Text(
-                                      authController.moneyValue.value,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        height: 150,
-                        autoPlayInterval: const Duration(seconds: 15),
-                      ),
-                      items: [
-                        // Replace these with your image widgets
-                        'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                        'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                        'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                      ].map((imageUrl) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return GestureDetector(
-                              onTap: () {
-                                // Handle the tap
-                                Get.snackbar(
-                                  "SnakeBar Title",
-                                  'Image clicked: $imageUrl',
-                                  snackPosition: SnackPosition.TOP,
-                                );
-                              },
-                              child: Card(
-                                color: Colors.red,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      imageUrl,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 20),
-                    GridView.builder(
-                      itemCount: 4,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: (Get.height - 50 - 25) / (4 * 240),
-                      ),
-                      itemBuilder: (context, index) {
-                        return InkWell(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    height: 150,
+                    autoPlayInterval: const Duration(seconds: 15),
+                  ),
+                  items: [
+                    // Replace these with your image widgets
+                    'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
+                    'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
+                    'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
+                  ].map((imageUrl) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return GestureDetector(
                           onTap: () {
+                            // Handle the tap
                             Get.snackbar(
                               "SnakeBar Title",
-                              'Image clicked:',
+                              'Image clicked: $imageUrl',
                               snackPosition: SnackPosition.TOP,
                             );
                           },
                           child: Card(
+                            color: Colors.red,
                             child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Image.network(
-                                      'https://cdn-icons-png.flaticon.com/512/3486/3486989.png',
-                                      fit: BoxFit.cover,
-                                      width: 100,
-                                      height: 100,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    'Giảm Giá',
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black.withOpacity(0.6)),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    'Đơn hàng của tôi',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black.withOpacity(0.5)),
-                                  )
-                                ],
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(horizontal: 0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
                         );
                       },
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
-              ))
-            ],
+                const SizedBox(height: 20),
+                //day selecter
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    width: MediaQuery.of(context).size.width - 25,
+                    alignment: Alignment.center,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                                onPressed: controller.backWeek,
+                                icon: const Icon(Iconsax.arrow_circle_left)),
+                            Obx(
+                              () => TextButton(
+                                child: Text(
+                                    '${controller.currentMonth}/${controller.currentYear}',
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black)),
+                                onPressed: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(2100),
+                                  ).then((value) {
+                                    if (value != null) {
+                                      controller.updateSelectedDate(value);
+                                      controller.now.value = value;
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: controller.nextWeek,
+                                icon: const Icon(Iconsax.arrow_circle_right)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: List.generate(
+                            7,
+                            (index) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10),
+                                  child: Text(
+                                    index + 2 == 8 ? 'CN' : 'T${index + 2}',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    DateTime chosenDate = controller
+                                        .dayOfWeekDateTime(index)
+                                        .value;
+                                    DateTime today = DateTime(
+                                        DateTime.now().year,
+                                        DateTime.now().month,
+                                        DateTime.now().day);
+                                    if (chosenDate.isBefore(today) &&
+                                        !controller.isSameDay(
+                                            chosenDate, today)) {
+                                      // If the chosen date is in the past and not today, return early without updating the selected date
+                                      return;
+                                    }
+                                    controller.updateSelectedDate(chosenDate);
+                                    print('Chosen date: $chosenDate');
+                                  },
+                                  child: Obx(
+                                    () => Container(
+                                      width: 25,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                        color: controller.isSameDay(
+                                                controller.selectedDate.value,
+                                                controller
+                                                    .dayOfWeekDateTime(index)
+                                                    .value)
+                                            ? Colors.blue
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(
+                                            50), // Make the Container circular
+                                      ),
+                                      child: Obx(
+                                        () => Center(
+                                          // Center the Text widget
+                                          child: Text(
+                                            '${controller.dayOfWeek(index)}',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: controller
+                                                          .dayOfWeekDateTime(
+                                                              index)
+                                                          .value
+                                                          .isBefore(
+                                                            DateTime(
+                                                              DateTime.now()
+                                                                  .year,
+                                                              DateTime.now()
+                                                                  .month,
+                                                              DateTime.now()
+                                                                  .day,
+                                                            ),
+                                                          ) &&
+                                                      !controller.isSameDay(
+                                                          controller
+                                                              .dayOfWeekDateTime(
+                                                                  index)
+                                                              .value,
+                                                          DateTime.now())
+                                                  ? Colors.grey
+                                                  : Colors.black,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                //Sesion Selecter
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      3,
+                      (index) => Obx(
+                        () => GestureDetector(
+                          onTap: () {
+                            controller.selectedSession.value = index;
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Card(
+                              color: controller.selectedSession.value == index
+                                  ? Colors.blue
+                                  : Colors.white,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 5, bottom: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(12),
+                                  ),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Text('Sáng ${index + 1}',
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                //Menu Food
+              ],
+            ),
           ),
         ),
       ),
@@ -316,7 +340,55 @@ class HomeScreen extends GetView<HomeController> {
 
 List<Widget> headerActionWidget() {
   Get.put(CartController());
+
   return <Widget>[
+    SizedBox(
+      height: 70,
+      width: Get.width - 110,
+      child: ListTile(
+        onTap: () {
+          //show QR profile
+        },
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: Image(
+            image: Image.network(
+                    'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg')
+                .image,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: const Text(
+          'BeanFast',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.green,
+          ),
+        ),
+        subtitle: const Text(
+          'Fast food delivery',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.grey,
+          ),
+        ),
+        trailing: IconButton(
+          icon: const Icon(
+            Icons.keyboard_arrow_down,
+            size: 24,
+            color: Colors.green,
+          ),
+          onPressed: () {
+            //chang profile
+          },
+        ),
+      ),
+    ),
+    const Spacer(),
     Stack(
       children: [
         Container(
@@ -406,3 +478,103 @@ List<Widget> headerActionWidget() {
     ),
   ];
 }
+          // Padding(
+                    //   padding: const EdgeInsets.only(top: 20, bottom: 10),
+                    //   child: Card(
+                    //     color: Colors.grey[300],
+                    //     child: Column(
+                    //       children: [
+                    //         Container(
+                    //           decoration: BoxDecoration(
+                    //             color: ThemeColor.itemColor,
+                    //             borderRadius: const BorderRadius.all(
+                    //               Radius.circular(12),
+                    //             ),
+                    //           ),
+                    //           child: Row(
+                    //             mainAxisAlignment:
+                    //                 MainAxisAlignment.spaceEvenly,
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             children: [
+                    //               MainIconButton(
+                    //                 icon: Iconsax.shop_add,
+                    //                 text: "Đặt hàng",
+                    //                 isNew: false,
+                    //                 onPressed: () {
+                    //                   showProfilesDialog(context, () {
+                    //                     // currentUser.value
+                    //                     Get.back();
+                    //                     Get.to(const SessionScreen());
+                    //                   });
+                    //                 },
+                    //               ),
+                    //               MainIconButton(
+                    //                 icon: Iconsax.wallet_add,
+                    //                 text: "Nạp tiền",
+                    //                 // text: "Nạp tiền",
+                    //                 isNew: false,
+                    //                 onPressed: () {
+                    //                   // Get.to(const MyLoadingWidget());
+                    //                   Get.to(DepositeScreen());
+                    //                 },
+                    //               ),
+                    //               MainIconButton(
+                    //                 icon: Iconsax.gift,
+                    //                 text: "Đổi thưởng",
+                    //                 isNew: true,
+                    //                 onPressed: () {
+                    //                   showProfilesDialog(context, () {
+                    //                     Get.back();
+                    //                     Get.to(const GiftExchangeScreen());
+                    //                   });
+                    //                 },
+                    //               ),
+                    //               MainIconButton(
+                    //                 icon: Iconsax.game,
+                    //                 text: "Trò chơi",
+                    //                 isNew: true,
+                    //                 onPressed: () {
+                    //                   showProfilesDialog(context, () {
+                    //                     Get.back();
+                    //                     Get.to(const GameSelectScreen());
+                    //                   });
+                    //                   // Get.to(QRScanScreen());
+                    //                 },
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //         SizedBox(
+                    //           height: 40,
+                    //           child: Obx(
+                    //             () => Row(
+                    //               children: [
+                    //                 IconButton(
+                    //                   icon: Icon(
+                    //                     authController.isMoneyVisible.value
+                    //                         ? Icons.visibility_outlined
+                    //                         : Icons.visibility_off_outlined,
+                    //                     size: 16,
+                    //                   ),
+                    //                   onPressed: () {
+                    //                     authController.toggleMoneyVisibility();
+                    //                   },
+                    //                 ),
+                    //                 Text(
+                    //                   authController.moneyValue.value,
+                    //                   style: const TextStyle(
+                    //                       color: Colors.black,
+                    //                       fontSize: 14,
+                    //                       fontWeight: FontWeight.bold),
+                    //                   overflow: TextOverflow.ellipsis,
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+         
+           

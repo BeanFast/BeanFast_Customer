@@ -1,4 +1,6 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/contrains/theme_color.dart';
+import 'package:beanfast_customer/contrains/theme_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -9,6 +11,7 @@ class AccountProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(
         children: [
@@ -42,7 +45,7 @@ class AccountProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Positioned(
+          Positioned(
             top: 300,
             left: 0,
             right: 0,
@@ -50,18 +53,14 @@ class AccountProfileScreen extends StatelessWidget {
               children: [
                 Text(
                   'Nguyễn Văn A',
-                  style:
-                      TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                  style: theme.labelLarge,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text(
                   '0966324244',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black54),
+                  style: theme.bodyMedium,
                 ),
               ],
             ),
@@ -107,7 +106,10 @@ class AccountProfileScreen extends StatelessWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text('Cập nhật tên'),
+                                  title: Text(
+                                    'Cập nhật tên',
+                                    style: theme.bodyLarge,
+                                  ),
                                   content: const TextField(
                                     decoration: InputDecoration(
                                       hintText: 'Nguyễn Văn A',
@@ -139,7 +141,9 @@ class AccountProfileScreen extends StatelessWidget {
                       child: ListTile(
                         leading: Icon(Icons.child_care),
                         title: Text('Số học sinh'),
-                        subtitle: Text('5'),
+                        subtitle: Text(
+                          '5',
+                        ),
                         trailing: Icon(Icons.arrow_forward_ios_outlined),
                       ),
                     ),
