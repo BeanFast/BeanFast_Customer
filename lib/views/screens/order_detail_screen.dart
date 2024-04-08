@@ -1,5 +1,7 @@
+import 'package:beanfast_customer/views/screens/order_time_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '/controllers/order_controller.dart';
@@ -34,54 +36,53 @@ class OrderDetailScreen extends GetView<OrderController> {
                 Container(
                   color: ThemeColor.itemColor,
                   padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.location_on, size: 20),
-                              SizedBox(width: 8),
-                              Text('Địa chỉ nhận hàng',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                  )),
-                            ],
-                          ),
-                          Text('Trường tiểu học ',
-                              style: TextStyle(
-                                fontSize: 14,
-                              )),
-                        ],
-                      ),
-                      const Align(
-                        alignment: Alignment.centerRight,
-                        child: Text('Cổng số 1',
-                            style: TextStyle(
-                              fontSize: 14,
-                            )),
-                      ),
-                      const SizedBox(height: 5),
-                      if (controller.model.value.deliveryDate != null)
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(const OrderTimeline());
+                    },
+                    child: Column(
+                      children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Row(
+                            Row(
                               children: [
-                                Icon(Icons.local_shipping_outlined, size: 20),
-                                SizedBox(width: 8),
-                                Text('Thông tin vận chuyển',
-                                    style: TextStyle(fontSize: 14)),
+                                const Icon(Iconsax.location, size: 20),
+                                const SizedBox(width: 8),
+                                Text('Địa chỉ nhận hàng',
+                                    style: Get.textTheme.labelLarge),
                               ],
                             ),
-                            Text(
-                                DateFormat('hh:mm dd/MM/yy').format(
-                                    controller.model.value.deliveryDate!),
-                                style: const TextStyle(fontSize: 14)),
+                            Text('Trường tiểu học ',
+                                style: Get.textTheme.bodySmall),
                           ],
                         ),
-                    ],
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child:
+                              Text('Cổng số 1', style: Get.textTheme.bodySmall),
+                        ),
+                        const SizedBox(height: 5),
+                        if (controller.model.value.deliveryDate != null)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Iconsax.truck_fast, size: 20),
+                                  const SizedBox(width: 8),
+                                  Text('Thông tin vận chuyển',
+                                      style: Get.textTheme.labelLarge),
+                                ],
+                              ),
+                              Text(
+                                  DateFormat('hh:mm dd/MM/yy').format(
+                                      controller.model.value.deliveryDate!),
+                                  style: Get.textTheme.bodySmall),
+                            ],
+                          ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -97,7 +98,7 @@ class OrderDetailScreen extends GetView<OrderController> {
                           Text(
                               controller.model.value.profile!.fullName
                                   .toString(),
-                              style: const TextStyle(fontSize: 16)),
+                              style: Get.textTheme.titleSmall),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -134,21 +135,19 @@ class OrderDetailScreen extends GetView<OrderController> {
                                             children: [
                                               Text(e.food!.name.toString(),
                                                   maxLines: 1,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  )),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      Get.textTheme.bodyMedium),
                                               Align(
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: Text('x${e.quantity}',
                                                     maxLines: 1,
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    )),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: Get
+                                                        .textTheme.bodySmall),
                                               ),
                                               Align(
                                                 alignment:
@@ -157,12 +156,12 @@ class OrderDetailScreen extends GetView<OrderController> {
                                                     Formater.formatMoney(
                                                         e.price.toString()),
                                                     maxLines: 1,
-                                                    style: const TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 14,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    )),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: Get
+                                                        .textTheme.bodySmall!
+                                                        .copyWith(
+                                                            color: Colors.red)),
                                               ),
                                             ],
                                           ),
@@ -180,24 +179,22 @@ class OrderDetailScreen extends GetView<OrderController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                              '${controller.model.value.orderDetails!.length.toString()} sản phẩm',
-                              style: const TextStyle(
-                                fontSize: 14,
-                              )),
+                            '${controller.model.value.orderDetails!.length.toString()} sản phẩm',
+                            style: Get.textTheme.bodySmall,
+                          ),
                           Row(
                             children: [
-                              const Text('Thành tiền ',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                  )),
                               Text(
-                                  Formater.formatMoney(controller
-                                      .model.value.totalPrice
-                                      .toString()),
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.red,
-                                  )),
+                                'Thành tiền ',
+                                style: Get.textTheme.bodySmall,
+                              ),
+                              Text(
+                                Formater.formatMoney(controller
+                                    .model.value.totalPrice
+                                    .toString()),
+                                style: Get.textTheme.bodySmall!
+                                    .copyWith(color: Colors.red),
+                              ),
                             ],
                           ),
                         ],
@@ -214,22 +211,21 @@ class OrderDetailScreen extends GetView<OrderController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Mã đơn hàng',
-                              style: TextStyle(fontSize: 14)),
+                          Text('Mã đơn hàng', style: Get.textTheme.bodyMedium),
                           Text('#${controller.model.value.code.toString()}',
-                              style: const TextStyle(fontSize: 14)),
+                              style: Get.textTheme.bodySmall),
                         ],
                       ),
                       const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Thời gian đặt hàng',
-                              style: TextStyle(fontSize: 14)),
+                          Text('Thời gian đặt hàng',
+                              style: Get.textTheme.bodyMedium),
                           Text(
                               DateFormat('hh:mm dd/MM/yy')
                                   .format(controller.model.value.paymentDate!),
-                              style: const TextStyle(fontSize: 14)),
+                              style: Get.textTheme.bodySmall),
                         ],
                       ),
                     ],
