@@ -2,8 +2,8 @@ import 'package:beanfast_customer/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../services/auth_service.dart';
-import '../../utils/logger.dart';
+import '/services/auth_service.dart';
+import '/utils/logger.dart';
 import '/controllers/auth_controller.dart';
 import '/enums/auth_state_enum.dart';
 import 'error_screen.dart';
@@ -42,7 +42,7 @@ class SplashView extends StatelessWidget {
           // } else {
             // logger.e('else');
             return Obx(() {
-              switch (_authController.authState.value) {
+              switch (authState.value) {
                 case AuthState.authenticated:
                   return const MainScreen();
                 // return const WelcomeView();

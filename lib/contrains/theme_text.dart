@@ -14,18 +14,18 @@ class DTextTheme {
     ),
     //headline
     headlineLarge: TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      fontSize: 23,
       fontFamily: 'Roboto',
     ),
     headlineMedium: TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      fontSize: 22,
       fontFamily: 'Roboto',
     ),
     headlineSmall: TextStyle(
-      fontWeight: FontWeight.w400,
-      fontSize: 15,
+      fontWeight: FontWeight.w600,
+      fontSize: 21,
       fontFamily: 'Roboto',
     ),
     //title
@@ -44,7 +44,6 @@ class DTextTheme {
       fontSize: 15,
       fontFamily: 'Roboto',
     ),
-
     //label
     labelLarge: TextStyle(
       fontWeight: FontWeight.w500,
