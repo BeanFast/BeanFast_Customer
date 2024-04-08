@@ -1,20 +1,17 @@
+import 'package:beanfast_customer/contrains/theme_text.dart';
 import 'package:flutter/material.dart';
 
 import 'theme_color.dart';
 
 class AppTheme {
   static ThemeData defaulTheme = ThemeData(
+    fontFamily: 'Roboto',
     scaffoldBackgroundColor: ThemeColor.bgColor,
     primaryColor: ThemeColor.primaryColor,
-    primaryTextTheme: TextTheme(
-      headlineSmall: TextStyle(color: ThemeColor.textColor),
-      titleSmall: TextStyle(color: ThemeColor.textColor, fontSize: 16),
-      bodySmall: TextStyle(color: ThemeColor.textColor, fontSize: 12),
-    ),
+    textTheme: DTextTheme.textTheme,
+    // primaryTextTheme: DTextTheme.textTheme,
     // textTheme: TextTheme(titleMedium: ),
-    listTileTheme: ListTileThemeData(
-      selectedColor: ThemeColor.inputColor,
-    ),
+    
     highlightColor: ThemeColor.primaryColor,
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: TextStyle(
