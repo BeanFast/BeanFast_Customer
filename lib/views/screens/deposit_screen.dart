@@ -6,6 +6,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../enums/menu_index_enum.dart';
+import '../../services/auth_service.dart';
+import '../../utils/constants.dart';
+import 'splash_screen.dart';
+
 class DepositeScreen extends StatelessWidget {
   final DepositeController depositeController = Get.put(DepositeController());
   DepositeScreen({super.key});
@@ -354,21 +359,25 @@ class DepositeScreen extends StatelessWidget {
                             javascriptChannels: {
                               JavascriptChannel(
                                 name: 'Pay',
-                                onMessageReceived: (JavascriptMessage message) {
+                                onMessageReceived:
+                                    (JavascriptMessage message) async {
                                   var resultMessage = message.message;
                                   print(
                                       'onMessageReceivedbool' + resultMessage);
                                   if (resultMessage == 'true') {
                                     print(
                                         'onMessageReceived : ${resultMessage}');
-
+                                    // currentUser.value =
+                                    //     await AuthService().getUser();
+                                    changePage(MenuIndexState.home.index);
+                                    Get.offAll(SplashView());
                                     Get.snackbar(
                                         'Thông báo', 'Nạp tiền thành công',
                                         snackPosition: SnackPosition.TOP);
                                   } else {
                                     print(
                                         'onMessageReceived : ${resultMessage}');
-                                    Get.off(DepositeScreen());
+                                    Get.back();
                                   }
                                 },
                               ),

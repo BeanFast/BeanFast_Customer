@@ -112,6 +112,7 @@ class CartScreen extends GetView<CartController> {
                                       ),
                                     ),
                                     Container(
+                                      color: ThemeColor.itemColor,
                                       padding: const EdgeInsets.only(
                                           left: 5, right: 5),
                                       child: Column(
@@ -144,9 +145,16 @@ class CartScreen extends GetView<CartController> {
                                                           session.value.entries
                                                               .map(
                                                                 (menuDetail) =>
-                                                                    Card(
+                                                                    Container(
+                                                                      margin: const EdgeInsets.only(bottom: 10),
+                                                                  decoration: BoxDecoration(
+                                                                      color: ThemeColor
+                                                                          .itemColor,
+                                                                      borderRadius:
+                                                                          const BorderRadius.all(
+                                                                              Radius.circular(14))),
                                                                   child:
-                                                                      SizedBox(
+                                                                       SizedBox(
                                                                     height: 125,
                                                                     child: Row(
                                                                       crossAxisAlignment:

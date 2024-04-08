@@ -10,15 +10,12 @@ import '/utils/logger.dart';
 import '/services/auth_service.dart';
 import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
-import '/models/account.dart';
-import '/services/auth_service.dart';
 
 class AuthController extends GetxController with CacheManager {
   var isMoneyVisible = false.obs;
   RxString moneyValue = '********* đ'.obs;
 
   late Rx<Account?> account;
-  Rx<AuthState> authState = AuthState.unauthenticated.obs;
 
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();

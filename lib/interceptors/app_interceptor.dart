@@ -9,19 +9,18 @@ class AppInterceptor extends Interceptor with CacheManager {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     String? token = getToken();
-    // if (token != null) {
-    //   Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    //   final expiryTimestamp = decodedToken["exp"];
-    //   final currentTime = DateTime.now().millisecondsSinceEpoch;
-    //   if (currentTime >= expiryTimestamp) {
-    //     logger.e(currentTime >= expiryTimestamp);
-    //       // removeToken();
-    //     AuthController().changeAuthState(AuthState.unauthenticated);
-    //     logger.e('onRequest');
-    //     // return;
-    //   } else {
-    options.headers['Authorization'] = 'Bearer $token';
-    //   }
+    if (token != null) {
+      //   Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      //   final expiryTimestamp = decodedToken["exp"];
+      //   final currentTime = DateTime.now().millisecondsSinceEpoch;
+      //   if (currentTime >= expiryTimestamp) {
+      //     logger.e(currentTime >= expiryTimestamp);
+      //       // removeToken();
+      //     AuthController().changeAuthState(AuthState.unauthenticated);
+      //     logger.e('onRequest');
+      //     // return;
+      options.headers['Authorization'] = 'Bearer $token';
+    } else {}
     // }
 
     return super.onRequest(options, handler);

@@ -122,13 +122,15 @@ class HomeScreen extends GetView<HomeController> {
                                         authController.toggleMoneyVisibility();
                                       },
                                     ),
-                                    Text(
-                                      authController.moneyValue.value,
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
+                                    Obx(
+                                      () => Text(
+                                        authController.moneyValue.value,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -206,7 +208,7 @@ class HomeScreen extends GetView<HomeController> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.blue,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

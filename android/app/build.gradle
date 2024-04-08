@@ -52,12 +52,24 @@ android {
         minSdkVersion 20
     }
 
+    // signingConfigs {
+    //     release {
+    //         keyAlias 'my-key-alias'
+    //         keyPassword 'password'
+    //         storeFile file('path/to/your/keystore') // Đường dẫn tới keystore của bạn
+    //         storePassword 'password'
+    //     }
+    // }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+        // release {
+        //     signingConfig signingConfigs.release // Thêm dòng này nếu chưa có
+        // }
     }
 }
 

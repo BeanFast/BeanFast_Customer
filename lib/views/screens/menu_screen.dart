@@ -71,7 +71,7 @@ class SessionScreen extends GetView<beanfast.MenuController> {
         return AlertDialog(
           title: Row(
             children: [
-              const Text('Chọn thời điểm giao'),
+              const Text('Thời gian nhận hàng', style: TextStyle(fontSize: 18),),
               const Spacer(),
               IconButton(
                 onPressed: () {

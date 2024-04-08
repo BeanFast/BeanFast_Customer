@@ -11,8 +11,8 @@ class AuthService {
   Future<Response> login(String phone, String password) async {
     try {
       Map<String, dynamic> data = {
-        'phone': '0372266084',
-        'password': '12345678',
+        'phone': phone,
+        'password': password,
       };
       final response =
           await _apiService.request.post('$baseUrl/login', data: data);
