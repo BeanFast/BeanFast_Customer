@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -26,7 +25,7 @@ class TransactionScreen extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(100), // Set the border radius to 10
               ),
-              prefixIcon:  const Icon(Iconsax.search_normal),
+              prefixIcon: const Icon(Iconsax.search_normal),
             ),
             onChanged: (value) {
               // Handle search operation here
@@ -61,23 +60,25 @@ class TransactionScreen extends StatelessWidget {
           children: [
             //tháng 3
             Container(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                height: 50,
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 198, 229, 245),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: const Offset(0, 2), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: const Text('Tháng 3/2024',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              height: 50,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 198, 229, 245),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: const Offset(0, 2), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Text(
+                'Tháng 3/2024',
+                style: Get.textTheme.titleMedium,
+              ),
+            ),
             Column(
               children: List.generate(
                 4,
@@ -115,12 +116,15 @@ class TransactionScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Nội dung chuyển khoản 1',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                'Nội dung chuyển khoản 1',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Get.textTheme.bodyLarge!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                               const SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment:
@@ -132,12 +136,12 @@ class TransactionScreen extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text('03:11 - 03/03/2024',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 14)),
+                                        Text(
+                                          '03:11 - 03/03/2024',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Get.textTheme.bodySmall,
+                                        ),
                                         const SizedBox(height: 5),
                                         Obx(
                                           () => SizedBox(
@@ -145,10 +149,7 @@ class TransactionScreen extends StatelessWidget {
                                               'Số dư ví: ${transactionController.moneyValue.value}',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey,
-                                              ),
+                                              style: Get.textTheme.bodySmall,
                                             ),
                                           ),
                                         ),
@@ -158,12 +159,15 @@ class TransactionScreen extends StatelessWidget {
                                   Container(
                                     alignment: Alignment.bottomRight,
                                     width: 120,
-                                    child: const Text('+200.000.000đ',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16)),
+                                    child: Text(
+                                      '+200.000.000đ',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Get.textTheme.bodyMedium!.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

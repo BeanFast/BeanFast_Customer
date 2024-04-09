@@ -43,10 +43,7 @@ class StudentDetailScreen extends GetView<ProfileController> {
                     ),
                     title: Text(
                       controller.model.value.fullName.toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Get.textTheme.titleSmall,
                     ),
                     subtitle: Text(
                       controller.model.value.nickName.toString(),
@@ -63,12 +60,9 @@ class StudentDetailScreen extends GetView<ProfileController> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text(
+                  Text(
                     'Thẻ nhận hàng',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Get.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
@@ -124,12 +118,9 @@ class StudentDetailScreen extends GetView<ProfileController> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
+                  Text(
                     'Thông tin học sinh',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                     style: Get.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 20),
                   Card(

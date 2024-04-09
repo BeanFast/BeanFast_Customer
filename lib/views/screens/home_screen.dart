@@ -475,20 +475,21 @@ List<Widget> headerActionWidget() {
               width: 20,
               height: 20,
               child: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                  child: Center(
-                    child: Text(
-                      Get.find<CartController>().itemCount.value.toString(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+                child: Center(
+                  child: Text(
+                    Get.find<CartController>().itemCount.value.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

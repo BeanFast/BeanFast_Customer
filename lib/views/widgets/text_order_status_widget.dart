@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '/enums/status_enum.dart';
 
@@ -11,10 +12,10 @@ class TextOrderStatus extends StatelessWidget {
     Color color = Colors.black;
     switch (status) {
       case OrderStatus.preparing:
-        color = Colors.grey[300]!;
+        color = Colors.black54;
         break;
       case OrderStatus.delivering:
-        color = Colors.grey[300]!;
+        color = Colors.black54;
         break;
       case OrderStatus.completed:
         color = Colors.green;
@@ -28,6 +29,6 @@ class TextOrderStatus extends StatelessWidget {
 
     return Text(status.message,
         style:
-            TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.bold));
+            Get.textTheme.labelLarge!.copyWith(color: color));
   }
 }
