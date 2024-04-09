@@ -1,3 +1,4 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -19,33 +20,46 @@ class MainScreen extends StatelessWidget {
       const TransactionScreen(),
       const AccountScreen()
     ];
+
+    List iconList = [
+      Iconsax.home,
+      Iconsax.box,
+      Iconsax.calendar_tick,
+      Iconsax.profile_2user
+    ];
     return Scaffold(
       body: Obx(() => screens[selectedMenuIndex.value]),
       bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          currentIndex: selectedMenuIndex.value,
+        () => AnimatedBottomNavigationBar.builder(
+          height: 50,
+          activeIndex: selectedMenuIndex.value,
           onTap: changePage,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.home),
-              label: 'Trang chủ',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.box),
-              label: 'Đơn hàng',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.calendar_tick),
-              label: 'Giao dịch',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.profile_2user),
-              label: 'Tôi',
-            ),
-          ],
-          unselectedItemColor: Colors.black54,
+          itemCount: iconList.length,
+          tabBuilder: (index, isActive) {
+            return Icon(
+              iconList[index],
+              size: 24,
+              color: isActive ? Colors.green : Colors.black54,
+            );
+          },
+          notchMargin: 5,
+          gapLocation: GapLocation.center,
+          notchSmoothness: NotchSmoothness.softEdge,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Get.to(const QRScanScreen());
+        },
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+        backgroundColor: Colors.green.withOpacity(0.5),
+        child: const Icon(
+          Iconsax.scan_barcode,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

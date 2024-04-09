@@ -158,16 +158,21 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                   .schedule)),
                                                           Expanded(
                                                             child: ListTile(
-                                                              title: const Text(
-                                                                  'Thời gian nhận hành'),
+                                                              title: Text(
+                                                                  'Thời gian nhận hành',
+                                                                  style: Get
+                                                                      .textTheme
+                                                                      .bodyMedium),
                                                               subtitle: Column(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
                                                                 children: [
                                                                   Text(
-                                                                    'Từ ${DateFormat('HH:mm').format(controller.listSession[session.key]!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.listSession[session.key]!.deliveryEndTime!)}',
-                                                                  ),
+                                                                      'Từ ${DateFormat('HH:mm').format(controller.listSession[session.key]!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.listSession[session.key]!.deliveryEndTime!)}',
+                                                                      style: Get
+                                                                          .textTheme
+                                                                          .bodyMedium),
                                                                 ],
                                                               ),
                                                             ),
@@ -226,7 +231,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                                   child: SizedBox(
                                                                                     child: Text(
                                                                                       controller.listMenuDetail[menuDetail.key]!.food!.name.toString(),
-                                                                                      style: const TextStyle(fontSize: 16),
+                                                                                      style: Get.textTheme.bodyMedium,
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 2,
                                                                                     ),
@@ -236,7 +241,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                                 SizedBox(
                                                                                   child: Text(
                                                                                     'Phân loại: ${controller.listMenuDetail[menuDetail.key]!.food!.category!.name.toString()}',
-                                                                                    style: const TextStyle(fontSize: 14, color: Colors.black54),
+                                                                                    style: Get.textTheme.bodySmall!.copyWith(color: Colors.black54),
                                                                                     overflow: TextOverflow.ellipsis,
                                                                                     maxLines: 1,
                                                                                   ),
@@ -247,26 +252,21 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                                     if (controller.listMenuDetail[menuDetail.key]!.price != controller.listMenuDetail[menuDetail.key]!.food!.price)
                                                                                       Text(
                                                                                         Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.food!.price.toString()),
-                                                                                        style: const TextStyle(
-                                                                                          fontSize: 16,
-                                                                                          decoration: TextDecoration.lineThrough,
-                                                                                        ),
+                                                                                        style: Get.textTheme.bodySmall!.copyWith(decoration: TextDecoration.lineThrough),
                                                                                         overflow: TextOverflow.ellipsis,
                                                                                         maxLines: 1,
                                                                                       ),
                                                                                     const SizedBox(width: 10),
                                                                                     Text(
                                                                                       Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
-                                                                                      style: const TextStyle(fontSize: 16, color: Colors.red),
+                                                                                      style: Get.textTheme.bodySmall!.copyWith(color: Colors.red),
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 1,
                                                                                     ),
                                                                                     const Spacer(),
                                                                                     Text(
                                                                                       'x ${menuDetail.value}',
-                                                                                      style: const TextStyle(
-                                                                                        fontSize: 16,
-                                                                                      ),
+                                                                                      style: Get.textTheme.bodySmall,
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 1,
                                                                                     ),
@@ -290,9 +290,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
-                                        )
+                                        const SizedBox(height: 10),
                                       ],
                                     ),
                                   )
@@ -336,23 +334,18 @@ class CheckOutDetailScreen extends GetView<CartController> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SizedBox(
-                                    child: Text(
-                                  'Tổng thanh toán',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
+                                SizedBox(
+                                  child: Text(
+                                    'Tổng thanh toán',
+                                    style: Get.textTheme.bodyLarge,
                                   ),
-                                )),
+                                ),
                                 Expanded(
                                   child: Text(
                                     Formater.formatMoney(
                                         controller.total.value.toString()),
                                     textAlign: TextAlign.right,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.red,
-                                    ),
+                                    style: Get.textTheme.bodyLarge!,
                                   ),
                                 ),
                                 const SizedBox(height: 10),
@@ -390,15 +383,16 @@ class CheckOutDetailScreen extends GetView<CartController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const Text('Tổng thanh toán',
-                            style: TextStyle(fontSize: 14)),
+                        Text(
+                          'Tổng thanh toán',
+                          style: Get.textTheme.bodySmall,
+                        ),
                         Text(
                             Formater.formatMoney(
                                 controller.total.value.toString()),
-                            style: const TextStyle(
-                                fontSize: 18,
+                            style: Get.textTheme.titleMedium!.copyWith(
                                 color: Colors.red,
-                                fontWeight: FontWeight.bold)),
+                                fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),
@@ -430,8 +424,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                           await controller.checkout();
                         }
                       },
-                      child: const Text('Đặt hàng',
-                          style: TextStyle(fontSize: 18)),
+                      child: Text('Đặt hàng', style: Get.textTheme.titleMedium),
                     ),
                   ),
                 ],

@@ -32,8 +32,7 @@ class DepositeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Số tiền nạp (đ)',
-                        style: TextStyle(fontSize: 18)),
+                    Text('Số tiền nạp (đ)', style: Get.textTheme.titleMedium),
                     const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,8 +60,8 @@ class DepositeScreen extends StatelessWidget {
                             onPressed: () {
                               depositeController.updateMoney('100.000');
                             },
-                            child: const Text('100.000',
-                                style: TextStyle(fontSize: 16)),
+                            child:
+                                Text('100.000', style: Get.textTheme.bodyLarge),
                           ),
                         ),
                         SizedBox(
@@ -88,8 +87,8 @@ class DepositeScreen extends StatelessWidget {
                             onPressed: () {
                               depositeController.updateMoney('200.000');
                             },
-                            child: const Text('200.000',
-                                style: TextStyle(fontSize: 16)),
+                            child:
+                                Text('200.000', style: Get.textTheme.bodyLarge),
                           ),
                         ),
                         SizedBox(
@@ -115,8 +114,8 @@ class DepositeScreen extends StatelessWidget {
                             onPressed: () {
                               depositeController.updateMoney('300.000');
                             },
-                            child: const Text('300.000',
-                                style: TextStyle(fontSize: 16)),
+                            child:
+                                Text('300.000', style: Get.textTheme.bodyLarge),
                           ),
                         ),
                       ],
@@ -148,8 +147,8 @@ class DepositeScreen extends StatelessWidget {
                             onPressed: () {
                               depositeController.updateMoney('500.000');
                             },
-                            child: const Text('500.000',
-                                style: TextStyle(fontSize: 16)),
+                            child:
+                                Text('500.000', style: Get.textTheme.bodyLarge),
                           ),
                         ),
                         SizedBox(
@@ -175,8 +174,8 @@ class DepositeScreen extends StatelessWidget {
                             onPressed: () {
                               depositeController.updateMoney('1.000.000');
                             },
-                            child: const Text('1.000.000',
-                                style: TextStyle(fontSize: 16)),
+                            child: Text('1.000.000',
+                                style: Get.textTheme.bodyLarge),
                           ),
                         ),
                         SizedBox(
@@ -202,8 +201,8 @@ class DepositeScreen extends StatelessWidget {
                             onPressed: () {
                               depositeController.updateMoney('2.000.000');
                             },
-                            child: const Text('2.000.000',
-                                style: TextStyle(fontSize: 16)),
+                            child: Text('2.000.000',
+                                style: Get.textTheme.bodyLarge),
                           ),
                         ),
                       ],
@@ -279,20 +278,22 @@ class DepositeScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  const Text('Nạp tiền:',
-                                      style: TextStyle(fontSize: 16)),
+                                  Text('Nạp tiền:',
+                                      style: Get.textTheme.bodyLarge),
                                   const Spacer(),
-                                  Obx(() =>
-                                      Text(depositeController.money.value)),
+                                  Obx(
+                                    () => Text(depositeController.money.value,
+                                        style: Get.textTheme.bodyLarge),
+                                  ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  const Text('Tổng thanh toán:',
-                                      style: TextStyle(fontSize: 16)),
+                                  Text('Tổng thanh toán:',
+                                      style: Get.textTheme.bodyLarge),
                                   const Spacer(),
-                                  Obx(() =>
-                                      Text(depositeController.money.value)),
+                                  Obx(() => Text(depositeController.money.value,
+                                      style: Get.textTheme.bodyLarge)),
                                 ],
                               ),
                             ],
@@ -388,7 +389,7 @@ class DepositeScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Text('Nạp tiền', style: TextStyle(fontSize: 18)),
+                child: Text('Nạp tiền', style: Get.textTheme.titleMedium),
               ),
             ),
           ],

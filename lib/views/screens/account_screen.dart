@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/account_profile_screen.dart';
@@ -70,9 +71,7 @@ class AccountScreen extends GetView<AuthController> {
                                           ),
                                           Text(
                                             currentUser.value.fullName!,
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                            ),
+                                           style:Get.textTheme.bodyMedium,
                                           ),
                                           const SizedBox(height: 5),
                                           Row(
@@ -81,9 +80,7 @@ class AccountScreen extends GetView<AuthController> {
                                             children: [
                                               Text(
                                                 currentUser.value.phone!,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                ),
+                                                style: Get.textTheme.bodySmall,
                                               ),
                                               const SizedBox(
                                                 width: 5,
@@ -101,12 +98,13 @@ class AccountScreen extends GetView<AuthController> {
                                                   ),
                                                   child: Container(
                                                     child: isValid
-                                                        ? const Text(
+                                                        ? Text(
                                                             'Đã xác thực',
-                                                            style: TextStyle(
+                                                            style: Get.textTheme
+                                                                .bodySmall!
+                                                                .copyWith(
                                                               color:
                                                                   Colors.white,
-                                                              fontSize: 14,
                                                             ),
                                                           )
                                                         : const Text(
@@ -328,94 +326,117 @@ class AccountScreen extends GetView<AuthController> {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      const Text(
+                      Text(
                         "Cài đặt",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Get.textTheme.headlineLarge,
                       ),
                       const SizedBox(height: 10),
                       Card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SettingItem(
-                              title: "Danh sách học sinh",
-                              icon: Iconsax.people,
-                              iconColor: Colors.amber,
-                              onTap: () {
-                                Get.to(const StudentListScreen());
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              color: Colors.white,
-                              child: SettingItem(
-                                title: "Nút số 2",
-                                icon: Ionicons.earth,
-                                iconColor: Colors.red,
-                                onTap: () {
-                                  Get.snackbar('on Tap', 'Tap',
-                                      snackPosition: SnackPosition.TOP);
-                                },
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                color: ThemeColor.itemColor,
+                                child: SettingItem(
+                                  title: "Danh sách học sinh",
+                                  icon: Iconsax.people,
+                                  iconColor: Colors.amber,
+                                  onTap: () {
+                                    Get.to(const StudentListScreen());
+                                  },
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            SettingItem(
-                              title: "Nút số 3",
-                              icon: Ionicons.earth,
-                              iconColor: Colors.red,
-                              onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
-                              },
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                color: ThemeColor.itemColor,
+                                child: SettingItem(
+                                  title: "Nút số 2",
+                                  icon: Ionicons.earth,
+                                  iconColor: Colors.red,
+                                  onTap: () {
+                                    Get.snackbar('on Tap', 'Tap',
+                                        snackPosition: SnackPosition.TOP);
+                                  },
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                color: ThemeColor.itemColor,
+                                child: SettingItem(
+                                  title: "Nút số 3",
+                                  icon: Ionicons.earth,
+                                  iconColor: Colors.red,
+                                  onTap: () {
+                                    Get.snackbar('on Tap', 'Tap',
+                                        snackPosition: SnackPosition.TOP);
+                                  },
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 20),
-                       Text(
+                      Text(
                         "Tiện ích",
-                        style: theme.headlineMedium,
+                        style: theme.headlineLarge,
                       ),
                       const SizedBox(height: 10),
                       Card(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SettingItem(
-                              title: "Ngôn ngữ",
-                              icon: Ionicons.earth,
-                              iconColor: Colors.red,
-                              value: "English",
-                              onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              color: Colors.white,
-                              child: SettingItem(
-                                title: "Nút số 2",
-                                icon: Ionicons.earth,
-                                iconColor: Colors.red,
-                                onTap: () {
-                                  Get.snackbar('on Tap', 'Tap',
-                                      snackPosition: SnackPosition.TOP);
-                                },
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                color: ThemeColor.itemColor,
+                                child: SettingItem(
+                                  title: "Ngôn ngữ",
+                                  icon: Ionicons.earth,
+                                  iconColor: Colors.red,
+                                  value: "English",
+                                  onTap: () {
+                                    Get.snackbar('on Tap', 'Tap',
+                                        snackPosition: SnackPosition.TOP);
+                                  },
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            SettingItem(
-                              title: "Nút số 3",
-                              icon: Ionicons.earth,
-                              iconColor: Colors.red,
-                              onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
-                              },
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                color: ThemeColor.itemColor,
+                                child: SettingItem(
+                                  title: "Nút số 2",
+                                  icon: Ionicons.earth,
+                                  iconColor: Colors.red,
+                                  onTap: () {
+                                    Get.snackbar('on Tap', 'Tap',
+                                        snackPosition: SnackPosition.TOP);
+                                  },
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                color: ThemeColor.itemColor,
+                                child: SettingItem(
+                                  title: "Nút số 3",
+                                  icon: Ionicons.earth,
+                                  iconColor: Colors.red,
+                                  onTap: () {
+                                    Get.snackbar('on Tap', 'Tap',
+                                        snackPosition: SnackPosition.TOP);
+                                  },
+                                ),
+                              ),
                             ),
                           ],
                         ),

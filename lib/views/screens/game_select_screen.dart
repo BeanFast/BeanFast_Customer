@@ -55,11 +55,11 @@ class GameSelectScreen extends StatelessWidget {
               color: Colors.yellow,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(Icons.card_giftcard, color: Colors.black),
-                Text('Điểm: 100.000'),
+                const Icon(Icons.card_giftcard, color: Colors.black),
+                Text('Điểm: 100.000', style: Get.textTheme.bodyLarge),
               ],
             ),
           ),
@@ -110,9 +110,7 @@ class GameSelectScreen extends StatelessWidget {
                                     SizedBox(
                                       child: Text(
                                         games[index].name,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                        style: Get.textTheme.bodyLarge,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                       ),
@@ -124,9 +122,10 @@ class GameSelectScreen extends StatelessWidget {
                                       child: SizedBox(
                                         child: Text(
                                           games[index].shortDescription,
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black45),
+                                          style:
+                                              Get.textTheme.bodySmall!.copyWith(
+                                            color: Colors.black54,
+                                          ),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 3,
                                         ),
@@ -154,8 +153,8 @@ class GameSelectScreen extends StatelessWidget {
                                 onPressed: () {
                                   games[index].onClick();
                                 },
-                                child: const Text('Chơi ngay',
-                                    style: TextStyle(fontSize: 16)),
+                                child: Text('Chơi ngay',
+                                    style: Get.textTheme.bodyLarge),
                               ),
                             ),
                           ],
@@ -174,12 +173,10 @@ class GameSelectScreen extends StatelessWidget {
                               topRight: Radius.circular(12),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'NEW',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
+                            style: Get.textTheme.bodySmall!
+                                .copyWith(color: Colors.white),
                           ),
                         ),
                       ),
