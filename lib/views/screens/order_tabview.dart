@@ -43,7 +43,7 @@ class OrderTabBarView extends GetView<OrderController> {
                             }).toList(),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

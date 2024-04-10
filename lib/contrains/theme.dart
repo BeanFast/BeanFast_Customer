@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/contrains/theme_text.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import 'theme_color.dart';
 
@@ -9,9 +10,13 @@ class AppTheme {
     scaffoldBackgroundColor: ThemeColor.bgColor,
     primaryColor: ThemeColor.primaryColor,
     textTheme: DTextTheme.textTheme,
-    // primaryTextTheme: DTextTheme.textTheme,
-    // textTheme: TextTheme(titleMedium: ),
-    
+    colorScheme: const ColorScheme.light(
+      primary: Colors.green,
+    ),
+    actionIconTheme: ActionIconThemeData(
+      backButtonIconBuilder: (BuildContext context) =>
+          const Icon(Iconsax.arrow_left_2),
+    ),
     highlightColor: ThemeColor.primaryColor,
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: TextStyle(

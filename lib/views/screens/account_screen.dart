@@ -71,7 +71,7 @@ class AccountScreen extends GetView<AuthController> {
                                           ),
                                           Text(
                                             currentUser.value.fullName!,
-                                           style:Get.textTheme.bodyMedium,
+                                            style: Get.textTheme.bodyMedium,
                                           ),
                                           const SizedBox(height: 5),
                                           Row(
@@ -336,7 +336,9 @@ class AccountScreen extends GetView<AuthController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(const StudentListScreen());
+                              },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
@@ -350,7 +352,10 @@ class AccountScreen extends GetView<AuthController> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('on Tap', 'Tap',
+                                    snackPosition: SnackPosition.TOP);
+                              },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
@@ -365,7 +370,10 @@ class AccountScreen extends GetView<AuthController> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('on Tap', 'Tap',
+                                    snackPosition: SnackPosition.TOP);
+                              },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
@@ -393,7 +401,10 @@ class AccountScreen extends GetView<AuthController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('on Tap', 'Tap',
+                                    snackPosition: SnackPosition.TOP);
+                              },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
@@ -409,7 +420,10 @@ class AccountScreen extends GetView<AuthController> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('on Tap', 'Tap',
+                                    snackPosition: SnackPosition.TOP);
+                              },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
@@ -424,7 +438,10 @@ class AccountScreen extends GetView<AuthController> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.snackbar('on Tap', 'Tap',
+                                    snackPosition: SnackPosition.TOP);
+                              },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(

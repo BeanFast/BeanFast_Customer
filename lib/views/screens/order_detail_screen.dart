@@ -169,7 +169,7 @@ class OrderDetailScreen extends GetView<OrderController> {
                                       ],
                                     ),
                                   ),
-                                  const Divider(thickness: 1),
+                                  const Divider(thickness: 1, color: Colors.grey),
                                 ],
                               ),
                             )

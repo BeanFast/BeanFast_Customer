@@ -68,7 +68,7 @@ class OrderTimeline extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Divider(),
+                const Divider(thickness: 1, color: Colors.grey,),
                 // Order ID
                 Row(
                   children: [
@@ -93,7 +93,7 @@ class OrderTimeline extends StatelessWidget {
                                 .copyWith(color: Colors.green)))
                   ],
                 ),
-                const Divider(),
+                const Divider(thickness: 1, color: Colors.grey,),
                 // Timeline
                 FixedTimeline.tileBuilder(
                   theme: TimelineThemeData(

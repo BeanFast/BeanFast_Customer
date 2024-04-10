@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
@@ -15,34 +16,38 @@ class NotificationScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.done_all, color: Colors.black),
+            icon: const Icon(
+              Iconsax.tick_square,
+              color: Colors.black,
+              size: 30,
+            ),
             onPressed: () {
               notificationController.allDone.value = true;
             },
           ),
         ],
       ),
-      body: Card(
-        child: ListView.builder(
-          itemCount: notificationController.notifications.length,
-          itemBuilder: (context, index) {
-            final notification = notificationController.notifications[index];
-            return SizedBox(
-              // height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.snackbar(
-                          index.toString(), // title
-                          'You clicked on notification $index',
-                          snackPosition: SnackPosition.TOP,
-                          duration: 0.5.seconds,
-                        );
-                      },
+      body: ListView.builder(
+        itemCount: notificationController.notifications.length,
+        itemBuilder: (context, index) {
+          final notification = notificationController.notifications[index];
+          return SizedBox(
+            // height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.snackbar(
+                        index.toString(), // title
+                        'You clicked on notification $index',
+                        snackPosition: SnackPosition.TOP,
+                        duration: 0.5.seconds,
+                      );
+                    },
+                    child: Card(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.only(
@@ -133,16 +138,12 @@ class NotificationScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Divider(
-                      height: 1,
-                      thickness: 2,
-                    ), // Add a Divider widget below each Container
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

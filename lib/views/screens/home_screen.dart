@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../contrains/theme_color.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/cart_controller.dart';
 import '/controllers/home_controller.dart';
@@ -17,7 +19,6 @@ import 'student_form_screen.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
@@ -25,244 +26,266 @@ class HomeScreen extends GetView<HomeController> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+
           // toolbarHeight: 90,
+
           actions: headerActionWidget(),
         ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      height: 150,
-                      autoPlayInterval: const Duration(seconds: 15),
-                    ),
-                    items: [
-                      // Replace these with your image widgets
-                      'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                      'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                      'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                    ].map((imageUrl) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return GestureDetector(
-                            onTap: () {
-                              // Handle the tap
-                              Get.snackbar(
-                                "SnakeBar Title",
-                                'Image clicked: $imageUrl',
-                                snackPosition: SnackPosition.TOP,
-                              );
-                            },
-                            child: Card(
-                              color: Colors.red,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    imageUrl,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 20),
-                  //day selecter
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(12),
+        body: Stack(
+          children: [
+            Lottie.asset(
+              'assets/images/background_home.json',
+              width: Get.width,
+              repeat: false,
+              animate: false,
+              height: 240,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        height: 150,
+                        autoPlayInterval: const Duration(seconds: 15),
                       ),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1,
-                      ),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      width: MediaQuery.of(context).size.width - 25,
-                      alignment: Alignment.center,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                  onPressed: controller.backWeek,
-                                  icon: const Icon(Iconsax.arrow_circle_left)),
-                              Obx(
-                                () => TextButton(
-                                  child: Text(
-                                      '${controller.currentMonth}/${controller.currentYear}',
-                                      style: const TextStyle(
-                                          fontSize: 18, color: Colors.black)),
-                                  onPressed: () {
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime(2100),
-                                    ).then((value) {
-                                      if (value != null) {
-                                        controller.updateSelectedDate(value);
-                                        controller.now.value = value;
-                                      }
-                                    });
-                                  },
-                                ),
-                              ),
-                              IconButton(
-                                  onPressed: controller.nextWeek,
-                                  icon: const Icon(Iconsax.arrow_circle_right)),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: List.generate(
-                              7,
-                              (index) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: Text(
-                                      index + 2 == 8 ? 'CN' : 'T${index + 2}',
-                                      style: const TextStyle(fontSize: 14),
+                      items: [
+                        // Replace these with your image widgets
+                        'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
+                        'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
+                        'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
+                      ].map((imageUrl) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return GestureDetector(
+                              onTap: () {
+                                // Handle the tap
+                                Get.snackbar(
+                                  "SnakeBar Title",
+                                  'Image clicked: $imageUrl',
+                                  snackPosition: SnackPosition.TOP,
+                                );
+                              },
+                              child: Card(
+                                color: Colors.red,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      imageUrl,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      DateTime chosenDate = controller
-                                          .dayOfWeekDateTime(index)
-                                          .value;
-                                      DateTime today = DateTime(
-                                          DateTime.now().year,
-                                          DateTime.now().month,
-                                          DateTime.now().day);
-                                      if (chosenDate.isBefore(today) &&
-                                          !controller.isSameDay(
-                                              chosenDate, today)) {
-                                        // If the chosen date is in the past and not today, return early without updating the selected date
-                                        return;
-                                      }
-                                      controller.updateSelectedDate(chosenDate);
-                                      print('Chosen date: $chosenDate');
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 20),
+                    //day selecter
+                    Container(
+                      decoration: BoxDecoration(
+                        color: ThemeColor.itemColor,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 0.5,
+                        ),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        width: MediaQuery.of(context).size.width - 25,
+                        alignment: Alignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                    onPressed: controller.backWeek,
+                                    icon:
+                                        const Icon(Iconsax.arrow_circle_left)),
+                                Obx(
+                                  () => TextButton(
+                                    child: Text(
+                                        '${controller.currentMonth}/${controller.currentYear}',
+                                        style: const TextStyle(
+                                            fontSize: 18, color: Colors.black)),
+                                    onPressed: () {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime(2100),
+                                      ).then((value) {
+                                        if (value != null) {
+                                          controller.updateSelectedDate(value);
+                                          controller.now.value = value;
+                                        }
+                                      });
                                     },
-                                    child: Obx(
-                                      () => Container(
-                                        width: 25,
-                                        height: 25,
-                                        decoration: BoxDecoration(
-                                          color: controller.isSameDay(
-                                                  controller.selectedDate.value,
-                                                  controller
-                                                      .dayOfWeekDateTime(index)
-                                                      .value)
-                                              ? Colors.blue
-                                              : Colors.transparent,
-                                          borderRadius: BorderRadius.circular(
-                                              50), // Make the Container circular
-                                        ),
-                                        child: Obx(
-                                          () => Center(
-                                            // Center the Text widget
-                                            child: Text(
-                                              '${controller.dayOfWeek(index)}',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: controller
-                                                            .dayOfWeekDateTime(
-                                                                index)
-                                                            .value
-                                                            .isBefore(
-                                                              DateTime(
-                                                                DateTime.now()
-                                                                    .year,
-                                                                DateTime.now()
-                                                                    .month,
-                                                                DateTime.now()
-                                                                    .day,
-                                                              ),
-                                                            ) &&
-                                                        !controller.isSameDay(
-                                                            controller
-                                                                .dayOfWeekDateTime(
-                                                                    index)
-                                                                .value,
-                                                            DateTime.now())
-                                                    ? Colors.grey
-                                                    : Colors.black,
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: controller.nextWeek,
+                                    icon:
+                                        const Icon(Iconsax.arrow_circle_right)),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: List.generate(
+                                7,
+                                (index) => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: Text(
+                                        index + 2 == 8 ? 'CN' : 'T${index + 2}',
+                                        style: const TextStyle(
+                                            fontSize: 14, color: Colors.black),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        DateTime chosenDate = controller
+                                            .dayOfWeekDateTime(index)
+                                            .value;
+                                        DateTime today = DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day);
+                                        if (chosenDate.isBefore(today) &&
+                                            !controller.isSameDay(
+                                                chosenDate, today)) {
+                                          // If the chosen date is in the past and not today, return early without updating the selected date
+                                          return;
+                                        }
+                                        controller
+                                            .updateSelectedDate(chosenDate);
+                                        print('Chosen date: $chosenDate');
+                                      },
+                                      child: Obx(
+                                        () => Container(
+                                          width: 25,
+                                          height: 25,
+                                          decoration: BoxDecoration(
+                                            color: controller.isSameDay(
+                                                    controller
+                                                        .selectedDate.value,
+                                                    controller
+                                                        .dayOfWeekDateTime(
+                                                            index)
+                                                        .value)
+                                                ? Colors.blue
+                                                : Colors.transparent,
+                                            borderRadius: BorderRadius.circular(
+                                                50), // Make the Container circular
+                                          ),
+                                          child: Obx(
+                                            () => Center(
+                                              // Center the Text widget
+                                              child: Text(
+                                                '${controller.dayOfWeek(index)}',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: controller
+                                                              .dayOfWeekDateTime(
+                                                                  index)
+                                                              .value
+                                                              .isBefore(
+                                                                DateTime(
+                                                                  DateTime.now()
+                                                                      .year,
+                                                                  DateTime.now()
+                                                                      .month,
+                                                                  DateTime.now()
+                                                                      .day,
+                                                                ),
+                                                              ) &&
+                                                          !controller.isSameDay(
+                                                              controller
+                                                                  .dayOfWeekDateTime(
+                                                                      index)
+                                                                  .value,
+                                                              DateTime.now())
+                                                      ? Colors.grey
+                                                      : Colors.black,
+                                                ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  //Sesion Selecter
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(
-                        3,
-                        (index) => Obx(
-                          () => GestureDetector(
-                            onTap: () {
-                              controller.selectedSession.value = index;
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Card(
-                                color: controller.selectedSession.value == index
-                                    ? Colors.blue
-                                    : Colors.white,
-                                child: Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 5, bottom: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(12),
+                    const SizedBox(height: 20),
+                    //Sesion Selecter
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List.generate(
+                          3,
+                          (index) => Obx(
+                            () => GestureDetector(
+                              onTap: () {
+                                controller.selectedSession.value = index;
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Card(
+                                  color:
+                                      controller.selectedSession.value == index
+                                          ? Colors.blue
+                                          : Colors.white,
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10, top: 5, bottom: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(12),
+                                      ),
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
+                                      ),
                                     ),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
+                                    child: Text('Sáng ${index + 1}',
+                                        style: const TextStyle(
+                                            fontSize: 14, color: Colors.black)),
                                   ),
-                                  child: Text('Sáng ${index + 1}',
-                                      style: const TextStyle(
-                                          fontSize: 14, color: Colors.black)),
                                 ),
                               ),
                             ),
@@ -270,12 +293,12 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       ),
                     ),
-                  ),
-                  //Menu Food
-                ],
+                    //Menu Food
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -344,7 +367,6 @@ class HomeScreen extends GetView<HomeController> {
 
 List<Widget> headerActionWidget() {
   Get.put(CartController());
-
   return <Widget>[
     GestureDetector(
       onTap: () {

@@ -99,7 +99,10 @@ class StudentListScreen extends GetView<ProfileController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Iconsax.add),
+                        const Icon(
+                          Iconsax.add,
+                          size: 30,
+                        ),
                         const SizedBox(width: 10),
                         Text(
                           'Thêm học sinh',

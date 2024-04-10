@@ -54,7 +54,7 @@ class OrderItem extends StatelessWidget {
                           children: [
                             Text(
                               order.orderDetails![0].food!.name.toString(),
-                             style: Get.textTheme.bodyLarge,
+                              style: Get.textTheme.bodyLarge,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -64,7 +64,7 @@ class OrderItem extends StatelessWidget {
                                 'x${order.orderDetails![0].quantity.toString()}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                               style: Get.textTheme.bodySmall,
+                                style: Get.textTheme.bodySmall,
                               ),
                             ),
                             Align(
@@ -73,7 +73,7 @@ class OrderItem extends StatelessWidget {
                                 Formater.formatMoney(
                                     order.orderDetails![0].price.toString()),
                                 maxLines: 1,
-                               style: Get.textTheme.bodySmall!.copyWith(
+                                style: Get.textTheme.bodySmall!.copyWith(
                                   color: Colors.red,
                                 ),
                               ),
@@ -85,24 +85,27 @@ class OrderItem extends StatelessWidget {
                   ],
                 ),
               ),
-              const Divider(thickness: 1),
+              const Divider(
+                thickness: 1,
+                color: Colors.grey,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('${order.orderDetails!.length} sản phẩm',
-                      style: Get.textTheme.bodySmall,),
+                  Text(
+                    '${order.orderDetails!.length} sản phẩm',
+                    style: Get.textTheme.bodySmall,
+                  ),
                   Row(
                     children: [
-                       Text(
+                      Text(
                         'Thành tiền ',
                         style: Get.textTheme.bodySmall,
                       ),
-                      Text(
-                        Formater.formatMoney(order.totalPrice.toString()),
-                        style: Get.textTheme.bodySmall!.copyWith(
-                          color: Colors.red,
-                        )
-                      )
+                      Text(Formater.formatMoney(order.totalPrice.toString()),
+                          style: Get.textTheme.bodySmall!.copyWith(
+                            color: Colors.red,
+                          ))
                     ],
                   ),
                 ],
@@ -111,7 +114,7 @@ class OrderItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   Text(
+                  Text(
                     'Điểm tích luỹ',
                     style: Get.textTheme.bodySmall,
                   ),
