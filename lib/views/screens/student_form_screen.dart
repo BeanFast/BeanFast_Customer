@@ -74,13 +74,11 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                               ),
                               child: Wrap(
                                 children: <Widget>[
-                                  const SizedBox(
+                                  SizedBox(
                                     child: Center(
                                       child: Text(
                                         "Lựa chọn phương thức",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                        style: Get.textTheme.titleLarge,
                                       ),
                                     ),
                                   ),
@@ -105,12 +103,17 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                           },
                         );
                       },
-                      child: const Row(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Icon(Iconsax.document_copy),
-                          Text('Tải ảnh', style: TextStyle(fontSize: 14)),
+                          const Icon(Iconsax.document_copy),
+                          Text(
+                            'Tải ảnh',
+                            style: Get.textTheme.bodySmall!.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -215,8 +218,9 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Ngày sinh: ${DateFormat('dd/MM/yyyy').format(controller.selectedDate.value)}",
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w400),
+                              style: Get.textTheme.bodyMedium!.copyWith(
+                                color: const Color(0xFF26AA91),
+                              ),
                             ),
                           ),
                         ),
@@ -322,14 +326,12 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const SizedBox(
+                                        SizedBox(
                                           height: 65,
                                           child: Center(
                                             child: Text(
                                               "Chọn trường học",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                              style: Get.textTheme.titleMedium,
                                             ),
                                           ),
                                         ),
@@ -429,8 +431,9 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                               controller.selectedSchool.value.isEmpty
                                   ? 'Chọn trường học'
                                   : controller.selectedSchool.value,
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w400),
+                              style: Get.textTheme.bodyMedium!.copyWith(
+                                color: const Color(0xFF26AA91),
+                              ),
                             ),
                           ),
                         ),
@@ -471,12 +474,14 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                             }
                           }
                         },
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Iconsax.document_copy),
-                            SizedBox(width: 10),
-                            Text('Lưu', style: TextStyle(fontSize: 18)),
+                            const Icon(Iconsax.document_copy),
+                            const SizedBox(width: 10),
+                            Text('Lưu',
+                                style: Get.textTheme.titleMedium!
+                                    .copyWith(color: Colors.white)),
                           ],
                         ),
                       ),

@@ -14,10 +14,11 @@ class OrderTabBarView extends GetView<OrderController> {
   Widget build(BuildContext context) {
     controller.orderStatus = orderStatus;
     return LoadingScreen(
-        future: controller.getByStatus,
-        child: Obx(() => controller.listData.isEmpty
+      future: controller.getByStatus,
+      child: Obx(
+        () => controller.listData.isEmpty
             ? Center(
-              child: Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -26,7 +27,7 @@ class OrderTabBarView extends GetView<OrderController> {
                     ),
                   ],
                 ),
-            )
+              )
             : SingleChildScrollView(
                 child: Container(
                   color: ThemeColor.bgColor,
@@ -46,8 +47,8 @@ class OrderTabBarView extends GetView<OrderController> {
                     ],
                   ),
                 ),
-              )));
+              ),
+      ),
+    );
   }
 }
-
-

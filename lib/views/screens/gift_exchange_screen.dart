@@ -169,139 +169,137 @@ class ExchageGift extends GetView<ExchangeGiftController> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
-          child: Obx(() => Column(
-                children: controller.listData.map((gift) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(const GiftDetailScreen());
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 5),
-                      child: Card(
-                        child: Stack(
-                          children: [
-                            SizedBox(
-                              height: 100,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  SizedBox(
-                                    width: 100,
-                                    height: 100,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(12),
-                                        bottomLeft: Radius.circular(12),
-                                      ),
-                                      child: Image.network(
-                                        // color: Colors.red,
-                                        gift.imagePath.toString(),
-                                        fit: BoxFit.cover,
-                                      ),
+          child: Obx(
+            () => Column(
+              children: controller.listData.map((gift) {
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(const GiftDetailScreen());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 5),
+                    child: Card(
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            height: 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                SizedBox(
+                                  width: 100,
+                                  height: 100,
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12),
+                                    ),
+                                    child: Image.network(
+                                      // color: Colors.red,
+                                      gift.imagePath.toString(),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 10,
-                                          top: 5,
-                                          right: 10,
-                                          bottom: 5),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: SizedBox(
-                                              child: Text(
-                                                gift.name.toString(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 5, right: 10, bottom: 5),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: SizedBox(
+                                            child: Text(
+                                              gift.name.toString(),
+                                              style: Get.textTheme.bodyLarge,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  '150.000',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.red),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                ),
-                                                SizedBox(width: 5),
-                                                Icon(Icons.card_giftcard,
-                                                    color: Colors.orange)
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 70,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    child: TextButton(
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<
-                                                EdgeInsets>(
-                                            const EdgeInsets.all(5)),
-                                        shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
                                           ),
                                         ),
-                                      ),
-                                      onPressed: () {},
-                                      child: const Text('Đổi quà',
-                                          style: TextStyle(fontSize: 16)),
+                                        SizedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '150.000',
+                                                style: Get.textTheme.bodyLarge!
+                                                    .copyWith(
+                                                  color: Colors.red,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              const Icon(Icons.card_giftcard,
+                                                  color: Colors.orange)
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 3),
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
+                                ),
+                                Container(
+                                  width: 70,
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      padding:
+                                          MaterialStateProperty.all<EdgeInsets>(
+                                              const EdgeInsets.all(5)),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Đổi quà',
+                                      style: Get.textTheme.bodyLarge,
+                                    ),
                                   ),
                                 ),
-                                child: const Text(
-                                  '40%',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 3),
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                '40%',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                }).toList(),
-              )),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
         ),
       ),
     );

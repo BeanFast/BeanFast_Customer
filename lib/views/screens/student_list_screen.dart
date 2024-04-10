@@ -3,6 +3,7 @@ import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import 'student_form_screen.dart';
 
@@ -45,15 +46,18 @@ class StudentListScreen extends GetView<ProfileController> {
                               ),
                               title: Text(
                                 e.fullName.toString(),
-                                style: const TextStyle(fontSize: 16),
+                                style: Get.textTheme.bodyLarge,
                               ),
-                              subtitle: Text(e.className.toString()),
+                              subtitle: Text(
+                                e.className.toString(),
+                                style: Get.textTheme.bodySmall,
+                              ),
                               trailing: IconButton(
                                 onPressed: () {
                                   Get.to(
                                       const StudentFormScreen(isUpdate: true));
                                 },
-                                icon: const Icon(Icons.edit),
+                                icon: const Icon(Iconsax.edit),
                               ),
                             ),
                           ),
@@ -92,12 +96,15 @@ class StudentListScreen extends GetView<ProfileController> {
                     onPressed: () {
                       Get.to(const StudentFormScreen(isUpdate: false));
                     },
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add),
-                        SizedBox(width: 10),
-                        Text('Thêm học sinh', style: TextStyle(fontSize: 18)),
+                        const Icon(Iconsax.add),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Thêm học sinh',
+                          style: Get.textTheme.titleMedium,
+                        ),
                       ],
                     ),
                   ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class GiftDetailScreen extends StatelessWidget {
   const GiftDetailScreen({super.key});
@@ -50,18 +52,18 @@ class GiftDetailScreen extends StatelessWidget {
                               //   maxLines: 1,
                               // ),
                               // const SizedBox(width: 5),
-                              const SizedBox(
+                              SizedBox(
                                 child: Row(
                                   children: [
                                     Text(
                                       '150.000',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.red),
+                                      style: Get.textTheme.bodyLarge!
+                                          .copyWith(color: Colors.red),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
-                                    SizedBox(width: 5),
-                                    Icon(Icons.card_giftcard,
+                                    const SizedBox(width: 5),
+                                    const Icon(Icons.card_giftcard,
                                         color: Colors.orange)
                                   ],
                                 ),

@@ -29,9 +29,7 @@ class OrderItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(order.profile!.fullName.toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                      )),
+                      style: Get.textTheme.titleSmall),
                   TextOrderStatus(status: OrderStatus.fromInt(order.status!)),
                 ],
               ),
@@ -56,7 +54,7 @@ class OrderItem extends StatelessWidget {
                           children: [
                             Text(
                               order.orderDetails![0].food!.name.toString(),
-                              style: const TextStyle(fontSize: 16),
+                             style: Get.textTheme.bodyLarge,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -65,10 +63,8 @@ class OrderItem extends StatelessWidget {
                               child: Text(
                                 'x${order.orderDetails![0].quantity.toString()}',
                                 maxLines: 1,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                overflow: TextOverflow.ellipsis,
+                               style: Get.textTheme.bodySmall,
                               ),
                             ),
                             Align(
@@ -77,10 +73,8 @@ class OrderItem extends StatelessWidget {
                                 Formater.formatMoney(
                                     order.orderDetails![0].price.toString()),
                                 maxLines: 1,
-                                style: const TextStyle(
+                               style: Get.textTheme.bodySmall!.copyWith(
                                   color: Colors.red,
-                                  fontSize: 14,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
@@ -96,23 +90,18 @@ class OrderItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('${order.orderDetails!.length} sản phẩm',
-                      style: const TextStyle(
-                        fontSize: 14,
-                      )),
+                      style: Get.textTheme.bodySmall,),
                   Row(
                     children: [
-                      const Text(
+                       Text(
                         'Thành tiền ',
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
+                        style: Get.textTheme.bodySmall,
                       ),
                       Text(
                         Formater.formatMoney(order.totalPrice.toString()),
-                        style: const TextStyle(
+                        style: Get.textTheme.bodySmall!.copyWith(
                           color: Colors.red,
-                          fontSize: 14,
-                        ),
+                        )
                       )
                     ],
                   ),
@@ -122,17 +111,13 @@ class OrderItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                   Text(
                     'Điểm tích luỹ',
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
+                    style: Get.textTheme.bodySmall,
                   ),
                   Text(
                     order.rewardPoints.toString(),
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
+                    style: Get.textTheme.bodySmall,
                   ),
                 ],
               ),

@@ -23,7 +23,6 @@ class NotificationScreen extends StatelessWidget {
         ],
       ),
       body: Card(
-
         child: ListView.builder(
           itemCount: notificationController.notifications.length,
           itemBuilder: (context, index) {
@@ -96,10 +95,10 @@ class NotificationScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text(notification.title,
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold)),
+                                      Text(
+                                        notification.title,
+                                        style: Get.textTheme.titleSmall,
+                                      ),
                                       const SizedBox(width: 3),
                                       const Icon(
                                         Icons.circle,
@@ -117,14 +116,13 @@ class NotificationScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     notification.name,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                                    style: Get.textTheme.labelLarge,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
                                     notification.description,
+                                    style: Get.textTheme.bodySmall,
                                     maxLines: 4,
                                     overflow: TextOverflow.ellipsis,
                                   ),

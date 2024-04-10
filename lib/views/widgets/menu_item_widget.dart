@@ -59,7 +59,7 @@ class MenuItem extends GetView<CartController> {
                               e.food!.name.toString(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 14),
+                                style: Get.textTheme.bodySmall,
                             ),
                           ),
                           const Spacer(),
@@ -74,10 +74,9 @@ class MenuItem extends GetView<CartController> {
                                       Formater.formatMoney(e.price.toString()),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 16,
+                                         style: Get.textTheme.bodyLarge!.copyWith(
                                         color: Colors.red,
-                                      ),
+                                         ),
                                     ),
                                   ),
                                 ),
@@ -102,10 +101,7 @@ class MenuItem extends GetView<CartController> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                    style: Get.textTheme.titleSmall,
                 ),
                 const SizedBox(height: 10),
                 Column(
@@ -120,7 +116,7 @@ class MenuItem extends GetView<CartController> {
                               decoration: BoxDecoration(
                                 color: ThemeColor.itemColor,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(14)),
+                                    const BorderRadius.all(Radius.circular(14)),
                               ),
                               child: SizedBox(
                                 height: 100,
@@ -156,8 +152,7 @@ class MenuItem extends GetView<CartController> {
                                             SizedBox(
                                               child: Text(
                                                 e.food!.name.toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 16),
+                                                  style: Get.textTheme.bodyLarge,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                               ),
@@ -173,12 +168,13 @@ class MenuItem extends GetView<CartController> {
                                                     Formater.formatMoney(e
                                                         .food!.price
                                                         .toString()),
-                                                    style: const TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .lineThrough,
-                                                        fontSize: 16,
-                                                        color: Colors.grey),
+                                                    style: Get
+                                                        .textTheme.bodyLarge!
+                                                        .copyWith(
+                                                      color: Colors.grey,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                    ),
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     maxLines: 1,
@@ -190,9 +186,11 @@ class MenuItem extends GetView<CartController> {
                                                     child: Text(
                                                       Formater.formatMoney(
                                                           e.price.toString()),
-                                                      style: const TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.red),
+                                                      style: Get
+                                                          .textTheme.bodyLarge!
+                                                          .copyWith(
+                                                        color: Colors.red,
+                                                      ),
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       maxLines: 1,
@@ -258,8 +256,8 @@ class MenuItem extends GetView<CartController> {
                                                               sessionId]![e.id!]
                                                           .toString()
                                                       : '0',
-                                                  style: const TextStyle(
-                                                      fontSize: 16),
+                                                  style:
+                                                      Get.textTheme.bodyLarge,
                                                 ),
                                               ),
                                             ),
