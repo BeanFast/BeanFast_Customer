@@ -1,19 +1,21 @@
-import 'package:beanfast_customer/utils/constants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 
-import '/controllers/auth_controller.dart';
+import '/contrains/theme_color.dart';
+import '/views/widgets/menu_item_widget.dart';
 import '/controllers/cart_controller.dart';
 import '/controllers/home_controller.dart';
 import '/views/widgets/item_profile_widget.dart';
 import 'cart_screen.dart';
 import 'loading_screen.dart';
 import 'notification_screen.dart';
+import 'product_detail_screen.dart';
 import 'student_form_screen.dart';
+import '/utils/constants.dart';
+import '/utils/logger.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
@@ -21,7 +23,6 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
-    var authController = Get.find<AuthController>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -166,7 +167,10 @@ class HomeScreen extends GetView<HomeController> {
                                         return;
                                       }
                                       controller.updateSelectedDate(chosenDate);
-                                      print('Chosen date: $chosenDate');
+                                      controller.getSession(
+                                          currentProfile.value.school!.id!,
+                                          chosenDate);
+                                      logger.i('Chosen date: $chosenDate');
                                     },
                                     child: Obx(
                                       () => Container(
@@ -232,46 +236,175 @@ class HomeScreen extends GetView<HomeController> {
                   //Sesion Selecter
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(
-                        3,
-                        (index) => Obx(
-                          () => GestureDetector(
-                            onTap: () {
-                              controller.selectedSession.value = index;
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Card(
-                                color: controller.selectedSession.value == index
-                                    ? Colors.blue
-                                    : Colors.white,
-                                child: Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 5, bottom: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(12),
-                                    ),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
+                    child: Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: controller.listSession
+                            .map(
+                              (session) => Obx(
+                                () => GestureDetector(
+                                  onTap: () {
+                                    controller.selectedSessionId.value =
+                                        session.id.toString();
+                                    controller.getMenu(session.id!);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Card(
+                                      color:
+                                          controller.selectedSessionId.value ==
+                                                  session.id.toString()
+                                              ? Colors.blue
+                                              : Colors.white,
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            right: 10,
+                                            top: 5,
+                                            bottom: 5),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(12),
+                                          ),
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Text(
+                                            DateFormat('HH:mm - ').format(
+                                                    session
+                                                        .deliveryStartTime!) +
+                                                DateFormat('HH:mm').format(
+                                                    session.deliveryEndTime!),
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black)),
+                                      ),
                                     ),
                                   ),
-                                  child: Text('Sáng ${index + 1}',
-                                      style: const TextStyle(
-                                          fontSize: 14, color: Colors.black)),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
+                            )
+                            .toList(),
                       ),
                     ),
                   ),
                   //Menu Food
+                  Obx(
+                    () => SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Loại sản phẩm",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            //Category List
+                            const SizedBox(height: 15),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Obx(() => Row(
+                                    children: controller
+                                        .menuModel.value.listCategories.entries
+                                        .map((e) {
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        height: 40,
+                                        margin:
+                                            const EdgeInsets.only(right: 15),
+                                        child: TextButton(
+                                          style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              controller.selectedCategoryId
+                                                          .value ==
+                                                      e.value
+                                                  ? Colors.white
+                                                  : HexColor("#26AA91"),
+                                            ), // Text color
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              controller.selectedCategoryId
+                                                          .value ==
+                                                      e.value
+                                                  ? HexColor("#26AA91")
+                                                  : Colors.white,
+                                            ), // Background color
+                                            padding: MaterialStateProperty.all<
+                                                EdgeInsets>(
+                                              const EdgeInsets.all(10),
+                                            ),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                side: const BorderSide(
+                                                    color: Color(0xFF26AA91)),
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            controller.selectedCategoryId
+                                                .value = e.value;
+                                            // Get.snackbar('Click category', index.toString());
+                                          },
+                                          child: Text(
+                                            e.value,
+                                            style:
+                                                const TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  )),
+                            ),
+                            const SizedBox(height: 10),
+                            Obx(
+                              () => MenuItem(
+                                  title: 'Combo',
+                                  isCombo: true,
+                                  onTap: () {
+                                    Get.to(const ProductDetailScreen());
+                                  },
+                                  sessionId: controller.selectedSessionId.value,
+                                  list: controller.menuModel.value.listCombo),
+                            ),
+                            const SizedBox(height: 20),
+                            Obx(
+                              () => MenuItem(
+                                  isCombo: false,
+                                  title: 'Ưu đãi',
+                                  onTap: () {
+                                    Get.to(const ProductDetailScreen());
+                                  },
+                                  sessionId: controller.selectedSessionId.value,
+                                  list: controller
+                                      .menuModel.value.listDiscountedFood),
+                            ),
+                            MenuItem(
+                                isCombo: false,
+                                title: 'Sản phẩm',
+                                onTap: () {
+                                  Get.to(const ProductDetailScreen());
+                                },
+                                sessionId: controller.selectedSessionId.value,
+                                list: controller.menuModel.value.listFood),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -280,66 +413,58 @@ class HomeScreen extends GetView<HomeController> {
       ),
     );
   }
+}
 
-  void showProfilesDialog(
-      BuildContext context, final void Function() onPressed) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return LoadingScreen(
-            future: controller.getProfiles,
-            child: AlertDialog(
-              title: const Text('Chọn học sinh'),
-              content: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.4 + 80,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: SingleChildScrollView(
-                        child: Obx(() => Column(
-                              children: controller.listProfile.map((e) {
-                                return ItemProfile(
-                                  model: e,
-                                  onPressed: () =>
-                                      {currentProfile.value = e, onPressed()},
-                                );
-                              }).toList(),
-                            )),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 45,
-                      width: double.infinity,
-                      child: TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.all(10.0)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              side: const BorderSide(color: Colors.grey),
-                            ),
-                          ),
-                        ),
-                        onPressed: () {
-                          Get.to(const StudentFormScreen(isUpdate: false));
-                        },
-                        child: const Text('Thêm người mới',
-                            style: TextStyle(fontSize: 18)),
-                      ),
-                    ),
-                  ],
+void showProfilesDialog(Function() onPressed) {
+  HomeController controller = Get.find<HomeController>();
+  Get.dialog(AlertDialog(
+    title: const Text('Chọn học sinh'),
+    content: SizedBox(
+      width: Get.width,
+      height: Get.height * 0.4 + 80,
+      child: Column(
+        children: [
+          SizedBox(
+            width: Get.width,
+            height: Get.height * 0.4,
+            child: SingleChildScrollView(
+              child: Obx(() => Column(
+                    children: controller.listProfile.map((e) {
+                      return ItemProfile(
+                        model: e,
+                        onPressed: () =>
+                            {currentProfile.value = e, onPressed()},
+                      );
+                    }).toList(),
+                  )),
+            ),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 45,
+            width: double.infinity,
+            child: TextButton(
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.all(10.0)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    side: const BorderSide(color: Colors.grey),
+                  ),
                 ),
               ),
-            ));
-      },
-    );
-  }
+              onPressed: () {
+                Get.to(const StudentFormScreen(isUpdate: false));
+              },
+              child:
+                  const Text('Thêm người mới', style: TextStyle(fontSize: 18)),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ));
 }
 
 List<Widget> headerActionWidget() {
@@ -348,60 +473,62 @@ List<Widget> headerActionWidget() {
   return <Widget>[
     GestureDetector(
       onTap: () {
-        Get.snackbar('title', 'message');
+        showProfilesDialog(() {});
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10),
         child: SizedBox(
           width: Get.width * 0.5,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image(
-                  image: Image.network(
-                          'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg')
-                      .image,
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
+          child: Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image(
+                    image: Image.network(
+                            currentProfile.value.avatarPath.toString())
+                        .image,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 7,
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nguyen van a',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Get.textTheme.bodyMedium!.copyWith(
-                        color: Colors.green,
-                      ),
-                    ),
-                    Text(
-                      'Fast food delivery',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Get.textTheme.bodySmall!.copyWith(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
+                const SizedBox(
+                  width: 7,
                 ),
-              ),
-              const Icon(
-                Icons.keyboard_arrow_down,
-                size: 24,
-                color: Colors.green,
-              )
-            ],
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        currentProfile.value.fullName.toString(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Get.textTheme.bodyMedium!.copyWith(
+                          color: Colors.green,
+                        ),
+                      ),
+                      Text(
+                        currentProfile.value.school!.name.toString(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Get.textTheme.bodySmall!.copyWith(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 24,
+                  color: Colors.green,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -496,103 +623,3 @@ List<Widget> headerActionWidget() {
     ),
   ];
 }
-          // Padding(
-                    //   padding: const EdgeInsets.only(top: 20, bottom: 10),
-                    //   child: Card(
-                    //     color: Colors.grey[300],
-                    //     child: Column(
-                    //       children: [
-                    //         Container(
-                    //           decoration: BoxDecoration(
-                    //             color: ThemeColor.itemColor,
-                    //             borderRadius: const BorderRadius.all(
-                    //               Radius.circular(12),
-                    //             ),
-                    //           ),
-                    //           child: Row(
-                    //             mainAxisAlignment:
-                    //                 MainAxisAlignment.spaceEvenly,
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: [
-                    //               MainIconButton(
-                    //                 icon: Iconsax.shop_add,
-                    //                 text: "Đặt hàng",
-                    //                 isNew: false,
-                    //                 onPressed: () {
-                    //                   showProfilesDialog(context, () {
-                    //                     // currentUser.value
-                    //                     Get.back();
-                    //                     Get.to(const SessionScreen());
-                    //                   });
-                    //                 },
-                    //               ),
-                    //               MainIconButton(
-                    //                 icon: Iconsax.wallet_add,
-                    //                 text: "Nạp tiền",
-                    //                 // text: "Nạp tiền",
-                    //                 isNew: false,
-                    //                 onPressed: () {
-                    //                   // Get.to(const MyLoadingWidget());
-                    //                   Get.to(DepositeScreen());
-                    //                 },
-                    //               ),
-                    //               MainIconButton(
-                    //                 icon: Iconsax.gift,
-                    //                 text: "Đổi thưởng",
-                    //                 isNew: true,
-                    //                 onPressed: () {
-                    //                   showProfilesDialog(context, () {
-                    //                     Get.back();
-                    //                     Get.to(const GiftExchangeScreen());
-                    //                   });
-                    //                 },
-                    //               ),
-                    //               MainIconButton(
-                    //                 icon: Iconsax.game,
-                    //                 text: "Trò chơi",
-                    //                 isNew: true,
-                    //                 onPressed: () {
-                    //                   showProfilesDialog(context, () {
-                    //                     Get.back();
-                    //                     Get.to(const GameSelectScreen());
-                    //                   });
-                    //                   // Get.to(QRScanScreen());
-                    //                 },
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //         SizedBox(
-                    //           height: 40,
-                    //           child: Obx(
-                    //             () => Row(
-                    //               children: [
-                    //                 IconButton(
-                    //                   icon: Icon(
-                    //                     authController.isMoneyVisible.value
-                    //                         ? Icons.visibility_outlined
-                    //                         : Icons.visibility_off_outlined,
-                    //                     size: 16,
-                    //                   ),
-                    //                   onPressed: () {
-                    //                     authController.toggleMoneyVisibility();
-                    //                   },
-                    //                 ),
-                    //                 Text(
-                    //                   authController.moneyValue.value,
-                    //                   style: const TextStyle(
-                    //                       color: Colors.black,
-                    //                       fontSize: 14,
-                    //                       fontWeight: FontWeight.bold),
-                    //                   overflow: TextOverflow.ellipsis,
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-         
-           
