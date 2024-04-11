@@ -18,7 +18,7 @@ class GiftExchangeScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           Container(
-            width: 170,
+            width: 190,
             margin: const EdgeInsets.only(right: 10),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(

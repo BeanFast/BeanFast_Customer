@@ -1,52 +1,59 @@
+import 'package:beanfast_customer/controllers/auth_controller.dart';
+import 'package:beanfast_customer/views/screens/deposit_screen.dart';
+import 'package:beanfast_customer/views/widgets/main_icon_button_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '/contrains/theme_color.dart';
-import '/views/widgets/menu_item_widget.dart';
 import '/controllers/cart_controller.dart';
 import '/controllers/home_controller.dart';
+import '/utils/constants.dart';
 import '/views/widgets/item_profile_widget.dart';
+import '/views/widgets/menu_item_widget.dart';
 import 'cart_screen.dart';
 import 'loading_screen.dart';
 import 'notification_screen.dart';
 import 'product_detail_screen.dart';
 import 'student_form_screen.dart';
-import '/utils/constants.dart';
-import '/utils/logger.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.find<AuthController>();
     Get.put(HomeController());
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-
-          // toolbarHeight: 90,
-
-          actions: headerActionWidget(),
-        ),
-        body: Stack(
-          children: [
-            Lottie.asset(
-              'assets/images/background_home.json',
-              width: Get.width,
-              repeat: false,
-              animate: false,
-              height: 240,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        actions: headerActionWidget(),
+      ),
+      body: RefreshIndicator(
+        displacement: 0,
+        onRefresh: () {
+          return Future.delayed(const Duration(seconds: 1), () {
+            // controller.getSession(
+            //     currentProfile.value.school!.id!, controller.now.value);
+          });
+        },
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Stack(
+            children: [
+              Lottie.asset(
+                'assets/images/background_home.json',
+                width: Get.width,
+                repeat: false,
+                animate: false,
+                height: 220,
+                fit: BoxFit.cover,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -74,13 +81,12 @@ class HomeScreen extends GetView<HomeController> {
                                 );
                               },
                               child: Card(
-                                color: Colors.red,
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width,
+                                  width: Get.width,
                                   margin:
                                       const EdgeInsets.symmetric(horizontal: 0),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(12),
                                     child: Image.network(
                                       imageUrl,
                                       fit: BoxFit.cover,
@@ -93,7 +99,80 @@ class HomeScreen extends GetView<HomeController> {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height: 20),
+                    Card(
+                      color: Colors.grey[200],
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: ThemeColor.itemColor,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                MainIconButton(
+                                  icon: Iconsax.wallet_add,
+                                  text: "Nạp tiền",
+                                  // text: "Nạp tiền",
+                                  isNew: false,
+                                  onPressed: () {
+                                    // Get.to(const MyLoadingWidget());
+                                    Get.to(DepositeScreen());
+                                  },
+                                ),
+                                MainIconButton(
+                                  icon: Iconsax.gift,
+                                  text: "Đổi thưởng",
+                                  isNew: true,
+                                  onPressed: () {},
+                                ),
+                                MainIconButton(
+                                  icon: Iconsax.game,
+                                  text: "Trò chơi",
+                                  isNew: true,
+                                  onPressed: () {},
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            child: Obx(
+                              () => Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      authController.isMoneyVisible.value
+                                          ? Icons.visibility_outlined
+                                          : Icons.visibility_off_outlined,
+                                      size: 16,
+                                    ),
+                                    onPressed: () {
+                                      authController.toggleMoneyVisibility();
+                                    },
+                                  ),
+                                  Text(
+                                    authController.moneyValue.value,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     //day selecter
                     Container(
                       decoration: BoxDecoration(
@@ -108,7 +187,6 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                       child: Container(
                         padding: const EdgeInsets.only(bottom: 10),
-                        width: MediaQuery.of(context).size.width - 25,
                         alignment: Alignment.center,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -185,6 +263,9 @@ class HomeScreen extends GetView<HomeController> {
                                         }
                                         controller
                                             .updateSelectedDate(chosenDate);
+                                        controller.getSession(
+                                            currentProfile.value.school!.id!,
+                                            chosenDate);
                                         print('Chosen date: $chosenDate');
                                       },
                                       child: Obx(
@@ -199,7 +280,7 @@ class HomeScreen extends GetView<HomeController> {
                                                         .dayOfWeekDateTime(
                                                             index)
                                                         .value)
-                                                ? Colors.blue
+                                                ? Colors.green
                                                 : Colors.transparent,
                                             borderRadius: BorderRadius.circular(
                                                 50), // Make the Container circular
@@ -211,28 +292,38 @@ class HomeScreen extends GetView<HomeController> {
                                                 '${controller.dayOfWeek(index)}',
                                                 style: TextStyle(
                                                   fontSize: 14,
-                                                  color: controller
+                                                  color: controller.isSameDay(
+                                                          controller
+                                                              .selectedDate
+                                                              .value,
+                                                          controller
                                                               .dayOfWeekDateTime(
                                                                   index)
-                                                              .value
-                                                              .isBefore(
-                                                                DateTime(
-                                                                  DateTime.now()
-                                                                      .year,
-                                                                  DateTime.now()
-                                                                      .month,
-                                                                  DateTime.now()
-                                                                      .day,
-                                                                ),
-                                                              ) &&
-                                                          !controller.isSameDay(
-                                                              controller
+                                                              .value)
+                                                      ? Colors.white
+                                                      : controller
                                                                   .dayOfWeekDateTime(
                                                                       index)
-                                                                  .value,
-                                                              DateTime.now())
-                                                      ? Colors.grey
-                                                      : Colors.black,
+                                                                  .value
+                                                                  .isBefore(
+                                                                    DateTime(
+                                                                      DateTime.now()
+                                                                          .year,
+                                                                      DateTime.now()
+                                                                          .month,
+                                                                      DateTime.now()
+                                                                          .day,
+                                                                    ),
+                                                                  ) &&
+                                                              !controller.isSameDay(
+                                                                  controller
+                                                                      .dayOfWeekDateTime(
+                                                                          index)
+                                                                      .value,
+                                                                  DateTime
+                                                                      .now())
+                                                          ? Colors.grey
+                                                          : Colors.black,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -268,12 +359,15 @@ class HomeScreen extends GetView<HomeController> {
                                       controller.getMenu(session.id!);
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.only(right: 10),
+                                      padding: const EdgeInsets.only(
+                                          right: 5, left: 5),
                                       child: Card(
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         color: controller
                                                     .selectedSessionId.value ==
                                                 session.id.toString()
-                                            ? Colors.blue
+                                            ? Colors.green
                                             : Colors.white,
                                         child: Container(
                                           padding: const EdgeInsets.only(
@@ -292,14 +386,21 @@ class HomeScreen extends GetView<HomeController> {
                                             ),
                                           ),
                                           child: Text(
-                                              DateFormat('HH:mm - ').format(
-                                                      session
-                                                          .deliveryStartTime!) +
-                                                  DateFormat('HH:mm').format(
-                                                      session.deliveryEndTime!),
-                                              style: const TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black)),
+                                            DateFormat('HH:mm - ').format(
+                                                    session
+                                                        .deliveryStartTime!) +
+                                                DateFormat('HH:mm').format(
+                                                    session.deliveryEndTime!),
+                                            style: Get.textTheme.bodySmall!
+                                                .copyWith(
+                                              color: controller
+                                                          .selectedSessionId
+                                                          .value ==
+                                                      session.id.toString()
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -315,19 +416,16 @@ class HomeScreen extends GetView<HomeController> {
                       () => SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 "Loại sản phẩm",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Get.textTheme.titleMedium,
                               ),
                               //Category List
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Obx(() => Row(
@@ -336,52 +434,50 @@ class HomeScreen extends GetView<HomeController> {
                                           .map((e) {
                                         return Container(
                                           alignment: Alignment.center,
-                                          height: 40,
-                                          margin:
-                                              const EdgeInsets.only(right: 15),
-                                          child: TextButton(
-                                            style: ButtonStyle(
-                                              foregroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(
-                                                controller.selectedCategoryId
-                                                            .value ==
-                                                        e.value
-                                                    ? Colors.white
-                                                    : HexColor("#26AA91"),
-                                              ), // Text color
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(
-                                                controller.selectedCategoryId
-                                                            .value ==
-                                                        e.value
-                                                    ? HexColor("#26AA91")
-                                                    : Colors.white,
-                                              ), // Background color
-                                              padding: MaterialStateProperty
-                                                  .all<EdgeInsets>(
-                                                const EdgeInsets.all(10),
-                                              ),
-                                              shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  side: const BorderSide(
-                                                      color: Color(0xFF26AA91)),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () {
+                                          child: GestureDetector(
+                                            onTap: () {
                                               controller.selectedCategoryId
                                                   .value = e.value;
-                                              // Get.snackbar('Click category', index.toString());
                                             },
-                                            child: Text(
-                                              e.value,
-                                              style:
-                                                  const TextStyle(fontSize: 14),
+                                            child: Card(
+                                              margin: const EdgeInsets.only(
+                                                  right: 10),
+                                              color: controller
+                                                          .selectedCategoryId
+                                                          .value ==
+                                                      e.value
+                                                  ? Colors.green
+                                                  : Colors.white,
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 5,
+                                                    bottom: 5),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    Radius.circular(12),
+                                                  ),
+                                                  border: Border.all(
+                                                    color: Colors.grey,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  e.value,
+                                                  style: Get
+                                                      .textTheme.bodySmall!
+                                                      .copyWith(
+                                                    color: controller
+                                                                .selectedCategoryId
+                                                                .value ==
+                                                            e.value
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         );
@@ -429,8 +525,8 @@ class HomeScreen extends GetView<HomeController> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -101,7 +101,7 @@ class MenuItem extends GetView<CartController> {
               children: [
                 Text(
                   title,
-                    style: Get.textTheme.titleSmall,
+                    style: Get.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 10),
                 Column(

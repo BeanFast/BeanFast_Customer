@@ -25,7 +25,7 @@ class TransactionScreen extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(100), // Set the border radius to 10
               ),
-              prefixIcon: const Icon(Iconsax.search_normal),
+              prefixIcon: const Icon(Iconsax.search_normal, size: 20,),
             ),
             onChanged: (value) {
               // Handle search operation here

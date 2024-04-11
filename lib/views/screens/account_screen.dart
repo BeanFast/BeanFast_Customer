@@ -366,7 +366,7 @@ class AccountScreen extends GetView<AuthController> {
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
                                   title: "Đổi thưởng",
-                                  icon: Ionicons.earth,
+                                  icon: Iconsax.gift,
                                   iconColor: Colors.red,
                                   onTap: () {
                                     showProfilesDialog(() {
@@ -388,7 +388,7 @@ class AccountScreen extends GetView<AuthController> {
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
                                   title: "Trò chơi",
-                                  icon: Ionicons.earth,
+                                  icon: Iconsax.game,
                                   iconColor: Colors.red,
                                   onTap: () {
                                     showProfilesDialog(() {
