@@ -143,15 +143,20 @@ class CartScreen extends GetView<CartController> {
                                                               .map(
                                                                 (menuDetail) =>
                                                                     Container(
-                                                                      margin: const EdgeInsets.only(bottom: 10),
+                                                                  margin:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          bottom:
+                                                                              10),
                                                                   decoration: BoxDecoration(
                                                                       color: ThemeColor
                                                                           .itemColor,
-                                                                      borderRadius:
-                                                                          const BorderRadius.all(
-                                                                              Radius.circular(14))),
+                                                                      borderRadius: const BorderRadius
+                                                                          .all(
+                                                                          Radius.circular(
+                                                                              14))),
                                                                   child:
-                                                                       SizedBox(
+                                                                      SizedBox(
                                                                     height: 125,
                                                                     child: Row(
                                                                       crossAxisAlignment:

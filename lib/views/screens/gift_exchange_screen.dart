@@ -1,3 +1,6 @@
+import 'package:beanfast_customer/models/profile.dart';
+import 'package:beanfast_customer/services/profile_service.dart';
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/gift_detail_screen.dart';
 import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
 import 'package:flutter/material.dart';
@@ -6,61 +9,76 @@ import 'package:get/get.dart';
 import '../../controllers/exchange_gift_controller.dart';
 import 'loading_screen.dart';
 
-class GiftExchangeScreen extends StatelessWidget {
-  const GiftExchangeScreen({super.key});
-
+class ExchangeGiftScreen extends StatelessWidget {
+  ExchangeGiftScreen({super.key});
+  var profile = null;
+  RxDouble balance = 0.0.obs;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Đổi quà',
-        ),
-        actions: <Widget>[
-          Container(
-            width: 170,
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.yellow,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(Icons.card_giftcard, color: Colors.black),
-                Text('Điểm: 100.000.000'),
-              ],
-            ),
+    print(currentProfile.value.wallets.toString());
+    var profile = currentProfile.value;
+    print(currentProfile.value.wallets.toString());
+
+    return LoadingScreen(
+      future: () async {
+        profile = await ProfileService().getById(currentProfile.value.id!);
+        print(profile.id.toString());
+        balance = profile.wallets!.isEmpty
+            ? 0.0.obs
+            : profile.wallets!.first.balance!.obs;
+        print(balance);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Đổi quà',
           ),
-        ],
-      ),
-      body: DefaultTabController(
-        length: 3,
-        child: Column(
-          // mainAxisSize: MainAxisSize.min,
-          children: [
-            const TabBar(
-              isScrollable: true,
-              tabAlignment: TabAlignment.start,
-              tabs: [
-                Tab(text: 'Quà'),
-                Tab(text: 'Tích điểm/ Dùng điểm'),
-                Tab(text: 'Lịch sử đổi thưởng'),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
+          actions: <Widget>[
+            Container(
+              width: 170,
+              margin: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.yellow,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const ExchageGift(), // Đổi thưởng
-                  const PointManagement(), // Thống kê
-                  Container(
-                    child: const Center(child: Text('Lịch sử đổi thưởng')),
-                  ),
+                  Icon(Icons.card_giftcard, color: Colors.black),
+                  Text('Điểm: ${balance.value.toString()}'),
                 ],
               ),
             ),
           ],
+        ),
+        body: DefaultTabController(
+          length: 3,
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              const TabBar(
+                isScrollable: true,
+                tabAlignment: TabAlignment.start,
+                tabs: [
+                  Tab(text: 'Quà'),
+                  Tab(text: 'Tích điểm/ Dùng điểm'),
+                  Tab(text: 'Lịch sử đổi thưởng'),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    const ExchageGift(), // Đổi thưởng
+                    const PointManagement(), // Thống kê
+                    Container(
+                      child: const Center(child: Text('Lịch sử đổi thưởng')),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -174,7 +192,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
               children: controller.listData.map((gift) {
                 return GestureDetector(
                   onTap: () {
-                    Get.to(const GiftDetailScreen());
+                    Get.to(GiftDetailScreen(gift: gift));
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 5),
@@ -226,7 +244,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                           child: Row(
                                             children: [
                                               Text(
-                                                '150.000',
+                                                gift.points.toString(),
                                                 style: Get.textTheme.bodyLarge!
                                                     .copyWith(
                                                   color: Colors.red,

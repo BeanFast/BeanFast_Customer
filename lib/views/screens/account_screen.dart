@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/auth_controller.dart';
+import 'package:beanfast_customer/models/exchange_gift.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/account_profile_screen.dart';
 import 'package:beanfast_customer/views/screens/home_screen.dart';
@@ -176,7 +177,7 @@ class AccountScreen extends GetView<AuthController> {
                                                                               .bold),
                                                                 ),
                                                                 Text(
-                                                                  'Bắc buộc để sử dụng các dịch vụ của chúng tôi',
+                                                                  'Bắt buộc để sử dụng các dịch vụ của chúng tôi',
                                                                   maxLines: 4,
                                                                   overflow:
                                                                       TextOverflow
@@ -359,7 +360,7 @@ class AccountScreen extends GetView<AuthController> {
                               onTap: () {
                                 showProfilesDialog(() {
                                   Get.back();
-                                  Get.to(const GiftExchangeScreen());
+                                  Get.to(ExchangeGiftScreen());
                                 });
                               },
                               child: Container(
@@ -371,7 +372,7 @@ class AccountScreen extends GetView<AuthController> {
                                   onTap: () {
                                     showProfilesDialog(() {
                                       Get.back();
-                                      Get.to(const GiftExchangeScreen());
+                                      Get.to(ExchangeGiftScreen());
                                     });
                                   },
                                 ),

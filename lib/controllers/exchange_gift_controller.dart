@@ -1,5 +1,8 @@
 import 'package:beanfast_customer/models/gift.dart';
+import 'package:beanfast_customer/models/profile.dart';
 import 'package:beanfast_customer/services/gift_service.dart';
+import 'package:beanfast_customer/services/profile_service.dart';
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:get/get.dart';
 
 import '../utils/logger.dart';
@@ -7,6 +10,11 @@ import '../utils/logger.dart';
 class ExchangeGiftController extends GetxController {
   RxBool isError = false.obs;
   RxList<Gift> listData = <Gift>[].obs;
+
+  // Future<Profile?> getProfile() async {
+  //   await ProfileService().getById(currentProfile.id);
+  //   return profile;
+  // }
 
   Future getData() async {
     logger.i('getData');

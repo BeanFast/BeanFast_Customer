@@ -120,7 +120,7 @@ class StudentDetailScreen extends GetView<ProfileController> {
                   const SizedBox(height: 20),
                   Text(
                     'Thông tin học sinh',
-                     style: Get.textTheme.titleMedium,
+                    style: Get.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 20),
                   Card(

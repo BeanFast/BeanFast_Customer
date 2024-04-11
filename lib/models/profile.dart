@@ -45,33 +45,37 @@ class Profile extends BaseModel {
   }) : super(id: id, status: status);
 
   factory Profile.fromJson(dynamic json) {
+    List<Wallet> wallets = [];
     School school = School();
     if (json['school'] != null) {
       school = School.fromJson(json['school']);
     } else if (json['schoolName'] != null) {
       school = School(name: json['schoolName']);
     }
+    if (json['wallet'] != null) {
+      wallets.add(Wallet.fromJson(json['wallet']));
+    }
     return Profile(
-      id: json["id"],
-      status: json['status'],
-      userId: json["userId"],
-      schoolId: json['schoolId'],
-      code: json['code'],
-      fullName: json['fullName'],
-      gender: json['gender'],
-      nickName: json['nickName'],
-      avatarPath: json['avatarPath'],
-      dob: DateTime.parse(json['dob']),
-      className: json['class'],
-      currentBMI: json['currentBMI'] == null
-          ? 0
-          : double.parse(json['currentBMI'].toString()),
-      school: school,
-      // wallets: wallets.add(value) Wallet.fromJson(json['wallet']).toList(),
-      loyaltyCards: json['loyaltyCards']?.map<LoyaltyCard>((item) {
-        return LoyaltyCard.fromJson(item);
-      }).toList(),
-    );
+        id: json["id"],
+        status: json['status'],
+        userId: json["userId"],
+        schoolId: json['schoolId'],
+        code: json['code'],
+        fullName: json['fullName'],
+        gender: json['gender'],
+        nickName: json['nickName'],
+        avatarPath: json['avatarPath'],
+        dob: DateTime.parse(json['dob']),
+        className: json['class'],
+        currentBMI: json['currentBMI'] == null
+            ? 0
+            : double.parse(json['currentBMI'].toString()),
+        school: school,
+        // wallets: wallets.add(value) Wallet.fromJson(json['wallet']).toList(),
+        loyaltyCards: json['loyaltyCards']?.map<LoyaltyCard>((item) {
+          return LoyaltyCard.fromJson(item);
+        }).toList(),
+        wallets: wallets);
   }
 
   // Map<String, dynamic> toJson() {

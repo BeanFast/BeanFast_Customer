@@ -13,12 +13,13 @@ class TransactionService {
   }
 
   Future<List<Transaction>> getTransactions(
-      String page, String size, String type, String profileId) async {
+      int page, int size, String type, String profileId) async {
     var response = await _apiService.request.get("$baseUrl/profiles/$profileId",
         queryParameters: Map.from({"page": page, "size": size, "type": type}));
-    List<Transaction> result = List.empty();
+    List<Transaction> result = List.empty(growable: true);
     if (response.statusCode == 200) {
       for (var e in response.data['data']["items"]) {
+        // var tran = Transaction.fromJson(e);
         result.add(Transaction.fromJson(e));
       }
     }
