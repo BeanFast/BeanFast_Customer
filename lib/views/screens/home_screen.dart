@@ -1,5 +1,7 @@
 import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/views/screens/deposit_screen.dart';
+import 'package:beanfast_customer/views/screens/game_select_screen.dart';
+import 'package:beanfast_customer/views/screens/gift_exchange_screen.dart';
 import 'package:beanfast_customer/views/widgets/main_icon_button_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -128,13 +130,24 @@ class HomeScreen extends GetView<HomeController> {
                                   icon: Iconsax.gift,
                                   text: "Đổi thưởng",
                                   isNew: true,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showProfilesDialog(() {
+                                      Get.back();
+                                      Get.to(ExchangeGiftScreen());
+                                    });
+                                  },
                                 ),
                                 MainIconButton(
                                   icon: Iconsax.game,
                                   text: "Trò chơi",
                                   isNew: true,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showProfilesDialog(() {
+                                       Get.back();
+                                      Get.to(const GameSelectScreen());
+                                     
+                                    });
+                                  },
                                 ),
                               ],
                             ),
@@ -411,12 +424,13 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 10),
                     //Menu Food
                     Obx(
                       () => SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Padding(
-                          padding: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.only(left: 5, right: 5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -484,7 +498,7 @@ class HomeScreen extends GetView<HomeController> {
                                       }).toList(),
                                     )),
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 5),
                               Obx(
                                 () => MenuItem(
                                     title: 'Combo',
@@ -496,7 +510,7 @@ class HomeScreen extends GetView<HomeController> {
                                         controller.selectedSessionId.value,
                                     list: controller.menuModel.value.listCombo),
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 5),
                               Obx(
                                 () => MenuItem(
                                     isCombo: false,
@@ -509,6 +523,7 @@ class HomeScreen extends GetView<HomeController> {
                                     list: controller
                                         .menuModel.value.listDiscountedFood),
                               ),
+                              const SizedBox(height: 5),
                               MenuItem(
                                   isCombo: false,
                                   title: 'Sản phẩm',
@@ -594,11 +609,14 @@ List<Widget> headerActionWidget() {
   return <Widget>[
     GestureDetector(
       onTap: () {
-        showProfilesDialog(() {});
+        showProfilesDialog(() {
+          Get.back();
+        });
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10),
-        child: SizedBox(
+        child: Container(
+          color: Colors.transparent,
           width: Get.width * 0.5,
           child: Obx(
             () => Row(

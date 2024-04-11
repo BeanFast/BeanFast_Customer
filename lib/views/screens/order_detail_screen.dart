@@ -4,12 +4,11 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '/contrains/theme_color.dart';
 import '/controllers/order_controller.dart';
 import '/utils/formater.dart';
 import '/views/screens/loading_screen.dart';
 import '/views/widgets/banner_order_status.dart';
-import '/contrains/theme_color.dart';
-import '/enums/status_enum.dart';
 
 class OrderDetailScreen extends GetView<OrderController> {
   const OrderDetailScreen({super.key, required this.orderId});

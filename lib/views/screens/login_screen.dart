@@ -16,7 +16,6 @@ class LoginView extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         title: const Text(
           'Đăng Nhập',
@@ -190,11 +189,12 @@ class LoginView extends GetView<AuthController> {
                             ),
                             onPressed: () {
                               // if (_formKey.currentState!.validate()) {
-                                _authController.login();
+                              _authController.login();
                               // }
                             },
-                            child: const Text('Đăng nhập',
-                                style: TextStyle(fontSize: 18)),
+                            child: Text('Đăng nhập',
+                                style: Get.textTheme.titleMedium!
+                                    .copyWith(color: Colors.white)),
                           ),
                         ),
                       ),

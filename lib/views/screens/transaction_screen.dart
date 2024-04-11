@@ -1,7 +1,6 @@
 import 'package:beanfast_customer/controllers/transaction_controller.dart';
 import 'package:beanfast_customer/utils/formater.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -50,18 +49,6 @@ class TransactionScreen extends StatelessWidget {
                 showFilterDialog(context);
               },
             ),
-            // Obx(
-            //   () => IconButton(
-            //     icon: Icon(
-            //       transactionController.isMoneyVisible.value
-            //           ? Icons.visibility
-            //           : Icons.visibility_off,
-            //     ),
-            //     onPressed: () {
-            //       transactionController.toggleMoneyVisibility();
-            //     },
-            //   ),
-            // ),
           ],
         ),
         body: Column(
@@ -114,7 +101,6 @@ class TransactionScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     //tháng 3
-
                     Container(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       height: 50,
@@ -135,7 +121,6 @@ class TransactionScreen extends StatelessWidget {
                         style: Get.textTheme.titleMedium,
                       ),
                     ),
-
                     Obx(
                       () => Column(
                         children:

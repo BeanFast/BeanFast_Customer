@@ -1,6 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/contrains/theme_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';

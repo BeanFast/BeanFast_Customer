@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/auth_controller.dart';
-import 'package:beanfast_customer/models/exchange_gift.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/account_profile_screen.dart';
 import 'package:beanfast_customer/views/screens/home_screen.dart';
@@ -337,70 +336,73 @@ class AccountScreen extends GetView<AuthController> {
                       ),
                       const SizedBox(height: 10),
                       Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(const StudentListScreen());
-                              },
-                              child: Container(
-                                color: ThemeColor.itemColor,
-                                child: SettingItem(
-                                  title: "Danh sách học sinh",
-                                  icon: Iconsax.people,
-                                  iconColor: Colors.amber,
-                                  onTap: () {
-                                    Get.to(const StudentListScreen());
-                                  },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(const StudentListScreen());
+                                },
+                                child: Container(
+                                  color: ThemeColor.itemColor,
+                                  child: SettingItem(
+                                    title: "Danh sách học sinh",
+                                    icon: Iconsax.people,
+                                    iconColor: Colors.amber,
+                                    onTap: () {
+                                      Get.to(const StudentListScreen());
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showProfilesDialog(() {
-                                  Get.back();
-                                  Get.to(ExchangeGiftScreen());
-                                });
-                              },
-                              child: Container(
-                                color: ThemeColor.itemColor,
-                                child: SettingItem(
-                                  title: "Đổi thưởng",
-                                  icon: Iconsax.gift,
-                                  iconColor: Colors.red,
-                                  onTap: () {
-                                    showProfilesDialog(() {
-                                      Get.back();
-                                      Get.to(ExchangeGiftScreen());
-                                    });
-                                  },
+                              GestureDetector(
+                                onTap: () {
+                                  showProfilesDialog(() {
+                                    Get.back();
+                                    Get.to(ExchangeGiftScreen());
+                                  });
+                                },
+                                child: Container(
+                                  color: ThemeColor.itemColor,
+                                  child: SettingItem(
+                                    title: "Đổi thưởng",
+                                    icon: Iconsax.gift,
+                                    iconColor: Colors.red,
+                                    onTap: () {
+                                      showProfilesDialog(() {
+                                        Get.back();
+                                        Get.to(ExchangeGiftScreen());
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showProfilesDialog(() {
-                                  Get.back();
-                                  Get.to(const GameSelectScreen());
-                                });
-                              },
-                              child: Container(
-                                color: ThemeColor.itemColor,
-                                child: SettingItem(
-                                  title: "Trò chơi",
-                                  icon: Iconsax.game,
-                                  iconColor: Colors.red,
-                                  onTap: () {
-                                    showProfilesDialog(() {
-                                      Get.back();
-                                      Get.to(const GameSelectScreen());
-                                    });
-                                  },
+                              GestureDetector(
+                                onTap: () {
+                                  showProfilesDialog(() {
+                                    Get.back();
+                                    Get.to(const GameSelectScreen());
+                                  });
+                                },
+                                child: Container(
+                                  color: ThemeColor.itemColor,
+                                  child: SettingItem(
+                                    title: "Trò chơi",
+                                    icon: Iconsax.game,
+                                    iconColor: Colors.green,
+                                    onTap: () {
+                                      showProfilesDialog(() {
+                                        Get.back();
+                                        Get.to(const GameSelectScreen());
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -410,65 +412,68 @@ class AccountScreen extends GetView<AuthController> {
                       ),
                       const SizedBox(height: 10),
                       Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
-                              },
-                              child: Container(
-                                color: ThemeColor.itemColor,
-                                child: SettingItem(
-                                  title: "Ngôn ngữ",
-                                  icon: Ionicons.earth,
-                                  iconColor: Colors.red,
-                                  value: "English",
-                                  onTap: () {
-                                    Get.snackbar('on Tap', 'Tap',
-                                        snackPosition: SnackPosition.TOP);
-                                  },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.snackbar('on Tap', 'Tap',
+                                      snackPosition: SnackPosition.TOP);
+                                },
+                                child: Container(
+                                  color: ThemeColor.itemColor,
+                                  child: SettingItem(
+                                    title: "Ngôn ngữ",
+                                    icon: Ionicons.earth,
+                                    iconColor: Colors.red,
+                                    value: "English",
+                                    onTap: () {
+                                      Get.snackbar('on Tap', 'Tap',
+                                          snackPosition: SnackPosition.TOP);
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
-                              },
-                              child: Container(
-                                color: ThemeColor.itemColor,
-                                child: SettingItem(
-                                  title: "Nút số 2",
-                                  icon: Ionicons.earth,
-                                  iconColor: Colors.red,
-                                  onTap: () {
-                                    Get.snackbar('on Tap', 'Tap',
-                                        snackPosition: SnackPosition.TOP);
-                                  },
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
-                              },
-                              child: Container(
-                                color: ThemeColor.itemColor,
-                                child: SettingItem(
-                                  title: "Nút số 3",
-                                  icon: Ionicons.earth,
-                                  iconColor: Colors.red,
-                                  onTap: () {
-                                    Get.snackbar('on Tap', 'Tap',
-                                        snackPosition: SnackPosition.TOP);
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     Get.snackbar('on Tap', 'Tap',
+                              //         snackPosition: SnackPosition.TOP);
+                              //   },
+                              //   child: Container(
+                              //     color: ThemeColor.itemColor,
+                              //     child: SettingItem(
+                              //       title: "Nút số 2",
+                              //       icon: Ionicons.earth,
+                              //       iconColor: Colors.red,
+                              //       onTap: () {
+                              //         Get.snackbar('on Tap', 'Tap',
+                              //             snackPosition: SnackPosition.TOP);
+                              //       },
+                              //     ),
+                              //   ),
+                              // ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     Get.snackbar('on Tap', 'Tap',
+                              //         snackPosition: SnackPosition.TOP);
+                              //   },
+                              //   child: Container(
+                              //     color: ThemeColor.itemColor,
+                              //     child: SettingItem(
+                              //       title: "Nút số 3",
+                              //       icon: Ionicons.earth,
+                              //       iconColor: Colors.red,
+                              //       onTap: () {
+                              //         Get.snackbar('on Tap', 'Tap',
+                              //             snackPosition: SnackPosition.TOP);
+                              //       },
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),

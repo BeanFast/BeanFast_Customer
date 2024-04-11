@@ -1,17 +1,17 @@
-import 'package:beanfast_customer/models/profile.dart';
 import 'package:beanfast_customer/services/profile_service.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/gift_detail_screen.dart';
 import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../controllers/exchange_gift_controller.dart';
 import 'loading_screen.dart';
 
 class ExchangeGiftScreen extends StatelessWidget {
   ExchangeGiftScreen({super.key});
-  var profile = null;
+
   RxDouble balance = 0.0.obs;
   @override
   Widget build(BuildContext context) {
@@ -35,18 +35,18 @@ class ExchangeGiftScreen extends StatelessWidget {
           ),
           actions: <Widget>[
             Container(
-              width: 170,
-              margin: const EdgeInsets.only(right: 10),
+              margin: const EdgeInsets.only(right: 20),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.yellow,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Icon(Icons.card_giftcard, color: Colors.black),
-                  Text('Điểm: ${balance.value.toString()}'),
+                  Obx(() => Text(balance.value.toInt().toString())),
+                  const SizedBox(width: 5),
+                  const Icon(Iconsax.gift, color: Colors.black),
                 ],
               ),
             ),
@@ -253,7 +253,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                                 maxLines: 1,
                                               ),
                                               const SizedBox(width: 5),
-                                              const Icon(Icons.card_giftcard,
+                                              const Icon(Iconsax.gift,
                                                   color: Colors.orange)
                                             ],
                                           ),
