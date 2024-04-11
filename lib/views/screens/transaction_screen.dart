@@ -3,6 +3,7 @@ import 'package:beanfast_customer/utils/formater.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TransactionScreen extends StatelessWidget {
@@ -30,36 +31,13 @@ class TransactionScreen extends StatelessWidget {
                   borderRadius:
                       BorderRadius.circular(100), // Set the border radius to 10
                 ),
-                prefixIcon: const Icon(Iconsax.search_normal),
+                prefixIcon: const Icon(
+                  Iconsax.search_normal,
+                  size: 20,
+                ),
               ),
-<<<<<<< HEAD
               onChanged: (value) {
                 // Handle search operation here
-=======
-              prefixIcon: const Icon(Iconsax.search_normal, size: 20,),
-            ),
-            onChanged: (value) {
-              // Handle search operation here
-            },
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Iconsax.filter_search),
-            onPressed: () {
-              showFilterDialog(context);
-            },
-          ),
-          Obx(
-            () => IconButton(
-              icon: Icon(
-                transactionController.isMoneyVisible.value
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-              ),
-              onPressed: () {
-                transactionController.toggleMoneyVisibility();
->>>>>>> 6c02c5c22e42596826eed2f6321a9aefa4d097b2
               },
             ),
           ),
@@ -110,107 +88,116 @@ class TransactionScreen extends StatelessWidget {
                   style: Get.textTheme.titleMedium,
                 ),
               ),
-              Column(
-                children: transactionController.transactions.map((element) {
-                  var index = -1;
-                  index++;
-                  var color = element.value! > 0 ? Colors.green : Colors.red;
-                  return Container(
-                    height: 95,
-                    color: index % 2 == 0
-                        ? Colors.white
-                        : const Color.fromARGB(255, 198, 225, 244)
-                            .withOpacity(0.3),
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.grey),
+              Obx(
+                () => Column(
+                  children: transactionController.transactions.map((element) {
+                    var index = -1;
+                    index++;
+                    var transactionType = element.order!.code == null
+                        ? "Nạp tiền"
+                        : "Thanh toán đơn hàng";
+                    IconData iconData = element.order!.code == null
+                        ? Iconsax.wallet_add_1
+                        : Iconsax.wallet_minus;
+                    var color = element.value! > 0 ? Colors.green : Colors.red;
+                    return Container(
+                      height: 95,
+                      color: index % 2 == 0
+                          ? Colors.white
+                          : const Color.fromARGB(255, 198, 225, 244)
+                              .withOpacity(0.3),
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            child: Icon(
+                              iconData,
+                              color: Colors.blue,
+                            ),
                           ),
-                          child: const Icon(
-                            Iconsax.empty_wallet_change,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                element.order!.code != null
-                                    ? "Thanh toán đơn hàng: #" +
-                                        element.order!.code!
-                                    : "Nạp tiền",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Get.textTheme.bodyLarge!.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          element.time.toString(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: Get.textTheme.bodySmall,
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Obx(
-                                          () => SizedBox(
-                                            child: Text(
-                                              'Số dư ví: ${transactionController.moneyValue.value}',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Get.textTheme.bodySmall,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  element.order!.code != null
+                                      ? "$transactionType: #" +
+                                          element.order!.code!
+                                      : "$transactionType",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  Container(
-                                    alignment: Alignment.bottomRight,
-                                    width: 120,
-                                    child: Text(
-                                      element.value! > 0
-                                          ? "+${Formater.formatMoney(element.value.toString())}"
-                                          : Formater.formatMoney(
-                                              element.value.toString()),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Get.textTheme.bodyMedium!.copyWith(
-                                        color: color,
-                                        fontWeight: FontWeight.w700,
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            element.time.toString(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Get.textTheme.bodySmall,
+                                          ),
+                                          const SizedBox(height: 5),
+                                          // Obx(
+                                          //   () => SizedBox(
+                                          //     child: Text(
+                                          //       'Số dư ví: ${transactionController.moneyValue.value}',
+                                          //       maxLines: 1,
+                                          //       overflow: TextOverflow.ellipsis,
+                                          //       style: Get.textTheme.bodySmall,
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    Container(
+                                      alignment: Alignment.bottomRight,
+                                      width: 120,
+                                      child: Text(
+                                        element.value! > 0
+                                            ? "+${Formater.formatMoney(element.value.toString())}"
+                                            : Formater.formatMoney(
+                                                element.value.toString()),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            Get.textTheme.bodyMedium!.copyWith(
+                                          color: color,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
             ],
           ),
