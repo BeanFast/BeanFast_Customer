@@ -1,9 +1,11 @@
+import 'package:beanfast_customer/models/gift.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 class GiftDetailScreen extends StatelessWidget {
-  const GiftDetailScreen({super.key});
+  final Gift gift;
+  const GiftDetailScreen({super.key, required this.gift});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +20,7 @@ class GiftDetailScreen extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width * 0.8,
-                child: Image.network(
-                    'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                    fit: BoxFit.cover),
+                child: Image.network(gift.imagePath!, fit: BoxFit.cover),
               ),
               Stack(
                 children: [
@@ -31,8 +31,8 @@ class GiftDetailScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Tên quà tặng',
+                          Text(
+                            gift.name!,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class GiftDetailScreen extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      '150.000',
+                                      gift.points!.toString(),
                                       style: Get.textTheme.bodyLarge!
                                           .copyWith(color: Colors.red),
                                       overflow: TextOverflow.ellipsis,
@@ -118,13 +118,12 @@ class GiftDetailScreen extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(10),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Mô tả', style: TextStyle(fontSize: 16)),
-                      Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod'),
+                      Text(gift.description!),
                     ],
                   ),
                 ),

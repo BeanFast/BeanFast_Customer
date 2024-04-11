@@ -33,7 +33,7 @@ class Wallet extends BaseModel {
         code: json['code'],
         name: json['name'],
         type: json['type'],
-        balance: json['balance'],
+        balance: double.parse(json['balance'].toString()),
       );
 
   // Map<String, dynamic> toJson() {

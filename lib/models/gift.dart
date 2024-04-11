@@ -4,9 +4,10 @@ import 'exchange_gift.dart';
 class Gift extends BaseModel {
   String? code;
   String? name;
-  int? point;
+  int? points;
   int? inStock;
   String? imagePath;
+  String? description;
   List<ExchangeGift>? exchangeGifts;
 
   Gift({
@@ -14,24 +15,26 @@ class Gift extends BaseModel {
     status,
     this.code,
     this.name,
-    this.point,
+    this.points,
     this.inStock,
     this.imagePath,
+    this.description,
   });
 
   @override
   String toString() {
-    return 'Gift(id: $id, code: $code, name: $name, point: $point, inStock: $inStock, imagePath: $imagePath, status: $status)';
+    return 'Gift(id: $id, code: $code, name: $name, point: $points, inStock: $inStock, imagePath: $imagePath, status: $status)';
   }
 
   factory Gift.fromJson(dynamic json) => Gift(
         id: json['id'],
         code: json["code"],
         name: json['name'],
-        point: json['point'],
+        points: json['points'],
         inStock: json['inStock'],
         imagePath: json['imagePath'] ?? "",
         status: json['status'],
+        description: json['description'],
       );
 
   // Map<String, dynamic> toJson() {

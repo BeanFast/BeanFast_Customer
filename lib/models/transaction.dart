@@ -18,6 +18,7 @@ class Transaction extends BaseModel {
     id,
     status,
     this.orderId,
+    this.order,
     this.exchangeGiftId,
     this.walletId,
     this.code,
@@ -29,11 +30,12 @@ class Transaction extends BaseModel {
         id: json["id"],
         status: json['status'],
         orderId: json["orderId"],
+        order: Order.fromJson(json["order"]),
         exchangeGiftId: json['exchangeGiftId'],
         walletId: json['walletId'],
         code: json['code'],
-        time: json['time'],
-        value: json['value'],
+        time: DateTime.parse(json['time']),
+        value: double.parse(json['value'].toString()),
       );
 
   // Map<String, dynamic> toJson() {
