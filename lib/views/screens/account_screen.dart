@@ -5,12 +5,16 @@ import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/account_profile_screen.dart';
+import 'package:beanfast_customer/views/screens/home_screen.dart';
 import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:beanfast_customer/views/widgets/account_icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+
+import 'game_select_screen.dart';
+import 'gift_exchange_screen.dart';
 
 class AccountScreen extends GetView<AuthController> {
   const AccountScreen({super.key});
@@ -353,36 +357,44 @@ class AccountScreen extends GetView<AuthController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
+                                showProfilesDialog(() {
+                                  Get.back();
+                                  Get.to(const GiftExchangeScreen());
+                                });
                               },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
-                                  title: "Nút số 2",
+                                  title: "Đổi thưởng",
                                   icon: Ionicons.earth,
                                   iconColor: Colors.red,
                                   onTap: () {
-                                    Get.snackbar('on Tap', 'Tap',
-                                        snackPosition: SnackPosition.TOP);
+                                    showProfilesDialog(() {
+                                      Get.back();
+                                      Get.to(const GiftExchangeScreen());
+                                    });
                                   },
                                 ),
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.snackbar('on Tap', 'Tap',
-                                    snackPosition: SnackPosition.TOP);
+                                showProfilesDialog(() {
+                                  Get.back();
+                                  Get.to(const GameSelectScreen());
+                                });
                               },
                               child: Container(
                                 color: ThemeColor.itemColor,
                                 child: SettingItem(
-                                  title: "Nút số 3",
+                                  title: "Trò chơi",
                                   icon: Ionicons.earth,
                                   iconColor: Colors.red,
                                   onTap: () {
-                                    Get.snackbar('on Tap', 'Tap',
-                                        snackPosition: SnackPosition.TOP);
+                                    showProfilesDialog(() {
+                                      Get.back();
+                                      Get.to(const GameSelectScreen());
+                                    });
                                   },
                                 ),
                               ),

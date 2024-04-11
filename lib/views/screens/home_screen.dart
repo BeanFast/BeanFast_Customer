@@ -439,51 +439,55 @@ class HomeScreen extends GetView<HomeController> {
 
 void showProfilesDialog(Function() onPressed) {
   HomeController controller = Get.find<HomeController>();
+
   Get.dialog(AlertDialog(
     title: const Text('Chọn học sinh'),
-    content: SizedBox(
-      width: Get.width,
-      height: Get.height * 0.4 + 80,
-      child: Column(
-        children: [
-          SizedBox(
-            width: Get.width,
-            height: Get.height * 0.4,
-            child: SingleChildScrollView(
-              child: Obx(() => Column(
-                    children: controller.listProfile.map((e) {
-                      return ItemProfile(
-                        model: e,
-                        onPressed: () =>
-                            {currentProfile.value = e, onPressed()},
-                      );
-                    }).toList(),
-                  )),
+    content: LoadingScreen(
+      future: controller.getProfiles,
+      child: SizedBox(
+        width: Get.width,
+        height: Get.height * 0.4 + 80,
+        child: Column(
+          children: [
+            SizedBox(
+              width: Get.width,
+              height: Get.height * 0.4,
+              child: SingleChildScrollView(
+                child: Obx(() => Column(
+                      children: controller.listProfile.map((e) {
+                        return ItemProfile(
+                          model: e,
+                          onPressed: () =>
+                              {currentProfile.value = e, onPressed()},
+                        );
+                      }).toList(),
+                    )),
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 45,
-            width: double.infinity,
-            child: TextButton(
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(10.0)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    side: const BorderSide(color: Colors.grey),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 45,
+              width: double.infinity,
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.all(10.0)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      side: const BorderSide(color: Colors.grey),
+                    ),
                   ),
                 ),
+                onPressed: () {
+                  Get.to(const StudentFormScreen(isUpdate: false));
+                },
+                child: const Text('Thêm người mới',
+                    style: TextStyle(fontSize: 18)),
               ),
-              onPressed: () {
-                Get.to(const StudentFormScreen(isUpdate: false));
-              },
-              child:
-                  const Text('Thêm người mới', style: TextStyle(fontSize: 18)),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   ));
