@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../enums/menu_index_enum.dart';
-import '../../services/auth_service.dart';
 import '../../utils/constants.dart';
 import 'splash_screen.dart';
 
@@ -353,7 +352,6 @@ class DepositeScreen extends StatelessWidget {
                       },
                       child: SafeArea(
                         child: Scaffold(
-                          appBar: AppBar(),
                           body: WebView(
                             initialUrl: url,
                             javascriptMode: JavascriptMode.unrestricted,

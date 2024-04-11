@@ -32,8 +32,34 @@ class TransactionScreen extends StatelessWidget {
                 ),
                 prefixIcon: const Icon(Iconsax.search_normal),
               ),
+<<<<<<< HEAD
               onChanged: (value) {
                 // Handle search operation here
+=======
+              prefixIcon: const Icon(Iconsax.search_normal, size: 20,),
+            ),
+            onChanged: (value) {
+              // Handle search operation here
+            },
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Iconsax.filter_search),
+            onPressed: () {
+              showFilterDialog(context);
+            },
+          ),
+          Obx(
+            () => IconButton(
+              icon: Icon(
+                transactionController.isMoneyVisible.value
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+              ),
+              onPressed: () {
+                transactionController.toggleMoneyVisibility();
+>>>>>>> 6c02c5c22e42596826eed2f6321a9aefa4d097b2
               },
             ),
           ),
