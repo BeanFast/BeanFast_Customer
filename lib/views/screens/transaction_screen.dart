@@ -380,6 +380,7 @@ void showFilterDialog(BuildContext context) {
                     onPressed: () {
                       controller.indexSelectedSortByMonth =
                           tempselectedSortByMonth.value;
+                      print(tempselectedSortByMonth.value);
                       controller.indexSelectedSortByStatus =
                           tempselectedSortByStatus.value;
                       Navigator.of(context).pop();
