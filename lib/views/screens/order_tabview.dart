@@ -9,9 +9,12 @@ import 'loading_screen.dart';
 
 class OrderTabBarView extends GetView<OrderController> {
   final OrderStatus orderStatus;
+
   const OrderTabBarView({super.key, required this.orderStatus});
   @override
   Widget build(BuildContext context) {
+      
+      
     controller.orderStatus = orderStatus;
     return LoadingScreen(
       future: controller.getByStatus,
