@@ -4,29 +4,29 @@ import 'package:beanfast_customer/views/screens/gift_detail_screen.dart';
 import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../controllers/exchange_gift_controller.dart';
 import 'loading_screen.dart';
 
+// ignore: must_be_immutable
 class ExchangeGiftScreen extends StatelessWidget {
   ExchangeGiftScreen({super.key});
 
   RxDouble balance = 0.0.obs;
   @override
   Widget build(BuildContext context) {
-    print(currentProfile.value.wallets.toString());
     var profile = currentProfile.value;
-    print(currentProfile.value.wallets.toString());
 
     return LoadingScreen(
       future: () async {
         profile = await ProfileService().getById(currentProfile.value.id!);
-        print(profile.id.toString());
+
         balance = profile.wallets!.isEmpty
             ? 0.0.obs
             : profile.wallets!.first.balance!.obs;
-        print(balance);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -71,6 +71,7 @@ class ExchangeGiftScreen extends StatelessWidget {
                   children: [
                     const ExchageGift(), // Đổi thưởng
                     const PointManagement(), // Thống kê
+                    // ignore: avoid_unnecessary_containers
                     Container(
                       child: const Center(child: Text('Lịch sử đổi thưởng')),
                     ),
@@ -278,38 +279,103 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                         ),
                                       ),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      if (false) {
+                                        showDialog(
+                                          context: context,
+                                          // barrierDismissible: true,
+                                          builder: (BuildContext context) {
+                                            // Return object of type Dialog
+                                            return AlertDialog(
+                                              title: const Text('Thông báo'),
+                                              content: SizedBox(
+                                                height: 300,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: Get.width,
+                                                      height: 250,
+                                                      child: Lottie.asset(
+                                                        "assets/unsuccess.json",
+                                                        repeat: true,
+                                                        fit: BoxFit.contain,
+                                                        // animate: true,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 50,
+                                                      child: TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                            'Điểm đổi quà không đủ!'),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                        //Không đủ số dư - nạp tiền
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext context) {
+                                            // Return object of type Dialog
+                                            return AlertDialog(
+                                              content: SizedBox(
+                                                height: Get.height * 0.3,
+                                                child: Lottie.asset(
+                                                  "assets/success.json",
+                                                  repeat: false,
+                                                  animate: true,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                        await Future.delayed(
+                                            const Duration(seconds: 2));
+                                        Navigator.pop(context);
+                                      }
+                                    },
                                     child: Text(
                                       'Đổi quà',
-                                      style: Get.textTheme.bodyLarge,
+                                      style: Get.textTheme.bodyLarge!.copyWith(
+                                        color: Colors.red,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 3),
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                ),
-                              ),
-                              child: const Text(
-                                '40%',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ),
+                          // Positioned(
+                          //   top: 0,
+                          //   right: 0,
+                          //   child: Container(
+                          //     padding: const EdgeInsets.symmetric(
+                          //         horizontal: 6, vertical: 3),
+                          //     decoration: const BoxDecoration(
+                          //       color: Colors.red,
+                          //       borderRadius: BorderRadius.only(
+                          //         bottomLeft: Radius.circular(12),
+                          //         topRight: Radius.circular(12),
+                          //       ),
+                          //     ),
+                          //     child: const Text(
+                          //       '40%',
+                          //       style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 12,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

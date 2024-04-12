@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../enums/menu_index_enum.dart';
@@ -238,7 +239,6 @@ class DepositeScreen extends StatelessWidget {
                             return null;
                           },
                           onChanged: (value) => {
-                                print("money: " + value),
                                 depositeController.updateMoney(value),
                               }),
                     ),
@@ -325,8 +325,9 @@ class DepositeScreen extends StatelessWidget {
                 onPressed: () async {
                   var url = await TransactionService()
                       .createVnpayRequest(depositeController.moneyInt);
-                  print(url);
+
                   Get.to(
+                    // ignore: deprecated_member_use
                     () => WillPopScope(
                       onWillPop: () async {
                         return await showDialog(
@@ -361,21 +362,16 @@ class DepositeScreen extends StatelessWidget {
                                 onMessageReceived:
                                     (JavascriptMessage message) async {
                                   var resultMessage = message.message;
-                                  print(
-                                      'onMessageReceivedbool' + resultMessage);
                                   if (resultMessage == 'true') {
-                                    print(
-                                        'onMessageReceived : ${resultMessage}');
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
                                     // currentUser.value =
                                     //     await AuthService().getUser();
                                     changePage(MenuIndexState.home.index);
                                     Get.offAll(SplashView());
-                                    Get.snackbar(
-                                        'Thông báo', 'Nạp tiền thành công',
-                                        snackPosition: SnackPosition.TOP);
                                   } else {
-                                    print(
-                                        'onMessageReceived : ${resultMessage}');
+                                    await Future.delayed(
+                                        const Duration(seconds: 1));
                                     Get.back();
                                   }
                                 },

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '/models/order.dart';
-import '/contrains/theme_color.dart';
 import '/enums/status_enum.dart';
+import '/models/order.dart';
 
 class BannerOrderStatus extends StatelessWidget {
   final Order order;
@@ -12,7 +11,6 @@ class BannerOrderStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OrderStatus status = OrderStatus.fromInt(order.status!);
-    Color color = ThemeColor.bgColor;
     Text text = const Text('');
     switch (status) {
       case OrderStatus.preparing:
@@ -46,7 +44,6 @@ class BannerOrderStatus extends StatelessWidget {
         );
         break;
       default:
-        color = Colors.black;
     }
 
     return Container(

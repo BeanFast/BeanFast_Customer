@@ -2,7 +2,6 @@ import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/cart_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '/models/menu_detail.dart';

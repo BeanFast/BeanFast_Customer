@@ -89,12 +89,12 @@ class _MyFlipCardGameState extends State<MyFlipCardGame> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
     if (_isFinished) {
       return GameOverScreen(
         duration: gameDuration,
       );
     } else {
+      // ignore: deprecated_member_use
       return WillPopScope(
         onWillPop: () async {
           return await showDialog(

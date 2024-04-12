@@ -47,7 +47,9 @@ class OtpConfirmationView extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.back();
+                    },
                     child: const Text('Thay đổi số điện thoại?'),
                   ),
                 ],
@@ -232,6 +234,7 @@ class OtpConfirmationView extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    Get.snackbar('Hệ thống', 'Đăng ký thành công');
                     Get.off(LoginView());
                   },
                   child: const Text('Xác nhận OTP',

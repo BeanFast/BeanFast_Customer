@@ -1,14 +1,21 @@
 import 'package:beanfast_customer/game/matching_card/start_game_screen.dart';
 import 'package:beanfast_customer/game/pac_man/pacman_homepage.dart';
 import 'package:beanfast_customer/game/tetris/board.dart';
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 class GameSelectScreen extends StatelessWidget {
   const GameSelectScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    RxDouble balance = 0.0.obs;
+    balance = currentProfile.value.wallets!.isEmpty
+        ? 0.0.obs
+        : currentProfile.value.wallets!.first.balance!.obs;
+
     //List<Game> games = [];
     List<Game> games = [
       Game(
@@ -48,18 +55,18 @@ class GameSelectScreen extends StatelessWidget {
         title: const Text('Trò chơi'),
         actions: [
           Container(
-            width: 170,
-            margin: const EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 20),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.yellow,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Icon(Icons.card_giftcard, color: Colors.black),
-                Text('Điểm: 100.000', style: Get.textTheme.bodyLarge),
+                Obx(() => Text(balance.value.toInt().toString())),
+                const SizedBox(width: 5),
+                const Icon(Iconsax.gift, color: Colors.black),
               ],
             ),
           ),
