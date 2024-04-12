@@ -47,21 +47,21 @@ class Order extends BaseModel {
     return Order(
       id: json['id'],
       status: json['status'],
-      sessionDetailId: json['sessionDetailId'] ?? null,
-      profileId: json['profileId'] ?? null,
-      code: json['code'] ?? null,
-      totalPrice: json['totalPrice'] != null
-          ? double.parse(json['totalPrice'].toString())
-          : null,
-      paymentDate: json['paymentDate'] != null
-          ? DateTime.parse(json['paymentDate'])
-          : null,
-      deliveryDate: json['deliveryDate'] != null
-          ? DateTime.parse(json['deliveryDate'])
-          : null,
-      rewardPoints: json['rewardPoints'] != null
-          ? int.parse(json['rewardPoints'].toString())
-          : null,
+      sessionDetailId: json['sessionDetailId'],
+      profileId: json['profileId'],
+      code: json['code'],
+      totalPrice: json['totalPrice'] == null
+          ? 0
+          : double.parse(json['totalPrice'].toString()),
+      paymentDate: json['paymentDate'] == null
+          ? null
+          : DateTime.parse(json['paymentDate']),
+      deliveryDate: json['deliveryDate'] == null
+          ? null
+          : DateTime.parse(json['deliveryDate']),
+      rewardPoints: json['rewardPoints'] == null
+          ? 0
+          : int.parse(json['rewardPoints'].toString()),
       feedback: json['feedback'] ?? '',
       profile:
           json['profile'] != null ? Profile.fromJson(json['profile']) : null,
