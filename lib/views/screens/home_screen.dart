@@ -350,9 +350,11 @@ class HomeScreen extends GetView<HomeController> {
                     const SizedBox(height: 20),
                     LoadingScreen(
                       future: () async {
-                        await controller.getSession(
-                            currentProfile.value.school!.id!,
-                            controller.selectedDate.value);
+                        if (currentProfile.value.fullName != null) {
+                          await controller.getSession(
+                              currentProfile.value.school!.id!,
+                              controller.selectedDate.value);
+                        }
                         if (controller.listSession.isNotEmpty) {
                           controller.selectedSessionId.value =
                               controller.listSession[0].id!;
@@ -609,78 +611,79 @@ void showProfilesDialog(Function() onPressed) {
 List<Widget> headerActionWidget() {
   Get.put(CartController());
   return <Widget>[
-    GestureDetector(
-      onTap: () {
-        showProfilesDialog(() {
-          Get.back();
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, bottom: 5),
-        child: Container(
-          padding: const EdgeInsets.only(left: 5, right: 5),
-          width: Get.width * 0.6,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            color: ThemeColor.itemColor,
-            border: Border.all(
-              color: Colors.grey,
+    if (currentProfile.value.fullName != null)
+      GestureDetector(
+        onTap: () {
+          showProfilesDialog(() {
+            Get.back();
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, bottom: 5),
+          child: Container(
+            padding: const EdgeInsets.only(left: 5, right: 5),
+            width: Get.width * 0.6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: ThemeColor.itemColor,
+              border: Border.all(
+                color: Colors.grey,
+              ),
             ),
-          ),
-          child: Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image(
-                    image: Image.network(
-                            currentProfile.value.avatarPath.toString())
-                        .image,
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
+            child: Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image(
+                      image: Image.network(
+                              currentProfile.value.avatarPath.toString())
+                          .image,
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 7,
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        currentProfile.value.fullName.toString(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Get.textTheme.bodyMedium!.copyWith(
-                          color: Colors.green,
-                        ),
-                      ),
-                      Text(
-                        currentProfile.value.school!.name.toString(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Get.textTheme.bodySmall!.copyWith(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(
+                    width: 7,
                   ),
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 24,
-                  color: Colors.green,
-                )
-              ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          currentProfile.value.fullName.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Get.textTheme.bodyMedium!.copyWith(
+                            color: Colors.green,
+                          ),
+                        ),
+                        Text(
+                          currentProfile.value.school!.name.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Get.textTheme.bodySmall!.copyWith(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 24,
+                    color: Colors.green,
+                  )
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
     const Spacer(),
     Stack(
       children: [
