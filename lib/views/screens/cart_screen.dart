@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/controllers/home_controller.dart';
 import 'package:beanfast_customer/views/screens/checkout_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,7 @@ class CartScreen extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    var authController = Get.find<AuthController>();
+    var homeController = Get.find<HomeController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Giỏ hàng'),
@@ -43,17 +44,17 @@ class CartScreen extends GetView<CartController> {
                   children: [
                     IconButton(
                       icon: Icon(
-                        authController.isMoneyVisible.value
+                        homeController.isMoneyVisible.value
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
                         size: 16,
                       ),
                       onPressed: () {
-                        authController.toggleMoneyVisibility();
+                        homeController.toggleMoneyVisibility();
                       },
                     ),
                     Text(
-                      authController.moneyValue.value,
+                      homeController.moneyValue.value,
                       style: Get.textTheme.titleMedium,
                       overflow: TextOverflow.ellipsis,
                     ),

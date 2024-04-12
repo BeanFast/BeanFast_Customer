@@ -12,8 +12,7 @@ import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
 
 class AuthController extends GetxController with CacheManager {
-  var isMoneyVisible = false.obs;
-  RxString moneyValue = '********* đ'.obs;
+
 
   late Rx<Account?> account;
 
@@ -24,12 +23,7 @@ class AuthController extends GetxController with CacheManager {
   var isPasswordVisible = true.obs;
   var isChecked = false.obs;
 
-  void toggleMoneyVisibility() {
-    isMoneyVisible.value = !isMoneyVisible.value;
-    moneyValue.value = isMoneyVisible.value
-        ? Formater.formatMoney(currentUser.value.balance.toString())
-        : '********* đ';
-  }
+ 
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;

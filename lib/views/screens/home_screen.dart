@@ -1,11 +1,6 @@
-import 'package:beanfast_customer/controllers/auth_controller.dart';
-import 'package:beanfast_customer/views/screens/deposit_screen.dart';
-import 'package:beanfast_customer/views/screens/game_select_screen.dart';
-import 'package:beanfast_customer/views/screens/gift_exchange_screen.dart';
-import 'package:beanfast_customer/views/widgets/main_icon_button_widget.dart';
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +9,11 @@ import 'package:lottie/lottie.dart';
 import '/contrains/theme_color.dart';
 import '/controllers/cart_controller.dart';
 import '/controllers/home_controller.dart';
-import '/utils/constants.dart';
+import '/controllers/auth_controller.dart';
+import '/views/screens/deposit_screen.dart';
+import '/views/screens/game_select_screen.dart';
+import '/views/screens/gift_exchange_screen.dart';
+import '/views/widgets/main_icon_button_widget.dart';
 import '/views/widgets/item_profile_widget.dart';
 import '/views/widgets/menu_item_widget.dart';
 import 'cart_screen.dart';
@@ -22,12 +21,12 @@ import 'loading_screen.dart';
 import 'notification_screen.dart';
 import 'product_detail_screen.dart';
 import 'student_form_screen.dart';
+import '/utils/constants.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find<AuthController>();
     Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
@@ -143,9 +142,8 @@ class HomeScreen extends GetView<HomeController> {
                                   isNew: true,
                                   onPressed: () {
                                     showProfilesDialog(() {
-                                       Get.back();
+                                      Get.back();
                                       Get.to(const GameSelectScreen());
-                                     
                                     });
                                   },
                                 ),
@@ -159,17 +157,17 @@ class HomeScreen extends GetView<HomeController> {
                                 children: [
                                   IconButton(
                                     icon: Icon(
-                                      authController.isMoneyVisible.value
+                                      controller.isMoneyVisible.value
                                           ? Icons.visibility_outlined
                                           : Icons.visibility_off_outlined,
                                       size: 16,
                                     ),
                                     onPressed: () {
-                                      authController.toggleMoneyVisibility();
+                                      controller.toggleMoneyVisibility();
                                     },
                                   ),
                                   Text(
-                                    authController.moneyValue.value,
+                                    controller.moneyValue.value,
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
@@ -271,7 +269,6 @@ class HomeScreen extends GetView<HomeController> {
                                         if (chosenDate.isBefore(today) &&
                                             !controller.isSameDay(
                                                 chosenDate, today)) {
-                                          // If the chosen date is in the past and not today, return early without updating the selected date
                                           return;
                                         }
                                         controller
@@ -279,7 +276,8 @@ class HomeScreen extends GetView<HomeController> {
                                         controller.getSession(
                                             currentProfile.value.school!.id!,
                                             chosenDate);
-                                        print('Chosen date: $chosenDate');
+                                        logger.e(
+                                            'Chosen date: ${DateFormat('dd-MM-yy').format(chosenDate)}');
                                       },
                                       child: Obx(
                                         () => Container(
@@ -353,113 +351,42 @@ class HomeScreen extends GetView<HomeController> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 20),
-                    //Sesion Selecter
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Obx(
-                        () => Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: controller.listSession
-                              .map(
-                                (session) => Obx(
-                                  () => GestureDetector(
-                                    onTap: () {
-                                      controller.selectedSessionId.value =
-                                          session.id.toString();
-                                      controller.getMenu(session.id!);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 5, left: 5),
-                                      child: Card(
-                                        margin:
-                                            const EdgeInsets.only(right: 10),
-                                        color: controller
-                                                    .selectedSessionId.value ==
-                                                session.id.toString()
-                                            ? Colors.green
-                                            : Colors.white,
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(12),
-                                            ),
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            DateFormat('HH:mm - ').format(
-                                                    session
-                                                        .deliveryStartTime!) +
-                                                DateFormat('HH:mm').format(
-                                                    session.deliveryEndTime!),
-                                            style: Get.textTheme.bodySmall!
-                                                .copyWith(
-                                              color: controller
-                                                          .selectedSessionId
-                                                          .value ==
-                                                      session.id.toString()
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    //Menu Food
-                    Obx(
-                      () => SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Loại sản phẩm",
-                                style: Get.textTheme.titleMedium,
-                              ),
-                              //Category List
-                              const SizedBox(height: 10),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Obx(() => Row(
-                                      children: controller.menuModel.value
-                                          .listCategories.entries
-                                          .map((e) {
-                                        return Container(
-                                          alignment: Alignment.center,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              controller.selectedCategoryId
-                                                  .value = e.value;
-                                            },
+                    LoadingScreen(
+                      future: () async {
+                        await controller.getSession(
+                            currentProfile.value.school!.id!,
+                            controller.selectedDate.value);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //Sesion Selecter
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Obx(
+                              () => Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: controller.listSession
+                                    .map(
+                                      (session) => Obx(
+                                        () => GestureDetector(
+                                          onTap: () {
+                                            controller.selectedSessionId.value =
+                                                session.id.toString();
+                                            controller.getMenu(session.id!);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5, left: 5),
                                             child: Card(
                                               margin: const EdgeInsets.only(
                                                   right: 10),
                                               color: controller
-                                                          .selectedCategoryId
+                                                          .selectedSessionId
                                                           .value ==
-                                                      e.value
+                                                      session.id.toString()
                                                   ? Colors.green
                                                   : Colors.white,
                                               child: Container(
@@ -479,14 +406,20 @@ class HomeScreen extends GetView<HomeController> {
                                                   ),
                                                 ),
                                                 child: Text(
-                                                  e.value,
+                                                  DateFormat('HH:mm - ').format(
+                                                          session
+                                                              .deliveryStartTime!) +
+                                                      DateFormat('HH:mm')
+                                                          .format(session
+                                                              .deliveryEndTime!),
                                                   style: Get
                                                       .textTheme.bodySmall!
                                                       .copyWith(
                                                     color: controller
-                                                                .selectedCategoryId
+                                                                .selectedSessionId
                                                                 .value ==
-                                                            e.value
+                                                            session.id
+                                                                .toString()
                                                         ? Colors.white
                                                         : Colors.black,
                                                   ),
@@ -494,47 +427,136 @@ class HomeScreen extends GetView<HomeController> {
                                               ),
                                             ),
                                           ),
-                                        );
-                                      }).toList(),
-                                    )),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
-                              const SizedBox(height: 5),
-                              Obx(
-                                () => MenuItem(
-                                    title: 'Combo',
-                                    isCombo: true,
-                                    onTap: () {
-                                      Get.to(const ProductDetailScreen());
-                                    },
-                                    sessionId:
-                                        controller.selectedSessionId.value,
-                                    list: controller.menuModel.value.listCombo),
-                              ),
-                              const SizedBox(height: 5),
-                              Obx(
-                                () => MenuItem(
-                                    isCombo: false,
-                                    title: 'Ưu đãi',
-                                    onTap: () {
-                                      Get.to(const ProductDetailScreen());
-                                    },
-                                    sessionId:
-                                        controller.selectedSessionId.value,
-                                    list: controller
-                                        .menuModel.value.listDiscountedFood),
-                              ),
-                              const SizedBox(height: 5),
-                              MenuItem(
-                                  isCombo: false,
-                                  title: 'Sản phẩm',
-                                  onTap: () {
-                                    Get.to(const ProductDetailScreen());
-                                  },
-                                  sessionId: controller.selectedSessionId.value,
-                                  list: controller.menuModel.value.listFood),
-                            ],
+                            ),
                           ),
-                        ),
+                          const SizedBox(height: 10),
+                          //Menu Food
+                          Obx(
+                            () => SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (controller.listCategories.isNotEmpty)
+                                      Text(
+                                        "Loại sản phẩm",
+                                        style: Get.textTheme.titleMedium,
+                                      ),
+                                    //Category List
+                                    const SizedBox(height: 10),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: controller
+                                            .listCategories.entries
+                                            .map((e) {
+                                          return Container(
+                                            alignment: Alignment.center,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                //name
+                                                controller.selectedCategoryId
+                                                    .value = e.value;
+                                                controller
+                                                    .sortByCategory(e.key);
+                                              },
+                                              child: Card(
+                                                margin: const EdgeInsets.only(
+                                                    right: 10),
+                                                color: controller
+                                                            .selectedCategoryId
+                                                            .value ==
+                                                        e.value
+                                                    ? Colors.green
+                                                    : Colors.white,
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10,
+                                                          right: 10,
+                                                          top: 5,
+                                                          bottom: 5),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                      Radius.circular(12),
+                                                    ),
+                                                    border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    e.value,
+                                                    style: Get
+                                                        .textTheme.bodySmall!
+                                                        .copyWith(
+                                                      color: controller
+                                                                  .selectedCategoryId
+                                                                  .value ==
+                                                              e.value
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Obx(
+                                      () => MenuItem(
+                                          title: 'Combo',
+                                          isCombo: true,
+                                          onTap: () {
+                                            Get.to(const ProductDetailScreen());
+                                          },
+                                          sessionId: controller
+                                              .selectedSessionId.value,
+                                          list: controller
+                                              .menuModel.value.listCombo),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Obx(
+                                      () => MenuItem(
+                                          isCombo: false,
+                                          title: 'Ưu đãi',
+                                          onTap: () {
+                                            Get.to(const ProductDetailScreen());
+                                          },
+                                          sessionId: controller
+                                              .selectedSessionId.value,
+                                          list: controller.menuModel.value
+                                              .listDiscountedFood),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    MenuItem(
+                                        isCombo: false,
+                                        title: 'Sản phẩm',
+                                        onTap: () {
+                                          Get.to(const ProductDetailScreen());
+                                        },
+                                        sessionId:
+                                            controller.selectedSessionId.value,
+                                        list: controller
+                                            .menuModel.value.listFood),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

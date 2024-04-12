@@ -65,19 +65,15 @@ class Order extends BaseModel {
       feedback: json['feedback'] ?? '',
       profile:
           json['profile'] != null ? Profile.fromJson(json['profile']) : null,
-      orderDetails: json['orderDetails'] != null
-          ? json['orderDetails'].map<OrderDetail>((item) {
-              return OrderDetail.fromJson(item);
-            }).toList()
-          : null,
-      orderActivities: json['orderActivities'] != null
-          ? json['orderActivities'].map<OrderActivity>((item) {
-              return OrderActivity.fromJson(item);
-            }).toList()
-          : null,
-      sessionDetail: json['sessionDetail'] != null
-          ? SessionDetail.fromJson(json['sessionDetail'])
-          : null,
+      orderDetails: json['orderDetails']?.map<OrderDetail>((item) {
+        return OrderDetail.fromJson(item);
+      }).toList(),
+      orderActivities: json['orderActivities']?.map<OrderActivity>((item) {
+        return OrderActivity.fromJson(item);
+      }).toList(),
+      sessionDetail: json['sessionDetail'] == null
+          ? SessionDetail()
+          : SessionDetail.fromJson(json['sessionDetail']),
     );
   }
 
