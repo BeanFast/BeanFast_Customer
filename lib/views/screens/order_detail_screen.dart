@@ -37,7 +37,9 @@ class OrderDetailScreen extends GetView<OrderController> {
                   padding: const EdgeInsets.all(10),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(const OrderTimeline());
+                      Get.to(OrderTimeline(
+                        order: controller.model.value,
+                      ));
                     },
                     child: Column(
                       children: [
@@ -168,7 +170,8 @@ class OrderDetailScreen extends GetView<OrderController> {
                                       ],
                                     ),
                                   ),
-                                  const Divider(thickness: 1, color: Colors.grey),
+                                  const Divider(
+                                      thickness: 1, color: Colors.grey),
                                 ],
                               ),
                             )

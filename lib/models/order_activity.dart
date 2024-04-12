@@ -24,14 +24,14 @@ class OrderActivity extends BaseModel {
   }) : super(id: id, status: status);
 
   factory OrderActivity.fromJson(dynamic json) => OrderActivity(
-        // id: json["id"],
-        // status: json['status'],
-        // orderId: json["orderId"],
-        // exchangeGiftId: json['exchangeGiftId'],
-        // code: json['code'],
-        // name: json['name'],
-        // time: DateTime.parse(json['time']),
-        // imagePath: json['imagePath'],
+        id: json["id"],
+        status: json['status'],
+        orderId: json["orderId"],
+        exchangeGiftId: json['exchangeGiftId'],
+        code: json['code'],
+        name: json['name'],
+        time: DateTime.parse(json['time']),
+        imagePath: json['imagePath'],
       );
 
   // Map<String, dynamic> toJson() {

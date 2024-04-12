@@ -126,16 +126,15 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    if (controller.errorMessage.value.isNotEmpty)
-                      Obx(
-                        () => Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            controller.errorMessage.value,
-                            style: const TextStyle(color: Colors.red),
-                          ),
+                    Obx(
+                      () => Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          controller.errorMessage.value,
+                          style: const TextStyle(color: Colors.red),
                         ),
                       ),
+                    ),
                     const SizedBox(height: 10),
                     FadeInUp(
                       child: Row(

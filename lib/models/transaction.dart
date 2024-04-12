@@ -30,7 +30,7 @@ class Transaction extends BaseModel {
         id: json["id"],
         status: json['status'],
         orderId: json["orderId"],
-        order: Order.fromJson(json["order"]),
+        order: json["order"] == null ? Order() : Order.fromJson(json["order"]),
         exchangeGiftId: json['exchangeGiftId'],
         walletId: json['walletId'],
         code: json['code'],
