@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '/enums/status_enum.dart';
@@ -58,7 +59,7 @@ class BannerOrderStatus extends StatelessWidget {
           const SizedBox(
             width: 90,
             child: Icon(
-              Icons.car_rental,
+              Iconsax.truck_fast,
               color: Colors.white,
               size: 90,
             ),
