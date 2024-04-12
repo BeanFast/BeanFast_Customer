@@ -7,7 +7,7 @@ class LoyaltyCard extends BaseModel {
   String? cardTypeId;
   String? code;
   String? title;
-  String? qRCode;
+  String? qrCode;
   String? backgroundImagePath;
   Profile? profile;
   CardType? cardType;
@@ -19,7 +19,7 @@ class LoyaltyCard extends BaseModel {
     this.cardTypeId,
     this.code,
     this.title,
-    this.qRCode,
+    this.qrCode,
     this.backgroundImagePath,
   }) : super(id: id, status: status);
 
@@ -30,7 +30,7 @@ class LoyaltyCard extends BaseModel {
         cardTypeId: json['cardTypeId'],
         code: json['code'],
         title: json['title'],
-        qRCode: json['qRCode'],
+        qrCode: json['qrCode'],
         backgroundImagePath: json['backgroundImagePath'],
       );
 

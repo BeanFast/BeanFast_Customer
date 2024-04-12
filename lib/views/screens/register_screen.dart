@@ -1,16 +1,19 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/services/auth_service.dart';
 import 'package:beanfast_customer/views/screens/otp_confirmation.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterView extends StatelessWidget {
-  final RegisterController registerController = Get.put(RegisterController());
-  final _formKey = GlobalKey<FormState>();
+class RegisterView extends GetView<AuthController> {
   RegisterView({super.key});
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    Get.put(AuthController());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -37,7 +40,7 @@ class RegisterView extends StatelessWidget {
                       width: double.infinity, // Set the width
                       height: 85,
                       child: TextFormField(
-                        controller: registerController.phoneController,
+                        controller: controller.phoneController,
                         decoration: const InputDecoration(
                           hintText: 'Số điện thoại',
                           prefixIcon: Icon(Icons.phone_android_outlined),
@@ -68,21 +71,21 @@ class RegisterView extends StatelessWidget {
                         height: 85,
                         child: TextFormField(
                           obscureText:
-                              registerController.isPasswordVisible.value,
+                              controller.isPasswordVisible.value,
 
-                          controller: registerController.passwordController,
+                          controller: controller.passwordController,
                           decoration: InputDecoration(
                             hintText: 'Mật khẩu',
                             prefixIcon: const Icon(Icons.lock_outlined),
                             border: const OutlineInputBorder(),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                registerController.isPasswordVisible.value
+                                controller.isPasswordVisible.value
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                               ),
                               onPressed:
-                                  registerController.togglePasswordVisibility,
+                                  controller.togglePasswordVisibility,
                             ),
                           ),
                           // obscureText: _isPasswordHidden.value,
@@ -112,7 +115,7 @@ class RegisterView extends StatelessWidget {
                         height: 85,
                         child: TextFormField(
                           obscureText:
-                              registerController.isRePasswordVisible.value,
+                              controller.isRePasswordVisible.value,
 
                           // controller: _authController.passwordController,
                           decoration: InputDecoration(
@@ -121,12 +124,12 @@ class RegisterView extends StatelessWidget {
                             border: const OutlineInputBorder(),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                registerController.isRePasswordVisible.value
+                                controller.isRePasswordVisible.value
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                               ),
                               onPressed:
-                                  registerController.toggleRePasswordVisibility,
+                                  controller.toggleRePasswordVisibility,
                             ),
                           ),
                           // obscureText: _isPasswordHidden.value,
@@ -150,9 +153,9 @@ class RegisterView extends StatelessWidget {
                             height: 24,
                             width: 24,
                             child: Checkbox(
-                              value: registerController.isChecked.value,
+                              value: controller.isChecked.value,
                               onChanged: (value) {
-                                registerController.toggleIschecked();
+                                controller.toggleIschecked();
                               },
                             ),
                           ),
@@ -162,6 +165,15 @@ class RegisterView extends StatelessWidget {
                           child: const Text('Chấp nhận với điều khoản'),
                         ),
                       ],
+                    ),
+                    Obx(
+                      () => Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          controller.errorMessage.value,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 30),
                     SizedBox(
@@ -184,17 +196,16 @@ class RegisterView extends StatelessWidget {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                             await registerController.register();
+                            await controller.register();
                             Get.to(
                               () => OtpConfirmationView(),
                               binding: BindingsBuilder(() {
                                 Get.put(OTPController(
                                   phone:
-                                      registerController.phoneController.text,
+                                      controller.phoneController.text,
                                 ));
                               }),
                             );
-                           
                           }
                         },
                         child: const Text('Đăng ký',
@@ -207,33 +218,5 @@ class RegisterView extends StatelessWidget {
             ),
           )),
     );
-  }
-}
-
-class RegisterController extends GetxController {
-  var isPasswordVisible = true.obs;
-  var isRePasswordVisible = true.obs;
-  var isChecked = false.obs;
-  final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
-  // final
-  Future register() async {
-    var phone = phoneController.text;
-    var password = passwordController.text;
-    // var fullName = fullNameController.text;
-    await AuthService().register(phone, password);
-    await AuthService().sendOtp(phone);
-  }
-
-  void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
-  }
-
-  void toggleRePasswordVisibility() {
-    isRePasswordVisible.value = !isRePasswordVisible.value;
-  }
-
-  void toggleIschecked() {
-    isChecked.value = !isChecked.value;
   }
 }

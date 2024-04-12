@@ -111,10 +111,10 @@ class ProfileQRScreen extends StatelessWidget {
                 width: Get.width - 40,
                 child: Obx(
                   () => Center(
-                    child: QrImageView(
-                      data: currentProfile.value.loyaltyCards!.first.qRCode.toString(),
+                    child: currentProfile.value.loyaltyCards!.isNotEmpty ? QrImageView(
+                      data: currentProfile.value.loyaltyCards!.first.qrCode.toString(),
                       version: QrVersions.auto,
-                    ),
+                    ) : const Text('QR data null'),
                   ),
                 ),
               ),

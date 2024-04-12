@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:beanfast_customer/services/auth_service.dart';
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:beanfast_customer/views/screens/login_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -333,7 +335,11 @@ class OTPController extends GetxController {
         pin4.value +
         pin5.value +
         pin6.value;
-    await AuthService().verifyOtp(phone, otpValue);
+    try {
+      await AuthService().verifyOtp(phone, otpValue);
+    } on DioException catch (e) {
+      logger.e(e.response!.data.toString());
+    }
   }
 
   void startTimer() {

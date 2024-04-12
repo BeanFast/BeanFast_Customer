@@ -76,6 +76,40 @@ class AuthController extends GetxController with CacheManager {
     changeAuthState(AuthState.unauthenticated);
     removeToken();
   }
+
+  //---------------------------------------------------
+  // var isPasswordVisible = true.obs;
+  var isRePasswordVisible = true.obs;
+  // var isChecked = false.obs;
+  // final phoneController = TextEditingController();
+  // final passwordController = TextEditingController();
+  // final
+  Future register() async {
+    var phone = phoneController.text;
+    var password = passwordController.text;
+    try {
+        await AuthService().register(phone, password);
+         await AuthService().sendOtp(phone);
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 400) {
+        errorMessage.value = e.response!.data.toString();
+      }
+    }
+    // var fullName = fullNameController.text;
+  
+  }
+
+  // void togglePasswordVisibility() {
+  //   isPasswordVisible.value = !isPasswordVisible.value;
+  // }
+
+  void toggleRePasswordVisibility() {
+    isRePasswordVisible.value = !isRePasswordVisible.value;
+  }
+
+  // void toggleIschecked() {
+  //   isChecked.value = !isChecked.value;
+  // }
 }
 
 mixin CacheManager {
@@ -94,6 +128,7 @@ mixin CacheManager {
     final box = GetStorage();
     await box.remove(CacheManagerKey.TOKEN.toString());
   }
+  
 }
 
 // ignore: constant_identifier_names
