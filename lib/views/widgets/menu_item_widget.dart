@@ -75,7 +75,8 @@ class MenuItem extends GetView<CartController> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: Get.textTheme.bodyLarge!.copyWith(
-                                        color: Color.fromRGBO(240, 103, 24, 1),
+                                        color: const Color.fromRGBO(
+                                            240, 103, 24, 1),
                                       ),
                                     ),
                                   ),
@@ -142,10 +143,10 @@ class MenuItem extends GetView<CartController> {
                                     Expanded(
                                       child: Container(
                                         padding: const EdgeInsets.only(
-                                            left: 10, top: 10, bottom: 10),
+                                            left: 15, top: 5, bottom: 5),
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.end,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
@@ -157,46 +158,52 @@ class MenuItem extends GetView<CartController> {
                                                 maxLines: 2,
                                               ),
                                             ),
+                                            const Spacer(),
                                             SizedBox(
                                               child: Text(
                                                 'Loại: ${e.food!.category!.name}',
-                                                style: Get.textTheme.bodySmall,
+                                                style: Get.textTheme.bodySmall!
+                                                    .copyWith(
+                                                  color: Colors.black54,
+                                                ),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                               ),
+                                            ),
+                                            const SizedBox(
+                                              height: 3,
                                             ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Visibility(
-                                                    visible: e.food!.price !=
-                                                        e.price,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          Formater.formatMoney(e
-                                                              .food!.price
-                                                              .toString()),
-                                                          style: Get.textTheme
-                                                              .bodyLarge!
-                                                              .copyWith(
-                                                            color: Colors.grey,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
+                                                  visible:
+                                                      e.food!.price != e.price,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        Formater.formatMoney(e
+                                                            .food!.price
+                                                            .toString()),
+                                                        style: Get.textTheme
+                                                            .bodyLarge!
+                                                            .copyWith(
+                                                          color: Colors.grey,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
                                                         ),
-                                                        const SizedBox(
-                                                            width: 5),
-                                                      ],
-                                                    )),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                    ],
+                                                  ),
+                                                ),
                                                 Expanded(
                                                   child: SizedBox(
                                                     child: Text(
@@ -205,7 +212,9 @@ class MenuItem extends GetView<CartController> {
                                                       style: Get
                                                           .textTheme.bodyLarge!
                                                           .copyWith(
-                                                        color: Color.fromRGBO(240, 103, 24, 1),
+                                                        color: const Color
+                                                            .fromRGBO(
+                                                            240, 103, 24, 1),
                                                       ),
                                                       overflow:
                                                           TextOverflow.ellipsis,
