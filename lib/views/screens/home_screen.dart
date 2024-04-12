@@ -143,9 +143,8 @@ class HomeScreen extends GetView<HomeController> {
                                   isNew: true,
                                   onPressed: () {
                                     showProfilesDialog(() {
-                                       Get.back();
+                                      Get.back();
                                       Get.to(const GameSelectScreen());
-                                     
                                     });
                                   },
                                 ),
@@ -279,7 +278,6 @@ class HomeScreen extends GetView<HomeController> {
                                         controller.getSession(
                                             currentProfile.value.school!.id!,
                                             chosenDate);
-                                        print('Chosen date: $chosenDate');
                                       },
                                       child: Obx(
                                         () => Container(
@@ -434,10 +432,12 @@ class HomeScreen extends GetView<HomeController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Loại sản phẩm",
-                                style: Get.textTheme.titleMedium,
-                              ),
+                              if (controller
+                                  .menuModel.value.listCategories.isNotEmpty)
+                                Text(
+                                  "Loại sản phẩm",
+                                  style: Get.textTheme.titleMedium,
+                                ),
                               //Category List
                               const SizedBox(height: 10),
                               SingleChildScrollView(
@@ -557,7 +557,7 @@ void showProfilesDialog(Function() onPressed) {
       future: controller.getProfiles,
       child: SizedBox(
         width: Get.width,
-        height: Get.height * 0.4 + 80,
+        height: Get.height * 0.4,
         child: Column(
           children: [
             SizedBox(
@@ -573,28 +573,6 @@ void showProfilesDialog(Function() onPressed) {
                         );
                       }).toList(),
                     )),
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              height: 45,
-              width: double.infinity,
-              child: TextButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(10.0)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      side: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Get.to(const StudentFormScreen(isUpdate: false));
-                },
-                child: const Text('Thêm người mới',
-                    style: TextStyle(fontSize: 18)),
               ),
             ),
           ],
@@ -614,10 +592,17 @@ List<Widget> headerActionWidget() {
         });
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 10, bottom: 5),
         child: Container(
-          color: Colors.transparent,
-          width: Get.width * 0.5,
+          padding: const EdgeInsets.only(left: 5, right: 5),
+          width: Get.width * 0.6,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: ThemeColor.itemColor,
+            border: Border.all(
+              color: Colors.grey,
+            ),
+          ),
           child: Obx(
             () => Row(
               mainAxisAlignment: MainAxisAlignment.start,

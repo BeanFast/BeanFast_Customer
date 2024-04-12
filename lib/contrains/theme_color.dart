@@ -20,6 +20,7 @@ class ThemeColor {
   static Color iconButtonColor = HexColor('#5f5f5f');
 
 }
+// ignore: non_constant_identifier_names
 Color HexColor(String hex) {
   final buffer = StringBuffer();
   if (hex.length == 6 || hex.length == 7) buffer.write('ff');

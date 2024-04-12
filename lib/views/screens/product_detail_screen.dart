@@ -8,7 +8,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.put(CartController());
+    Get.put(CartController());
     return Scaffold(
       appBar: AppBar(),
       body: SizedBox(

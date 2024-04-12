@@ -2,7 +2,6 @@ import 'package:beanfast_customer/models/transaction.dart';
 import 'package:beanfast_customer/services/transaction_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class TransactionController extends GetxController {
   RxList<Transaction> transactions = <Transaction>[].obs;
@@ -30,7 +29,7 @@ class TransactionController extends GetxController {
       transactions.value = await TransactionService().getTransactions(
           1, 100, "money", "7B9C01DB-0D49-403D-ADC0-6CFB9CEF6D3A");
     } catch (e) {
-      print(e);
+   
       throw Exception(e);
     }
   }
@@ -208,7 +207,7 @@ void showFilterDialog(BuildContext context) {
                     onPressed: () {
                       controller.indexSelectedSortByMonth =
                           tempselectedSortByMonth.value;
-                      print(tempselectedSortByMonth.value);
+               
                       controller.indexSelectedSortByStatus =
                           tempselectedSortByStatus.value;
                       Navigator.of(context).pop();

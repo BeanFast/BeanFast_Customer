@@ -55,18 +55,21 @@ class TransactionScreen extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey),
+                color: Colors.grey[200],
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: const Offset(0, 2), // changes position of shadow
+                    color: Colors.grey
+                        .withOpacity(0.5), // Màu của đổ bóng và độ mờ
+                    spreadRadius: 5, // Độ lan rộng của đổ bóng
+                    blurRadius: 7, // Độ mờ của đổ bóng
+                    offset: const Offset(0, 3), // Vị trí của đổ bóng (dx, dy)
                   ),
                 ],
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
               ),
-              alignment: Alignment.center,
               height: 50,
               child: Obx(
                 () => Row(
@@ -84,10 +87,7 @@ class TransactionScreen extends StatelessWidget {
                     ),
                     Text(
                       transactionController.moneyValue.value,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
+                      style: Get.textTheme.titleSmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

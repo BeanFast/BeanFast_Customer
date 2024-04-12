@@ -54,7 +54,7 @@ class CartScreen extends GetView<CartController> {
                     ),
                     Text(
                       authController.moneyValue.value,
-                      style: Get.textTheme.titleMedium,
+                      style: Get.textTheme.titleSmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

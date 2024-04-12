@@ -1,9 +1,7 @@
 import 'package:beanfast_customer/models/gift.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 
 class GiftDetailScreen extends StatelessWidget {
   final Gift gift;
@@ -136,7 +134,68 @@ class GiftDetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  if (false) {
+                    showDialog(
+                      context: context,
+                      // barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        // Return object of type Dialog
+                        return AlertDialog(
+                          title: const Text('Thông báo'),
+                          content: SizedBox(
+                            height: 300,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: Get.width,
+                                  height: 250,
+                                  child: Lottie.asset(
+                                    "assets/unsuccess.json",
+                                    repeat: true,
+                                    fit: BoxFit.contain,
+                                    // animate: true,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Điểm đổi quà không đủ!'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                    //Không đủ số dư - nạp tiền
+                  } else {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        // Return object of type Dialog
+                        return AlertDialog(
+                          content: SizedBox(
+                            height: Get.height * 0.3,
+                            child: Lottie.asset(
+                              "assets/success.json",
+                              repeat: false,
+                              animate: true,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                    await Future.delayed(const Duration(seconds: 2));
+                    Navigator.pop(context);
+                    Get.back();
+                  }
+                },
                 child: Text('Đổi quà',
                     style: Get.textTheme.titleMedium!
                         .copyWith(color: Colors.white)),

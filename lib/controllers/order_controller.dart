@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/models/order.dart';
-import '/utils/logger.dart';
-import '/services/order_service.dart';
 import '/enums/status_enum.dart';
+import '/models/order.dart';
+import '/services/order_service.dart';
 
 class OrderController extends GetxController {
   RxList<Order> listData = <Order>[].obs;
@@ -15,7 +14,7 @@ class OrderController extends GetxController {
 
   Rx<DateTimeRange> selectedDateRange = Rx<DateTimeRange>(
     DateTimeRange(
-      start: DateTime.now().subtract(Duration(days: 7)),
+      start: DateTime.now().subtract(const Duration(days: 7)),
       end: DateTime.now(),
     ),
   );

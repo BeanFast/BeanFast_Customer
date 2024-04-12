@@ -24,9 +24,9 @@ class AccountScreen extends GetView<AuthController> {
     final theme = Theme.of(context).textTheme;
     // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    bool randomBool = Random().nextBool();
+    Random().nextBool();
     bool isValid = true;
+    // ignore: dead_code
     double topCardheight = isValid ? 160 : 340;
     return Stack(
       fit: StackFit.expand,
@@ -98,6 +98,7 @@ class AccountScreen extends GetView<AuthController> {
                                                             10),
                                                     color: isValid
                                                         ? Colors.green
+                                                        // ignore: dead_code
                                                         : Colors.red,
                                                   ),
                                                   child: Container(
@@ -111,6 +112,7 @@ class AccountScreen extends GetView<AuthController> {
                                                                   Colors.white,
                                                             ),
                                                           )
+                                                        // ignore: dead_code
                                                         : const Text(
                                                             'Chưa xác thực',
                                                             style: TextStyle(
@@ -124,6 +126,7 @@ class AccountScreen extends GetView<AuthController> {
                                           ),
                                           const SizedBox(height: 10),
                                           if (!isValid)
+                                            // ignore: dead_code
                                             Container(
                                               decoration: BoxDecoration(
                                                 border: Border.all(
@@ -482,7 +485,7 @@ class AccountScreen extends GetView<AuthController> {
                         children: [
                           SizedBox(
                             height: 40,
-                            width: width / 2 - 15,
+                            width: width - 20,
                             child: ElevatedButton(
                               onPressed: () {
                                 controller.logOut();
@@ -507,31 +510,31 @@ class AccountScreen extends GetView<AuthController> {
                                       .copyWith(color: Colors.white)),
                             ),
                           ),
-                          SizedBox(
-                            height: 40,
-                            width: width / 2 - 15,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.blue),
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.white),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          10), // Adjust the value as needed
-                                    ),
-                                  ))),
-                              child: Text('Đổi tài khoản',
-                                  style: theme.titleSmall!
-                                      .copyWith(color: Colors.white)),
-                            ),
-                          ),
+                          // SizedBox(
+                          //   height: 40,
+                          //   width: width / 2 - 15,
+                          //   child: ElevatedButton(
+                          //     onPressed: () {},
+                          //     style: ButtonStyle(
+                          //         backgroundColor:
+                          //             MaterialStateProperty.all<Color>(
+                          //                 Colors.blue),
+                          //         foregroundColor:
+                          //             MaterialStateProperty.all<Color>(
+                          //                 Colors.white),
+                          //         shape: MaterialStateProperty.all<
+                          //                 RoundedRectangleBorder>(
+                          //             const RoundedRectangleBorder(
+                          //           borderRadius: BorderRadius.all(
+                          //             Radius.circular(
+                          //                 10), // Adjust the value as needed
+                          //           ),
+                          //         ))),
+                          //     child: Text('Đổi tài khoản',
+                          //         style: theme.titleSmall!
+                          //             .copyWith(color: Colors.white)),
+                          //   ),
+                          // ),
                         ],
                       ),
                       const SizedBox(height: 20),

@@ -1,6 +1,9 @@
+import 'package:beanfast_customer/views/screens/deposit_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 import '/utils/constants.dart';
 import '/contrains/theme_color.dart';
@@ -23,7 +26,6 @@ class CheckOutDetailScreen extends GetView<CartController> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                reverse: true,
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
@@ -321,11 +323,11 @@ class CheckOutDetailScreen extends GetView<CartController> {
                               ],
                             ),
                             RowInforWidget(
-                                title: 'Tổng đơn hàng: ',
+                                title: 'Tổng đơn hàng ',
                                 data: Formater.formatMoney(
                                     controller.totalPrice.toString())),
                             RowInforWidget(
-                                title: 'Giảm giá sản phẩm: ',
+                                title: 'Giảm giá sản phẩm ',
                                 data: Formater.formatMoney(
                                     (controller.totalPrice -
                                             controller.total.value)
@@ -419,8 +421,64 @@ class CheckOutDetailScreen extends GetView<CartController> {
                       onPressed: () async {
                         if (currentUser.value.balance! <
                             controller.total.value) {
+                          showDialog(
+                            context: context,
+                            // barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              // Return object of type Dialog
+                              return AlertDialog(
+                                title: const Text('Thông báo'),
+                                content: SizedBox(
+                                  height: 300,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: Get.width,
+                                        height: 250,
+                                        child: Lottie.asset(
+                                          "assets/unsuccess.json",
+                                          repeat: true,
+                                          fit: BoxFit.contain,
+                                          // animate: true,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 50,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Get.to(DepositeScreen());
+                                          },
+                                          child: const Text(
+                                              'Số dư không đủ, vui lòng nạp thêm!'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                           //Không đủ số dư - nạp tiền
                         } else {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              // Return object of type Dialog
+                              return AlertDialog(
+                                content: SizedBox(
+                                  height: Get.height * 0.3,
+                                  child: Lottie.asset(
+                                    "assets/success.json",
+                                    repeat: false,
+                                    animate: true,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                          await Future.delayed(const Duration(seconds: 5));
+                          Navigator.pop(context);
                           await controller.checkout();
                         }
                       },

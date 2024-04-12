@@ -13,6 +13,7 @@ class PacmanGame extends StatefulWidget {
   const PacmanGame({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PacmanGameState createState() => _PacmanGameState();
 }
 
@@ -25,6 +26,7 @@ class _PacmanGameState extends State<PacmanGame> {
   int ghost3 = numberInRow * 11 - 2;
   bool preGame = true;
   bool mouthClosed = false;
+  // ignore: prefer_typing_uninitialized_variables
   var controller;
   int score = 0;
   bool paused = false;
@@ -613,6 +615,7 @@ class _PacmanGameState extends State<PacmanGame> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(

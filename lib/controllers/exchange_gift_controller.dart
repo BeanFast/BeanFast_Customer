@@ -1,8 +1,5 @@
 import 'package:beanfast_customer/models/gift.dart';
-import 'package:beanfast_customer/models/profile.dart';
 import 'package:beanfast_customer/services/gift_service.dart';
-import 'package:beanfast_customer/services/profile_service.dart';
-import 'package:beanfast_customer/utils/constants.dart';
 import 'package:get/get.dart';
 
 import '../utils/logger.dart';
