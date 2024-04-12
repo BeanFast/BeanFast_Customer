@@ -25,7 +25,7 @@ class HomeController extends GetxController {
   RxList<Session> listSession = <Session>[].obs;
   Rx<MenuModel> menuModel = MenuModel().obs;
   Rx<String> selectedSessionId = ''.obs;
-  RxString selectedCategoryId = ''.obs;
+  RxString selectedCategoryId = 'All'.obs;
   final Map<String, String> listCategories = {};
 
   Future getProfiles() async {

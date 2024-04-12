@@ -9,7 +9,6 @@ import 'package:lottie/lottie.dart';
 import '/contrains/theme_color.dart';
 import '/controllers/cart_controller.dart';
 import '/controllers/home_controller.dart';
-import '/controllers/auth_controller.dart';
 import '/views/screens/deposit_screen.dart';
 import '/views/screens/game_select_screen.dart';
 import '/views/screens/gift_exchange_screen.dart';
@@ -357,6 +356,12 @@ class HomeScreen extends GetView<HomeController> {
                         await controller.getSession(
                             currentProfile.value.school!.id!,
                             controller.selectedDate.value);
+                        if (controller.listSession.isNotEmpty) {
+                          controller.selectedSessionId.value =
+                              controller.listSession[0].id!;
+                          controller
+                              .getMenu(controller.selectedSessionId.value);
+                        }
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -457,16 +462,16 @@ class HomeScreen extends GetView<HomeController> {
                                       child: Row(
                                         children: controller
                                             .listCategories.entries
-                                            .map((e) {
+                                            .map((category) {
                                           return Container(
                                             alignment: Alignment.center,
                                             child: GestureDetector(
                                               onTap: () {
                                                 //name
                                                 controller.selectedCategoryId
-                                                    .value = e.value;
-                                                controller
-                                                    .sortByCategory(e.key);
+                                                    .value = category.value;
+                                                controller.sortByCategory(
+                                                    category.key);
                                               },
                                               child: Card(
                                                 margin: const EdgeInsets.only(
@@ -474,7 +479,7 @@ class HomeScreen extends GetView<HomeController> {
                                                 color: controller
                                                             .selectedCategoryId
                                                             .value ==
-                                                        e.value
+                                                        category.value
                                                     ? Colors.green
                                                     : Colors.white,
                                                 child: Container(
@@ -495,14 +500,14 @@ class HomeScreen extends GetView<HomeController> {
                                                     ),
                                                   ),
                                                   child: Text(
-                                                    e.value,
+                                                    category.value,
                                                     style: Get
                                                         .textTheme.bodySmall!
                                                         .copyWith(
                                                       color: controller
                                                                   .selectedCategoryId
                                                                   .value ==
-                                                              e.value
+                                                              category.key
                                                           ? Colors.white
                                                           : Colors.black,
                                                     ),
