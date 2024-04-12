@@ -58,10 +58,10 @@ class MenuItem extends GetView<CartController> {
                               e.food!.name.toString(),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                                style: Get.textTheme.bodySmall,
+                              style: Get.textTheme.bodySmall,
                             ),
                           ),
-                          const Spacer(),
+                          // const Spacer(),
                           Container(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(
@@ -73,9 +73,9 @@ class MenuItem extends GetView<CartController> {
                                       Formater.formatMoney(e.price.toString()),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                         style: Get.textTheme.bodyLarge!.copyWith(
+                                      style: Get.textTheme.bodyLarge!.copyWith(
                                         color: Colors.red,
-                                         ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -100,7 +100,7 @@ class MenuItem extends GetView<CartController> {
               children: [
                 Text(
                   title,
-                    style: Get.textTheme.titleMedium,
+                  style: Get.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 10),
                 Column(
@@ -151,7 +151,15 @@ class MenuItem extends GetView<CartController> {
                                             SizedBox(
                                               child: Text(
                                                 e.food!.name.toString(),
-                                                  style: Get.textTheme.bodyLarge,
+                                                style: Get.textTheme.bodyMedium,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              child: Text(
+                                                'Loại: ${e.food!.category!.name}',
+                                                style: Get.textTheme.bodySmall,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                               ),
@@ -161,25 +169,33 @@ class MenuItem extends GetView<CartController> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Visibility(
-                                                  visible:
-                                                      e.food!.price != e.price,
-                                                  child: Text(
-                                                    Formater.formatMoney(e
-                                                        .food!.price
-                                                        .toString()),
-                                                    style: Get
-                                                        .textTheme.bodyLarge!
-                                                        .copyWith(
-                                                      color: Colors.grey,
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
-                                                    ),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 5),
+                                                    visible: e.food!.price !=
+                                                        e.price,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          Formater.formatMoney(e
+                                                              .food!.price
+                                                              .toString()),
+                                                          style: Get.textTheme
+                                                              .bodyLarge!
+                                                              .copyWith(
+                                                            color: Colors.grey,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 5),
+                                                      ],
+                                                    )),
                                                 Expanded(
                                                   child: SizedBox(
                                                     child: Text(

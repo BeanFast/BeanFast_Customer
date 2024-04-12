@@ -213,8 +213,7 @@ class HomeScreen extends GetView<HomeController> {
                                   () => TextButton(
                                     child: Text(
                                         '${controller.currentMonth}/${controller.currentYear}',
-                                        style: const TextStyle(
-                                            fontSize: 18, color: Colors.black)),
+                                        style: Get.textTheme.bodyLarge),
                                     onPressed: () {
                                       showDatePicker(
                                         context: context,
@@ -249,8 +248,7 @@ class HomeScreen extends GetView<HomeController> {
                                           left: 10, right: 10),
                                       child: Text(
                                         index + 2 == 8 ? 'CN' : 'T${index + 2}',
-                                        style: const TextStyle(
-                                            fontSize: 14, color: Colors.black),
+                                        style: Get.textTheme.bodySmall,
                                       ),
                                     ),
                                     const SizedBox(

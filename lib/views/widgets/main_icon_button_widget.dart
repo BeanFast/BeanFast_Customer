@@ -47,7 +47,7 @@ class MainIconButton extends StatelessWidget {
                   child: Text(
                     text,
                     textAlign: TextAlign.center,
-                       style: Get.textTheme.bodyLarge,
+                       style: Get.textTheme.bodyMedium,
                   ),
                 )
               ],
