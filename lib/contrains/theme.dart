@@ -1,12 +1,15 @@
 import 'package:beanfast_customer/contrains/theme_text.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 import 'theme_color.dart';
 
 class AppTheme {
   static ThemeData defaulTheme = ThemeData(
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
+    
     scaffoldBackgroundColor: ThemeColor.bgColor,
     primaryColor: ThemeColor.primaryColor,
     textTheme: DTextTheme.textTheme,
@@ -66,7 +69,7 @@ class AppTheme {
       shadowColor: ThemeColor.bgColor,
       elevation: 1,
     ),
-    dialogBackgroundColor: ThemeColor.bgColor2,
+    dialogBackgroundColor: ThemeColor.itemColor,
   );
 }
 

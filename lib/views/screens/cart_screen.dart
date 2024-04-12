@@ -2,13 +2,13 @@ import 'package:beanfast_customer/controllers/home_controller.dart';
 import 'package:beanfast_customer/views/screens/checkout_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '/controllers/auth_controller.dart';
-import '/views/screens/loading_screen.dart';
-import '/controllers/cart_controller.dart';
 import '/contrains/theme_color.dart';
+import '/controllers/cart_controller.dart';
 import '/utils/formater.dart';
+import '/views/screens/loading_screen.dart';
 
 class CartScreen extends GetView<CartController> {
   const CartScreen({super.key});
@@ -126,14 +126,20 @@ class CartScreen extends GetView<CartController> {
                                                               bottom: 5),
                                                       child: Row(
                                                         children: [
-                                                          const Text(
-                                                              'Mở đặt đến'),
+                                                          Text('Mở đặt đến',
+                                                              style: Get
+                                                                  .textTheme
+                                                                  .bodyMedium),
                                                           Text(
                                                             ' ${DateFormat('HH:mm, dd/MM/yyyy').format(controller.listSession[session.key]!.orderEndTime!)}',
-                                                            style:
-                                                                const TextStyle(
+                                                            style: Get.textTheme
+                                                                .bodyMedium!
+                                                                .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     color: Colors
-                                                                        .red),
+                                                                        .green),
                                                           ),
                                                         ],
                                                       ),
@@ -149,26 +155,30 @@ class CartScreen extends GetView<CartController> {
                                                                           .only(
                                                                           bottom:
                                                                               10),
-                                                                  decoration: BoxDecoration(
-                                                                      color: ThemeColor
-                                                                          .itemColor,
-                                                                      borderRadius: const BorderRadius
-                                                                          .all(
-                                                                          Radius.circular(
-                                                                              14))),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: ThemeColor
+                                                                        .itemColor,
+                                                                    borderRadius:
+                                                                        const BorderRadius
+                                                                            .all(
+                                                                      Radius.circular(
+                                                                          14),
+                                                                    ),
+                                                                  ),
                                                                   child:
                                                                       SizedBox(
-                                                                    height: 125,
+                                                                    height: 100,
                                                                     child: Row(
                                                                       crossAxisAlignment:
                                                                           CrossAxisAlignment
-                                                                              .center,
+                                                                              .start,
                                                                       children: [
                                                                         SizedBox(
                                                                           width:
-                                                                              125,
+                                                                              90,
                                                                           height:
-                                                                              125,
+                                                                              90,
                                                                           child:
                                                                               ClipRRect(
                                                                             borderRadius:
@@ -185,11 +195,11 @@ class CartScreen extends GetView<CartController> {
                                                                         Expanded(
                                                                           child:
                                                                               Container(
-                                                                            padding: const EdgeInsets.only(
-                                                                                left: 10,
-                                                                                right: 10,
-                                                                                top: 5,
-                                                                                bottom: 5),
+                                                                            padding:
+                                                                                const EdgeInsets.only(
+                                                                              left: 15,
+                                                                              right: 15,
+                                                                            ),
                                                                             child:
                                                                                 Column(
                                                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +208,7 @@ class CartScreen extends GetView<CartController> {
                                                                                 SizedBox(
                                                                                   child: Text(
                                                                                     controller.listMenuDetail[menuDetail.key]!.food!.name.toString(),
-                                                                                    style: const TextStyle(fontSize: 16),
+                                                                                    style: Get.textTheme.bodyMedium,
                                                                                     overflow: TextOverflow.ellipsis,
                                                                                     maxLines: 1,
                                                                                   ),
@@ -206,8 +216,8 @@ class CartScreen extends GetView<CartController> {
                                                                                 const SizedBox(height: 2),
                                                                                 SizedBox(
                                                                                   child: Text(
-                                                                                    controller.listMenuDetail[menuDetail.key]!.food!.category!.name.toString(),
-                                                                                    style: const TextStyle(fontSize: 14, color: Colors.black54),
+                                                                                    'Loại: ' + controller.listMenuDetail[menuDetail.key]!.food!.category!.name.toString(),
+                                                                                    style: Get.textTheme.bodySmall!.copyWith(color: Colors.black54),
                                                                                     overflow: TextOverflow.ellipsis,
                                                                                     maxLines: 1,
                                                                                   ),
@@ -217,7 +227,7 @@ class CartScreen extends GetView<CartController> {
                                                                                   children: [
                                                                                     Text(
                                                                                       Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
-                                                                                      style: const TextStyle(fontSize: 16, color: Colors.red),
+                                                                                      style: Get.textTheme.bodyLarge!.copyWith(color: Color.fromRGBO(240, 103, 24, 1)),
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 1,
                                                                                     ),
@@ -235,35 +245,37 @@ class CartScreen extends GetView<CartController> {
                                                                                   ],
                                                                                 ),
                                                                                 const SizedBox(height: 2),
-                                                                                Container(
-                                                                                  width: 124,
-                                                                                  height: 40,
-                                                                                  decoration: BoxDecoration(
-                                                                                    borderRadius: BorderRadius.circular(30),
-                                                                                    border: Border.all(color: Colors.grey),
-                                                                                  ),
+                                                                                SizedBox(
+                                                                                  width: 100,
+                                                                                  height: 30,
                                                                                   child: Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                     children: [
-                                                                                      IconButton(
-                                                                                        color: ThemeColor.iconButtonColor,
-                                                                                        onPressed: () => {
-                                                                                          controller.decreaseItemCart(profile.key, session.key, menuDetail.key)
+                                                                                      GestureDetector(
+                                                                                        onTap: () {
+                                                                                          controller.decreaseItemCart(profile.key, session.key, menuDetail.key);
                                                                                         },
-                                                                                        icon: const Icon(Icons.remove),
+                                                                                        child: Icon(
+                                                                                          Iconsax.minus_square,
+                                                                                          color: ThemeColor.iconButtonColor,
+                                                                                        ),
                                                                                       ),
                                                                                       SizedBox(
-                                                                                        width: 26,
+                                                                                        width: 30,
                                                                                         child: Text(
                                                                                           menuDetail.value.toString(),
                                                                                           textAlign: TextAlign.center,
+                                                                                          style: Get.textTheme.bodyLarge,
                                                                                         ),
                                                                                       ),
-                                                                                      IconButton(
-                                                                                        color: ThemeColor.iconButtonColor,
-                                                                                        onPressed: () => {
-                                                                                          controller.increaseItemCart(profile.key, session.key, menuDetail.key)
+                                                                                      GestureDetector(
+                                                                                        onTap: () {
+                                                                                          controller.increaseItemCart(profile.key, session.key, menuDetail.key);
                                                                                         },
-                                                                                        icon: const Icon(Icons.add),
+                                                                                        child: Icon(
+                                                                                          Iconsax.add_square,
+                                                                                          color: ThemeColor.iconButtonColor,
+                                                                                        ),
                                                                                       ),
                                                                                     ],
                                                                                   ),
@@ -331,7 +343,7 @@ class CartScreen extends GetView<CartController> {
                                 controller.total.value.toString()),
                             style: const TextStyle(
                                 fontSize: 18,
-                                color: Colors.red,
+                                color: Color.fromRGBO(240, 103, 24, 1),
                                 fontWeight: FontWeight.bold))),
                       ],
                     ),
@@ -374,8 +386,12 @@ class CartScreen extends GetView<CartController> {
                             : () {
                                 Get.to(const CheckOutDetailScreen());
                               },
-                        child: const Text('Đặt hàng',
-                            style: TextStyle(fontSize: 18)),
+                        child: Text(
+                          'Đặt hàng',
+                          style: Get.textTheme.titleLarge!.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),

@@ -88,7 +88,7 @@ class TransactionScreen extends GetView<TransactionController> {
                     ),
                     Text(
                       homeController.moneyValue.value,
-                     style: Get.textTheme.titleSmall,
+                    style: Get.textTheme .bodySmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

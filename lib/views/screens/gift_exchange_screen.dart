@@ -4,7 +4,6 @@ import 'package:beanfast_customer/views/screens/gift_detail_screen.dart';
 import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
@@ -280,21 +279,20 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                       ),
                                     ),
                                     onPressed: () async {
-                                      if (false) {
+                                      if (false  ) {
                                         showDialog(
                                           context: context,
                                           // barrierDismissible: true,
                                           builder: (BuildContext context) {
                                             // Return object of type Dialog
                                             return AlertDialog(
-                                              title: const Text('Thông báo'),
                                               content: SizedBox(
-                                                height: 300,
+                                                height: 160,
                                                 child: Column(
                                                   children: [
                                                     SizedBox(
                                                       width: Get.width,
-                                                      height: 250,
+                                                      height: 100,
                                                       child: Lottie.asset(
                                                         "assets/unsuccess.json",
                                                         repeat: true,
@@ -302,16 +300,17 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                                         // animate: true,
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      height: 50,
-                                                      child: TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: const Text(
-                                                            'Điểm đổi quà không đủ!'),
-                                                      ),
+                                                    const Text('Thông báo',
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    const SizedBox(height: 10),
+                                                    Text(
+                                                      'Điểm không đủ để đổi quà !',
+                                                      style: Get
+                                                          .textTheme.bodyLarge,
                                                     ),
                                                   ],
                                                 ),
@@ -328,11 +327,25 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                             // Return object of type Dialog
                                             return AlertDialog(
                                               content: SizedBox(
-                                                height: Get.height * 0.3,
-                                                child: Lottie.asset(
-                                                  "assets/success.json",
-                                                  repeat: false,
-                                                  animate: true,
+                                                height: 180,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 150,
+                                                      width: 150,
+                                                      child: Lottie.asset(
+                                                        "assets/success.json",
+                                                        repeat: false,
+                                                        animate: true,
+                                                      ),
+                                                    ),
+                                                    const Text(
+                                                      'Đặt hàng thành công !',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
                                             );

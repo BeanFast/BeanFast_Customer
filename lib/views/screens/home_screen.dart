@@ -1,6 +1,7 @@
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -167,10 +168,7 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                   Text(
                                     controller.moneyValue.value,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: Get.textTheme.bodySmall,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
@@ -504,7 +502,7 @@ class HomeScreen extends GetView<HomeController> {
                                                       color: controller
                                                                   .selectedCategoryId
                                                                   .value ==
-                                                              category.key
+                                                              category.value
                                                           ? Colors.white
                                                           : Colors.black,
                                                     ),
@@ -624,7 +622,7 @@ List<Widget> headerActionWidget() {
             borderRadius: BorderRadius.circular(14),
             color: ThemeColor.itemColor,
             border: Border.all(
-              color: Colors.grey,
+              color: Colors.green,
             ),
           ),
           child: Obx(
@@ -632,8 +630,11 @@ List<Widget> headerActionWidget() {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(color: Colors.green, width: 1),
+                  ),
                   child: Image(
                     image: Image.network(
                             currentProfile.value.avatarPath.toString())

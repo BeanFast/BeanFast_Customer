@@ -37,6 +37,8 @@ class StudentListScreen extends GetView<ProfileController> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
+                                  border:
+                                      Border.all(color: Colors.green, width: 1),
                                   image: DecorationImage(
                                     image:
                                         NetworkImage(e.avatarPath.toString()),
@@ -46,11 +48,15 @@ class StudentListScreen extends GetView<ProfileController> {
                               ),
                               title: Text(
                                 e.fullName.toString(),
-                                style: Get.textTheme.bodyLarge,
+                                style: Get.textTheme.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                               subtitle: Text(
                                 e.className.toString(),
-                                style: Get.textTheme.bodySmall,
+                                style: Get.textTheme.bodySmall!.copyWith(
+                                  color: Colors.black54,
+                                ),
                               ),
                               trailing: IconButton(
                                 onPressed: () {

@@ -20,18 +20,20 @@ class ItemProfile extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  border: Border.all(color: Colors.green, width: 1),
                   image: DecorationImage(
                     image: NetworkImage(model.avatarPath.toString()),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              title: Text(model.fullName.toString()),
-              subtitle: Text(model.school!.name.toString()),
+              title: Text(model.fullName.toString(),
+                  style: const TextStyle(fontWeight: FontWeight.w500)),
+              subtitle: Text(model.school!.name.toString(),
+                  style: const TextStyle(color: Colors.black54)),
             ),
           ),
         ),
-    
       ],
     );
   }

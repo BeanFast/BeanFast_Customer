@@ -3,6 +3,7 @@ import 'package:beanfast_customer/controllers/cart_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '/models/menu_detail.dart';
 import '/utils/formater.dart';
@@ -74,7 +75,7 @@ class MenuItem extends GetView<CartController> {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: Get.textTheme.bodyLarge!.copyWith(
-                                        color: Colors.red,
+                                        color: Color.fromRGBO(240, 103, 24, 1),
                                       ),
                                     ),
                                   ),
@@ -204,7 +205,7 @@ class MenuItem extends GetView<CartController> {
                                                       style: Get
                                                           .textTheme.bodyLarge!
                                                           .copyWith(
-                                                        color: Colors.red,
+                                                        color: Color.fromRGBO(240, 103, 24, 1),
                                                       ),
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -247,7 +248,7 @@ class MenuItem extends GetView<CartController> {
                                                         e.id!);
                                                   },
                                                   icon: const Icon(
-                                                      Icons.remove_outlined),
+                                                      Iconsax.minus_square),
                                                 ),
                                               ),
                                             ),
@@ -257,7 +258,7 @@ class MenuItem extends GetView<CartController> {
                                                   sessionId,
                                                   e.id!),
                                               child: Container(
-                                                width: 28,
+                                                width: 30,
                                                 alignment: Alignment.center,
                                                 child: Text(
                                                   controller.ifAbsent(
@@ -286,7 +287,7 @@ class MenuItem extends GetView<CartController> {
                                                       e.id!);
                                                 },
                                                 icon: const Icon(
-                                                    Icons.add_outlined),
+                                                    Iconsax.add_square),
                                               ),
                                             ),
                                           ],

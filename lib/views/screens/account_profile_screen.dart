@@ -49,10 +49,10 @@ class AccountProfileScreen extends StatelessWidget {
             right: 0,
             child: Column(
               children: [
-                Text(
-                  'Nguyễn Văn A',
-                  style: theme.labelLarge,
-                ),
+                const Text('Nguyễn Văn A',
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
                 const SizedBox(
                   height: 5,
                 ),

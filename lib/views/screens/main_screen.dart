@@ -55,7 +55,7 @@ class MainScreen extends StatelessWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
-        backgroundColor: Colors.green.withOpacity(0.5),
+        backgroundColor: Colors.green.withOpacity(1),
         child: const Icon(
           Iconsax.scan_barcode,
         ),

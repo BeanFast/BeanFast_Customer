@@ -4,77 +4,77 @@ class DTextTheme {
   static TextTheme textTheme = const TextTheme(
     //display
     displayLarge: TextStyle(
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     displayMedium: TextStyle(
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     displaySmall: TextStyle(
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     //headline
     headlineLarge: TextStyle(
       fontWeight: FontWeight.w700,
       fontSize: 21,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     headlineMedium: TextStyle(
       fontWeight: FontWeight.w700,
       fontSize: 20,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     headlineSmall: TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 19,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     //title
     titleLarge: TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 18,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     titleMedium: TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 15,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     titleSmall: TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 13,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     //label
     labelLarge: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 12,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     labelMedium: TextStyle(
        fontWeight: FontWeight.w400,
        fontSize: 11,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     labelSmall: TextStyle(
        fontWeight: FontWeight.w400,
         fontSize: 10,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     //body
     bodyLarge: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 14,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     bodyMedium: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 13,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
     bodySmall: TextStyle(
       fontWeight: FontWeight.w400,
       fontSize: 12,
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
     ),
   );
 }

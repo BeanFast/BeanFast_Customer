@@ -142,14 +142,13 @@ class GiftDetailScreen extends StatelessWidget {
                       builder: (BuildContext context) {
                         // Return object of type Dialog
                         return AlertDialog(
-                          title: const Text('Thông báo'),
                           content: SizedBox(
-                            height: 300,
+                            height: 160,
                             child: Column(
                               children: [
                                 SizedBox(
                                   width: Get.width,
-                                  height: 250,
+                                  height: 100,
                                   child: Lottie.asset(
                                     "assets/unsuccess.json",
                                     repeat: true,
@@ -157,14 +156,14 @@ class GiftDetailScreen extends StatelessWidget {
                                     // animate: true,
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 50,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Điểm đổi quà không đủ!'),
-                                  ),
+                                const Text('Thông báo',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 10),
+                                Text(
+                                  'Điểm không đủ để đổi quà !',
+                                  style: Get.textTheme.bodyLarge,
                                 ),
                               ],
                             ),
@@ -172,7 +171,6 @@ class GiftDetailScreen extends StatelessWidget {
                         );
                       },
                     );
-                    //Không đủ số dư - nạp tiền
                   } else {
                     showDialog(
                       context: context,
@@ -181,11 +179,25 @@ class GiftDetailScreen extends StatelessWidget {
                         // Return object of type Dialog
                         return AlertDialog(
                           content: SizedBox(
-                            height: Get.height * 0.3,
-                            child: Lottie.asset(
-                              "assets/success.json",
-                              repeat: false,
-                              animate: true,
+                            height: 180,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 150,
+                                  width: 150,
+                                  child: Lottie.asset(
+                                    "assets/success.json",
+                                    repeat: false,
+                                    animate: true,
+                                  ),
+                                ),
+                                const Text(
+                                  'Đặt hàng thành công !',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         );

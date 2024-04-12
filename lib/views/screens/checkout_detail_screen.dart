@@ -1,7 +1,9 @@
 import 'package:beanfast_customer/views/screens/deposit_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
@@ -90,96 +92,70 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                           left: 10, right: 10),
                                                   child: Column(
                                                     children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          const SizedBox(
-                                                              height: 50,
-                                                              width: 20,
-                                                              child: Icon(Icons
-                                                                  .location_on_outlined)),
-                                                          Expanded(
-                                                            child: ListTile(
-                                                              title: const Text(
-                                                                  'Địa chỉ nhận hàng'),
-                                                              subtitle: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(controller
-                                                                      .listProfile[
-                                                                          profile
-                                                                              .key]!
-                                                                      .school!
-                                                                      .name
-                                                                      .toString()),
-                                                                  Text(controller
-                                                                      .listSession[
-                                                                          session
-                                                                              .key]!
-                                                                      .sessionDetails!
-                                                                      .where((e) =>
-                                                                          e.id! ==
-                                                                          controller
-                                                                              .listSessionDetailId[session.key])
-                                                                      .first
-                                                                      .location!
-                                                                      .name
-                                                                      .toString()),
-                                                                ],
-                                                              ),
-                                                              trailing:
-                                                                  IconButton(
-                                                                iconSize: 24,
-                                                                onPressed: () {
-                                                                  gateSelection(
-                                                                      context,
-                                                                      session
-                                                                          .key);
-                                                                },
-                                                                icon: const Icon(
-                                                                    Icons
-                                                                        .arrow_forward_outlined),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Iconsax.location),
+                                                        title: const Text(
+                                                            'Địa chỉ nhận hàng'),
+                                                        subtitle: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(controller
+                                                                .listProfile[
+                                                                    profile
+                                                                        .key]!
+                                                                .school!
+                                                                .name
+                                                                .toString()),
+                                                            Text(controller
+                                                                .listSession[
+                                                                    session
+                                                                        .key]!
+                                                                .sessionDetails!
+                                                                .where((e) =>
+                                                                    e.id! ==
+                                                                    controller
+                                                                            .listSessionDetailId[
+                                                                        session
+                                                                            .key])
+                                                                .first
+                                                                .location!
+                                                                .name
+                                                                .toString()),
+                                                          ],
+                                                        ),
+                                                        trailing: IconButton(
+                                                          iconSize: 24,
+                                                          onPressed: () {
+                                                            gateSelection(
+                                                                context,
+                                                                session.key);
+                                                          },
+                                                          icon: const Icon(Iconsax
+                                                              .arrow_circle_right),
+                                                        ),
                                                       ),
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          const SizedBox(
-                                                              height: 60,
-                                                              width: 20,
-                                                              child: Icon(Icons
-                                                                  .schedule)),
-                                                          Expanded(
-                                                            child: ListTile(
-                                                              title: Text(
-                                                                  'Thời gian nhận hành',
-                                                                  style: Get
-                                                                      .textTheme
-                                                                      .bodyMedium),
-                                                              subtitle: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                      'Từ ${DateFormat('HH:mm').format(controller.listSession[session.key]!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.listSession[session.key]!.deliveryEndTime!)}',
-                                                                      style: Get
-                                                                          .textTheme
-                                                                          .bodyMedium),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      ListTile(
+                                                        leading: const Icon(
+                                                            Iconsax.truck_time),
+                                                        title: Text(
+                                                            'Thời gian nhận hàng',
+                                                            style: Get.textTheme
+                                                                .bodyMedium),
+                                                        subtitle: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                'Từ ${DateFormat('HH:mm').format(controller.listSession[session.key]!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.listSession[session.key]!.deliveryEndTime!)}',
+                                                                style: Get
+                                                                    .textTheme
+                                                                    .bodyMedium),
+                                                          ],
+                                                        ),
                                                       ),
                                                       Column(
                                                         children:
@@ -202,9 +178,9 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                       children: [
                                                                         SizedBox(
                                                                           width:
-                                                                              90,
+                                                                              80,
                                                                           height:
-                                                                              90,
+                                                                              80,
                                                                           child:
                                                                               ClipRRect(
                                                                             borderRadius:
@@ -220,8 +196,8 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                           child:
                                                                               Container(
                                                                             padding: const EdgeInsets.only(
-                                                                                left: 10,
-                                                                                right: 10,
+                                                                                left: 15,
+                                                                                right: 15,
                                                                                 top: 5,
                                                                                 bottom: 5),
                                                                             child:
@@ -258,10 +234,10 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                                         overflow: TextOverflow.ellipsis,
                                                                                         maxLines: 1,
                                                                                       ),
-                                                                                    const SizedBox(width: 10),
+                                                                                    if (controller.listMenuDetail[menuDetail.key]!.price != controller.listMenuDetail[menuDetail.key]!.food!.price) const SizedBox(width: 10),
                                                                                     Text(
                                                                                       Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
-                                                                                      style: Get.textTheme.bodySmall!.copyWith(color: Colors.red),
+                                                                                      style: Get.textTheme.bodySmall!.copyWith(color: Color.fromRGBO(240, 103, 24, 1)),
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 1,
                                                                                     ),
@@ -303,7 +279,8 @@ class CheckOutDetailScreen extends GetView<CartController> {
                     ),
                     Card(
                       child: Container(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, top: 5, bottom: 5),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -323,15 +300,24 @@ class CheckOutDetailScreen extends GetView<CartController> {
                               ],
                             ),
                             RowInforWidget(
-                                title: 'Tổng đơn hàng ',
-                                data: Formater.formatMoney(
-                                    controller.totalPrice.toString())),
+                              title: 'Tổng đơn hàng ',
+                              data: Formater.formatMoney(
+                                controller.totalPrice.toString(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             RowInforWidget(
-                                title: 'Giảm giá sản phẩm ',
-                                data: Formater.formatMoney(
-                                    (controller.totalPrice -
-                                            controller.total.value)
-                                        .toString())),
+                              title: 'Giảm giá sản phẩm ',
+                              data: Formater.formatMoney(
+                                (controller.totalPrice - controller.total.value)
+                                    .toString(),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,16 +371,17 @@ class CheckOutDetailScreen extends GetView<CartController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
+                        const Text(
                           'Tổng thanh toán',
-                          style: Get.textTheme.bodySmall,
+                          style: TextStyle(fontSize: 14),
                         ),
                         Text(
                             Formater.formatMoney(
                                 controller.total.value.toString()),
-                            style: Get.textTheme.titleMedium!.copyWith(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w700)),
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Color.fromRGBO(240, 103, 24, 1),
+                                fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -427,14 +414,13 @@ class CheckOutDetailScreen extends GetView<CartController> {
                             builder: (BuildContext context) {
                               // Return object of type Dialog
                               return AlertDialog(
-                                title: const Text('Thông báo'),
                                 content: SizedBox(
-                                  height: 300,
+                                  height: 160,
                                   child: Column(
                                     children: [
                                       SizedBox(
                                         width: Get.width,
-                                        height: 250,
+                                        height: 100,
                                         child: Lottie.asset(
                                           "assets/unsuccess.json",
                                           repeat: true,
@@ -442,15 +428,30 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                           // animate: true,
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 50,
-                                        child: TextButton(
-                                          onPressed: () {
-                                            Get.to(DepositeScreen());
-                                          },
-                                          child: const Text(
-                                              'Số dư không đủ, vui lòng nạp thêm!'),
-                                        ),
+                                      const Text('Thông báo',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold)),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Số dư không đủ, ',
+                                            style: Get.textTheme.bodyLarge,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.to( DepositeScreen());
+                                            },
+                                            child: Text(
+                                              'nạp thêm',
+                                              style: Get.textTheme.bodyLarge!
+                                                  .copyWith(color: Color.fromRGBO(240, 103, 24, 1)),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -467,22 +468,40 @@ class CheckOutDetailScreen extends GetView<CartController> {
                               // Return object of type Dialog
                               return AlertDialog(
                                 content: SizedBox(
-                                  height: Get.height * 0.3,
-                                  child: Lottie.asset(
-                                    "assets/success.json",
-                                    repeat: false,
-                                    animate: true,
+                                  height: 180,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 150,
+                                        width: 150,
+                                        child: Lottie.asset(
+                                          "assets/success.json",
+                                          repeat: false,
+                                          animate: true,
+                                        ),
+                                      ),
+                                      const Text(
+                                        'Đặt hàng thành công !',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          ),
+                                      )
+                                    ],
                                   ),
                                 ),
                               );
                             },
                           );
-                          await Future.delayed(const Duration(seconds: 5));
+                          await Future.delayed(const Duration(seconds: 2));
                           Navigator.pop(context);
                           await controller.checkout();
                         }
                       },
-                      child: Text('Đặt hàng', style: Get.textTheme.titleMedium),
+                      child: Text(
+                        'Đặt hàng',
+                        style: Get.textTheme.titleLarge!
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -578,20 +597,11 @@ class RowInforWidget extends StatelessWidget {
         SizedBox(
             child: Text(
           title,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Colors.black54,
-          ),
+          style: Get.textTheme.bodyLarge!.copyWith(color: Colors.black54),
         )),
         Expanded(
-          child: Text(
-            data,
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black54,
-            ),
-          ),
+          child: Text(data,
+              textAlign: TextAlign.right, style: Get.textTheme.bodyLarge),
         ),
         const SizedBox(height: 10),
       ],
