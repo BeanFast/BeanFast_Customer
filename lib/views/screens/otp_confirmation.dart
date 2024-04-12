@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:beanfast_customer/services/auth_service.dart';
 import 'package:beanfast_customer/views/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,7 @@ import 'package:lottie/lottie.dart';
 
 class OtpConfirmationView extends StatelessWidget {
   final OTPController otpController = Get.find();
-
+  String phone = "";
   OtpConfirmationView({super.key});
 
   @override
@@ -72,6 +73,7 @@ class OtpConfirmationView extends StatelessWidget {
                       onChanged: (value) => {
                         if (value.isNotEmpty)
                           {
+                            otpController.pin1.value = value,
                             FocusScope.of(context).nextFocus(),
                           }
                       },
@@ -92,6 +94,7 @@ class OtpConfirmationView extends StatelessWidget {
                       onChanged: (value) => {
                         if (value.isNotEmpty)
                           {
+                            otpController.pin2.value = value,
                             FocusScope.of(context).nextFocus(),
                           },
                         if (value.isEmpty)
@@ -99,7 +102,9 @@ class OtpConfirmationView extends StatelessWidget {
                             FocusScope.of(context).previousFocus(),
                           }
                       },
-                      onSaved: (pin2) {},
+                      onSaved: (pin2) {
+                        // otpController.pin2.value = pin2!;
+                      },
                     ),
                   ),
                   SizedBox(
@@ -116,6 +121,7 @@ class OtpConfirmationView extends StatelessWidget {
                       onChanged: (value) => {
                         if (value.isNotEmpty)
                           {
+                            otpController.pin3.value = value,
                             FocusScope.of(context).nextFocus(),
                           },
                         if (value.isEmpty)
@@ -123,7 +129,9 @@ class OtpConfirmationView extends StatelessWidget {
                             FocusScope.of(context).previousFocus(),
                           }
                       },
-                      onSaved: (pin3) {},
+                      onSaved: (pin3) {
+                        // otpController.pin3.value = pin3!;
+                      },
                     ),
                   ),
                   SizedBox(
@@ -139,13 +147,70 @@ class OtpConfirmationView extends StatelessWidget {
                       ],
                       onChanged: (value) => {
                         if (value.isNotEmpty)
-                          {FocusScope.of(context).unfocus()},
+                          {
+                            otpController.pin4.value = value,
+                            FocusScope.of(context).nextFocus(),
+                          },
                         if (value.isEmpty)
                           {
                             FocusScope.of(context).previousFocus(),
                           }
                       },
-                      onSaved: (pin4) {},
+                      onSaved: (pin4) {
+                        // otpController.pin4.value = pin4!;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 80,
+                    width: 50,
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleLarge,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      onChanged: (value) => {
+                        if (value.isNotEmpty)
+                          {
+                            otpController.pin5.value = value,
+                            FocusScope.of(context).nextFocus(),
+                          },
+                        if (value.isEmpty)
+                          {
+                            FocusScope.of(context).previousFocus(),
+                          }
+                      },
+                      onSaved: (pin5) {
+                        // otpController.pin5.value = pin5!;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 80,
+                    width: 50,
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleLarge,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(1),
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      onChanged: (value) => {
+                        if (value.isNotEmpty)
+                          {
+                            otpController.pin6.value = value,
+                            FocusScope.of(context).unfocus()
+                          },
+                        if (value.isEmpty)
+                          {
+                            FocusScope.of(context).previousFocus(),
+                          }
+                      },
+                      onSaved: (pin6) {},
                     ),
                   ),
                 ],
@@ -233,8 +298,9 @@ class OtpConfirmationView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     Get.snackbar('Hệ thống', 'Đăng ký thành công');
+                    await otpController.verifyOtp();
                     Get.off(LoginView());
                   },
                   child: const Text('Xác nhận OTP',
@@ -252,6 +318,23 @@ class OtpConfirmationView extends StatelessWidget {
 class OTPController extends GetxController {
   var counter = (59).obs; // 1 minute 30 seconds
   Timer? _timer;
+  RxString pin1 = "".obs;
+  RxString pin2 = "".obs;
+  RxString pin3 = "".obs;
+  RxString pin4 = "".obs;
+  RxString pin5 = "".obs;
+  RxString pin6 = "".obs;
+  String phone;
+  OTPController({required this.phone}) {}
+  Future verifyOtp() async {
+    var otpValue = pin1.value +
+        pin2.value +
+        pin3.value +
+        pin4.value +
+        pin5.value +
+        pin6.value;
+    await AuthService().verifyOtp(phone, otpValue);
+  }
 
   void startTimer() {
     counter.value = 59;

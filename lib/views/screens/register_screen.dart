@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/services/auth_service.dart';
 import 'package:beanfast_customer/views/screens/otp_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,6 +37,7 @@ class RegisterView extends StatelessWidget {
                       width: double.infinity, // Set the width
                       height: 85,
                       child: TextFormField(
+                        controller: registerController.phoneController,
                         decoration: const InputDecoration(
                           hintText: 'Số điện thoại',
                           prefixIcon: Icon(Icons.phone_android_outlined),
@@ -68,7 +70,7 @@ class RegisterView extends StatelessWidget {
                           obscureText:
                               registerController.isPasswordVisible.value,
 
-                          // controller: _authController.passwordController,
+                          controller: registerController.passwordController,
                           decoration: InputDecoration(
                             hintText: 'Mật khẩu',
                             prefixIcon: const Icon(Icons.lock_outlined),
@@ -180,16 +182,20 @@ class RegisterView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            // If the form is valid, do something
+                             await registerController.register();
+                            Get.to(
+                              () => OtpConfirmationView(),
+                              binding: BindingsBuilder(() {
+                                Get.put(OTPController(
+                                  phone:
+                                      registerController.phoneController.text,
+                                ));
+                              }),
+                            );
+                           
                           }
-                          Get.to(
-                            () => OtpConfirmationView(),
-                            binding: BindingsBuilder(() {
-                              Get.put(OTPController());
-                            }),
-                          );
                         },
                         child: const Text('Đăng ký',
                             style: TextStyle(fontSize: 18)),
@@ -208,6 +214,16 @@ class RegisterController extends GetxController {
   var isPasswordVisible = true.obs;
   var isRePasswordVisible = true.obs;
   var isChecked = false.obs;
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  // final
+  Future register() async {
+    var phone = phoneController.text;
+    var password = passwordController.text;
+    // var fullName = fullNameController.text;
+    await AuthService().register(phone, password);
+    await AuthService().sendOtp(phone);
+  }
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;

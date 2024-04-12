@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -612,9 +613,15 @@ List<Widget> headerActionWidget() {
     if (currentProfile.value.fullName != null)
       GestureDetector(
         onTap: () {
-          showProfilesDialog(() {
-            Get.back();
-          });
+          if (currentProfile.value.fullName == null) {
+            Get.to(const StudentFormScreen(
+              isUpdate: false,
+            ));
+          } else {
+            showProfilesDialog(() {
+              Get.back();
+            });
+          }
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 10, bottom: 5),
@@ -625,7 +632,7 @@ List<Widget> headerActionWidget() {
               borderRadius: BorderRadius.circular(14),
               color: ThemeColor.itemColor,
               border: Border.all(
-                color: Colors.green,
+                color: Colors.grey,
               ),
             ),
             child: Obx(
@@ -634,18 +641,24 @@ List<Widget> headerActionWidget() {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: Colors.green, width: 1),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.green,
                       ),
-                      child: Image(
-                        image: Image.network(
-                                currentProfile.value.avatarPath.toString())
-                            .image,
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                      )),
+                    ),
+                    child: Image(
+                      image: Image.network(currentProfile.value.avatarPath !=
+                                  null
+                              ? currentProfile.value.avatarPath.toString()
+                              : "https://firebasestorage.googleapis.com/v0/b/bean-fast.appspot.com/o/assets%2Fkidsavatar.jpg?alt=media&token=906243e1-323b-4e0e-b328-71dde27c62e4")
+                          .image,
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   const SizedBox(
                     width: 7,
                   ),
@@ -655,7 +668,9 @@ List<Widget> headerActionWidget() {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          currentProfile.value.fullName.toString(),
+                          currentProfile.value.fullName != null
+                              ? currentProfile.value.fullName.toString()
+                              : "Bạn chưa có học sinh,",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Get.textTheme.bodyMedium!.copyWith(
@@ -663,12 +678,17 @@ List<Widget> headerActionWidget() {
                           ),
                         ),
                         Text(
-                          currentProfile.value.school!.name.toString(),
+                          currentProfile.value.school != null
+                              ? currentProfile.value.school!.name.toString()
+                              : "vui lòng thêm mới",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Get.textTheme.bodySmall!.copyWith(
-                            color: Colors.grey,
-                          ),
+                          style: currentProfile.value.school != null
+                              ? Get.textTheme.bodySmall!.copyWith(
+                                  color: Colors.grey,
+                                )
+                              : Get.textTheme.bodyMedium!
+                                  .copyWith(color: Colors.green),
                         ),
                       ],
                     ),

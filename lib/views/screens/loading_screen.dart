@@ -16,6 +16,7 @@ class LoadingScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: Lottie.asset(
+              
               'assets/images/loading.json',
               width: 150,
               height: 150,

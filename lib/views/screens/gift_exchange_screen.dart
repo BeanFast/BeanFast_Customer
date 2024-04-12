@@ -279,7 +279,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                       ),
                                     ),
                                     onPressed: () async {
-                                      if (false  ) {
+                                      if (false) {
                                         showDialog(
                                           context: context,
                                           // barrierDismissible: true,

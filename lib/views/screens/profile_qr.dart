@@ -52,8 +52,14 @@ class ProfileQRScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.green,
+                          ),
+                        ),
                         child: Image(
                           image: Image.network(
                                   currentProfile.value.avatarPath.toString())
@@ -106,7 +112,7 @@ class ProfileQRScreen extends StatelessWidget {
                 child: Obx(
                   () => Center(
                     child: QrImageView(
-                      data: currentProfile.value.id.toString(),
+                      data: currentProfile.value.loyaltyCards!.first.qRCode.toString(),
                       version: QrVersions.auto,
                     ),
                   ),

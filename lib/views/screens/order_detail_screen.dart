@@ -41,48 +41,51 @@ class OrderDetailScreen extends GetView<OrderController> {
                         order: controller.model.value,
                       ));
                     },
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Iconsax.location, size: 20),
-                                const SizedBox(width: 8),
-                                Text('Địa chỉ nhận hàng',
-                                    style: Get.textTheme.labelLarge),
-                              ],
-                            ),
-                            Text('Trường tiểu học ',
-                                style: Get.textTheme.bodySmall),
-                          ],
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child:
-                              Text('Cổng số 1', style: Get.textTheme.bodySmall),
-                        ),
-                        const SizedBox(height: 5),
-                        if (controller.model.value.deliveryDate != null)
+                    child: Container(
+                      color: ThemeColor.itemColor,
+                      child: Column(
+                        children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
-                                  const Icon(Iconsax.truck_fast, size: 20),
+                                  const Icon(Iconsax.location, size: 20),
                                   const SizedBox(width: 8),
-                                  Text('Thông tin vận chuyển',
+                                  Text('Địa chỉ nhận hàng',
                                       style: Get.textTheme.labelLarge),
                                 ],
                               ),
-                              Text(
-                                  DateFormat('hh:mm dd/MM/yy').format(
-                                      controller.model.value.deliveryDate!),
+                              Text('Trường tiểu học ',
                                   style: Get.textTheme.bodySmall),
                             ],
                           ),
-                      ],
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child:
+                                Text('Cổng số 1', style: Get.textTheme.bodySmall),
+                          ),
+                          const SizedBox(height: 5),
+                          if (controller.model.value.deliveryDate != null)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Iconsax.truck_fast, size: 20),
+                                    const SizedBox(width: 8),
+                                    Text('Thông tin vận chuyển',
+                                        style: Get.textTheme.labelLarge),
+                                  ],
+                                ),
+                                Text(
+                                    DateFormat('hh:mm dd/MM/yy').format(
+                                        controller.model.value.deliveryDate!),
+                                    style: Get.textTheme.bodySmall),
+                              ],
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
