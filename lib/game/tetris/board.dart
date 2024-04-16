@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 
@@ -241,6 +242,8 @@ class _GameBoardState extends State<GameBoard> {
 
   // game over message
   void showGameOverDialog() {
+    //send data to server
+    currentProfileOnPage.playTimes.value--;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -250,8 +253,30 @@ class _GameBoardState extends State<GameBoard> {
         actions: [
           GestureDetector(
             onTap: () {
-              resetGame();
-              Navigator.pop(context);
+              if (currentProfileOnPage.playTimes.value >= 1) {
+                resetGame();
+                Navigator.pop(context);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Thông báo'),
+                      content: const Text('Bạn đã hết lượt chơi cho hôm nay!.'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             },
             child: Container(
               padding: const EdgeInsets.all(10),

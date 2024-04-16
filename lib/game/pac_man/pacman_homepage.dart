@@ -7,7 +7,9 @@ import 'package:beanfast_customer/game/pac_man/ghost3.dart';
 import 'package:beanfast_customer/game/pac_man/path.dart';
 import 'package:beanfast_customer/game/pac_man/pixel.dart';
 import 'package:beanfast_customer/game/pac_man/player.dart';
+import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PacmanGame extends StatefulWidget {
   const PacmanGame({super.key});
@@ -131,30 +133,33 @@ class _PacmanGameState extends State<PacmanGame> {
   String ghostLast = "left";
   String ghostLast2 = "left";
   String ghostLast3 = "down";
-  late Timer ghostTimer  = Timer.periodic(const Duration(milliseconds: 20) ,(timer) {});
-  late Timer playerTimer = Timer.periodic(const Duration(milliseconds: 20) ,(timer) {});
+  late Timer ghostTimer =
+      Timer.periodic(const Duration(milliseconds: 20), (timer) {});
+  late Timer playerTimer =
+      Timer.periodic(const Duration(milliseconds: 20), (timer) {});
 
   void startGame() {
     if (preGame) {
       preGame = false;
       getFood();
 
-       Timer.periodic(const Duration(milliseconds: 20), (timer) {
+      Timer.periodic(const Duration(milliseconds: 20), (timer) {
         if (!mounted) return;
         if (paused) {
         } else {}
+        //gameOver
         if (player == ghost || player == ghost2 || player == ghost3) {
           if (!mounted) return;
           setState(() {
             player = -1;
           });
+          //send data to server
+          currentProfileOnPage.playTimes.value--;
           showDialog(
               barrierDismissible: false,
               context: context,
-
               builder: (BuildContext context) {
                 return AlertDialog(
-                  
                   title: const Center(child: Text("Game Over!")),
                   content: Text(
                     "Điểm của bạn: $score",
@@ -164,20 +169,43 @@ class _PacmanGameState extends State<PacmanGame> {
                     GestureDetector(
                       onTap: () {
                         if (!mounted) return;
-                        setState(() {
-                          player = numberInRow * 14 + 1;
-                          ghost = numberInRow * 2 - 2;
-                          ghost2 = numberInRow * 9 - 1;
-                          ghost3 = numberInRow * 11 - 2;
-                          paused = false;
-                          preGame = false;
-                          mouthClosed = false;
-                          direction = "right";
-                          food.clear();
-                          getFood();
-                          score = 0;
-                          Navigator.pop(context);
-                        });
+                        if (currentProfileOnPage.playTimes.value >= 1) {
+                          setState(() {
+                            player = numberInRow * 14 + 1;
+                            ghost = numberInRow * 2 - 2;
+                            ghost2 = numberInRow * 9 - 1;
+                            ghost3 = numberInRow * 11 - 2;
+                            paused = false;
+                            preGame = false;
+                            mouthClosed = false;
+                            direction = "right";
+                            food.clear();
+                            getFood();
+                            score = 0;
+                            Navigator.pop(context);
+                          });
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Thông báo'),
+                                content: const Text(
+                                    'Bạn đã hết lượt chơi cho hôm nay!.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.all(14),

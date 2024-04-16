@@ -648,15 +648,18 @@ List<Widget> headerActionWidget() {
                         color: Colors.green,
                       ),
                     ),
-                    child: Image(
-                      image: Image.network(currentProfile.value.avatarPath !=
-                                  null
-                              ? currentProfile.value.avatarPath.toString()
-                              : "https://firebasestorage.googleapis.com/v0/b/bean-fast.appspot.com/o/assets%2Fkidsavatar.jpg?alt=media&token=906243e1-323b-4e0e-b328-71dde27c62e4")
-                          .image,
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(50)),
+                      child: Image(
+                        image: Image.network(currentProfile.value.avatarPath !=
+                                    null
+                                ? currentProfile.value.avatarPath.toString()
+                                : "https://firebasestorage.googleapis.com/v0/b/bean-fast.appspot.com/o/assets%2Fkidsavatar.jpg?alt=media&token=906243e1-323b-4e0e-b328-71dde27c62e4")
+                            .image,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   const SizedBox(

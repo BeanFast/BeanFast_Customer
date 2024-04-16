@@ -52,8 +52,21 @@ class GameSelectScreen extends StatelessWidget {
     //UI
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trò chơi'),
         actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.black),
+            ),
+            child: Row(
+              children: [
+                const Text('Lượt chơi: '),
+                Obx(() => Text(currentProfileOnPage.playTimes.toString())),
+              ],
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(right: 20),
             padding: const EdgeInsets.all(10),
@@ -158,7 +171,29 @@ class GameSelectScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  games[index].onClick();
+                                  if (currentProfileOnPage.playTimes.value >=
+                                      1) {
+                                    games[index].onClick();
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Thông báo'),
+                                          content: const Text(
+                                              'Bạn đã hết lượt chơi cho hôm nay!.'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
                                 },
                                 child: Text('Chơi ngay',
                                     style: Get.textTheme.bodyLarge),
@@ -198,6 +233,12 @@ class GameSelectScreen extends StatelessWidget {
     );
   }
 }
+
+class Profile {
+  RxInt playTimes = 2.obs;
+}
+
+Profile currentProfileOnPage = Profile();
 
 class Game {
   final String name;
