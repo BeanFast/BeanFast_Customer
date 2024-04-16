@@ -1,7 +1,6 @@
 import 'package:beanfast_customer/services/profile_service.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/gift_detail_screen.dart';
-import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -18,7 +17,6 @@ class ExchangeGiftScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var profile = currentProfile.value;
-
     return LoadingScreen(
       future: () async {
         profile = await ProfileService().getById(currentProfile.value.id!);
@@ -92,14 +90,36 @@ class PointManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const PointDashboard(),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return GestureDetector(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          //Month
+          Container(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            height: 50,
+            alignment: Alignment.centerLeft,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: Color.fromARGB(255, 198, 229, 245),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 198, 229, 245),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, 2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Text(
+              'Tháng 3',
+              style: Get.textTheme.titleMedium,
+            ),
+          ),
+          //Data
+          Column(
+            children: List.generate(
+              5,
+              (index) => GestureDetector(
                 onTap: () {
                   Get.snackbar(
                     'Giao dịch',
@@ -108,7 +128,10 @@ class PointManagement extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  color: index % 2 == 0 ? Colors.white : Colors.grey[200],
+                  color: index % 2 == 0
+                      ? Colors.white
+                      : const Color.fromARGB(255, 198, 225, 244)
+                          .withOpacity(0.3),
                   padding: const EdgeInsets.all(10),
                   child: Row(
                     children: [
@@ -132,29 +155,29 @@ class PointManagement extends StatelessWidget {
                             Text('Giao địch mã $index',
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                                style: Get.textTheme.bodyLarge!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                )),
                             const SizedBox(height: 5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Expanded(
-                                  child: Text('03:11 - 03/03/2024',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 14)),
+                                Text(
+                                  '03:11 - 03/03/2024',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Get.textTheme.bodySmall,
                                 ),
-                                Container(
-                                  alignment: Alignment.bottomRight,
-                                  width: 120,
-                                  child: const Text('+200.000 điểm',
+                                SizedBox(
+                                  child: Text('+200.000 điểm',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
+                                      style: Get.textTheme.bodyMedium!.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      )),
                                 ),
                               ],
                             ),
@@ -164,11 +187,11 @@ class PointManagement extends StatelessWidget {
                     ],
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
