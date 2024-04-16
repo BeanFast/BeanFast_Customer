@@ -127,7 +127,7 @@ class HomeScreen extends GetView<HomeController> {
                                   isNew: true,
                                   onPressed: () {
                                     showProfilesDialog(() {
-                                      Get.to(ExchangeGiftScreen());
+                                      Get.to(const ExchangeGiftScreen());
                                     });
                                   },
                                 ),
