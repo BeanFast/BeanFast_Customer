@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-import '../utils/constants.dart';
-import '../utils/formater.dart';
+import '/utils/constants.dart';
+import '/utils/formater.dart';
 import '/models/menu_detail.dart';
 import '/models/menu.dart';
 import '/models/session.dart';
@@ -39,7 +39,7 @@ class HomeController extends GetxController {
    void toggleMoneyVisibility() {
     isMoneyVisible.value = !isMoneyVisible.value;
     moneyValue.value = isMoneyVisible.value
-        ? Formater.formatMoney(currentUser.value.balance.toString())
+        ? Formater.formatMoney(currentUser.value!.balance.toString())
         : '********* đ';
   }
 

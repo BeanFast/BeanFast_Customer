@@ -1,86 +1,88 @@
-import 'package:beanfast_customer/services/profile_service.dart';
-import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/screens/gift_detail_screen.dart';
-import 'package:beanfast_customer/views/widgets/point_dashboard.dart';
+import 'package:beanfast_customer/controllers/auth_controller.dart';
+import 'package:beanfast_customer/views/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../controllers/exchange_gift_controller.dart';
+import '/controllers/exchange_gift_controller.dart';
+import '/utils/constants.dart';
+import '/views/screens/gift_detail_screen.dart';
+import '/views/widgets/point_dashboard.dart';
 import 'loading_screen.dart';
 
-// ignore: must_be_immutable
 class ExchangeGiftScreen extends StatelessWidget {
-  ExchangeGiftScreen({super.key});
+  const ExchangeGiftScreen({super.key});
 
-  RxDouble balance = 0.0.obs;
   @override
   Widget build(BuildContext context) {
-    var profile = currentProfile.value;
-
+    AuthController authController = Get.find<AuthController>();
     return LoadingScreen(
       future: () async {
-        profile = await ProfileService().getById(currentProfile.value.id!);
-
-        balance = profile.wallets!.isEmpty
-            ? 0.0.obs
-            : profile.wallets!.first.balance!.obs;
+        await authController.getCurrentUser();
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Đổi quà',
-          ),
-          actions: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(right: 20),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.yellow,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Obx(() => Text(balance.value.toInt().toString())),
-                  const SizedBox(width: 5),
-                  const Icon(Iconsax.gift, color: Colors.black),
+      child: currentProfile.value == null
+          ? const ErrorScreen(message: 'Chưa có học sinh')
+          : Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  'Đổi quà',
+                ),
+                actions: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Obx(() => Text(currentProfile.value!.wallets!.isEmpty
+                            ? '0'
+                            : currentProfile
+                                .value!.wallets!.first.balance!.obs.value
+                                .toInt()
+                                .toString())),
+                        const SizedBox(width: 5),
+                        const Icon(Iconsax.gift, color: Colors.black),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
-        body: DefaultTabController(
-          length: 3,
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              const TabBar(
-                isScrollable: true,
-                tabAlignment: TabAlignment.start,
-                tabs: [
-                  Tab(text: 'Quà'),
-                  Tab(text: 'Tích điểm/ Dùng điểm'),
-                  Tab(text: 'Lịch sử đổi thưởng'),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
+              body: DefaultTabController(
+                length: 3,
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
                   children: [
-                    const ExchageGift(), // Đổi thưởng
-                    const PointManagement(), // Thống kê
-                    // ignore: avoid_unnecessary_containers
-                    Container(
-                      child: const Center(child: Text('Lịch sử đổi thưởng')),
+                    const TabBar(
+                      isScrollable: true,
+                      tabAlignment: TabAlignment.start,
+                      tabs: [
+                        Tab(text: 'Quà'),
+                        Tab(text: 'Tích điểm/ Dùng điểm'),
+                        Tab(text: 'Lịch sử đổi thưởng'),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          const ExchageGift(), // Đổi thưởng
+                          const PointManagement(), // Thống kê
+                          // ignore: avoid_unnecessary_containers
+                          Container(
+                            child:
+                                const Center(child: Text('Lịch sử đổi thưởng')),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

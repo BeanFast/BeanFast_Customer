@@ -1,3 +1,6 @@
+import 'package:beanfast_customer/contrains/contrain.dart';
+import 'package:beanfast_customer/models/profile.dart';
+
 import 'base_model.dart';
 
 class User extends BaseModel {
@@ -7,8 +10,9 @@ class User extends BaseModel {
   String? phone;
   String? email;
   String? avatarPath;
-  String? deviceToken;
+  // String? deviceToken;
   double? balance;
+  List<Profile>? profiles;
 
   User({
     id,
@@ -20,23 +24,22 @@ class User extends BaseModel {
     this.email,
     this.avatarPath,
     this.balance,
+    this.profiles,
   }) : super(id: id, status: status);
 
   factory User.fromJson(dynamic json) {
-    double balance = 0;
-    if (json['balance'] != null) {
-      balance = double.parse(json['balance'].toString());
-    }
     return User(
       id: json["id"],
       status: json['status'],
-      roleId: json["roleId"],
-      code: json['code'],
+      // roleId: json["roleId"],
+      // code: json['code'],
       fullName: json['fullName'],
-      phone: json['phone'],
-      email: json['email'],
-      avatarPath: json['avatarPath'],
-      balance: balance,
+      // phone: json['phone'],
+      // email: json['email'],
+      avatarPath: json['avatarPath'] ?? defaultAvatarImagePath,
+      balance: json['balance'] == null
+          ? 0
+          : double.parse(json['balance'].toString()),
     );
   }
 

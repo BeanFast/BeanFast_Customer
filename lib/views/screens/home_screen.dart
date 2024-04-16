@@ -1,8 +1,5 @@
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -37,7 +34,7 @@ class HomeScreen extends GetView<HomeController> {
       body: RefreshIndicator(
         displacement: 0,
         onRefresh: () {
-          return Future.delayed(const Duration(seconds: 1), () {
+          return Future.delayed(const Duration(seconds: 3), () {
             // controller.getSession(
             //     currentProfile.value.school!.id!, controller.now.value);
           });
@@ -119,10 +116,8 @@ class HomeScreen extends GetView<HomeController> {
                                 MainIconButton(
                                   icon: Iconsax.wallet_add,
                                   text: "Nạp tiền",
-                                  // text: "Nạp tiền",
                                   isNew: false,
                                   onPressed: () {
-                                    // Get.to(const MyLoadingWidget());
                                     Get.to(DepositeScreen());
                                   },
                                 ),
@@ -132,7 +127,6 @@ class HomeScreen extends GetView<HomeController> {
                                   isNew: true,
                                   onPressed: () {
                                     showProfilesDialog(() {
-                                      Get.back();
                                       Get.to(ExchangeGiftScreen());
                                     });
                                   },
@@ -143,7 +137,6 @@ class HomeScreen extends GetView<HomeController> {
                                   isNew: true,
                                   onPressed: () {
                                     showProfilesDialog(() {
-                                      Get.back();
                                       Get.to(const GameSelectScreen());
                                     });
                                   },
@@ -270,7 +263,7 @@ class HomeScreen extends GetView<HomeController> {
                                         controller
                                             .updateSelectedDate(chosenDate);
                                         controller.getSession(
-                                            currentProfile.value.school!.id!,
+                                            currentProfile.value!.school!.id!,
                                             chosenDate);
                                         print('Chosen date: $chosenDate');
                                       },
@@ -349,9 +342,9 @@ class HomeScreen extends GetView<HomeController> {
                     const SizedBox(height: 20),
                     LoadingScreen(
                       future: () async {
-                        if (currentProfile.value.fullName != null) {
+                        if (currentProfile.value != null) {
                           await controller.getSession(
-                              currentProfile.value.school!.id!,
+                              currentProfile.value!.school!.id!,
                               controller.selectedDate.value);
                         }
                         if (controller.listSession.isNotEmpty) {
@@ -593,8 +586,11 @@ void showProfilesDialog(Function() onPressed) {
                       children: controller.listProfile.map((e) {
                         return ItemProfile(
                           model: e,
-                          onPressed: () =>
-                              {currentProfile.value = e, onPressed()},
+                          onPressed: () => {
+                            currentProfile.value = e,
+                            onPressed(),
+                            Get.back()
+                          },
                         );
                       }).toList(),
                     )),
@@ -610,100 +606,99 @@ void showProfilesDialog(Function() onPressed) {
 List<Widget> headerActionWidget() {
   Get.put(CartController());
   return <Widget>[
-    if (currentProfile.value.fullName != null)
-      GestureDetector(
-        onTap: () {
-          if (currentProfile.value.fullName == null) {
-            Get.to(const StudentFormScreen(
-              isUpdate: false,
-            ));
-          } else {
-            showProfilesDialog(() {
-              Get.back();
-            });
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10, bottom: 5),
-          child: Container(
-            padding: const EdgeInsets.only(left: 5, right: 5),
-            width: Get.width * 0.6,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              color: ThemeColor.itemColor,
-              border: Border.all(
-                color: Colors.grey,
-              ),
-            ),
-            child: Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.green,
-                      ),
-                    ),
-                    child: Image(
-                      image: Image.network(currentProfile.value.avatarPath !=
-                                  null
-                              ? currentProfile.value.avatarPath.toString()
-                              : "https://firebasestorage.googleapis.com/v0/b/bean-fast.appspot.com/o/assets%2Fkidsavatar.jpg?alt=media&token=906243e1-323b-4e0e-b328-71dde27c62e4")
-                          .image,
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
+    Obx(
+      () => currentProfile.value != null
+          ? GestureDetector(
+              onTap: () {
+                showProfilesDialog(() {});
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, bottom: 5),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  width: Get.width * 0.6,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: ThemeColor.itemColor,
+                    border: Border.all(
+                      color: Colors.grey,
                     ),
                   ),
-                  const SizedBox(
-                    width: 7,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          currentProfile.value.fullName != null
-                              ? currentProfile.value.fullName.toString()
-                              : "Bạn chưa có học sinh,",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Get.textTheme.bodyMedium!.copyWith(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            width: 1,
                             color: Colors.green,
                           ),
                         ),
-                        Text(
-                          currentProfile.value.school != null
-                              ? currentProfile.value.school!.name.toString()
-                              : "vui lòng thêm mới",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: currentProfile.value.school != null
-                              ? Get.textTheme.bodySmall!.copyWith(
-                                  color: Colors.grey,
-                                )
-                              : Get.textTheme.bodyMedium!
-                                  .copyWith(color: Colors.green),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image(
+                            image: Image.network(
+                                    currentProfile.value!.avatarPath.toString())
+                                .image,
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        width: 7,
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              currentProfile.value!.fullName.toString(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Get.textTheme.bodyMedium!.copyWith(
+                                color: Colors.green,
+                              ),
+                            ),
+                            Text(
+                              currentProfile.value!.school!.name.toString(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: currentProfile.value!.school != null
+                                  ? Get.textTheme.bodySmall!.copyWith(
+                                      color: Colors.grey,
+                                    )
+                                  : Get.textTheme.bodyMedium!
+                                      .copyWith(color: Colors.green),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 24,
+                        color: Colors.green,
+                      )
+                    ],
                   ),
-                  const Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 24,
-                    color: Colors.green,
-                  )
-                ],
+                ),
+              ),
+            )
+          : GestureDetector(
+              onTap: () {
+                Get.to(const StudentFormScreen(
+                  isUpdate: false,
+                ));
+              },
+              child: const Column(
+                children: [Text('Chưa có học sinh'), Text('Hãy thêm mới')],
               ),
             ),
-          ),
-        ),
-      ),
+    ),
     const Spacer(),
     Stack(
       children: [
@@ -763,7 +758,6 @@ List<Widget> headerActionWidget() {
             ),
           ),
         ),
-        // if (Get.find<CartController>().itemCount.value != 0)
         Obx(
           () => Visibility(
             visible: Get.find<CartController>().itemCount.value != 0,

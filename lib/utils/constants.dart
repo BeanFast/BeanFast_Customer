@@ -5,8 +5,9 @@ import '/enums/auth_state_enum.dart';
 import '/models/user.dart';
 import '/models/profile.dart';
 
-Rx<User> currentUser = User().obs;
-Rx<Profile> currentProfile = Profile().obs;
+Rx<User?> currentUser = Rx<User?>(null);
+Rx<Profile?> currentProfile = Rx<Profile?>(null);
+// Rx<Profile> currentProfile = Profile().obs;
 RxInt selectedMenuIndex = MenuIndexState.home.index.obs;
 Rx<AuthState> authState = AuthState.unauthenticated.obs;
 

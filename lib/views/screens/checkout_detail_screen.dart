@@ -1,7 +1,4 @@
-import 'package:beanfast_customer/views/screens/deposit_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import '/utils/constants.dart';
 import '/contrains/theme_color.dart';
 import '/controllers/cart_controller.dart';
+import '/views/screens/deposit_screen.dart';
 import '/views/screens/loading_screen.dart';
 import '/utils/formater.dart';
 
@@ -406,7 +404,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                         ),
                       ),
                       onPressed: () async {
-                        if (currentUser.value.balance! <
+                        if (currentUser.value!.balance! <
                             controller.total.value) {
                           showDialog(
                             context: context,

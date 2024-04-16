@@ -368,7 +368,7 @@ class DepositeScreen extends StatelessWidget {
                                     // currentUser.value =
                                     //     await AuthService().getUser();
                                     changePage(MenuIndexState.home.index);
-                                    Get.offAll(SplashView());
+                                    Get.offAll(const SplashScreen());
                                   } else {
                                     await Future.delayed(
                                         const Duration(seconds: 1));

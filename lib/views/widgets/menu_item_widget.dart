@@ -243,7 +243,7 @@ class MenuItem extends GetView<CartController> {
                                           children: [
                                             Visibility(
                                               visible: controller.ifAbsent(
-                                                  currentProfile.value.id!,
+                                                  currentProfile.value!.id!,
                                                   sessionId,
                                                   e.id!),
                                               child: SizedBox(
@@ -252,7 +252,7 @@ class MenuItem extends GetView<CartController> {
                                                   onPressed: () {
                                                     controller.decreaseItemCart(
                                                         currentProfile
-                                                            .value.id!,
+                                                            .value!.id!,
                                                         sessionId,
                                                         e.id!);
                                                   },
@@ -263,7 +263,7 @@ class MenuItem extends GetView<CartController> {
                                             ),
                                             Visibility(
                                               visible: controller.ifAbsent(
-                                                  currentProfile.value.id!,
+                                                  currentProfile.value!.id!,
                                                   sessionId,
                                                   e.id!),
                                               child: Container(
@@ -272,12 +272,12 @@ class MenuItem extends GetView<CartController> {
                                                 child: Text(
                                                   controller.ifAbsent(
                                                           currentProfile
-                                                              .value.id!,
+                                                              .value!.id!,
                                                           sessionId,
                                                           e.id!)
                                                       ? controller.listCart[
                                                               currentProfile
-                                                                  .value.id!]![
+                                                                  .value!.id!]![
                                                               sessionId]![e.id!]
                                                           .toString()
                                                       : '0',
@@ -291,7 +291,7 @@ class MenuItem extends GetView<CartController> {
                                               child: IconButton(
                                                 onPressed: () {
                                                   controller.increaseItemCart(
-                                                      currentProfile.value.id!,
+                                                      currentProfile.value!.id!,
                                                       sessionId,
                                                       e.id!);
                                                 },

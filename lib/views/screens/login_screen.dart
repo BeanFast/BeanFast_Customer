@@ -185,9 +185,9 @@ class LoginView extends GetView<AuthController> {
                               ),
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             // if (_formKey.currentState!.validate()) {
-                            _authController.login();
+                            await _authController.login();
                             // }
                           },
                           child: Text('Đăng nhập',

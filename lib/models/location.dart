@@ -1,5 +1,4 @@
 import 'base_model.dart';
-import 'profile.dart';
 import 'school.dart';
 import 'session_detail.dart';
 
@@ -9,7 +8,6 @@ class Location extends BaseModel {
   String? name;
   String? description;
   String? imagePath;
-  Profile? profile;
   School? school;
   List<SessionDetail>? sessionDetails;
 

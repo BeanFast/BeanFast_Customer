@@ -96,7 +96,7 @@ class CartController extends GetxController {
       }
       listCart.clear();
       changePage(MenuIndexState.order.index);
-      Get.offAll(SplashView());
+      Get.offAll(const SplashScreen());
     } catch (e) {
       logger.e(e);
     }

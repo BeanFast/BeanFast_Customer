@@ -1,11 +1,7 @@
-import 'package:beanfast_customer/views/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/models/profile.dart';
 import '/utils/constants.dart';
-import '/services/profile_service.dart';
-import '/services/auth_service.dart';
 import '/utils/logger.dart';
 import '/controllers/auth_controller.dart';
 import '/enums/auth_state_enum.dart';
@@ -13,18 +9,17 @@ import 'error_screen.dart';
 import 'login_screen.dart';
 import 'main_screen.dart';
 
-class SplashView extends StatelessWidget {
-  SplashView({super.key});
+class SplashScreen extends GetView<AuthController> {
+  const SplashScreen({super.key});
 
-  final AuthController _authController = Get.find();
+  // final AuthController controller = Get.find();
 
   Future<void> initializeSettings() async {
     logger.i('initializeSettings');
-    _authController.checkLoginStatus();
-    currentUser.value = await AuthService().getUser();
-    List<Profile> list = await ProfileService().getAll();
-    list.sort((a, b) => b.dob!.compareTo(a.dob!));
-    currentProfile.value = list.first;
+    controller.checkLoginStatus();
+    if (authState.value == AuthState.authenticated) {
+      await controller.getCurrentUser();
+    }
   }
 
   @override
@@ -51,8 +46,7 @@ class SplashView extends StatelessWidget {
               case AuthState.unauthenticated:
                 return LoginView();
               default:
-                return const ErrorView(
-                    errorMessage: 'Lỗi xác thực đăng nhập'); //
+                return const ErrorScreen(message: 'Lỗi xác thực đăng nhập'); //
             }
           });
           // }

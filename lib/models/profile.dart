@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/contrains/contrain.dart';
+
 import 'base_model.dart';
 import 'exchange_gift.dart';
 import 'order.dart';
@@ -64,7 +66,7 @@ class Profile extends BaseModel {
         fullName: json['fullName'],
         gender: json['gender'],
         nickName: json['nickName'],
-        avatarPath: json['avatarPath'],
+        avatarPath: json['avatarPath'] ?? defaultAvatarImagePath,
         dob: DateTime.parse(json['dob']),
         className: json['class'],
         currentBMI: json['currentBMI'] == null
