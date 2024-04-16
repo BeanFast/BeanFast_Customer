@@ -84,15 +84,15 @@ class OrderTimeline extends StatelessWidget {
                   children: [
                     Text('Mã đơn hàng', style: Get.textTheme.labelLarge),
                     const Spacer(),
-                    Text('#112313123', style: Get.textTheme.bodySmall),
+                    Text('#${order.code}', style: Get.textTheme.bodySmall),
                     TextButton(
                         onPressed: () {
                           Clipboard.setData(
-                              const ClipboardData(text: '112313123'));
+                               ClipboardData(text: order.code.toString()));
                           Get.snackbar(
+                            'Hệ thống',
                             'Đã sao chép mã đơn hàng',
-                            '',
-                            snackPosition: SnackPosition.BOTTOM,
+                            snackPosition: SnackPosition.TOP,
                             backgroundColor: Colors.white,
                             duration: const Duration(seconds: 1),
                             colorText: Colors.black,

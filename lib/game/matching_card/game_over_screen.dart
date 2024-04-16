@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.topCenter,
@@ -77,7 +79,10 @@ class _GameOverScreenState extends State<GameOverScreen> {
                         MaterialStateProperty.all<Color>(Colors.green),
                   ),
                   onPressed: () {
-                    // Navigator.popUntil(context, (route) => route.isFirst);
+                    //send data to server
+                    currentProfileOnPage.playTimes.value--;
+                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
                   child: const Text("Hoàn thành",
                       style: TextStyle(fontSize: 18, color: Colors.white)),

@@ -15,7 +15,9 @@ class OrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(OrderDetailScreen(orderId: order.id!));
+        Get.to(
+          OrderDetailScreen(orderId: order.id!),
+        );
       },
       child: Container(
         color: ThemeColor.itemColor,
@@ -30,7 +32,9 @@ class OrderItem extends StatelessWidget {
                 children: [
                   Text(order.profile!.fullName.toString(),
                       style: Get.textTheme.titleSmall),
-                  TextOrderStatus(status: OrderStatus.fromInt(order.status!)),
+                  TextOrderStatus(
+                    status: OrderStatus.fromInt(order.status!),
+                  ),
                 ],
               ),
               const SizedBox(height: 5),
@@ -74,7 +78,7 @@ class OrderItem extends StatelessWidget {
                                     order.orderDetails![0].price.toString()),
                                 maxLines: 1,
                                 style: Get.textTheme.bodySmall!.copyWith(
-                                  color: Colors.red,
+                                  color: const Color.fromRGBO(240, 103, 24, 1),
                                 ),
                               ),
                             ),
@@ -102,10 +106,12 @@ class OrderItem extends StatelessWidget {
                         'Thành tiền ',
                         style: Get.textTheme.bodySmall,
                       ),
-                      Text(Formater.formatMoney(order.totalPrice.toString()),
-                          style: Get.textTheme.bodySmall!.copyWith(
-                            color: Colors.red,
-                          ))
+                      Text(
+                        Formater.formatMoney(order.totalPrice.toString()),
+                        style: Get.textTheme.bodySmall!.copyWith(
+                          color: const Color.fromRGBO(240, 103, 24, 1),
+                        ),
+                      ),
                     ],
                   ),
                 ],

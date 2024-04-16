@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../contrains/theme_color.dart';
 import '/controllers/exchange_gift_controller.dart';
 import '/utils/constants.dart';
 import '/views/screens/gift_detail_screen.dart';
@@ -94,14 +95,36 @@ class PointManagement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const PointDashboard(),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return GestureDetector(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          //Month
+          Container(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            height: 50,
+            alignment: Alignment.centerLeft,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: Color.fromARGB(255, 198, 229, 245),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 198, 229, 245),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, 2), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Text(
+              'Tháng 3',
+              style: Get.textTheme.titleMedium,
+            ),
+          ),
+          //Data
+          Column(
+            children: List.generate(
+              5,
+              (index) => GestureDetector(
                 onTap: () {
                   Get.snackbar(
                     'Giao dịch',
@@ -109,68 +132,71 @@ class PointManagement extends StatelessWidget {
                     snackPosition: SnackPosition.TOP,
                   );
                 },
-                child: Container(
-                  color: index % 2 == 0 ? Colors.white : Colors.grey[200],
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.grey)),
-                        child: const Icon(
-                          Icons.point_of_sale,
+                child: Card(
+                  color: ThemeColor.itemColor,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(color: Colors.grey)),
+                          child: const Icon(
+                            Icons.point_of_sale,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Giao địch mã $index',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
-                            const SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Expanded(
-                                  child: Text('03:11 - 03/03/2024',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 14)),
-                                ),
-                                Container(
-                                  alignment: Alignment.bottomRight,
-                                  width: 120,
-                                  child: const Text('+200.000 điểm',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                ),
-                              ],
-                            ),
-                          ],
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Giao địch mã $index',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              const SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '03:11 - 03/03/2024',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Get.textTheme.bodySmall,
+                                  ),
+                                  SizedBox(
+                                    child: Text('+200.000 điểm',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            Get.textTheme.bodyMedium!.copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

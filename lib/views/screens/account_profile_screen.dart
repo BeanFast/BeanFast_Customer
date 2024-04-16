@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
+import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -138,14 +139,19 @@ class AccountProfileScreen extends GetView<AuthController> {
                           ),
                         ),
                       ),
-                      const Card(
-                        child: ListTile(
-                          leading: Icon(Icons.child_care),
-                          title: Text('Số học sinh'),
-                          subtitle: Text(
-                            '5',
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(const StudentListScreen());
+                        },
+                        child: const Card(
+                          child: ListTile(
+                            leading: Icon(Icons.child_care),
+                            title: Text('Số học sinh'),
+                            subtitle: Text(
+                              '5',
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
                           ),
-                          trailing: Icon(Icons.arrow_forward_ios_outlined),
                         ),
                       ),
                     ],
