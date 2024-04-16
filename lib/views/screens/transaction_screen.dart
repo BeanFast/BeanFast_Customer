@@ -88,7 +88,7 @@ class TransactionScreen extends GetView<TransactionController> {
                     ),
                     Text(
                       homeController.moneyValue.value,
-                    style: Get.textTheme .bodySmall,
+                      style: Get.textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -148,11 +148,6 @@ class TransactionScreen extends GetView<TransactionController> {
                                       ? Colors.green
                                       : Colors.red;
                                   return Card(
-                                    color: index % 2 == 0
-                                        ? Colors.white
-                                        : const Color.fromARGB(
-                                                255, 198, 225, 244)
-                                            .withOpacity(0.3),
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
                                       child: Row(
@@ -161,7 +156,6 @@ class TransactionScreen extends GetView<TransactionController> {
                                             width: 50,
                                             height: 50,
                                             decoration: BoxDecoration(
-                                              color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(25),
                                               border: Border.all(

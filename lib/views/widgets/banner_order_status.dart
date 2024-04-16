@@ -16,8 +16,8 @@ class BannerOrderStatus extends StatelessWidget {
     switch (status) {
       case OrderStatus.preparing:
         // color = Colors.grey[300]!;
-        text = const Text('Đang chuẩn bị hàng',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold));
+        text = const Text('Đơn hàng của bạn đang được chuẩn bị',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600));
         break;
       case OrderStatus.delivering:
         // color = Colors.grey[300]!;

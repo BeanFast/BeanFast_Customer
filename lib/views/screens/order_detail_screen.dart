@@ -1,5 +1,7 @@
 import 'package:beanfast_customer/views/screens/order_time_line.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -62,8 +64,8 @@ class OrderDetailScreen extends GetView<OrderController> {
                           ),
                           Align(
                             alignment: Alignment.centerRight,
-                            child:
-                                Text('Cổng số 1', style: Get.textTheme.bodySmall),
+                            child: Text('Cổng số 1',
+                                style: Get.textTheme.bodySmall),
                           ),
                           const SizedBox(height: 5),
                           if (controller.model.value.deliveryDate != null)
@@ -165,7 +167,9 @@ class OrderDetailScreen extends GetView<OrderController> {
                                                     style: Get
                                                         .textTheme.bodySmall!
                                                         .copyWith(
-                                                            color: Colors.red)),
+                                                            color: const Color
+                                                                .fromRGBO(240,
+                                                                103, 24, 1))),
                                               ),
                                             ],
                                           ),
@@ -197,8 +201,9 @@ class OrderDetailScreen extends GetView<OrderController> {
                                 Formater.formatMoney(controller
                                     .model.value.totalPrice
                                     .toString()),
-                                style: Get.textTheme.bodySmall!
-                                    .copyWith(color: Colors.red),
+                                style: Get.textTheme.bodySmall!.copyWith(
+                                    color:
+                                        const Color.fromRGBO(240, 103, 24, 1)),
                               ),
                             ],
                           ),
@@ -217,8 +222,19 @@ class OrderDetailScreen extends GetView<OrderController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Mã đơn hàng', style: Get.textTheme.bodyMedium),
-                          Text('#${controller.model.value.code.toString()}',
-                              style: Get.textTheme.bodySmall),
+                          GestureDetector(
+                            onTap: () {
+                              Get.snackbar(
+                                  'Hệ thống', 'Đã sao chép mã đơn hàng',
+                                  snackPosition: SnackPosition.TOP);
+                              Clipboard.setData(ClipboardData(
+                                  text:
+                                      controller.model.value.code.toString()));
+                            },
+                            child: Text(
+                                '#${controller.model.value.code.toString()}',
+                                style: Get.textTheme.bodySmall),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 5),

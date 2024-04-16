@@ -41,12 +41,12 @@ class OrderScreen extends GetView<OrderController> {
                     () => Text(
                       ' ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.start)}'
                       ' - ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.end)}',
-                      style: Get.textTheme.labelLarge!.copyWith(color: const Color(0xFF26AA91))
-                          ,
+                      style: Get.textTheme.labelLarge!.copyWith(
+                          color: const Color(0xFF26AA91), fontSize: 13),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(Iconsax.filter_search, color: Color(0xFF26AA91)),
+                  const Icon(Iconsax.filter_search, color: Colors.black),
                 ],
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/services/profile_service.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/gift_detail_screen.dart';
@@ -127,64 +128,64 @@ class PointManagement extends StatelessWidget {
                     snackPosition: SnackPosition.TOP,
                   );
                 },
-                child: Container(
-                  color: index % 2 == 0
-                      ? Colors.white
-                      : const Color.fromARGB(255, 198, 225, 244)
-                          .withOpacity(0.3),
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.grey)),
-                        child: const Icon(
-                          Icons.point_of_sale,
+                child: Card(
+                  color: ThemeColor.itemColor,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(color: Colors.grey)),
+                          child: const Icon(
+                            Icons.point_of_sale,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Giao địch mã $index',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: Get.textTheme.bodyLarge!.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                            const SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '03:11 - 03/03/2024',
-                                  maxLines: 1,
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Giao địch mã $index',
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Get.textTheme.bodySmall,
-                                ),
-                                SizedBox(
-                                  child: Text('+200.000 điểm',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Get.textTheme.bodyMedium!.copyWith(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              const SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '03:11 - 03/03/2024',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Get.textTheme.bodySmall,
+                                  ),
+                                  SizedBox(
+                                    child: Text('+200.000 điểm',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            Get.textTheme.bodyMedium!.copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
