@@ -31,11 +31,11 @@ class User extends BaseModel {
     return User(
       id: json["id"],
       status: json['status'],
-      // roleId: json["roleId"],
-      // code: json['code'],
+      roleId: json["roleId"],
+      code: json['code'],
       fullName: json['fullName'],
-      // phone: json['phone'],
-      // email: json['email'],
+      phone: json['phone'],
+      email: json['email'],
       avatarPath: json['avatarPath'] ?? defaultAvatarImagePath,
       balance: json['balance'] == null
           ? 0

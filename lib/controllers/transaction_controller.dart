@@ -1,9 +1,7 @@
 import 'package:beanfast_customer/models/transaction.dart';
 import 'package:beanfast_customer/services/transaction_service.dart';
 import 'package:beanfast_customer/utils/logger.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 class TransactionController extends GetxController {
@@ -25,7 +23,7 @@ class TransactionController extends GetxController {
     mapTransactions.clear();
     try {
       transactions.value = await TransactionService().getTransactions(
-          1, 100, "money", "7B9C01DB-0D49-403D-ADC0-6CFB9CEF6D3A");
+          1, 100);
 
       for (var e in transactions) {
         String key = DateFormat('MM/yyyy').format(e.time!);

@@ -12,10 +12,9 @@ class TransactionService {
     return response.data['data'];
   }
 
-  Future<List<Transaction>> getTransactions(
-      int page, int size, String type, String profileId) async {
-    var response = await _apiService.request.get("$baseUrl/profiles/$profileId",
-        queryParameters: Map.from({"page": page, "size": size, "type": type}));
+  Future<List<Transaction>> getTransactions(int page, int size) async {
+    var response = await _apiService.request
+        .get(baseUrl, queryParameters: Map.from({"page": page, "size": size}));
     List<Transaction> result = List.empty(growable: true);
     if (response.statusCode == 200) {
       for (var e in response.data['data']["items"]) {

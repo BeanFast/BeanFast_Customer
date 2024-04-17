@@ -1,9 +1,9 @@
-import 'package:beanfast_customer/enums/menu_index_enum.dart';
-import 'package:beanfast_customer/models/location.dart';
-import 'package:beanfast_customer/models/school.dart';
-import 'package:beanfast_customer/services/order_service.dart';
-import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/utils/logger.dart';
+import '/enums/menu_index_enum.dart';
+import '/models/location.dart';
+import '/models/school.dart';
+import '/services/order_service.dart';
+import '/utils/constants.dart';
+import '/utils/logger.dart';
 import 'package:get/get.dart';
 
 import '/services/school_service.dart';

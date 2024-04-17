@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:beanfast_customer/controllers/auth_controller.dart';
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -53,15 +54,15 @@ class AccountProfileScreen extends GetView<AuthController> {
               right: 0,
               child: Column(
                 children: [
-                  const Text('Nguyễn Văn A',
-                      style: TextStyle(
+                  Text(currentUser.value!.fullName.toString(),
+                      style: const TextStyle(
                         fontSize: 20,
                       )),
                   const SizedBox(
                     height: 5,
                   ),
                   Text(
-                    '0966324244',
+                    currentUser.value!.phone.toString(),
                     style: Get.textTheme.bodyMedium,
                   ),
                 ],
@@ -100,7 +101,8 @@ class AccountProfileScreen extends GetView<AuthController> {
                         child: ListTile(
                           leading: const Icon(Iconsax.personalcard),
                           title: const Text('Tên'),
-                          subtitle: const Text('Nguyễn Văn A'),
+                          subtitle:
+                              Text(currentUser.value!.fullName.toString()),
                           trailing: IconButton(
                             icon: const Icon(Iconsax.edit),
                             onPressed: () {

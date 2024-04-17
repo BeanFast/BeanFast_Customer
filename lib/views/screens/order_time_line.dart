@@ -11,7 +11,7 @@ class OrderTimeline extends StatelessWidget {
   final Order order;
 
   void sortByDate() {
-    order.orderActivities?.sort((a, b) => a.time!.compareTo(b.time!));
+    order.orderActivities?.sort((a, b) => b.time!.compareTo(a.time!));
   }
 
   @override
@@ -88,7 +88,7 @@ class OrderTimeline extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           Clipboard.setData(
-                               ClipboardData(text: order.code.toString()));
+                              ClipboardData(text: order.code.toString()));
                           Get.snackbar(
                             'Hệ thống',
                             'Đã sao chép mã đơn hàng',

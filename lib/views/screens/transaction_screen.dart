@@ -134,8 +134,6 @@ class TransactionScreen extends GetView<TransactionController> {
                               ),
                               Column(
                                 children: transaction.value.map((element) {
-                                  var index = -1;
-                                  index++;
                                   var transactionType =
                                       element.order!.code == null
                                           ? "Nạp tiền"
