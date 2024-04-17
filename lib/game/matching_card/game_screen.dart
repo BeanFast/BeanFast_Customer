@@ -123,7 +123,7 @@ class _MyFlipCardGameState extends State<MyFlipCardGame> {
               color: Colors.red,
               image: DecorationImage(
                 image: AssetImage(
-                    "assets/game_assets/matching_card/background_game.png"), // Replace with your image
+                    "assets/game_assets/matching_card/background_game.png"),
                 fit: BoxFit.cover,
               ),
             ),
