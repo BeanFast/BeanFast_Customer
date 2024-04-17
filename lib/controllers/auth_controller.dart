@@ -75,14 +75,19 @@ class AuthController extends GetxController with CacheManager {
     }
   }
 
+  void clear() {
+    currentUser.value = null;
+    currentProfile.value = null;
+  }
+
   void logOut() {
+    clear();
     changeAuthState(AuthState.unauthenticated);
     removeToken();
   }
 
   Future getCurrentUser() async {
     try {
-      currentProfile.value = null;
       currentUser.value = await AuthService().getUser();
       List<Profile>? list = await ProfileService().getAll();
       if (list.isNotEmpty) {

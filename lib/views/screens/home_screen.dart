@@ -260,11 +260,12 @@ class HomeScreen extends GetView<HomeController> {
                                                 chosenDate, today)) {
                                           return;
                                         }
-                                        controller
-                                            .updateSelectedDate(chosenDate);
-                                        controller.getSession(
-                                            currentProfile.value!.school!.id!,
-                                            chosenDate);
+
+                                        if (currentProfile.value != null) {
+                                          controller.getSession(
+                                              currentProfile.value!.school!.id!,
+                                              chosenDate);
+                                        }
                                         print('Chosen date: $chosenDate');
                                       },
                                       child: Obx(
@@ -588,8 +589,8 @@ void showProfilesDialog(Function() onPressed) {
                           model: e,
                           onPressed: () => {
                             currentProfile.value = e,
+                            Get.back(),
                             onPressed(),
-                            Get.back()
                           },
                         );
                       }).toList(),
