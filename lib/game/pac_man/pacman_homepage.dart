@@ -159,84 +159,91 @@ class _PacmanGameState extends State<PacmanGame> {
               barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Center(child: Text("Game Over!")),
-                  content: Text(
-                    "Điểm của bạn: $score",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  actions: [
-                    GestureDetector(
-                      onTap: () {
-                        if (!mounted) return;
-                        if (currentProfileOnPage.playTimes.value >= 1) {
-                          setState(() {
-                            player = numberInRow * 14 + 1;
-                            ghost = numberInRow * 2 - 2;
-                            ghost2 = numberInRow * 9 - 1;
-                            ghost3 = numberInRow * 11 - 2;
-                            paused = false;
-                            preGame = false;
-                            mouthClosed = false;
-                            direction = "right";
-                            food.clear();
-                            getFood();
-                            score = 0;
-                            Navigator.pop(context);
-                          });
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Thông báo'),
-                                content: const Text(
-                                    'Bạn đã hết lượt chơi cho hôm nay!.'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
-                                      Navigator.pop(context);
-                                    },
+                return WillPopScope(
+                  onWillPop: () async => false,
+                  child: AlertDialog(
+                    title: const Center(child: Text("Game Over!")),
+                    content: Text(
+                      "Điểm của bạn: $score",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    actions: [
+                      GestureDetector(
+                        onTap: () {
+                          if (!mounted) return;
+                          if (currentProfileOnPage.playTimes.value >= 1) {
+                            setState(() {
+                              player = numberInRow * 14 + 1;
+                              ghost = numberInRow * 2 - 2;
+                              ghost2 = numberInRow * 9 - 1;
+                              ghost3 = numberInRow * 11 - 2;
+                              paused = false;
+                              preGame = false;
+                              mouthClosed = false;
+                              direction = "right";
+                              food.clear();
+                              getFood();
+                              score = 0;
+                              Navigator.pop(context);
+                            });
+                          } else {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return WillPopScope(
+                                  onWillPop: () async => false,
+                                  child: AlertDialog(
+                                    title: const Text('Thông báo'),
+                                    content: const Text(
+                                        'Bạn đã hết lượt chơi cho hôm nay!.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('OK'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(
-                                  0.3), // Change this color to your desired one
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          gradient: const LinearGradient(
-                            colors: <Color>[
-                              Color(0xFF0D47A1),
-                              Color(0xFF1976D2),
-                              Color(0xFF42A5F5),
+                                );
+                              },
+                            );
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(
+                                    0.3), // Change this color to your desired one
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
                             ],
+                            gradient: const LinearGradient(
+                              colors: <Color>[
+                                Color(0xFF0D47A1),
+                                Color(0xFF1976D2),
+                                Color(0xFF42A5F5),
+                              ],
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15)),
                           ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
+                          child: const Text(
+                            "Chơi lại",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        child: const Text(
-                          "Chơi lại",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 );
               });
         }
