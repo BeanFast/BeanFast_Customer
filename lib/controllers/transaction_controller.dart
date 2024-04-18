@@ -33,10 +33,6 @@ class TransactionController extends GetxController {
           mapTransactions.putIfAbsent(key, () => [e]);
         }
       }
-      logger.e(mapTransactions.length);
-      mapTransactions.forEach((key, value) {
-        logger.e(value.length);
-      });
     } catch (e) {
       throw Exception(e);
     }

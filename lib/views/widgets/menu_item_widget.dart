@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../screens/product_detail_screen.dart';
 import '/models/menu_detail.dart';
 import '/utils/formater.dart';
 
 class MenuItem extends GetView<CartController> {
-  final void Function() onTap;
+  // final void Function() onTap;
   final String title;
   final String sessionId;
   final List<MenuDetail> list;
@@ -18,7 +19,7 @@ class MenuItem extends GetView<CartController> {
   const MenuItem({
     super.key,
     required this.sessionId,
-    required this.onTap,
+    // required this.onTap,
     required this.list,
     required this.title,
     required this.isCombo,
@@ -31,7 +32,9 @@ class MenuItem extends GetView<CartController> {
           ? Row(
               children: list.map((e) {
                 return GestureDetector(
-                  onTap: onTap,
+                  onTap: () {
+                    Get.to(ProductDetailScreen(food: e.food!));
+                  },
                   child: Card(
                     child: SizedBox(
                       height: 200,
@@ -108,7 +111,9 @@ class MenuItem extends GetView<CartController> {
                 Column(
                   children: list.map((e) {
                     return GestureDetector(
-                      onTap: onTap,
+                      onTap: () {
+                        Get.to(ProductDetailScreen(food: e.food!));
+                      },
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 8),
                         child: Stack(

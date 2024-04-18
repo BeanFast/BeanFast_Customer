@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/controllers/notification_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,8 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+    NotificationController notificationController =
+        Get.put(NotificationController());
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -344,11 +347,15 @@ class HomeScreen extends GetView<HomeController> {
                     const SizedBox(height: 20),
                     LoadingScreen(
                       future: () async {
+                        //get notification
+                        // await notificationController.fetchData();
+                        //get profile
                         if (currentProfile.value != null) {
                           await controller.getSession(
                               currentProfile.value!.school!.id!,
                               controller.selectedDate.value);
                         }
+                        //get session of profile
                         if (controller.listSession.isNotEmpty) {
                           controller.selectedSessionId.value =
                               controller.listSession[0].id!;
@@ -517,9 +524,6 @@ class HomeScreen extends GetView<HomeController> {
                                       () => MenuItem(
                                           title: 'Combo',
                                           isCombo: true,
-                                          onTap: () {
-                                            Get.to(const ProductDetailScreen());
-                                          },
                                           sessionId: controller
                                               .selectedSessionId.value,
                                           list: controller
@@ -530,9 +534,6 @@ class HomeScreen extends GetView<HomeController> {
                                       () => MenuItem(
                                           isCombo: false,
                                           title: 'Ưu đãi',
-                                          onTap: () {
-                                            Get.to(const ProductDetailScreen());
-                                          },
                                           sessionId: controller
                                               .selectedSessionId.value,
                                           list: controller.menuModel.value
@@ -542,9 +543,6 @@ class HomeScreen extends GetView<HomeController> {
                                     MenuItem(
                                         isCombo: false,
                                         title: 'Sản phẩm',
-                                        onTap: () {
-                                          Get.to(const ProductDetailScreen());
-                                        },
                                         sessionId:
                                             controller.selectedSessionId.value,
                                         list: controller
@@ -607,6 +605,7 @@ void showProfilesDialog(Function() onPressed) {
 
 List<Widget> headerActionWidget() {
   Get.put(CartController());
+  NotificationController notificationController = Get.find();
   return <Widget>[
     Obx(
       () => currentProfile.value != null
@@ -721,7 +720,9 @@ List<Widget> headerActionWidget() {
           ),
         ),
         Visibility(
-          visible: true,
+          visible: notificationController.notifications
+              .where((n) => n.readDate == null)
+              .isNotEmpty,
           child: Positioned(
             top: 5,
             right: 3,
@@ -732,10 +733,13 @@ List<Widget> headerActionWidget() {
                   shape: BoxShape.circle,
                   color: Colors.red,
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    '99+',
-                    style: TextStyle(
+                    notificationController.notifications
+                        .where((n) => n.readDate == null)
+                        .length
+                        .toString(),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,

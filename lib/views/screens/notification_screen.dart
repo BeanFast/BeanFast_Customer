@@ -1,20 +1,19 @@
-import 'package:beanfast_customer/models/notification.dart';
-import 'package:beanfast_customer/services/notification_service.dart';
-import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class NotificationScreen extends StatelessWidget {
+import '/controllers/notification_controller.dart';
+import '/views/screens/loading_screen.dart';
+
+class NotificationScreen extends GetView<NotificationController> {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final NotificationController notificationController =
-        Get.put(NotificationController());
+    Get.put(NotificationController());
     return LoadingScreen(
       future: () async {
-        await notificationController.fetchData();
+        await controller.fetchData();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -29,14 +28,14 @@ class NotificationScreen extends StatelessWidget {
                 size: 30,
               ),
               onPressed: () {
-                notificationController.allDone.value = true;
+                controller.allDone.value = true;
               },
             ),
           ],
         ),
         body: Obx(
           () => Column(
-            children: notificationController.notifications.map((notification) {
+            children: controller.notifications.map((notification) {
               return SizedBox(
                 // height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -77,22 +76,20 @@ class NotificationScreen extends StatelessWidget {
                                   ),
                                   child: Align(
                                     alignment: Alignment.topRight,
-                                    child: Obx(() {
-                                      return Container(
-                                        width: 15,
-                                        height: 15,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: notification.readDate != null
-                                              ? Colors.grey
-                                              : Colors.red,
-                                          border: const Border.fromBorderSide(
-                                            BorderSide(
-                                                color: Colors.white, width: 3),
-                                          ),
+                                    child: Container(
+                                      width: 15,
+                                      height: 15,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: notification.readDate != null
+                                            ? Colors.grey
+                                            : Colors.red,
+                                        border: const Border.fromBorderSide(
+                                          BorderSide(
+                                              color: Colors.white, width: 3),
                                         ),
-                                      );
-                                    }),
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -126,12 +123,6 @@ class NotificationScreen extends StatelessWidget {
                                               size: 25),
                                         ],
                                       ),
-                                      // Text(
-                                      //   notification.body,
-                                      //   style: Get.textTheme.labelLarge,
-                                      //   maxLines: 1,
-                                      //   overflow: TextOverflow.ellipsis,
-                                      // ),
                                       Text(
                                         notification.body!,
                                         style: Get.textTheme.bodySmall,
@@ -158,14 +149,3 @@ class NotificationScreen extends StatelessWidget {
   }
 }
 
-class NotificationController extends GetxController {
-  RxBool allDone = false.obs;
-  RxList<NotificationModel> notifications = <NotificationModel>[].obs;
-  //List notifications
-  Future<void> fetchData() async {
-    notifications.value = await NotificationService().getPage(1, 100);
-    print(notifications.length);
-  }
-
-  Future<void> markAsRead() async {}
-}
