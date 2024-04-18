@@ -270,6 +270,14 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                           ),
                                         ),
                                         SizedBox(
+                                          child: Text(
+                                           'Còn lại: ${gift.inStock.toString()}' ,
+                                            style: Get.textTheme.bodySmall,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                        SizedBox(
                                           child: Row(
                                             children: [
                                               Text(

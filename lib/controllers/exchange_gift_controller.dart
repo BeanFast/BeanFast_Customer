@@ -1,12 +1,11 @@
 import 'package:beanfast_customer/models/gift.dart';
 import 'package:beanfast_customer/services/gift_service.dart';
-import 'package:get/get.dart';
+import 'package:dio/dio.dart';
+import 'package:get/get.dart' as getx;
 
-import '../utils/logger.dart';
-
-class ExchangeGiftController extends GetxController {
-  RxBool isError = false.obs;
-  RxList<Gift> listData = <Gift>[].obs;
+class ExchangeGiftController extends getx.GetxController {
+  getx.RxBool isError = false.obs;
+  getx.RxList<Gift> listData = <Gift>[].obs;
 
   // Future<Profile?> getProfile() async {
   //   await ProfileService().getById(currentProfile.id);
@@ -14,18 +13,21 @@ class ExchangeGiftController extends GetxController {
   // }
 
   Future getData() async {
-    logger.i('getData');
     try {
-      var response = await GiftService().getAll();
-      List<Gift> list = [];
-      for (var e in response.data['data']['items']) {
-        // logger.i(e.toString());
-        list.add(Gift.fromJson(e));
-      }
-      listData.value = list;
-      logger.i(listData.length.toString());
+      listData.value = await GiftService().getAll();
     } catch (e) {
       isError.value = true;
+    }
+  }
+
+  Future<bool> exchangeGift(String id) async {
+    try {
+      Response response = await GiftService()
+          .exchangeGift('giftId', 'profileId', 'sessionDetailId');
+      if (response.statusCode == 200) return true;
+      return false;
+    } catch (e) {
+      return false;
     }
   }
 }

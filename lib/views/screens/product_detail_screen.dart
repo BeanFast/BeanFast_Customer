@@ -1,10 +1,13 @@
+import 'package:beanfast_customer/models/food.dart';
+import 'package:beanfast_customer/utils/formater.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/cart_controller.dart';
+import '/controllers/cart_controller.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  const ProductDetailScreen({super.key});
+  final Food food;
+  const ProductDetailScreen({super.key, required this.food});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +24,7 @@ class ProductDetailScreen extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width * 0.8,
-                  child: Image.network(
-                      'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                  child: Image.network(food.imagePath.toString(),
                       fit: BoxFit.cover),
                 ),
                 Stack(
@@ -33,35 +35,32 @@ class ProductDetailScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Tên sản phẩm\n2',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Text(
+                              food.name.toString(),
+                              style: Get.textTheme.bodyLarge,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                             Row(
                               children: [
-                                const Text(
-                                  '150.000',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.lineThrough,
-                                      fontSize: 16,
-                                      color: Colors.grey),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                const SizedBox(width: 5),
+                                // const Text(
+                                //   '150.000',
+                                //   style: TextStyle(
+                                //       decoration: TextDecoration.lineThrough,
+                                //       fontSize: 16,
+                                //       color: Colors.grey),
+                                //   overflow: TextOverflow.ellipsis,
+                                //   maxLines: 1,
+                                // ),
+                                // const SizedBox(width: 5),
                                 SizedBox(
                                   width: (MediaQuery.of(context).size.width -
                                           216) /
                                       2,
-                                  child: const Text(
-                                    '150.000đ',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.red),
+                                  child: Text(
+                                    Formater.formatMoney(food.price.toString()),
+                                    style: Get.textTheme.bodyLarge!
+                                        .copyWith(color: Colors.red),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -141,82 +140,13 @@ class ProductDetailScreen extends StatelessWidget {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     padding: const EdgeInsets.all(10),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Mô tả', style: TextStyle(fontSize: 16)),
-                        Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod'),
+                        Text('Mô tả', style: Get.textTheme.titleMedium),
+                        Text(food.description.toString()),
                       ],
-                    ),
-                  ),
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      7,
-                      (index) => GestureDetector(
-                        onTap: () {
-                          Get.to(const ProductDetailScreen());
-                        },
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Image.network(
-                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                                  fit: BoxFit.cover,
-                                  width: 150,
-                                  height: 100,
-                                ),
-                                const SizedBox(height: 5),
-                                SizedBox(
-                                  width: 140,
-                                  child: Text(
-                                    'Combo Burger + nước ngọt số $index',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 150,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const SizedBox(
-                                        width: 100,
-                                        child: Text(
-                                          '150.000đ',
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 40,
-                                        child: IconButton(
-                                            onPressed: () {},
-                                            icon:
-                                                const Icon(Icons.add_outlined)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ),
