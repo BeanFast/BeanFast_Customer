@@ -245,60 +245,68 @@ class _GameBoardState extends State<GameBoard> {
     //send data to server
     currentProfileOnPage.playTimes.value--;
     showDialog(
+      barrierDismissible: false,
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.amber,
-        title: const Text('Game Over!'),
-        content: Text('You Scored: $currentScore'),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              if (currentProfileOnPage.playTimes.value >= 1) {
-                resetGame();
-                Navigator.pop(context);
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Thông báo'),
-                      content: const Text('Bạn đã hết lượt chơi cho hôm nay!.'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('OK'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                            Navigator.pop(context);
-                          },
+      builder: (context) => WillPopScope(
+          onWillPop: () async => false,
+        child: AlertDialog(
+          backgroundColor: Colors.amber,
+          title: const Text('Game Over!'),
+          content: Text('You Scored: $currentScore'),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                if (currentProfileOnPage.playTimes.value >= 1) {
+                  resetGame();
+                  Navigator.pop(context);
+                } else {
+                  showDialog(
+                      barrierDismissible: false, 
+                    context: context,
+                    builder: (BuildContext context) {
+                      return WillPopScope(
+                         onWillPop: () async => false,
+                        child: AlertDialog(
+                          title: const Text('Thông báo'),
+                          content: const Text('Bạn đã hết lượt chơi cho hôm nay!.'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
                         ),
-                      ],
-                    );
-                  },
-                );
-              }
-            },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
+                      );
+                    },
+                  );
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: const Text(
+                  'Play Again',
+                  style: TextStyle(color: Colors.amber),
+                ),
               ),
-              child: const Text(
-                'Play Again',
-                style: TextStyle(color: Colors.amber),
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

@@ -63,39 +63,39 @@ class GiftDetailScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 3),
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                  ),
-                                ),
-                                child: const Text(
-                                  '40%',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   right: 0,
+                        //   top: 0,
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(4),
+                        //     ),
+                        //     child: Container(
+                        //       padding: const EdgeInsets.all(4),
+                        //       decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(4),
+                        //       ),
+                        //       child: Container(
+                        //         padding: const EdgeInsets.symmetric(
+                        //             horizontal: 6, vertical: 3),
+                        //         decoration: const BoxDecoration(
+                        //           color: Colors.red,
+                        //           borderRadius: BorderRadius.only(
+                        //             bottomLeft: Radius.circular(12),
+                        //             topRight: Radius.circular(12),
+                        //           ),
+                        //         ),
+                        //         child: const Text(
+                        //           '40%',
+                        //           style: TextStyle(
+                        //             color: Colors.white,
+                        //             fontSize: 12,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     // Card(
