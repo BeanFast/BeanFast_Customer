@@ -65,6 +65,7 @@ class AppTheme {
         elevation: 0.8,
         hoverElevation: 1),
     cardTheme: CardTheme(
+      surfaceTintColor: ThemeColor.itemColor,
       color: ThemeColor.itemColor,
       shadowColor: ThemeColor.bgColor,
       elevation: 1,

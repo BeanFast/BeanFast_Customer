@@ -1,6 +1,7 @@
 import 'package:beanfast_customer/models/food.dart';
 import 'package:beanfast_customer/utils/formater.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '/controllers/cart_controller.dart';
@@ -14,128 +15,89 @@ class ProductDetailScreen extends StatelessWidget {
     Get.put(CartController());
     return Scaffold(
       appBar: AppBar(),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: SingleChildScrollView(
-          child: Stack(children: [
-            Column(
+      body: SingleChildScrollView(
+        child: Stack(children: [
+          Container(
+            padding: const EdgeInsets.only(left: 5, right: 5),
+            child: Column(
               children: [
-                SizedBox(
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(food.imagePath.toString()),
+                      fit: BoxFit.contain,
+                    ),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width * 0.8,
-                  child: Image.network(food.imagePath.toString(),
-                      fit: BoxFit.cover),
+                  height: 250,
                 ),
                 Stack(
                   children: [
                     Card(
                       child: Container(
+                        width: Get.width,
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               food.name.toString(),
-                              style: Get.textTheme.bodyLarge,
+                              style: Get.textTheme.bodyLarge!.copyWith(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Row(
-                              children: [
-                                // const Text(
-                                //   '150.000',
-                                //   style: TextStyle(
-                                //       decoration: TextDecoration.lineThrough,
-                                //       fontSize: 16,
-                                //       color: Colors.grey),
-                                //   overflow: TextOverflow.ellipsis,
-                                //   maxLines: 1,
-                                // ),
-                                // const SizedBox(width: 5),
-                                SizedBox(
-                                  width: (MediaQuery.of(context).size.width -
-                                          216) /
-                                      2,
-                                  child: Text(
-                                    Formater.formatMoney(food.price.toString()),
-                                    style: Get.textTheme.bodyLarge!
-                                        .copyWith(color: Colors.red),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                const Spacer(),
-                                // Obx(
-                                //   () {
-                                //     return cartController.quantity.value == 0
-                                //         ? IconButton(
-                                //             icon: const Icon(Icons.add),
-                                //             onPressed: cartController.increase,
-                                //           )
-                                //         : Row(
-                                //             children: <Widget>[
-                                //               IconButton(
-                                //                 icon: const Icon(Icons.remove),
-                                //                 onPressed:
-                                //                     cartController.decrease,
-                                //               ),
-                                //               Container(
-                                //                   alignment: Alignment.center,
-                                //                   width: 20,
-                                //                   child: Text(
-                                //                       '${cartController.quantity.value}')),
-                                //               IconButton(
-                                //                 icon: const Icon(Icons.add),
-                                //                 onPressed:
-                                //                     cartController.increase,
-                                //               ),
-                                //             ],
-                                //           );
-                                //   },
-                                // ),
-                              ],
+                            const SizedBox(height: 5),
+                            Text(
+                              Formater.formatMoney(food.price.toString()),
+                              style: Get.textTheme.bodyLarge!.copyWith(
+                                  color: const Color.fromRGBO(240, 103, 24, 1)),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 3),
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                            ),
-                            child: const Text(
-                              '40%',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   right: 0,
+                    //   top: 0,
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(4),
+                    //     ),
+                    //     child: Container(
+                    //       padding: const EdgeInsets.all(4),
+                    //       decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(4),
+                    //       ),
+                    //       child: Container(
+                    //         padding: const EdgeInsets.symmetric(
+                    //             horizontal: 6, vertical: 3),
+                    //         decoration: const BoxDecoration(
+                    //           color: Colors.red,
+                    //           borderRadius: BorderRadius.only(
+                    //             bottomLeft: Radius.circular(12),
+                    //             topRight: Radius.circular(12),
+                    //           ),
+                    //         ),
+                    //         child: const Text(
+                    //           '40%',
+                    //           style: TextStyle(
+                    //             color: Colors.white,
+                    //             fontSize: 12,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
-                // const Divider(),
                 Card(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -145,6 +107,7 @@ class ProductDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Mô tả', style: Get.textTheme.titleMedium),
+                        const SizedBox(height: 5),
                         Text(food.description.toString()),
                       ],
                     ),
@@ -152,8 +115,8 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }

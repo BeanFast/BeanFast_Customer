@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/widgets/row_info_confirm_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -441,12 +442,14 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Get.to( DepositeScreen());
+                                              Get.to(DepositeScreen());
                                             },
                                             child: Text(
                                               'nạp thêm',
                                               style: Get.textTheme.bodyLarge!
-                                                  .copyWith(color: Color.fromRGBO(240, 103, 24, 1)),
+                                                  .copyWith(
+                                                      color: Color.fromRGBO(
+                                                          240, 103, 24, 1)),
                                             ),
                                           ),
                                         ],
@@ -482,7 +485,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                         'Đặt hàng thành công !',
                                         style: TextStyle(
                                           fontSize: 20,
-                                          ),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -577,32 +580,6 @@ class CheckOutDetailScreen extends GetView<CartController> {
           ),
         );
       },
-    );
-  }
-}
-
-class RowInforWidget extends StatelessWidget {
-  const RowInforWidget({super.key, required this.title, required this.data});
-  final String title;
-  final String data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-            child: Text(
-          title,
-          style: Get.textTheme.bodyLarge!.copyWith(color: Colors.black54),
-        )),
-        Expanded(
-          child: Text(data,
-              textAlign: TextAlign.right, style: Get.textTheme.bodyLarge),
-        ),
-        const SizedBox(height: 10),
-      ],
     );
   }
 }

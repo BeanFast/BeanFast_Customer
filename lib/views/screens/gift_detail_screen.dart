@@ -1,4 +1,5 @@
 import 'package:beanfast_customer/models/gift.dart';
+import 'package:beanfast_customer/views/screens/gift_exchange_checkout_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -134,79 +135,8 @@ class GiftDetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () async {
-                  if (false) {
-                    showDialog(
-                      context: context,
-                      // barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        // Return object of type Dialog
-                        return AlertDialog(
-                          content: SizedBox(
-                            height: 160,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  width: Get.width,
-                                  height: 100,
-                                  child: Lottie.asset(
-                                    "assets/unsuccess.json",
-                                    repeat: true,
-                                    fit: BoxFit.contain,
-                                    // animate: true,
-                                  ),
-                                ),
-                                const Text('Thông báo',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 10),
-                                Text(
-                                  'Điểm không đủ để đổi quà !',
-                                  style: Get.textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        // Return object of type Dialog
-                        return AlertDialog(
-                          content: SizedBox(
-                            height: 180,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 150,
-                                  width: 150,
-                                  child: Lottie.asset(
-                                    "assets/success.json",
-                                    repeat: false,
-                                    animate: true,
-                                  ),
-                                ),
-                                const Text(
-                                  'Đặt hàng thành công !',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                    await Future.delayed(const Duration(seconds: 2));
-                    Navigator.pop(context);
-                    Get.back();
-                  }
+                onPressed: () {
+                  Get.to(const GiftCheckOutScreen());
                 },
                 child: Text('Đổi quà',
                     style: Get.textTheme.titleMedium!
