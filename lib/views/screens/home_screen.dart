@@ -260,7 +260,8 @@ class HomeScreen extends GetView<HomeController> {
                                                 chosenDate, today)) {
                                           return;
                                         }
-
+                                        controller
+                                            .updateSelectedDate(chosenDate);
                                         if (currentProfile.value != null) {
                                           controller.getSession(
                                               currentProfile.value!.school!.id!,
@@ -611,7 +612,9 @@ List<Widget> headerActionWidget() {
       () => currentProfile.value != null
           ? GestureDetector(
               onTap: () {
-                showProfilesDialog(() {});
+                showProfilesDialog(() {
+                  // call session
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, bottom: 5),
