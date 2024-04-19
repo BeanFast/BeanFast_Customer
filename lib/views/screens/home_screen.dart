@@ -348,7 +348,7 @@ class HomeScreen extends GetView<HomeController> {
                     LoadingScreen(
                       future: () async {
                         //get notification
-                        // await notificationController.fetchData();
+                        await notificationController.fetchData();
                         //get profile
                         if (currentProfile.value != null) {
                           await controller.getSession(
@@ -605,14 +605,26 @@ void showProfilesDialog(Function() onPressed) {
 
 List<Widget> headerActionWidget() {
   Get.put(CartController());
+  HomeController controller = Get.find();
   NotificationController notificationController = Get.find();
   return <Widget>[
     Obx(
       () => currentProfile.value != null
           ? GestureDetector(
               onTap: () {
-                showProfilesDialog(() {
-                  // call session
+                showProfilesDialog(() async {
+                  //get profile
+                  if (currentProfile.value != null) {
+                    await controller.getSession(
+                        currentProfile.value!.school!.id!,
+                        controller.selectedDate.value);
+                  }
+                  //get session of profile
+                  if (controller.listSession.isNotEmpty) {
+                    controller.selectedSessionId.value =
+                        controller.listSession[0].id!;
+                    controller.getMenu(controller.selectedSessionId.value);
+                  }
                 });
               },
               child: Padding(
@@ -719,16 +731,17 @@ List<Widget> headerActionWidget() {
             ),
           ),
         ),
-        Visibility(
-          visible: notificationController.notifications
-              .where((n) => n.readDate == null)
-              .isNotEmpty,
-          child: Positioned(
-            top: 5,
-            right: 3,
-            width: 20,
-            height: 20,
-            child: Container(
+        Obx(
+          () => Visibility(
+            visible: notificationController.notifications
+                .where((n) => n.readDate == null)
+                .isNotEmpty,
+            child: Positioned(
+              top: 5,
+              right: 3,
+              width: 20,
+              height: 20,
+              child: Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.red,
@@ -745,7 +758,9 @@ List<Widget> headerActionWidget() {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                )),
+                ),
+              ),
+            ),
           ),
         ),
       ],

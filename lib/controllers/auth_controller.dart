@@ -131,22 +131,34 @@ class AuthController extends GetxController with CacheManager {
 }
 
 mixin CacheManager {
+  final box = GetStorage();
   Future<bool> saveToken(String? token) async {
-    final box = GetStorage();
     await box.write(CacheManagerKey.TOKEN.toString(), token);
     return true;
   }
 
   String? getToken() {
-    final box = GetStorage();
     return box.read(CacheManagerKey.TOKEN.toString());
   }
 
   Future<void> removeToken() async {
-    final box = GetStorage();
     await box.remove(CacheManagerKey.TOKEN.toString());
+  }
+
+  Future<bool> saveCart(
+      Map<String, Map<String, RxMap<String, RxInt>>> cart) async {
+    await box.write(CacheManagerKey.CART.toString(), cart);
+    return true;
+  }
+
+  Map<String, Map<String, RxMap<String, RxInt>>>? getCart() {
+    return box.read(CacheManagerKey.CART.toString());
+  }
+
+  Future<void> removeCart() async {
+    await box.remove(CacheManagerKey.CART.toString());
   }
 }
 
 // ignore: constant_identifier_names
-enum CacheManagerKey { TOKEN }
+enum CacheManagerKey { TOKEN, CART }

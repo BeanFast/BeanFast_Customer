@@ -1,11 +1,11 @@
+import 'package:get/get.dart';
+
 import '/enums/menu_index_enum.dart';
 import '/models/location.dart';
 import '/models/school.dart';
 import '/services/order_service.dart';
 import '/utils/constants.dart';
 import '/utils/logger.dart';
-import 'package:get/get.dart';
-
 import '/services/school_service.dart';
 import '/views/screens/splash_screen.dart';
 import '/models/session.dart';
@@ -13,8 +13,9 @@ import '/models/menu_detail.dart';
 import '/models/profile.dart';
 import '/services/session_service.dart';
 import '/services/profile_service.dart';
+import 'auth_controller.dart';
 
-class CartController extends GetxController {
+class CartController extends GetxController with CacheManager {
   RxInt itemCount = 0.obs;
   RxDouble total = RxDouble(0);
   double totalPrice = 0;
@@ -28,6 +29,8 @@ class CartController extends GetxController {
       <String, Map<String, RxMap<String, RxInt>>>{}.obs;
 
   Future getData() async {
+    Map<String, Map<String, RxMap<String, RxInt>>>? listData = getCart();
+    logger.e('getCart - $listData');
     for (var profile in listCart.entries) {
       try {
         Profile profileData = await ProfileService().getById(profile.key);
@@ -148,8 +151,8 @@ class CartController extends GetxController {
     }
   }
 
-  void increaseItemCart(
-      String profileId, String sessionId, String menuDetailId) {
+  Future<void> increaseItemCart(
+      String profileId, String sessionId, String menuDetailId) async {
     if (listCart.containsKey(profileId)) {
       //if profileId đã có
       Map<String, Map<String, RxInt>> listSession = listCart[profileId]!;
@@ -170,6 +173,7 @@ class CartController extends GetxController {
                 sessionId: {menuDetailId: 1.obs}.obs
               });
     }
+    await saveCart(listCart);
     updateItemCount();
     updateTotal();
   }

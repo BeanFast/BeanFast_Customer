@@ -1,7 +1,7 @@
 import 'base_model.dart';
 import 'package:flutter/material.dart';
 
-class NotificationModel extends BaseModel {
+class Notification extends BaseModel {
   final IconData icon;
   final String? title;
   final String? body;
@@ -11,7 +11,7 @@ class NotificationModel extends BaseModel {
   // final String description;
   final IconData trailingIcon;
 
-  NotificationModel({
+  Notification({
     required this.icon,
     required this.title,
     required this.link,
@@ -20,14 +20,15 @@ class NotificationModel extends BaseModel {
     required this.trailingIcon,
     required this.body,
   });
-  factory NotificationModel.fromJson(Map<String, dynamic> json) {
-    return NotificationModel(
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    return Notification(
       icon: Icons.notification_important,
       title: json['title'],
       body: json['body'],
       link: json['link'],
       sendDate: DateTime.parse(json['sendDate']),
-      readDate: DateTime.parse(json['readDate']),
+      readDate:
+          json['readDate'] == null ? null : DateTime.parse(json['readDate']),
       trailingIcon: Icons.more_horiz,
     );
   }
