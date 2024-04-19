@@ -173,7 +173,6 @@ class CartController extends GetxController with CacheManager {
                 sessionId: {menuDetailId: 1.obs}.obs
               });
     }
-    await saveCart(listCart);
     updateItemCount();
     updateTotal();
   }

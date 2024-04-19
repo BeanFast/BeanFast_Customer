@@ -323,31 +323,47 @@ class HomeScreen extends GetView<HomeController> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 10,
-                                            right: 10,
-                                            top: 5,
-                                            bottom: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(12),
-                                          ),
-                                          border: Border.all(
-                                            color: Colors.grey,
-                                            width: 1,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          DateFormat('HH:mm - ').format(
-                                                  session.deliveryStartTime!) +
-                                              DateFormat('HH:mm').format(
-                                                  session.deliveryEndTime!),
-                                          style:
-                                              Get.textTheme.bodySmall!.copyWith(
-                                            color: controller.selectedSessionId
-                                                        .value ==
-                                                    session.id.toString()
-                                                ? Colors.white
-                                                : Colors.black,
+                                            right: 5, left: 5),
+                                        child: Card(
+                                          margin:
+                                              const EdgeInsets.only(right: 10),
+                                          color: controller.selectedSessionId
+                                                      .value ==
+                                                  session.id.toString()
+                                              ? Colors.green
+                                              : Colors.white,
+                                          child: Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                                top: 5,
+                                                bottom: 5),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(12),
+                                              ),
+                                              border: Border.all(
+                                                color: Colors.grey,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              DateFormat('HH:mm - ').format(
+                                                      session
+                                                          .deliveryStartTime!) +
+                                                  DateFormat('HH:mm').format(
+                                                      session.deliveryEndTime!),
+                                              style: Get.textTheme.bodySmall!
+                                                  .copyWith(
+                                                color: controller
+                                                            .selectedSessionId
+                                                            .value ==
+                                                        session.id.toString()
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
