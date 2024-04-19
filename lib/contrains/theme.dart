@@ -1,60 +1,48 @@
 import 'package:beanfast_customer/contrains/theme_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 import 'theme_color.dart';
 
 class AppTheme {
   static ThemeData defaulTheme = ThemeData(
     fontFamily: 'Montserrat',
-    
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Colors.black87,
+      // selectionColor: Colors.black,
+      // selectionHandleColor: Colors.black,
+    ),
     scaffoldBackgroundColor: ThemeColor.bgColor,
     primaryColor: ThemeColor.primaryColor,
     textTheme: DTextTheme.textTheme,
-    colorScheme: const ColorScheme.light(
-      primary: Colors.green,
+    colorScheme: ColorScheme.light(
+      primary: ThemeColor.primaryColor,
     ),
     actionIconTheme: ActionIconThemeData(
       backButtonIconBuilder: (BuildContext context) =>
           const Icon(Iconsax.arrow_left_2),
     ),
     highlightColor: ThemeColor.primaryColor,
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: TextStyle(
-        color: ThemeColor.inputColor,
-      ), // Màu chữ khi có label
-      // hintStyle: TextStyle(fontSize: 1), // Màu chữ hint
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: ThemeColor.inputColor),
-        borderRadius: BorderRadius.circular(10),
+    inputDecorationTheme: const InputDecorationTheme(
+      contentPadding: EdgeInsets.all(0),
+      errorStyle: TextStyle(
+        color: Colors.red,
+        fontSize: 11,
       ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: ThemeColor.inputColor),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      // border: OutlineInputBorder(
-      //   borderSide: BorderSide(
-      //     color: ThemeColor.primaryColor,
-      //     width: 2.0,
-      //   ),
-      //   borderRadius: BorderRadius.circular(10),
-      // ),
-
-      // filled: true,
-      // fillColor: Colors.grey[200],
+      errorMaxLines: 1,
     ),
-    appBarTheme: AppBarTheme(color: ThemeColor.primaryColor),
+
+    appBarTheme: AppBarTheme(
+      color: ThemeColor.primaryColor,
+      titleTextStyle:
+          DTextTheme.textTheme.titleLarge!.copyWith(color: Colors.black),
+    ),
     snackBarTheme: SnackBarThemeData(backgroundColor: ThemeColor.bgColor),
     navigationRailTheme: NavigationRailThemeData(
       backgroundColor: ThemeColor.bgColor,
       indicatorColor: ThemeColor.primaryColor,
-    ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: ThemeColor.bgColor2,
-      selectedItemColor: ThemeColor.inputColor,
-      unselectedItemColor: ThemeColor.primaryColor,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         extendedTextStyle: TextStyle(color: ThemeColor.primaryColor),
@@ -71,6 +59,26 @@ class AppTheme {
       elevation: 1,
     ),
     dialogBackgroundColor: ThemeColor.itemColor,
+    datePickerTheme: DatePickerThemeData(
+        rangeSelectionBackgroundColor: Colors.amber.withOpacity(0.3)),
+    tabBarTheme:  TabBarTheme(
+      indicatorColor: ThemeColor.textButtonColor,
+      labelColor: Colors.black,
+      unselectedLabelColor: Colors.black54,
+    ),
+    // iconTheme: IconThemeData(color: ThemeColor.iconColor),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        // backgroundColor: MaterialStateProperty.all(ThemeColor.itemColor),
+        foregroundColor: MaterialStateProperty.all(ThemeColor.textButtonColor),
+        // shape: MaterialStateProperty.all(
+        //   RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(30),
+        //     side: BorderSide(color: ThemeColor.textButtonColor, width: 1),
+        //   ),
+        // ),
+      ),
+    ),
   );
 }
 

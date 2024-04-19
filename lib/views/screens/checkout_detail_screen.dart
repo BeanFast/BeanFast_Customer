@@ -66,8 +66,8 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                       topRight:
                                                           Radius.circular(12),
                                                     ),
-                                                    color:
-                                                        ThemeColor.bgTitleColor,
+                                                  
+                                                     
                                                     border: const Border(
                                                       bottom: BorderSide(
                                                         color: Colors.grey,

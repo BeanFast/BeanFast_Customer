@@ -12,15 +12,15 @@ class OrderScreen extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     Get.put(OrderController());
+
     return Scaffold(
         appBar: AppBar(
-          // title: const Text(
-          //   'Đơn hàng',
-          //   style: TextStyle(fontSize: 30),
-          // ),
+          title: const Text(
+            'Lịch sử đơn hàng',
+          ),
           actions: [
-            TextButton(
-              onPressed: () async {
+            GestureDetector(
+              onTap: () async {
                 final DateTimeRange? pickedDateRange =
                     await showDateRangePicker(
                   context: context,
@@ -35,19 +35,29 @@ class OrderScreen extends GetView<OrderController> {
                   controller.selectedDateRange.value = pickedDateRange;
                 }
               },
-              child: Row(
-                children: [
-                  Obx(
-                    () => Text(
-                      ' ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.start)}'
-                      ' - ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.end)}',
-                      style: Get.textTheme.labelLarge!.copyWith(
-                          color: const Color(0xFF26AA91), fontSize: 13),
+              child: Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(
+                    right: 10, top: 10, bottom: 10, left: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 0.8),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Icon(Iconsax.calendar_search,
+                        size: 24, color: Colors.black),
+                    Obx(
+                      () => Text(
+                        ' ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.start)}'
+                        ' - ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.end)}',
+                        style: Get.textTheme.labelLarge!
+                            .copyWith(color: Colors.black, fontSize: 13),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Icon(Iconsax.filter_search, color: Colors.black),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

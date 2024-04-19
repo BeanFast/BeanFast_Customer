@@ -17,7 +17,7 @@ class MainIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
-      width: Get.width / 4 - 10,
+      width: Get.width / 3 - 10,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
@@ -32,29 +32,30 @@ class MainIconButton extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    color: Colors.green,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
                     icon,
                     size: 35,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 5),
                 SizedBox(
-                  width: Get.width / 4 - 10,
+                  width: Get.width / 3 - 10,
                   child: Text(
                     text,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                       style: Get.textTheme.bodyMedium,
+                    style:
+                        Get.textTheme.bodyMedium!.copyWith(color: Colors.black),
                   ),
                 )
               ],
             ),
             if (isNew)
               Positioned(
-                right: 0,
+                right: 20,
                 top: 0,
                 child: Container(
                   padding: const EdgeInsets.all(2),

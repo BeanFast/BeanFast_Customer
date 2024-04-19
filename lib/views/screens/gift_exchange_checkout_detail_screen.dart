@@ -47,13 +47,13 @@ class GiftCheckOutScreen extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 height: 50,
                                 width: Get.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(12),
                                     topRight: Radius.circular(12),
                                   ),
-                                  color: ThemeColor.bgTitleColor,
-                                  border: const Border(
+                               
+                                  border: Border(
                                     bottom: BorderSide(
                                       color: Colors.grey,
                                       width: 0.5,

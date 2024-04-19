@@ -1,7 +1,9 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/views/screens/profile_qr.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '/utils/constants.dart';
@@ -29,6 +31,7 @@ class MainScreen extends StatelessWidget {
       Iconsax.profile_2user
     ];
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Obx(() => screens[selectedMenuIndex.value]),
       bottomNavigationBar: Obx(
         () => AnimatedBottomNavigationBar.builder(
@@ -40,7 +43,7 @@ class MainScreen extends StatelessWidget {
             return Icon(
               iconList[index],
               size: 24,
-              color: isActive ? Colors.green : Colors.black54,
+              color: isActive ? ThemeColor.textButtonColor : Colors.black54,
             );
           },
           notchMargin: 5,
@@ -50,12 +53,12 @@ class MainScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-           Get.to(const ProfileQRScreen());
+          Get.to(const ProfileQRScreen());
         },
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
-        backgroundColor: Colors.green.withOpacity(1),
+        backgroundColor: ThemeColor.textButtonColor.withOpacity(1),
         child: const Icon(
           Iconsax.scan_barcode,
         ),

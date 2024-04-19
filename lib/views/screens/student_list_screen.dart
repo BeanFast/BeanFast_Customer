@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/profile_controller.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_detail_screen.dart';
@@ -37,8 +38,6 @@ class StudentListScreen extends GetView<ProfileController> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border:
-                                      Border.all(color: Colors.green, width: 1),
                                   image: DecorationImage(
                                     image:
                                         NetworkImage(e.avatarPath.toString()),

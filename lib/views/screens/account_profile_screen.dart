@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
@@ -54,14 +55,20 @@ class AccountProfileScreen extends GetView<AuthController> {
               right: 0,
               child: Column(
                 children: [
-                  Text(currentUser.value!.fullName.toString(),
-                      style: const TextStyle(
-                        fontSize: 20,
-                      )),
+                  Text(
+                    currentUser.value!.fullName.toString(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   const SizedBox(
                     height: 5,
                   ),
                   Text(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     currentUser.value!.phone.toString(),
                     style: Get.textTheme.bodyMedium,
                   ),
@@ -74,10 +81,12 @@ class AccountProfileScreen extends GetView<AuthController> {
               right: 0,
               child: CircleAvatar(
                 radius: 70,
-                backgroundColor: const Color(0xFFEAE1F8),
+                backgroundColor: ThemeColor.iconColor,
                 child: CircleAvatar(
-                  radius: 65,
-                  backgroundImage: Image.asset('assets/images/login.png').image,
+                  radius: 68,
+                  backgroundImage:
+                      Image.network(currentUser.value!.avatarPath.toString())
+                          .image,
                   backgroundColor: Colors.red,
                 ),
               ),
@@ -114,9 +123,10 @@ class AccountProfileScreen extends GetView<AuthController> {
                                       'Cập nhật tên',
                                       style: Get.textTheme.bodyLarge,
                                     ),
-                                    content: const TextField(
+                                    content: TextField(
                                       decoration: InputDecoration(
-                                        hintText: 'Nguyễn Văn A',
+                                        hintText: currentUser.value!.fullName
+                                            .toString(),
                                       ),
                                     ),
                                     actions: [
