@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
@@ -23,9 +25,9 @@ class AccountScreen extends GetView<AuthController> {
     final theme = Theme.of(context).textTheme;
     // ignore: unused_local_variable
     double width = MediaQuery.of(context).size.width;
-    bool isValid = true;
+
     // ignore: dead_code
-    double topCardheight = isValid ? 160 : 340;
+    double topCardheight = 160;
     return LoadingScreen(
       future: () async {
         await controller.getCurrentUser();
@@ -33,9 +35,6 @@ class AccountScreen extends GetView<AuthController> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Container(
-            decoration: const BoxDecoration(),
-          ),
           SafeArea(
             child: Scaffold(
               body: FadeInUp(
@@ -95,158 +94,12 @@ class AccountScreen extends GetView<AuthController> {
                                                   const SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: isValid
-                                                            ? Colors.green
-                                                            // ignore: dead_code
-                                                            : Colors.red,
-                                                      ),
-                                                      child: Container(
-                                                        child: isValid
-                                                            ? Text(
-                                                                'Đã xác thực',
-                                                                style: Get
-                                                                    .textTheme
-                                                                    .bodySmall!
-                                                                    .copyWith(
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              )
-                                                            // ignore: dead_code
-                                                            : const Text(
-                                                                'Chưa xác thực',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 14,
-                                                                ),
-                                                              ),
-                                                      )),
+                                                  const Icon(
+                                                    Iconsax.tick_circle,
+                                                    color: Colors.green,
+                                                  ),
                                                 ],
                                               ),
-                                              const SizedBox(height: 10),
-                                              if (!isValid)
-                                                // ignore: dead_code
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 1,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                  child: Card(
-                                                    child: Container(
-                                                      height: 170,
-                                                      width: innerWidth - 40,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10),
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Image.network(
-                                                                'https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png',
-                                                                width: 100,
-                                                                height: 100,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        left: 5,
-                                                                        right:
-                                                                            5),
-                                                                width:
-                                                                    innerWidth -
-                                                                        160,
-                                                                height: 100,
-                                                                child:
-                                                                    const Column(
-                                                                  children: [
-                                                                    Text(
-                                                                      'Yêu cầu bổ sung CMND/CCCD để xác thực tài khoản',
-                                                                      maxLines:
-                                                                          1,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .black,
-                                                                          fontSize:
-                                                                              16,
-                                                                          fontWeight:
-                                                                              FontWeight.bold),
-                                                                    ),
-                                                                    Text(
-                                                                      'Bắt buộc để sử dụng các dịch vụ của chúng tôi',
-                                                                      maxLines:
-                                                                          4,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 10),
-                                                          SizedBox(
-                                                            height: 40,
-                                                            width: innerWidth,
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ButtonStyle(
-                                                                      backgroundColor: MaterialStateProperty.all<
-                                                                              Color>(
-                                                                          Colors
-                                                                              .blue),
-                                                                      foregroundColor: MaterialStateProperty.all<
-                                                                              Color>(
-                                                                          Colors
-                                                                              .white),
-                                                                      shape: MaterialStateProperty.all<
-                                                                              RoundedRectangleBorder>(
-                                                                          const RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              10),
-                                                                        ),
-                                                                      ))),
-                                                              child: const Text(
-                                                                  'Xác nhận thông tin'),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
                                               const SizedBox(height: 10),
                                               SizedBox(
                                                 width: innerWidth,
@@ -265,15 +118,15 @@ class AccountScreen extends GetView<AuthController> {
                                                         },
                                                         style: ButtonStyle(
                                                             backgroundColor:
-                                                                MaterialStateProperty
-                                                                    .all<Color>(
-                                                                        Colors
-                                                                            .blue),
+                                                                MaterialStateProperty.all<
+                                                                        Color>(
+                                                                    ThemeColor
+                                                                        .textButtonColor),
                                                             foregroundColor:
                                                                 MaterialStateProperty
                                                                     .all<Color>(
                                                                         Colors
-                                                                            .white),
+                                                                            .black),
                                                             shape: MaterialStateProperty.all<
                                                                     RoundedRectangleBorder>(
                                                                 const RoundedRectangleBorder(
@@ -296,15 +149,15 @@ class AccountScreen extends GetView<AuthController> {
                                                         onPressed: () {},
                                                         style: ButtonStyle(
                                                             backgroundColor:
-                                                                MaterialStateProperty
-                                                                    .all<Color>(
-                                                                        Colors
-                                                                            .blue),
+                                                                MaterialStateProperty.all<
+                                                                        Color>(
+                                                                    ThemeColor
+                                                                        .textButtonColor),
                                                             foregroundColor:
                                                                 MaterialStateProperty
                                                                     .all<Color>(
                                                                         Colors
-                                                                            .white),
+                                                                            .black),
                                                             shape: MaterialStateProperty.all<
                                                                     RoundedRectangleBorder>(
                                                                 const RoundedRectangleBorder(
@@ -357,6 +210,7 @@ class AccountScreen extends GetView<AuthController> {
                         ),
                         const SizedBox(height: 10),
                         Card(
+                          color: ThemeColor.itemColor,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Column(
@@ -381,7 +235,7 @@ class AccountScreen extends GetView<AuthController> {
                                 GestureDetector(
                                   onTap: () {
                                     showProfilesDialog(() {
-                                      Get.to(ExchangeGiftScreen());
+                                      Get.to(const ExchangeGiftScreen());
                                     });
                                   },
                                   child: Container(
@@ -392,7 +246,7 @@ class AccountScreen extends GetView<AuthController> {
                                       iconColor: Colors.red,
                                       onTap: () {
                                         showProfilesDialog(() {
-                                          Get.to(ExchangeGiftScreen());
+                                          Get.to(const ExchangeGiftScreen());
                                         });
                                       },
                                     ),
@@ -461,7 +315,7 @@ class AccountScreen extends GetView<AuthController> {
                                 //         snackPosition: SnackPosition.TOP);
                                 //   },
                                 //   child: Container(
-                                //     color: ThemeColor.itemColor,
+                                //
                                 //     child: SettingItem(
                                 //       title: "Nút số 2",
                                 //       icon: Ionicons.earth,
@@ -479,7 +333,7 @@ class AccountScreen extends GetView<AuthController> {
                                 //         snackPosition: SnackPosition.TOP);
                                 //   },
                                 //   child: Container(
-                                //     color: ThemeColor.itemColor,
+                                //
                                 //     child: SettingItem(
                                 //       title: "Nút số 3",
                                 //       icon: Ionicons.earth,
@@ -509,7 +363,7 @@ class AccountScreen extends GetView<AuthController> {
                                 style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            Colors.blue),
+                                            ThemeColor.textButtonColor),
                                     foregroundColor:
                                         MaterialStateProperty.all<Color>(
                                             Colors.white),
@@ -523,7 +377,7 @@ class AccountScreen extends GetView<AuthController> {
                                     ))),
                                 child: Text('Đăng xuất',
                                     style: theme.titleSmall!
-                                        .copyWith(color: Colors.white)),
+                                        .copyWith(color: Colors.black)),
                               ),
                             ),
                             // SizedBox(

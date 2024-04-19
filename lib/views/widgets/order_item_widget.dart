@@ -125,7 +125,7 @@ class OrderItem extends StatelessWidget {
                     style: Get.textTheme.bodySmall,
                   ),
                   Text(
-                    order.rewardPoints.toString(),
+                    '${order.rewardPoints} điểm',
                     style: Get.textTheme.bodySmall,
                   ),
                 ],

@@ -48,6 +48,7 @@ class CartScreen extends GetView<CartController> {
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
                         size: 16,
+                         color: Colors.black,
                       ),
                       onPressed: () {
                         homeController.toggleMoneyVisibility();
@@ -94,7 +95,7 @@ class CartScreen extends GetView<CartController> {
                                           topLeft: Radius.circular(12),
                                           topRight: Radius.circular(12),
                                         ),
-                                        color: ThemeColor.bgTitleColor,
+                                     
                                         border: const Border(
                                           bottom: BorderSide(
                                             color: Colors.grey,
@@ -257,7 +258,7 @@ class CartScreen extends GetView<CartController> {
                                                                                         },
                                                                                         child: Icon(
                                                                                           Iconsax.minus_square,
-                                                                                          color: ThemeColor.iconButtonColor,
+                                                                                       
                                                                                         ),
                                                                                       ),
                                                                                       SizedBox(
@@ -274,7 +275,7 @@ class CartScreen extends GetView<CartController> {
                                                                                         },
                                                                                         child: Icon(
                                                                                           Iconsax.add_square,
-                                                                                          color: ThemeColor.iconButtonColor,
+                                                                                        
                                                                                         ),
                                                                                       ),
                                                                                     ],
