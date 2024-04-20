@@ -1,8 +1,10 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '/controllers/notification_controller.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import '/views/screens/loading_screen.dart';
 
 class NotificationScreen extends GetView<NotificationController> {
@@ -45,51 +47,59 @@ class NotificationScreen extends GetView<NotificationController> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // Get.snackbar(
-                          //   index.toString(), // title
-                          //   'You clicked on notification $index',
-                          //   snackPosition: SnackPosition.TOP,
-                          //   duration: 0.5.seconds,
-                          // );
+                          Get.snackbar(
+                            notification.title!,
+                            notification.body!,
+                            snackPosition: SnackPosition.TOP,
+                            duration: 1.seconds,
+                          );
                         },
                         child: Card(
                           child: Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: Get.width,
                             padding: const EdgeInsets.only(
-                                top: 5, bottom: 5, left: 5, right: 5),
+                                top: 5, bottom: 5, left: 10, right: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  margin: const EdgeInsets.only(top: 5),
                                   width: 40,
                                   height: 40,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Colors.grey,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          'https://via.placeholder.com/150'),
-                                      fit: BoxFit.cover,
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
                                     ),
                                   ),
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: Container(
-                                      width: 15,
-                                      height: 15,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: notification.readDate != null
-                                            ? Colors.grey
-                                            : Colors.red,
-                                        border: const Border.fromBorderSide(
-                                          BorderSide(
-                                              color: Colors.white, width: 3),
+                                  child: Stack(
+                                    children: [
+                                      const Align(
+                                        alignment: Alignment.center,
+                                        child: Icon(Iconsax.notification,
+                                            color:
+                                                Colors.black), // Add this line
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: notification.readDate != null
+                                                ? Colors.transparent
+                                                : Colors.red,
+                                            // border: const Border.fromBorderSide(
+                                            //   BorderSide(
+                                            //       color: Colors.white,
+                                            //       width: 0),
+                                            // ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -114,13 +124,15 @@ class NotificationScreen extends GetView<NotificationController> {
                                             color: Colors.black,
                                           ),
                                           const SizedBox(width: 3),
-                                          Text(notification.sendDate.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey)),
-                                          const Spacer(),
-                                          Icon(notification.trailingIcon,
-                                              size: 25),
+                                          Text(
+                                            timeago.format(
+                                                notification.sendDate!,
+                                                locale: 'vi'),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       Text(
@@ -148,4 +160,3 @@ class NotificationScreen extends GetView<NotificationController> {
     );
   }
 }
-

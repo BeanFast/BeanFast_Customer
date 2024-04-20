@@ -292,7 +292,8 @@ class AccountScreen extends GetView<AuthController> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    Get.snackbar('on Tap', 'Tap',
+                                    Get.snackbar('Hệ thống', 'Tiếng việt',
+                                        duration: const Duration(seconds: 1),
                                         snackPosition: SnackPosition.TOP);
                                   },
                                   child: Container(
@@ -301,9 +302,11 @@ class AccountScreen extends GetView<AuthController> {
                                       title: "Ngôn ngữ",
                                       icon: Ionicons.earth,
                                       iconColor: Colors.red,
-                                      value: "English",
+                                      value: "Tiếng việt",
                                       onTap: () {
-                                        Get.snackbar('on Tap', 'Tap',
+                                        Get.snackbar('Hệ thống', 'Tiếng việt',
+                                            duration:
+                                                const Duration(seconds: 1),
                                             snackPosition: SnackPosition.TOP);
                                       },
                                     ),

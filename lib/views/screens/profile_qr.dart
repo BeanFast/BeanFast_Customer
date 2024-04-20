@@ -37,7 +37,9 @@ class ProfileQRScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        showProfilesDialog(() {});
+                        showProfilesDialog(() {
+                          controller.generateQRData();
+                        });
                       },
                       child: Container(
                         width: Get.width - 20,
@@ -53,7 +55,7 @@ class ProfileQRScreen extends StatelessWidget {
                             ),
                           ],
                           border: Border.all(
-                            color: Colors.grey,
+                            color: ThemeColor.textButtonColor,
                           ),
                         ),
                         padding: const EdgeInsets.all(10),
@@ -65,19 +67,18 @@ class ProfileQRScreen extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.green,
-                                  ),
                                 ),
-                                child: Image(
-                                  image: Image.network(currentProfile
-                                          .value!.avatarPath
-                                          .toString())
-                                      .image,
-                                  width: 40,
-                                  height: 40,
-                                  fit: BoxFit.cover,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image(
+                                    image: Image.network(currentProfile
+                                            .value!.avatarPath
+                                            .toString())
+                                        .image,
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -93,7 +94,7 @@ class ProfileQRScreen extends StatelessWidget {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: Get.textTheme.bodyMedium!.copyWith(
-                                        color: Colors.green,
+                                        color: Colors.black,
                                       ),
                                     ),
                                     Text(
@@ -110,8 +111,8 @@ class ProfileQRScreen extends StatelessWidget {
                               ),
                               const Icon(
                                 Icons.keyboard_arrow_down,
-                                size: 24,
-                                color: Colors.green,
+                                size: 20,
+                                color: Colors.black,
                               )
                             ],
                           ),
@@ -130,17 +131,59 @@ class ProfileQRScreen extends StatelessWidget {
                               style: Get.textTheme.bodyLarge!
                                   .copyWith(color: Colors.black54),
                             ),
-                            Obx(
-                              () => QrImageView(
-                                data: controller.qrData.value.toString(),
-                                version: QrVersions.auto,
-                              ),
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Obx(
+                                  () => QrImageView(
+                                    data: controller.qrData.value.toString(),
+                                    version: QrVersions.auto,
+                                  ),
+                                ),
+                                Container(
+                                  width: Get.width * 0.1,
+                                  height: Get.width * 0.1,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: Colors.pinkAccent,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
                             Obx(
-                              () => Text(
-                                  'Tự động cập nhật sau: ${controller.qrExpiration.value}s',
-                                  style: Get.textTheme.bodyLarge!
-                                      .copyWith(fontSize: 15)),
+                              () => SizedBox(
+                                height: 50,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        'Tự động cập nhật sau: ${controller.qrExpiration.value}s',
+                                        style: Get.textTheme.bodyMedium),
+                                    if (int.parse(
+                                            controller.qrExpiration.value) <=
+                                        55)
+                                      TextButton(
+                                        onPressed: () {
+                                          controller.generateQRData();
+                                        },
+                                        child: Text(
+                                          'Cập nhật',
+                                          style: Get.textTheme.bodyLarge!
+                                              .copyWith(
+                                                  color: ThemeColor
+                                                      .textButtonColor),
+                                        ),
+                                      )
+                                  ],
+                                ),
+                              ),
                             ),
                             //Test
                             Obx(
@@ -168,23 +211,24 @@ class ProfileQRController extends GetxController {
   Timer? timer;
 
   void generateQRData() {
+    timer?.cancel();
     qrData.value = Uuid().v4(); // Generate a new UUID
+    qrExpiration.value = '59';
     startCountdown();
   }
 
   void startCountdown() {
-    const tenSec = Duration(seconds: 59);
     timer?.cancel();
-    timer = Timer.periodic(tenSec, (Timer t) => generateQRData());
 
     int expireTime = 59;
     qrExpiration.value = expireTime.toString();
-    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       if (expireTime > 0) {
         expireTime--;
         qrExpiration.value = expireTime.toString();
       } else {
         t.cancel();
+        generateQRData();
       }
     });
   }

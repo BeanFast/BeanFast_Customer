@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:beanfast_customer/services/auth_service.dart';
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:beanfast_customer/views/screens/login_screen.dart';
+import 'package:beanfast_customer/views/widgets/gradient_button.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,19 +37,18 @@ class OtpConfirmationView extends StatelessWidget {
                   animate: true,
                 ),
               ),
-              const Text(
+               Text(
                 'Chúng tôi đã gửi mã xác thực vào',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style:  Get.textTheme.bodyMedium!.copyWith(
+                  color: Colors.black54,
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    '+84 966324***',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
+                  Text(
+                      '${otpController.phone.substring(0, otpController.phone.length - 4)}****',
+                      style: Get.textTheme.bodyLarge),
                   TextButton(
                     onPressed: () {
                       Get.back();
@@ -218,10 +218,10 @@ class OtpConfirmationView extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              const Row(
+               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('không nhận được mã?', style: TextStyle(fontSize: 16)),
+                  Text('không nhận được mã?', style: Get.textTheme.bodyLarge),
                 ],
               ),
               const SizedBox(height: 5),
@@ -229,19 +229,20 @@ class OtpConfirmationView extends StatelessWidget {
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                         Text(
                           'Gửi lại sau ',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                          style: Get.textTheme.bodyMedium!.copyWith(
+                            
+                            ),
                         ),
                         Obx(() {
                           final minutes = otpController.counter.value ~/ 60;
                           final seconds = otpController.counter.value % 60;
                           return Text(
                             '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.green),
+                            style: Get.textTheme.bodyLarge!.copyWith(
+                              color: Colors.green,
+                            ),
                           );
                         }),
                       ],
@@ -279,36 +280,22 @@ class OtpConfirmationView extends StatelessWidget {
                                 duration: const Duration(seconds: 3),
                               );
                             },
-                      child: const Text('Gửi lại',
-                          style: TextStyle(fontSize: 16, color: Colors.green)),
+                      child: Text(
+                        'Gửi lại',
+                        style: Get.textTheme.bodyLarge!.copyWith(
+                          color: Colors.green,
+                        ),
+                      ),
                     )),
               const SizedBox(height: 60),
-              SizedBox(
-                width: Get.width / 1.2,
-                height: Get.height / 15,
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        Colors.white), // Text color
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.green), // Background color
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.all(10)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                  ),
-                  onPressed: () async {
-                    Get.snackbar('Hệ thống', 'Đăng ký thành công');
-                    await otpController.verifyOtp();
-                    Get.off(LoginView());
-                  },
-                  child: const Text('Xác nhận OTP',
-                      style: TextStyle(fontSize: 18)),
-                ),
-              ),
+              GradientButton(
+                text: 'Xác nhận OTP',
+                onPressed: () async {
+                  Get.snackbar('Hệ thống', 'Đăng ký thành công');
+                  await otpController.verifyOtp();
+                  Get.off(LoginView());
+                },
+              )
             ],
           ),
         ),

@@ -26,12 +26,15 @@ class AppTheme {
     ),
     highlightColor: ThemeColor.primaryColor,
     inputDecorationTheme: const InputDecorationTheme(
-      contentPadding: EdgeInsets.all(0),
+      contentPadding: EdgeInsets.only(top: 13),
       errorStyle: TextStyle(
         color: Colors.red,
         fontSize: 11,
       ),
       errorMaxLines: 1,
+      // enabledBorder: OutlineInputBorder(
+      //   borderSide: BorderSide(color: Colors.black),
+      // ),
     ),
 
     appBarTheme: AppBarTheme(
@@ -61,7 +64,7 @@ class AppTheme {
     dialogBackgroundColor: ThemeColor.itemColor,
     datePickerTheme: DatePickerThemeData(
         rangeSelectionBackgroundColor: Colors.amber.withOpacity(0.3)),
-    tabBarTheme:  TabBarTheme(
+    tabBarTheme: TabBarTheme(
       indicatorColor: ThemeColor.textButtonColor,
       labelColor: Colors.black,
       unselectedLabelColor: Colors.black54,

@@ -1,4 +1,6 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/contrains/theme_color.dart';
+import 'package:beanfast_customer/views/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -47,26 +49,23 @@ class LoginView extends GetView<AuthController> {
                   children: <Widget>[
                     const SizedBox(height: 10),
                     FadeInUp(
-                      child: const Align(
+                      child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('Số điện thoại',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700)),
+                        child: Text(
+                          'Số điện thoại',
+                          style: Get.textTheme.titleMedium!.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 5),
                     FadeInUp(
                       child: SizedBox(
-                        width: double.infinity, // Set the width
-                        height: 85,
                         child: TextFormField(
                           controller: _authController.phoneController,
                           decoration: const InputDecoration(
-                            hintText: 'Số điện thoại',
                             prefixIcon: Icon(Icons.phone_android_outlined),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                                gapPadding: 0),
+                            border: UnderlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -80,27 +79,28 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     FadeInUp(
-                      child: const Align(
+                      child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('Mật khẩu',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w700)),
+                        child: Text(
+                          'Mật khẩu',
+                          style: Get.textTheme.titleMedium!.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 5),
                     FadeInUp(
                       child: Obx(
                         () => SizedBox(
-                          width: double.infinity, // Set the width
-                          height: 85,
                           child: TextFormField(
                             controller: _authController.passwordController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.lock_outlined),
-                              hintText: 'Mật khẩu',
-                              border: const OutlineInputBorder(),
+                              border: const UnderlineInputBorder(),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   controller.isPasswordVisible.value
@@ -126,6 +126,7 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 5),
                     Obx(
                       () => Align(
                         alignment: Alignment.centerLeft,
@@ -155,45 +156,18 @@ class LoginView extends GetView<AuthController> {
                             width: 10,
                           ),
                           const Text('Lưu mật khẩu'),
-                          const Spacer(),
-                          TextButton(
-                            onPressed: () {
-                              // Your onPressed code for "Forgot Password" here
-                            },
-                            child: const Text('Quên mật khẩu?'),
-                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 20),
                     FadeInUp(
-                      child: SizedBox(
-                        width: Get.width / 1.2,
-                        height: Get.height / 15,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Colors.white), // Text color
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.green), // Background color
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                const EdgeInsets.all(10)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                          onPressed: () async {
-                            // if (_formKey.currentState!.validate()) {
-                            await _authController.login();
-                            // }
-                          },
-                          child: Text('Đăng nhập',
-                              style: Get.textTheme.titleMedium!
-                                  .copyWith(color: Colors.white)),
-                        ),
+                      child: GradientButton(
+                        text: 'Đăng nhập',
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _authController.login();
+                          }
+                        },
                       ),
                     ),
                     const SizedBox(height: 10),

@@ -35,20 +35,25 @@ class ExchangeGiftScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 20),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.yellow,
+                        border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Obx(() => Text(currentProfile.value!.wallets!.isEmpty
-                              ? '0'
-                              : currentProfile
-                                  .value!.wallets!.first.balance!.obs.value
-                                  .toInt()
-                                  .toString())),
+                          Obx(
+                            () => Text(
+                              currentProfile.value!.wallets!.isEmpty
+                                  ? '0'
+                                  : currentProfile
+                                      .value!.wallets!.first.balance!.obs.value
+                                      .toInt()
+                                      .toString(),
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          ),
                           const SizedBox(width: 5),
-                          const Icon(Iconsax.gift, color: Colors.black),
+                          const Icon(Iconsax.gift, color: Colors.black, size: 20),
                         ],
                       ),
                     ),

@@ -67,11 +67,11 @@ class TransactionScreen extends GetView<TransactionController> {
                   ),
                 ],
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
+                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
                 ),
               ),
-              height: 50,
+              height: 40,
               child: Obx(
                 () => Row(
                   children: [
@@ -105,9 +105,6 @@ class TransactionScreen extends GetView<TransactionController> {
                         .map(
                           (transaction) => Column(
                             children: [
-                              const SizedBox(
-                                height: 5,
-                              ),
                               Container(
                                 padding:
                                     const EdgeInsets.only(left: 10, right: 10),

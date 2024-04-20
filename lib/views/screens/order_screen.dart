@@ -47,7 +47,7 @@ class OrderScreen extends GetView<OrderController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Icon(Iconsax.calendar_search,
-                        size: 24, color: Colors.black),
+                        size: 20, color: Colors.black),
                     Obx(
                       () => Text(
                         ' ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.start)}'

@@ -5,6 +5,7 @@ import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
@@ -25,13 +26,14 @@ class AccountProfileScreen extends GetView<AuthController> {
               right: 0,
               child: Stack(
                 children: [
-                  SizedBox(
+                  Container(
                     height: Get.height,
-                    child: Lottie.asset(
-                      "assets/account_banner.json",
-                      animate: true,
-                      fit: BoxFit.cover,
-                    ),
+                    color: ThemeColor.primaryColor.withOpacity(0.3),
+                    // Lottie.asset(
+                    //   "assets/account_banner.json",
+                    //   animate: true,
+                    //   fit: BoxFit.cover,
+                    // ),
                   ),
                   Positioned(
                     top: 70,
@@ -41,7 +43,7 @@ class AccountProfileScreen extends GetView<AuthController> {
                         Navigator.pop(context);
                       },
                       icon: const Icon(
-                        Icons.arrow_back_ios_outlined,
+                        Iconsax.arrow_left_2,
                         color: Colors.black,
                       ),
                     ),
@@ -155,14 +157,17 @@ class AccountProfileScreen extends GetView<AuthController> {
                         onTap: () {
                           Get.to(const StudentListScreen());
                         },
-                        child: const Card(
+                        child: Card(
                           child: ListTile(
-                            leading: Icon(Icons.child_care),
-                            title: Text('Số học sinh'),
-                            subtitle: Text(
+                            leading: const Icon(Icons.child_care),
+                            title: const Text('Số học sinh'),
+                            subtitle: const Text(
                               '5',
                             ),
-                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                            trailing: IconButton(
+                                icon: const Icon(Iconsax.arrow_right_3),
+                                onPressed: () =>
+                                    Get.to(const StudentListScreen())),
                           ),
                         ),
                       ),
