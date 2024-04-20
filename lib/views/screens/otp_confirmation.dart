@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/services/auth_service.dart';
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:beanfast_customer/views/screens/login_screen.dart';
@@ -11,12 +12,12 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class OtpConfirmationView extends StatelessWidget {
-  final OTPController otpController = Get.find();
-  String phone = "";
-  OtpConfirmationView({super.key});
+  const OtpConfirmationView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final OTPController otpController = Get.find();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -37,9 +38,9 @@ class OtpConfirmationView extends StatelessWidget {
                   animate: true,
                 ),
               ),
-               Text(
+              Text(
                 'Chúng tôi đã gửi mã xác thực vào',
-                style:  Get.textTheme.bodyMedium!.copyWith(
+                style: Get.textTheme.bodyMedium!.copyWith(
                   color: Colors.black54,
                 ),
               ),
@@ -218,7 +219,7 @@ class OtpConfirmationView extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-               Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('không nhận được mã?', style: Get.textTheme.bodyLarge),
@@ -229,11 +230,9 @@ class OtpConfirmationView extends StatelessWidget {
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         Text(
+                        Text(
                           'Gửi lại sau ',
-                          style: Get.textTheme.bodyMedium!.copyWith(
-                            
-                            ),
+                          style: Get.textTheme.bodyMedium!.copyWith(),
                         ),
                         Obx(() {
                           final minutes = otpController.counter.value ~/ 60;
@@ -241,7 +240,7 @@ class OtpConfirmationView extends StatelessWidget {
                           return Text(
                             '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
                             style: Get.textTheme.bodyLarge!.copyWith(
-                              color: Colors.green,
+                              color: ThemeColor.textButtonColor,
                             ),
                           );
                         }),
@@ -283,7 +282,7 @@ class OtpConfirmationView extends StatelessWidget {
                       child: Text(
                         'Gửi lại',
                         style: Get.textTheme.bodyLarge!.copyWith(
-                          color: Colors.green,
+                          color: ThemeColor.textButtonColor,
                         ),
                       ),
                     )),
@@ -293,7 +292,7 @@ class OtpConfirmationView extends StatelessWidget {
                 onPressed: () async {
                   Get.snackbar('Hệ thống', 'Đăng ký thành công');
                   await otpController.verifyOtp();
-                  Get.off(LoginView());
+                  Get.offAll(LoginView());
                 },
               )
             ],

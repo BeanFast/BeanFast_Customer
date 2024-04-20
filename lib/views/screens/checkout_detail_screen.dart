@@ -5,12 +5,11 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
-import '/utils/constants.dart';
-import '/contrains/theme_color.dart';
 import '/controllers/cart_controller.dart';
+import '/utils/constants.dart';
+import '/utils/formater.dart';
 import '/views/screens/deposit_screen.dart';
 import '/views/screens/loading_screen.dart';
-import '/utils/formater.dart';
 
 class CheckOutDetailScreen extends GetView<CartController> {
   const CheckOutDetailScreen({super.key});
@@ -58,17 +57,16 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                       Alignment.centerLeft,
                                                   height: 50,
                                                   width: Get.width,
-                                                  decoration: BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                       topLeft:
                                                           Radius.circular(12),
                                                       topRight:
                                                           Radius.circular(12),
                                                     ),
-                                                  
-                                                     
-                                                    border: const Border(
+                                                    border: Border(
                                                       bottom: BorderSide(
                                                         color: Colors.grey,
                                                         width: 0.5,

@@ -1,19 +1,17 @@
-import 'dart:ffi';
-
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:animate_do/animate_do.dart';
 
 import '/contrains/theme_color.dart';
 import '/controllers/auth_controller.dart';
-import '/views/screens/loading_screen.dart';
+import '/utils/constants.dart';
 import '/views/screens/account_profile_screen.dart';
 import '/views/screens/home_screen.dart';
+import '/views/screens/loading_screen.dart';
 import '/views/screens/student_list_screen.dart';
 import '/views/widgets/account_icon_button_widget.dart';
-import '/utils/constants.dart';
 import 'game_select_screen.dart';
 import 'gift_exchange_screen.dart';
 
@@ -301,7 +299,7 @@ class AccountScreen extends GetView<AuthController> {
                                     child: SettingItem(
                                       title: "Ngôn ngữ",
                                       icon: Ionicons.earth,
-                                      iconColor: Colors.red,
+                                      iconColor: ThemeColor.iconColor,
                                       value: "Tiếng việt",
                                       onTap: () {
                                         Get.snackbar('Hệ thống', 'Tiếng việt',

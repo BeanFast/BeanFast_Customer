@@ -38,7 +38,7 @@ class CartScreen extends GetView<CartController> {
                 ],
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
-              height: 50,
+              height: 40,
               child: Obx(
                 () => Row(
                   children: [
@@ -48,7 +48,7 @@ class CartScreen extends GetView<CartController> {
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
                         size: 16,
-                         color: Colors.black,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         homeController.toggleMoneyVisibility();
@@ -56,7 +56,7 @@ class CartScreen extends GetView<CartController> {
                     ),
                     Text(
                       homeController.moneyValue.value,
-                      style: Get.textTheme.titleSmall,
+                      style: Get.textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -90,13 +90,12 @@ class CartScreen extends GetView<CartController> {
                                       alignment: Alignment.centerLeft,
                                       height: 50,
                                       width: Get.width,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(12),
                                           topRight: Radius.circular(12),
                                         ),
-                                     
-                                        border: const Border(
+                                        border: Border(
                                           bottom: BorderSide(
                                             color: Colors.grey,
                                             width: 0.5,
@@ -217,7 +216,7 @@ class CartScreen extends GetView<CartController> {
                                                                                 const SizedBox(height: 2),
                                                                                 SizedBox(
                                                                                   child: Text(
-                                                                                    'Loại: ' + controller.listMenuDetail[menuDetail.key]!.food!.category!.name.toString(),
+                                                                                    'Loại: ${controller.listMenuDetail[menuDetail.key]!.food!.category!.name}',
                                                                                     style: Get.textTheme.bodySmall!.copyWith(color: Colors.black54),
                                                                                     overflow: TextOverflow.ellipsis,
                                                                                     maxLines: 1,
@@ -228,7 +227,7 @@ class CartScreen extends GetView<CartController> {
                                                                                   children: [
                                                                                     Text(
                                                                                       Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
-                                                                                      style: Get.textTheme.bodyLarge!.copyWith(color: Color.fromRGBO(240, 103, 24, 1)),
+                                                                                      style: Get.textTheme.bodyLarge!.copyWith(color: const Color.fromRGBO(240, 103, 24, 1)),
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 1,
                                                                                     ),
@@ -256,9 +255,8 @@ class CartScreen extends GetView<CartController> {
                                                                                         onTap: () {
                                                                                           controller.decreaseItemCart(profile.key, session.key, menuDetail.key);
                                                                                         },
-                                                                                        child: Icon(
+                                                                                        child: const Icon(
                                                                                           Iconsax.minus_square,
-                                                                                       
                                                                                         ),
                                                                                       ),
                                                                                       SizedBox(
@@ -273,9 +271,8 @@ class CartScreen extends GetView<CartController> {
                                                                                         onTap: () {
                                                                                           controller.increaseItemCart(profile.key, session.key, menuDetail.key);
                                                                                         },
-                                                                                        child: Icon(
+                                                                                        child: const Icon(
                                                                                           Iconsax.add_square,
-                                                                                        
                                                                                         ),
                                                                                       ),
                                                                                     ],

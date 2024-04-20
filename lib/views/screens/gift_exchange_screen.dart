@@ -4,7 +4,6 @@ import 'package:beanfast_customer/views/screens/gift_exchange_checkout_detail_sc
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../contrains/theme_color.dart';
 import '/controllers/exchange_gift_controller.dart';
@@ -327,7 +326,7 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                     child: Text(
                                       'Đổi quà',
                                       style: Get.textTheme.bodyLarge!.copyWith(
-                                        color: Colors.red,
+                                        color: ThemeColor.textButtonColor,
                                       ),
                                     ),
                                   ),

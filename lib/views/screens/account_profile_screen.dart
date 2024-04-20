@@ -5,10 +5,8 @@ import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:lottie/lottie.dart';
 
 class AccountProfileScreen extends GetView<AuthController> {
   const AccountProfileScreen({super.key});

@@ -2,7 +2,6 @@ import 'package:beanfast_customer/models/gift.dart';
 import 'package:beanfast_customer/views/screens/gift_exchange_checkout_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class GiftDetailScreen extends StatelessWidget {
   final Gift gift;

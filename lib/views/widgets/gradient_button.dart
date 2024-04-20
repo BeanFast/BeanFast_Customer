@@ -46,7 +46,7 @@ class GradientButton extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(text,
                 style:
-                    Get.textTheme.titleMedium!.copyWith(color: Colors.white)),
+                    Get.textTheme.titleMedium!.copyWith(color: ThemeColor.itemColor)),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/controllers/home_controller.dart';
 import 'package:beanfast_customer/controllers/transaction_controller.dart';
 import 'package:beanfast_customer/utils/formater.dart';
@@ -31,7 +32,7 @@ class TransactionScreen extends GetView<TransactionController> {
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(100), // Set the border radius to 10
+                      BorderRadius.circular(50), // Set the border radius to 10
                 ),
                 prefixIcon: const Icon(
                   Iconsax.search_normal,
@@ -45,7 +46,9 @@ class TransactionScreen extends GetView<TransactionController> {
           ),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Iconsax.filter_search),
+              icon: const Icon(
+                Iconsax.filter_search,
+              ),
               onPressed: () {
                 showFilterDialog(context);
               },
@@ -158,7 +161,7 @@ class TransactionScreen extends GetView<TransactionController> {
                                             ),
                                             child: Icon(
                                               iconData,
-                                              color: Colors.blue,
+                                              color: ThemeColor.iconColor,
                                             ),
                                           ),
                                           const SizedBox(width: 10),

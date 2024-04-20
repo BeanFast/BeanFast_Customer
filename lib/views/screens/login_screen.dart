@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/views/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -136,30 +135,30 @@ class LoginView extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    FadeInUp(
-                      child: Row(
-                        children: [
-                          Obx(
-                            () => SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: Checkbox(
-                                value: controller.isChecked.value,
-                                onChanged: (value) {
-                                  controller.toggleIschecked();
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text('Lưu mật khẩu'),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 10),
+                    // FadeInUp(
+                    //   child: Row(
+                    //     children: [
+                    //       Obx(
+                    //         () => SizedBox(
+                    //           height: 24,
+                    //           width: 24,
+                    //           child: Checkbox(
+                    //             value: controller.isChecked.value,
+                    //             onChanged: (value) {
+                    //               controller.toggleIschecked();
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       const SizedBox(
+                    //         width: 10,
+                    //       ),
+                    //       const Text('Giữ đăng nhập'),
+                    //     ],
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 20),
                     FadeInUp(
                       child: GradientButton(
                         text: 'Đăng nhập',

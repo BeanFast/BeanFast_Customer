@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/views/screens/login_screen.dart';
 import 'package:beanfast_customer/views/screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -64,11 +65,11 @@ class WelcomeScreen extends StatelessWidget {
               duration: duration,
               delay: const Duration(milliseconds: 1000),
               child: const Text(
-                "Don't waste time, just order your food",
+                'Bữa sáng "siêu tốc", bé đi học "siêu nhanh"!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     height: 1.2,
-                    color: Colors.grey,
+                    color: Colors.black54,
                     fontSize: 17,
                     fontWeight: FontWeight.w300),
               ),
@@ -83,10 +84,10 @@ class WelcomeScreen extends StatelessWidget {
               delay: const Duration(milliseconds: 600),
               child: SButton(
                 size: size,
-                borderColor: Colors.grey,
-                color: Colors.white,
-                text: "Login",
-                textStyle: const TextStyle(color: Colors.black, fontSize: 18),
+                borderColor: ThemeColor.textButtonColor,
+                color: ThemeColor.itemColor,
+                text: "Đăng nhập",
+                textStyle: Get.textTheme.titleMedium!.copyWith(color: ThemeColor.textButtonColor),
                 onPressed: () {
                   Get.to(LoginView());
                 },
@@ -105,9 +106,9 @@ class WelcomeScreen extends StatelessWidget {
               child: SButton(
                 size: size,
                 borderColor: Colors.white,
-                color: const Color.fromARGB(255, 54, 54, 54),
-                text: "Sign up",
-                textStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                color: ThemeColor.textButtonColor,
+                text: "Đăng ký",
+                 textStyle: Get.textTheme.titleMedium!.copyWith(color: ThemeColor.itemColor),
                 onPressed: () {
                   Get.to(RegisterView());
                 },
@@ -149,7 +150,7 @@ class SButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: size.width / 1.2,
-        height: size.height / 15,
+        height: 45,
         decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(30),

@@ -1,8 +1,11 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/views/screens/welcome_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:lottie/lottie.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -24,6 +27,11 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     return SvgPicture.asset('assets/images/$assetName', width: width);
   }
 
+  Widget _buildLottie(String assetName, [double width = 350]) {
+    return Lottie.asset('assets/images/$assetName.json',
+        width: width, height: 300, fit: BoxFit.cover);
+  }
+
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
@@ -43,38 +51,43 @@ class OnBoardingPageState extends State<OnBoardingPage> {
 
       pages: [
         PageViewModel(
-          title: "Quality Food",
-          body:
-              "simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the "
-              "industry's standard dummy text ever since the 1500s, "
-              "when an unknown printer took a galley of type and scrambled it ",
+          title: "Chất lượng món ăn",
+          bodyWidget: const Text(
+            " Món ăn được chế biến từ nguyên liệu tươi ngon, đảm bảo vệ sinh an toàn thực phẩm và được trình bày đẹp mắt. Món ăn ngon sẽ kích thích vị giác của khách hàng và mang lại cho họ cảm giác thỏa mãn.",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            textAlign: TextAlign.center,
+          ),
           image: _buildImage('quality.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Fast Delevery",
-          body:
-              "simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the "
-              "industry's standard dummy text ever since the 1500s, "
-              "when an unknown printer took a galley of type and scrambled it ",
+          title: "Vận chuyển",
+          bodyWidget: const Text(
+            "Món ăn được vận chuyển đến tay khách hàng một cách nhanh chóng và an toàn để đảm bảo chất lượng món ăn được tốt nhất. Bao bì vận chuyển cần phù hợp với từng loại món ăn và phương tiện vận chuyển cần được đảm bảo vệ sinh sạch sẽ.",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            textAlign: TextAlign.center,
+          ),
           image: _buildImage('delevery.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Reward surprises",
-          body:
-              "simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the "
-              "industry's standard dummy text ever since the 1500s, "
-              "when an unknown printer took a galley of type and scrambled it ",
-          image: _buildImage('reward.svg'),
+          title: "Trải nghiệm",
+          bodyWidget: const Text(
+            "Chính sách khuyến mãi hấp dẫn, chăm sóc khách hàng tận tình, nhân viên phục vụ nhiệt tình, thân thiện. Đặc biệt, nhân viên cần có thái độ niềm nở, lịch sự, tôn trọng khách hàng.",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            textAlign: TextAlign.center,
+          ),
+          image: _buildLottie('stored'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Bean Fast",
-          body:
-              "simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the "
-              "industry's standard dummy text ever since the 1500s, ",
-          image: _buildImage('reward.svg'),
+          bodyWidget: const Text(
+            'Bữa sáng "siêu tốc", bé đi học "siêu nhanh"!',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            textAlign: TextAlign.center,
+          ),
+          image: _buildImage('quality.svg'),
           footer: GestureDetector(
             onTap: () {
               _onIntroEnd(context);
@@ -84,13 +97,16 @@ class OnBoardingPageState extends State<OnBoardingPage> {
               alignment: Alignment.center,
               margin: const EdgeInsets.only(left: 10, right: 10),
               padding: const EdgeInsets.only(top: 10, bottom: 10),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(14)),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
+                color: ThemeColor.itemColor,
                 border: Border.fromBorderSide(
-                    BorderSide(color: Colors.black, width: 1)),
+                    BorderSide(color: ThemeColor.textButtonColor, width: 1)),
               ),
-              child:
-                  const Text('Shop Now', style: TextStyle(color: Colors.black)),
+              child: Text('Đặt hàng ngay!',
+                  style: Get.textTheme.titleSmall!.copyWith(
+                    color: ThemeColor.textButtonColor,
+                  )),
             ),
           ),
           decoration: pageDecoration.copyWith(

@@ -127,160 +127,162 @@ class HomeScreen extends GetView<HomeController> {
                 ),
 
                 //day selecter
-                Container(
-                  decoration: BoxDecoration(
-                    color: ThemeColor.itemColor,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
+                Card(
                   child: Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    alignment: Alignment.center,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                                onPressed: controller.backWeek,
-                                icon: const Icon(Iconsax.arrow_circle_left)),
-                            Obx(
-                              () => TextButton(
-                                child: Text(
-                                    '${controller.currentMonth}/${controller.currentYear}',
-                                    style: Get.textTheme.bodyLarge),
-                                onPressed: () {
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2100),
-                                  ).then((value) {
-                                    if (value != null) {
-                                      controller.updateSelectedDate(value);
-                                      controller.now.value = value;
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: controller.nextWeek,
-                                icon: const Icon(Iconsax.arrow_circle_right)),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: List.generate(
-                            7,
-                            (index) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 0.5,
+                      ),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      alignment: Alignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                  onPressed: controller.backWeek,
+                                  icon: const Icon(Iconsax.arrow_circle_left)),
+                              Obx(
+                                () => TextButton(
                                   child: Text(
-                                    index + 2 == 8 ? 'CN' : 'T${index + 2}',
-                                    style: Get.textTheme.bodySmall,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    DateTime chosenDate = controller
-                                        .dayOfWeekDateTime(index)
-                                        .value;
-                                    DateTime today = DateTime(
-                                        DateTime.now().year,
-                                        DateTime.now().month,
-                                        DateTime.now().day);
-                                    if (chosenDate.isBefore(today) &&
-                                        !controller.isSameDay(
-                                            chosenDate, today)) {
-                                      return;
-                                    }
-                                    controller.updateSelectedDate(chosenDate);
-                                    if (currentProfile.value != null) {
-                                      controller.getSession(
-                                          currentProfile.value!.school!.id!,
-                                          chosenDate);
-                                    }
+                                      '${controller.currentMonth}/${controller.currentYear}',
+                                      style: Get.textTheme.titleMedium),
+                                  onPressed: () {
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime.now()
+                                          .add(const Duration(days: 365)),
+                                    ).then((value) {
+                                      if (value != null) {
+                                        controller.updateSelectedDate(value);
+                                        controller.now.value = value;
+                                      }
+                                    });
                                   },
-                                  child: Obx(
-                                    () => Container(
-                                      width: 25,
-                                      height: 25,
-                                      decoration: BoxDecoration(
-                                        color: controller.isSameDay(
-                                                controller.selectedDate.value,
-                                                controller
-                                                    .dayOfWeekDateTime(index)
-                                                    .value)
-                                            ? ThemeColor.iconColor
-                                            : Colors.transparent,
-                                        borderRadius: BorderRadius.circular(
-                                            50), // Make the Container circular
-                                      ),
-                                      child: Obx(
-                                        () => Center(
-                                          // Center the Text widget
-                                          child: Text(
-                                            '${controller.dayOfWeek(index)}',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: controller.isSameDay(
-                                                      controller
-                                                          .selectedDate.value,
-                                                      controller
-                                                          .dayOfWeekDateTime(
-                                                              index)
-                                                          .value)
-                                                  ? Colors.white
-                                                  : controller
-                                                              .dayOfWeekDateTime(
-                                                                  index)
-                                                              .value
-                                                              .isBefore(
-                                                                DateTime(
-                                                                  DateTime.now()
-                                                                      .year,
-                                                                  DateTime.now()
-                                                                      .month,
-                                                                  DateTime.now()
-                                                                      .day,
-                                                                ),
-                                                              ) &&
-                                                          !controller.isSameDay(
-                                                              controller
-                                                                  .dayOfWeekDateTime(
-                                                                      index)
-                                                                  .value,
-                                                              DateTime.now())
-                                                      ? Colors.grey
-                                                      : Colors.black,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: controller.nextWeek,
+                                  icon: const Icon(Iconsax.arrow_circle_right)),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: List.generate(
+                              7,
+                              (index) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Text(
+                                      index + 2 == 8 ? 'CN' : 'T${index + 2}',
+                                      style: Get.textTheme.bodySmall,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      DateTime chosenDate = controller
+                                          .dayOfWeekDateTime(index)
+                                          .value;
+                                      DateTime today = DateTime(
+                                          DateTime.now().year,
+                                          DateTime.now().month,
+                                          DateTime.now().day);
+                                      if (chosenDate.isBefore(today) &&
+                                          !controller.isSameDay(
+                                              chosenDate, today)) {
+                                        return;
+                                      }
+                                      controller.updateSelectedDate(chosenDate);
+                                      if (currentProfile.value != null) {
+                                        controller.getSession(
+                                            currentProfile.value!.school!.id!,
+                                            chosenDate);
+                                      }
+                                    },
+                                    child: Obx(
+                                      () => Container(
+                                        width: 25,
+                                        height: 25,
+                                        decoration: BoxDecoration(
+                                          color: controller.isSameDay(
+                                                  controller.selectedDate.value,
+                                                  controller
+                                                      .dayOfWeekDateTime(index)
+                                                      .value)
+                                              ? ThemeColor.iconColor
+                                              : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(
+                                              50), // Make the Container circular
+                                        ),
+                                        child: Obx(
+                                          () => Center(
+                                            // Center the Text widget
+                                            child: Text(
+                                              '${controller.dayOfWeek(index)}',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: controller.isSameDay(
+                                                        controller
+                                                            .selectedDate.value,
+                                                        controller
+                                                            .dayOfWeekDateTime(
+                                                                index)
+                                                            .value)
+                                                    ? Colors.white
+                                                    : controller
+                                                                .dayOfWeekDateTime(
+                                                                    index)
+                                                                .value
+                                                                .isBefore(
+                                                                  DateTime(
+                                                                    DateTime.now()
+                                                                        .year,
+                                                                    DateTime.now()
+                                                                        .month,
+                                                                    DateTime.now()
+                                                                        .day,
+                                                                  ),
+                                                                ) &&
+                                                            !controller.isSameDay(
+                                                                controller
+                                                                    .dayOfWeekDateTime(
+                                                                        index)
+                                                                    .value,
+                                                                DateTime.now())
+                                                        ? Colors.grey
+                                                        : Colors.black,
+                                              ),
+                                              textAlign: TextAlign.center,
                                             ),
-                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
