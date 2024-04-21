@@ -1,9 +1,7 @@
-import 'package:beanfast_customer/contrains/theme_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '/contrains/theme_text.dart';
 import 'theme_color.dart';
 
 class AppTheme {

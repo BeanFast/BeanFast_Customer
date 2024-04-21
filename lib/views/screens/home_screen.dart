@@ -125,7 +125,6 @@ class HomeScreen extends GetView<HomeController> {
                     );
                   }).toList(),
                 ),
-
                 //day selecter
                 Card(
                   child: Container(
@@ -639,9 +638,7 @@ List<Widget> headerActionWidget() {
                       )
                     : GestureDetector(
                         onTap: () {
-                          Get.to(const StudentFormScreen(
-                            isUpdate: false,
-                          ));
+                          Get.to(const StudentFormScreen());
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, bottom: 5),

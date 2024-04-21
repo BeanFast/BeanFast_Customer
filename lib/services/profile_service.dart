@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
 import '/models/profile.dart';
-import '../utils/logger.dart';
 import '/services/api_service.dart';
 
 class ProfileService {

@@ -1,10 +1,10 @@
-import 'package:beanfast_customer/controllers/profile_controller.dart';
-import 'package:beanfast_customer/views/screens/loading_screen.dart';
-import 'package:beanfast_customer/views/screens/student_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '/controllers/profile_controller.dart';
+import '/views/screens/loading_screen.dart';
+import '/views/screens/student_detail_screen.dart';
 import 'student_form_screen.dart';
 
 class StudentListScreen extends GetView<ProfileController> {
@@ -25,10 +25,11 @@ class StudentListScreen extends GetView<ProfileController> {
                 child: SingleChildScrollView(
                   child: Obx(
                     () => Column(
-                      children: controller.listData.map((e) {
+                      children: controller.listData.map((profile) {
                         return GestureDetector(
                           onTap: () {
-                            Get.to(StudentDetailScreen(id: e.id.toString()));
+                            Get.to(
+                                StudentDetailScreen(id: profile.id.toString()));
                           },
                           child: Card(
                             child: ListTile(
@@ -38,28 +39,27 @@ class StudentListScreen extends GetView<ProfileController> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                    image:
-                                        NetworkImage(e.avatarPath.toString()),
+                                    image: NetworkImage(
+                                        profile.avatarPath.toString()),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                               title: Text(
-                                e.fullName.toString(),
+                                profile.fullName.toString(),
                                 style: Get.textTheme.bodyLarge!.copyWith(
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               subtitle: Text(
-                                e.className.toString(),
+                                profile.className.toString(),
                                 style: Get.textTheme.bodySmall!.copyWith(
                                   color: Colors.black54,
                                 ),
                               ),
                               trailing: IconButton(
                                 onPressed: () {
-                                  Get.to(
-                                      const StudentFormScreen(isUpdate: true));
+                                  Get.to(StudentFormScreen(profileId: profile.id));
                                 },
                                 icon: const Icon(Iconsax.edit),
                               ),
@@ -98,7 +98,7 @@ class StudentListScreen extends GetView<ProfileController> {
                       ),
                     ),
                     onPressed: () {
-                      Get.to(const StudentFormScreen(isUpdate: false));
+                      Get.to(const StudentFormScreen());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

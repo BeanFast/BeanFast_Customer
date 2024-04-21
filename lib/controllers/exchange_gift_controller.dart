@@ -1,16 +1,17 @@
-import 'package:beanfast_customer/models/gift.dart';
-import 'package:beanfast_customer/services/gift_service.dart';
+import 'package:beanfast_customer/models/exchange_gift.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
+import '/enums/status_enum.dart';
+import '/models/gift.dart';
+import '/services/gift_service.dart';
+import '/services/exchange_gift_service.dart';
+
 class ExchangeGiftController extends getx.GetxController {
+  ExchangeGiftStatus orderStatus = ExchangeGiftStatus.preparing;
   getx.RxBool isError = false.obs;
   getx.RxList<Gift> listData = <Gift>[].obs;
-
-  // Future<Profile?> getProfile() async {
-  //   await ProfileService().getById(currentProfile.id);
-  //   return profile;
-  // }
+  getx.RxList<ExchangeGift> listExchangeGiftData = <ExchangeGift>[].obs;
 
   Future getData() async {
     try {
@@ -20,10 +21,27 @@ class ExchangeGiftController extends getx.GetxController {
     }
   }
 
+  // Future getExchangeGiftHistory() async {
+  //   try {
+  //     listData.value = await ExchangeGiftService().getAll();
+  //   } catch (e) {
+  //     isError.value = true;
+  //   }
+  // }
+
+  Future getExchangeGiftByStatus() async {
+    try {
+      listExchangeGiftData.value = await ExchangeGiftService().getByStatus(orderStatus);
+      listExchangeGiftData.sort((a, b) => b.paymentDate!.compareTo(a.paymentDate!));
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Future<bool> exchangeGift(String id) async {
     try {
-      Response response = await GiftService()
-          .exchangeGift('giftId', 'profileId', 'sessionDetailId');
+      Response response = await ExchangeGiftService()
+          .createExchangeGift('giftId', 'profileId', 'sessionDetailId');
       if (response.statusCode == 200) return true;
       return false;
     } catch (e) {

@@ -1,10 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
+import '/models/session.dart';
+import '/services/session_service.dart';
 import '/contrains/theme_color.dart';
+import '/utils/constants.dart';
+import '/utils/logger.dart';
 import '/utils/formater.dart';
 import '/views/widgets/row_info_confirm_item_widget.dart';
 
@@ -51,7 +56,6 @@ class GiftCheckOutScreen extends StatelessWidget {
                                     topLeft: Radius.circular(12),
                                     topRight: Radius.circular(12),
                                   ),
-                               
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Colors.grey,
@@ -97,7 +101,13 @@ class GiftCheckOutScreen extends StatelessWidget {
                                     leading: const Icon(Iconsax.truck_time),
                                     title: Obx(
                                       () => Text(
-                                        controller.selectedSession.value,
+                                        controller.selectedSession.value == null
+                                            ? ''
+                                            : DateFormat('HH:mm dd-MM-yy')
+                                                .format(controller
+                                                    .selectedSession
+                                                    .value!
+                                                    .deliveryStartTime!),
                                         style: Get.textTheme.bodyMedium,
                                       ),
                                     ),
@@ -421,7 +431,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                         );
                         await Future.delayed(const Duration(seconds: 2));
                         Navigator.pop(context);
-                       //Api đổi quà
+                        //Api đổi quà
                       }
                     },
                     child: Text(
@@ -441,87 +451,94 @@ class GiftCheckOutScreen extends StatelessWidget {
 }
 
 class ConfirmExchangeGiftController extends GetxController {
-  RxString selectedSession = ''.obs;
+  Rx<Session?> selectedSession = Rx<Session?>(null);
+  RxList<Session> listSession = <Session>[].obs;
 
-  void selectSession(String session) {
-    selectedSession.value = session;
+  void clear() {
+    listSession.clear();
+    selectedSession.value = null;
   }
+
+  Future getSession(String schoolId, DateTime dateTime) async {
+    clear();
+    try {
+      listSession.value = await SessionService()
+          .getSessionsBySchoolId(schoolId, dateTime, false);
+      logger.e(listSession.length);
+    } on DioException catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  // void selectSession(Session session) {
+  //   selectedSession.value = session;
+  // }
 }
 
 void showSessionPicker(
     BuildContext context, ConfirmExchangeGiftController controller) async {
-  DateTime? pickedDate = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime(DateTime.now().year + 5),
-  );
+  while (controller.selectedSession.value == null) {
+    DateTime? pickedDate = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
 
-  if (pickedDate == null) {
-    if (controller.selectedSession.value.isEmpty) {
-      Navigator.pop(context);
+    if (pickedDate == null) {
+      if (controller.selectedSession.value == null) {
+        Get.back();
+      }
+      return;
+    } else {
+      controller.getSession(currentProfile.value!.school!.id!, pickedDate);
     }
-    return;
+
+    // bool sessionSelected = false;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Chọn thời gian nhận hàng',
+                  style: Get.textTheme.titleLarge,
+                ),
+              ),
+              Obx(
+                () => Column(
+                  children: controller.listSession
+                      .map(
+                        (session) => ListTile(
+                          leading: const Icon(Icons.access_time),
+                          title: Text(
+                              'Từ ${DateFormat('HH:mm').format(session.deliveryStartTime!)} đến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}'),
+                          onTap: () {
+                            controller.selectedSession.value = session;
+                            Get.back();
+                          },
+                        ),
+                      )
+                      .toList(),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
-  bool sessionSelected = false;
-
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Chọn thời gian nhận hàng',
-                style: Get.textTheme.titleLarge,
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time),
-              title: Text(
-                  'Từ 10:00 đến 12:00, ${DateFormat('dd/MM/yyyy').format(pickedDate)}'),
-              onTap: () {
-                controller.selectSession(
-                    'Từ 10:00 đến 12:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}');
-                sessionSelected = true;
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time),
-              title: Text(
-                  'Từ 1:00 đến 2:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}'),
-              onTap: () {
-                controller.selectSession(
-                    'Từ 1:00 đến 2:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}');
-                sessionSelected = true;
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time),
-              title: Text(
-                  'Từ 3:00 đến 4:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}'),
-              onTap: () {
-                controller.selectSession(
-                    'Từ 3:00 đến 4:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}');
-                sessionSelected = true;
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      );
-    },
-  ).then((value) {
-    if (!sessionSelected && controller.selectedSession.value.isEmpty) {
-      Navigator.pop(context);
-    }
-  });
+  // .then((value) {
+  //   if (controller.selectedSession.value == null) {
+  //     Get.back();
+  //   }
+  // });
 }
 
 

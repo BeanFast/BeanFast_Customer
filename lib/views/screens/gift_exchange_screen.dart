@@ -1,18 +1,20 @@
-import 'package:beanfast_customer/utils/formater.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '/enums/status_enum.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/transaction_controller.dart';
-import '/views/screens/error_screen.dart';
-import '/views/screens/gift_exchange_checkout_detail_screen.dart';
 import '/contrains/theme_color.dart';
 import '/controllers/exchange_gift_controller.dart';
 import '/utils/constants.dart';
-import '/views/screens/gift_detail_screen.dart';
+import 'exchange_gift_history_tabview.dart';
+import 'gift_exchange_checkout_detail_screen.dart';
+import 'error_screen.dart';
+import 'gift_detail_screen.dart';
 import 'loading_screen.dart';
+import '/utils/formater.dart';
 
 class ExchangeGiftScreen extends StatelessWidget {
   const ExchangeGiftScreen({super.key});
@@ -45,12 +47,9 @@ class ExchangeGiftScreen extends StatelessWidget {
                         children: [
                           Obx(
                             () => Text(
-                              currentProfile.value!.wallets!.isEmpty
-                                  ? '0'
-                                  : currentProfile
-                                      .value!.wallets!.first.balance!.obs.value
-                                      .toInt()
-                                      .toString(),
+                              Formater.formatPoint(currentProfile
+                                  .value!.wallet!.balance
+                                  .toString()),
                               style: Get.textTheme.bodyMedium,
                             ),
                           ),
@@ -62,12 +61,12 @@ class ExchangeGiftScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                body: DefaultTabController(
+                body: const DefaultTabController(
                   length: 3,
                   child: Column(
                     // mainAxisSize: MainAxisSize.min,
                     children: [
-                      const TabBar(
+                      TabBar(
                         isScrollable: true,
                         tabAlignment: TabAlignment.start,
                         tabs: [
@@ -79,13 +78,9 @@ class ExchangeGiftScreen extends StatelessWidget {
                       Expanded(
                         child: TabBarView(
                           children: [
-                            const ExchageGift(), // Đổi thưởng
-                            const PointManagement(), // Thống kê
-                            // ignore: avoid_unnecessary_containers
-                            Container(
-                              child: const Center(
-                                  child: Text('Lịch sử đổi thưởng')),
-                            ),
+                            ExchangeGiftTabView(), // Đổi thưởng
+                            PointManagementTabView(), // Thống kê
+                            ExchangeGiftHistoryTabView(), // Lịch sử
                           ],
                         ),
                       ),
@@ -98,8 +93,8 @@ class ExchangeGiftScreen extends StatelessWidget {
   }
 }
 
-class PointManagement extends GetView<TransactionController> {
-  const PointManagement({super.key});
+class PointManagementTabView extends GetView<TransactionController> {
+  const PointManagementTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -251,8 +246,8 @@ class PointManagement extends GetView<TransactionController> {
   }
 }
 
-class ExchageGift extends GetView<ExchangeGiftController> {
-  const ExchageGift({super.key});
+class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
+  const ExchangeGiftTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +285,6 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                       bottomLeft: Radius.circular(12),
                                     ),
                                     child: Image.network(
-                                      // color: Colors.red,
                                       gift.imagePath.toString(),
                                       fit: BoxFit.cover,
                                     ),
@@ -363,7 +357,18 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      Get.to(const GiftCheckOutScreen());
+                                      if (currentProfile
+                                              .value!.wallet!.balance! >
+                                          gift.points!) {
+                                        Get.to(const GiftCheckOutScreen());
+                                      } else {
+                                        Get.snackbar(
+                                          'Đổi quà thất bại',
+                                          'Bạn không đủ điểm',
+                                          snackPosition: SnackPosition.TOP,
+                                          duration: 1.seconds,
+                                        );
+                                      }
                                     },
                                     child: Text(
                                       'Đổi quà',
@@ -376,28 +381,6 @@ class ExchageGift extends GetView<ExchangeGiftController> {
                               ],
                             ),
                           ),
-                          // Positioned(
-                          //   top: 0,
-                          //   right: 0,
-                          //   child: Container(
-                          //     padding: const EdgeInsets.symmetric(
-                          //         horizontal: 6, vertical: 3),
-                          //     decoration: const BoxDecoration(
-                          //       color: Colors.red,
-                          //       borderRadius: BorderRadius.only(
-                          //         bottomLeft: Radius.circular(12),
-                          //         topRight: Radius.circular(12),
-                          //       ),
-                          //     ),
-                          //     child: const Text(
-                          //       '40%',
-                          //       style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontSize: 12,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -406,6 +389,53 @@ class ExchageGift extends GetView<ExchangeGiftController> {
               }).toList(),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ExchangeGiftHistoryTabView extends GetView<ExchangeGiftController> {
+  const ExchangeGiftHistoryTabView({super.key});
+  @override
+  Widget build(BuildContext context) {
+    Get.put(ExchangeGiftController());
+
+    return const Scaffold(
+      body: DefaultTabController(
+        length: 4,
+        child: Column(
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            TabBar(
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              tabs: [
+                Tab(text: 'Đang chuẩn bị'),
+                Tab(text: 'Đang giao'),
+                Tab(text: 'Hoàn thành'),
+                Tab(text: 'Đã hủy'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  ExchangeGiftHistoryTabBarView(
+                    exchangeGiftStatus: ExchangeGiftStatus.preparing,
+                  ), // Đang chuẩn bị
+                  ExchangeGiftHistoryTabBarView(
+                    exchangeGiftStatus: ExchangeGiftStatus.delivering,
+                  ), // Đang giao
+                  ExchangeGiftHistoryTabBarView(
+                    exchangeGiftStatus: ExchangeGiftStatus.completed,
+                  ), // Hoàn thành
+                  ExchangeGiftHistoryTabBarView(
+                    exchangeGiftStatus: ExchangeGiftStatus.cancelled,
+                  ), // Đã hủy
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

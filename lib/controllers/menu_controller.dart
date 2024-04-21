@@ -24,17 +24,17 @@ class MenuController extends GetxController {
   RxSet<String> listCategoryId = <String>{}.obs;
   var isValidate = false.obs;
 
-  Future getData(String schoolId, DateTime dateTime) async {
-    try {
-    listSession =
-        await SessionService().getSessionsBySchoolId(schoolId, dateTime);
+  // Future getData(String schoolId, DateTime dateTime) async {
+  //   try {
+  //   listSession =
+  //       await SessionService().getSessionsBySchoolId(schoolId, dateTime);
 
-    // model.value = listSession.last.menu!;
-    // updateFoodsAndCombos(model.value.menuDetails!);
-    } on DioException catch (e) {
-      throw Exception(e);
-    }
-  }
+  //   // model.value = listSession.last.menu!;
+  //   // updateFoodsAndCombos(model.value.menuDetails!);
+  //   } on DioException catch (e) {
+  //     throw Exception(e);
+  //   }
+  // }
 
   void getMenu() {
     model.value = listSession

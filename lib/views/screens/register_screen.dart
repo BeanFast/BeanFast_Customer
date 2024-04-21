@@ -1,11 +1,10 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/controllers/auth_controller.dart';
-import 'package:beanfast_customer/services/auth_service.dart';
-import 'package:beanfast_customer/views/screens/otp_confirmation.dart';
-import 'package:beanfast_customer/views/widgets/gradient_button.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '/controllers/auth_controller.dart';
+import '/views/screens/otp_confirmation.dart';
+import '/views/widgets/gradient_button.dart';
 
 class RegisterView extends GetView<AuthController> {
   RegisterView({super.key});
