@@ -63,7 +63,7 @@ class RegisterView extends GetView<AuthController> {
                         },
                       ),
                     ),
-                   const SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Align(
@@ -106,7 +106,7 @@ class RegisterView extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                   const SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Align(
@@ -140,6 +140,9 @@ class RegisterView extends GetView<AuthController> {
                             }
                             if (value.length < 8) {
                               return 'Mật khẩu phải có ít nhất 8 ký tự';
+                            }
+                            if (value != controller.passwordController.text) {
+                              return 'Mật khẩu không khớp';
                             }
                             return null;
                           },
@@ -175,7 +178,10 @@ class RegisterView extends GetView<AuthController> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           controller.errorMessage.value,
-                          style: const TextStyle(color: Colors.red),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(fontSize: 10, color: Colors.red),
                         ),
                       ),
                     ),
@@ -187,7 +193,7 @@ class RegisterView extends GetView<AuthController> {
                           if (_formKey.currentState!.validate()) {
                             await controller.register();
                             Get.to(
-                              () => OtpConfirmationView(),
+                              () => const OtpConfirmationView(),
                               binding: BindingsBuilder(() {
                                 Get.put(OTPController(
                                   phone: controller.phoneController.text,
@@ -196,11 +202,8 @@ class RegisterView extends GetView<AuthController> {
                             );
                           }
                         } else {
-                          Get.snackbar(
-                            'Thông báo',
-                            'Vui lòng chấp nhận điều khoản',
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
+                          controller.errorMessage.value =
+                              'Vui lòng chấp nhận điều khoản';
                         }
                       },
                     ),
