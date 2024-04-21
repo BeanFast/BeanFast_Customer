@@ -8,6 +8,8 @@ class TransactionController extends GetxController {
   RxList<Transaction> transactions = <Transaction>[].obs;
   RxMap<String, List<Transaction>> mapTransactions =
       <String, List<Transaction>>{}.obs;
+  int indexSelectedSortByMonth = 0;
+  int indexSelectedSortByStatus = 0;
   List<String> listMonth = [
     'Tất cả',
     '3/24',
@@ -22,8 +24,7 @@ class TransactionController extends GetxController {
   Future getTransaction() async {
     mapTransactions.clear();
     try {
-      transactions.value = await TransactionService().getTransactions(
-          1, 100);
+      transactions.value = await TransactionService().getTransactions(1, 100);
 
       for (var e in transactions) {
         String key = DateFormat('MM/yyyy').format(e.time!);
@@ -38,6 +39,21 @@ class TransactionController extends GetxController {
     }
   }
 
-  int indexSelectedSortByMonth = 0;
-  int indexSelectedSortByStatus = 0;
+  Future getPointTransaction(String profileId) async {
+    mapTransactions.clear();
+    try {
+      transactions.value =
+          await TransactionService().getPointTransactions(profileId, 1, 100);
+      for (var e in transactions) {
+        String key = DateFormat('MM/yyyy').format(e.time!);
+        if (mapTransactions.containsKey(key)) {
+          mapTransactions[key]!.add(e);
+        } else {
+          mapTransactions.putIfAbsent(key, () => [e]);
+        }
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

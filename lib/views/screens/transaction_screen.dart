@@ -14,7 +14,7 @@ class TransactionScreen extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.find<HomeController>();
-    DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm');
+    DateFormat formatter = DateFormat('HH:mm dd/MM/yy');
     Get.put(TransactionController());
     return LoadingScreen(
       future: controller.getTransaction,

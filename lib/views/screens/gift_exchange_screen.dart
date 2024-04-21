@@ -1,11 +1,14 @@
-import 'package:beanfast_customer/controllers/auth_controller.dart';
-import 'package:beanfast_customer/views/screens/error_screen.dart';
-import 'package:beanfast_customer/views/screens/gift_exchange_checkout_detail_screen.dart';
+import 'package:beanfast_customer/utils/formater.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 
-import '../../contrains/theme_color.dart';
+import '/controllers/auth_controller.dart';
+import '/controllers/transaction_controller.dart';
+import '/views/screens/error_screen.dart';
+import '/views/screens/gift_exchange_checkout_detail_screen.dart';
+import '/contrains/theme_color.dart';
 import '/controllers/exchange_gift_controller.dart';
 import '/utils/constants.dart';
 import '/views/screens/gift_detail_screen.dart';
@@ -52,7 +55,8 @@ class ExchangeGiftScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          const Icon(Iconsax.gift, color: Colors.black, size: 20),
+                          const Icon(Iconsax.gift,
+                              color: Colors.black, size: 20),
                         ],
                       ),
                     ),
@@ -94,123 +98,161 @@ class ExchangeGiftScreen extends StatelessWidget {
   }
 }
 
-class PointManagement extends StatelessWidget {
-  const PointManagement({
-    super.key,
-  });
+class PointManagement extends GetView<TransactionController> {
+  const PointManagement({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          //Month
-          Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            height: 50,
-            alignment: Alignment.centerLeft,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Color.fromARGB(255, 198, 229, 245),
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(255, 198, 229, 245),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: Offset(0, 2), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Text(
-              'Tháng 3',
-              style: Get.textTheme.titleMedium,
-            ),
-          ),
-          //Data
-          Column(
-            children: List.generate(
-              5,
-              (index) => GestureDetector(
-                onTap: () {
-                  Get.snackbar(
-                    'Giao dịch',
-                    index.toString(),
-                    snackPosition: SnackPosition.TOP,
-                  );
-                },
-                child: Card(
-                  color: ThemeColor.itemColor,
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(color: Colors.grey)),
-                          child: const Icon(
-                            Icons.point_of_sale,
-                          ),
+    Get.put(TransactionController());
+    return LoadingScreen(
+      future: () async {
+        await controller.getPointTransaction(currentProfile.value!.id!);
+      },
+      child: SingleChildScrollView(
+        child: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: controller.mapTransactions.entries
+                .map(
+                  (transaction) => Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        height: 50,
+                        alignment: Alignment.centerLeft,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Color.fromARGB(255, 198, 229, 245),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(255, 198, 229, 245),
+                              spreadRadius: 1,
+                              blurRadius: 1,
+                              offset:
+                                  Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Giao địch mã $index',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Get.textTheme.bodyLarge!.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                  )),
-                              const SizedBox(height: 5),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Text(
+                          'Tháng ${transaction.key}',
+                          style: Get.textTheme.titleMedium,
+                        ),
+                      ),
+                      Column(
+                        children: transaction.value.map((element) {
+                          var transactionType = element.order!.code == null
+                              ? "Đổi quà"
+                              : "Đơn hàng";
+                          IconData iconData = element.order!.code == null
+                              ? Iconsax.wallet_add_1
+                              : Iconsax.wallet_minus;
+                          var color =
+                              element.value! > 0 ? Colors.green : Colors.red;
+                          return Card(
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    '03:11 - 03/03/2024',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Get.textTheme.bodySmall,
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      border: Border.all(color: Colors.grey),
+                                    ),
+                                    child: Icon(
+                                      iconData,
+                                      color: ThemeColor.iconColor,
+                                    ),
                                   ),
-                                  SizedBox(
-                                    child: Text('+200.000 điểm',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style:
-                                            Get.textTheme.bodyMedium!.copyWith(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700,
-                                        )),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          element.order!.code != null
+                                              ? "$transactionType: #${element.order!.code!}"
+                                              : transactionType,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style:
+                                              Get.textTheme.bodyLarge!.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    DateFormat('HH:mm dd/MM/yy')
+                                                        .format(element.time!),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        Get.textTheme.bodySmall,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              alignment: Alignment.bottomRight,
+                                              width: 120,
+                                              child: Text(
+                                                element.value! > 0
+                                                    ? "+${Formater.formatPoint(element.value.toString())}"
+                                                    : Formater.formatPoint(
+                                                        element.value
+                                                            .toString()),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Get.textTheme.bodyMedium!
+                                                    .copyWith(
+                                                  color: color,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ),
-          )
-        ],
+                )
+                .toList(),
+          ),
+        ),
       ),
     );
   }
 }
 
 class ExchageGift extends GetView<ExchangeGiftController> {
-  const ExchageGift({
-    super.key,
-  });
+  const ExchageGift({super.key});
 
   @override
   Widget build(BuildContext context) {

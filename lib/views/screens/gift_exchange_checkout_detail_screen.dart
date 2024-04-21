@@ -1,11 +1,12 @@
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/utils/formater.dart';
-import 'package:beanfast_customer/views/widgets/row_info_confirm_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+
+import '/contrains/theme_color.dart';
+import '/utils/formater.dart';
+import '/views/widgets/row_info_confirm_item_widget.dart';
 
 class GiftCheckOutScreen extends StatelessWidget {
   const GiftCheckOutScreen({super.key});
