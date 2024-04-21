@@ -126,12 +126,14 @@ class LoginView extends GetView<AuthController> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    Obx(
-                      () => Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          controller.errorMessage.value,
-                          style: const TextStyle(color: Colors.red),
+                    FadeInUp(
+                      child: Obx(
+                        () => Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            controller.errorMessage.value,
+                            style: const TextStyle(color: Colors.red),
+                          ),
                         ),
                       ),
                     ),
@@ -163,7 +165,11 @@ class LoginView extends GetView<AuthController> {
                       child: GradientButton(
                         text: 'Đăng nhập',
                         onPressed: () {
+                          if (!_formKey.currentState!.validate()) {
+                            controller.errorMessage.value = '';
+                          }
                           if (_formKey.currentState!.validate()) {
+                            controller.errorMessage.value = '';
                             _authController.login();
                           }
                         },
