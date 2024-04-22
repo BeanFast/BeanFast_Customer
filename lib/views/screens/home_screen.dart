@@ -693,14 +693,11 @@ List<Widget> headerActionWidget() {
                                         'Chưa có thông tin',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: currentProfile.value!.school !=
-                                                null
-                                            ? Get.textTheme.bodySmall!.copyWith(
-                                                color: Colors.black,
-                                              )
-                                            : Get.textTheme.bodyMedium!
-                                                .copyWith(color: Colors.black),
-                                      ),
+                                        style:
+                                            Get.textTheme.bodyMedium!.copyWith(
+                                          color: Colors.black,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),

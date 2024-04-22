@@ -83,11 +83,11 @@ class WelcomeScreen extends StatelessWidget {
               duration: duration,
               delay: const Duration(milliseconds: 600),
               child: SButton(
-                size: size,
                 borderColor: ThemeColor.textButtonColor,
                 color: ThemeColor.itemColor,
                 text: "Đăng nhập",
-                textStyle: Get.textTheme.titleMedium!.copyWith(color: ThemeColor.textButtonColor),
+                textStyle: Get.textTheme.titleMedium!
+                    .copyWith(color: ThemeColor.textButtonColor),
                 onPressed: () {
                   Get.to(LoginView());
                 },
@@ -104,11 +104,11 @@ class WelcomeScreen extends StatelessWidget {
               duration: duration,
               delay: const Duration(milliseconds: 200),
               child: SButton(
-                size: size,
                 borderColor: Colors.white,
                 color: ThemeColor.textButtonColor,
                 text: "Đăng ký",
-                 textStyle: Get.textTheme.titleMedium!.copyWith(color: ThemeColor.itemColor),
+                textStyle: Get.textTheme.titleMedium!
+                    .copyWith(color: ThemeColor.itemColor),
                 onPressed: () {
                   Get.to(RegisterView());
                 },
@@ -129,7 +129,6 @@ class WelcomeScreen extends StatelessWidget {
 class SButton extends StatelessWidget {
   const SButton({
     super.key,
-    required this.size,
     required this.color,
     required this.borderColor,
     required this.text,
@@ -137,7 +136,6 @@ class SButton extends StatelessWidget {
     required this.onPressed,
   });
 
-  final Size size;
   final Color color;
   final Color borderColor;
   final String text;
@@ -149,7 +147,7 @@ class SButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: size.width / 1.2,
+        width: Get.width / 1.2,
         height: 45,
         decoration: BoxDecoration(
             color: color,

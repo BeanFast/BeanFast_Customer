@@ -48,6 +48,7 @@ class RegisterView extends GetView<AuthController> {
                           prefixIcon: Icon(Icons.phone_android_outlined),
                           border: UnderlineInputBorder(),
                         ),
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Vui lòng nhập số điện thoại';
@@ -78,7 +79,6 @@ class RegisterView extends GetView<AuthController> {
                       () => SizedBox(
                         child: TextFormField(
                           obscureText: controller.isPasswordVisible.value,
-
                           controller: controller.passwordController,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.lock_outlined),
@@ -92,13 +92,14 @@ class RegisterView extends GetView<AuthController> {
                               onPressed: controller.togglePasswordVisibility,
                             ),
                           ),
-                          // obscureText: _isPasswordHidden.value,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập mật khẩu';
                             }
-                            if (value.length < 8) {
-                              return 'Mật khẩu phải có ít nhất 8 ký tự';
+                            if (!RegExp(
+                                    r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,20}$')
+                                .hasMatch(value)) {
+                              return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ hoa, chữ thường và số';
                             }
                             return null;
                           },
@@ -137,8 +138,10 @@ class RegisterView extends GetView<AuthController> {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập mật khẩu';
                             }
-                            if (value.length < 8) {
-                              return 'Mật khẩu phải có ít nhất 8 ký tự';
+                            if (!RegExp(
+                                    r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,20}$')
+                                .hasMatch(value)) {
+                              return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ hoa, chữ thường và số';
                             }
                             if (value != controller.passwordController.text) {
                               return 'Mật khẩu không khớp';

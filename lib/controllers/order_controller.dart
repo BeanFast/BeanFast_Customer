@@ -6,6 +6,27 @@ import '/models/order.dart';
 import '/services/order_service.dart';
 
 class OrderController extends GetxController {
+  final RxInt _selectedValue = RxInt(-1);
+  final RxString _otherReason = RxString('');
+
+  int get selectedValue => _selectedValue.value;
+  String get otherReason => _otherReason.value;
+
+  void handleRadioValueChanged(int? value) {
+    if (value != null) {
+      _selectedValue.value = value;
+      if (value != 3) {
+        _otherReason.value = '';
+      }
+      update();
+    }
+  }
+
+  void handleOtherReasonChanged(String reason) {
+    _otherReason.value = reason;
+    update();
+  }
+
   RxList<Order> listData = <Order>[].obs;
   Rx<Order> model = Order().obs;
   OrderStatus orderStatus = OrderStatus.preparing;

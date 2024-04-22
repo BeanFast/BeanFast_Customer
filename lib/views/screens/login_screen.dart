@@ -66,12 +66,13 @@ class LoginView extends GetView<AuthController> {
                             prefixIcon: Icon(Icons.phone_android_outlined),
                             border: UnderlineInputBorder(),
                           ),
+                          keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập số diện thoại';
                             }
-                            if (value.length < 10) {
-                              return 'Số điện thoại có độ dài ít nhất là 10';
+                            if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                              return 'Số điện thoại phải có 10 chữ số';
                             }
                             return null;
                           },

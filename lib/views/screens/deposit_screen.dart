@@ -255,8 +255,8 @@ class DepositeScreen extends StatelessWidget {
                             if (number < 10000) {
                               return 'Giá trị phải lớn hơn 10.000đ';
                             }
-                            if (number > 1000000000) {
-                              return 'Giá trị không được vượt quá 1.000.000.000đ';
+                            if (number > 50000000) {
+                              return 'Giá trị không được vượt quá 50.000.000đ';
                             }
 
                             return null;
