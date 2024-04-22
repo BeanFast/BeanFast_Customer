@@ -523,7 +523,8 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                       controller.selectedSchool.value == null
                                           ? 'Chọn trường học'
                                           : controller
-                                              .selectedSchool.value!.name.toString(),
+                                              .selectedSchool.value!.name
+                                              .toString(),
                                       style: Get.textTheme.bodyLarge!.copyWith(
                                         color: Colors.black,
                                       ),
@@ -575,12 +576,12 @@ class StudentFormScreen extends GetView<ProfileFormController> {
               ),
               GradientButton(
                 text: 'Lưu Thông tin',
-                onPressed: () {
+                onPressed: () async {
                   if (controller.formKey.currentState!.validate()) {
                     if (controller.selectedSchool.value == null) {
                       Get.snackbar('Lỗi', 'Vui lòng chọn trường');
                     } else {
-                      controller.submitForm();
+                      await controller.submitForm();
                     }
                   }
                 },

@@ -30,13 +30,23 @@ class HomeController extends GetxController {
 
   Future getProfiles() async {
     try {
-      listProfile.value = await ProfileService().getAll();
+      List<Profile> list = await ProfileService().getAll();
+      if (currentProfile.value != null) {
+        var profileIndex =
+            list.indexWhere((e) => e.id == currentProfile.value!.id);
+        if (profileIndex != -1) {
+          var profile = list[profileIndex];
+          list.removeAt(profileIndex);
+          list.insert(0, profile);
+        }
+      }
+      listProfile.value = list;
     } catch (e) {
       throw Exception(e);
     }
   }
 
-   void toggleMoneyVisibility() {
+  void toggleMoneyVisibility() {
     isMoneyVisible.value = !isMoneyVisible.value;
     moneyValue.value = isMoneyVisible.value
         ? Formater.formatMoney(currentUser.value!.balance.toString())
@@ -54,8 +64,8 @@ class HomeController extends GetxController {
   Future getSession(String schoolId, DateTime dateTime) async {
     clear();
     try {
-      listSession.value =
-          await SessionService().getSessionsBySchoolId(schoolId, dateTime, true);
+      listSession.value = await SessionService()
+          .getSessionsBySchoolId(schoolId, dateTime, true);
     } on DioException catch (e) {
       throw Exception(e);
     }

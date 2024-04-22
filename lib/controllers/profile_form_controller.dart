@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -11,7 +12,6 @@ import '/models/school.dart';
 import '/utils/logger.dart';
 
 class ProfileFormController extends GetxController {
-  RxList<String> messageErrors = <String>[].obs;
   Rx<Profile> model = Profile().obs;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -110,33 +110,49 @@ class ProfileFormController extends GetxController {
     }
   }
 
-  void submitForm() {
-    messageErrors.value = [];
-    model.value.fullName = fullnameController.text;
-    model.value.nickName = nickNameController.text;
-    model.value.className = classController.text;
-    model.value.dob = selectedDate.value;
-    model.value.avatarPath = imagePath.value;
-    model.value.bmis = [Bmi()];
-    model.value.bmis!.last.height = double.parse(heightController.text);
-    model.value.bmis!.last.weight = double.parse(weightController.text);
-    model.value.bmis!.last.age = DateTime.now().year - model.value.dob!.year;
-    model.value.school = School();
-    model.value.school!.id = selectedSchool.value!.id!;
-
-    //fake data
-    model.value.gender = gender.value == 'Nam' ? true : false;
-    //
+  Future<void> submitForm() async {
+    if (imagePath.value.isEmpty) Get.snackbar('Lỗi', 'Chưa có ảnh');
     if (formKey.currentState!.validate() && imagePath.value.isNotEmpty) {
       try {
-        ProfileService().create(model.value);
-        Get.back();
+        //form
+        model.value.fullName = fullnameController.text;
+        model.value.nickName = nickNameController.text;
+        model.value.className = classController.text;
+        model.value.dob = selectedDate.value;
+        model.value.avatarPath = imagePath.value;
+        model.value.bmis = [Bmi()];
+        model.value.bmis!.last.height = double.parse(heightController.text);
+        model.value.bmis!.last.weight = double.parse(weightController.text);
+        model.value.bmis!.last.age =
+            DateTime.now().year - model.value.dob!.year;
+        model.value.school = School();
+        model.value.school!.id = selectedSchool.value!.id!;
+        model.value.gender = gender.value == 'Nam' ? true : false;
+        //
+        dio.Response response = await ProfileService().create(model.value);
+        if (response.statusCode == 201) {
+          Get.back();
+        } else {
+          Get.snackbar('Lỗi', response.data['message']);
+        }
       } catch (e) {
         throw Exception(e);
       }
     } else {
-      messageErrors.add('Thông tin chưa chính xác');
+      Get.snackbar('Lỗi', 'Thông tin chưa chính xác');
     }
-    if (imagePath.value.isEmpty) messageErrors.add('Ảnh trống');
+  }
+
+  Future<void> deleteById(String id) async {
+    try {
+      dio.Response response = await ProfileService().deleteById(id);
+      if (response.statusCode == 200) {
+        Get.back();
+      } else {
+        Get.snackbar('Lỗi', response.data['message']);
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

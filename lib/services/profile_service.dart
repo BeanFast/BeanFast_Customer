@@ -22,7 +22,12 @@ class ProfileService {
     return Profile.fromJson(response.data['data']);
   }
 
-  Future create(Profile model) async {
+  Future<Response> deleteById(String id) async {
+    final response = await _apiService.request.delete('$baseUrl/$id');
+    return response;
+  }
+
+  Future<Response> create(Profile model) async {
     FormData formData = FormData.fromMap({
       'Bmi.Height': model.bmis!.last.height,
       'Bmi.Weight': model.bmis!.last.weight,
@@ -36,6 +41,7 @@ class ProfileService {
       'SchoolId': model.school!.id,
       'Dob': model.dob,
     });
-    await _apiService.request.post(baseUrl, data: formData);
+    final response = await _apiService.request.post(baseUrl, data: formData);
+    return response;
   }
 }

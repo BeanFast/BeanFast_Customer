@@ -44,7 +44,7 @@ class SplashScreen extends GetView<AuthController> {
                 return const MainScreen();
               // return const WelcomeView();
               case AuthState.unauthenticated:
-                return OnBoardingPage();
+                return const OnBoardingPage();
               default:
                 return const ErrorScreen(message: 'Lỗi xác thực đăng nhập'); //
             }

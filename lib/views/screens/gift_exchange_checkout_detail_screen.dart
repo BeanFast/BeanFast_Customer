@@ -22,7 +22,7 @@ class GiftCheckOutScreen extends StatelessWidget {
         Get.put(ConfirmExchangeGiftController());
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      showSessionPicker(context, controller);
+      showSessionPicker();
     });
     return Scaffold(
       appBar: AppBar(
@@ -95,8 +95,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () =>
-                                    showSessionPicker(context, controller),
+                                onTap: () => showSessionPicker(),
                                 child: ListTile(
                                     leading: const Icon(Iconsax.truck_time),
                                     title: Obx(
@@ -114,7 +113,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                                     trailing: IconButton(
                                       iconSize: 24,
                                       onPressed: () {
-                                        showSessionPicker(context, controller);
+                                        showSessionPicker();
                                       },
                                       icon: const Icon(Iconsax.edit),
                                     )),
@@ -475,32 +474,49 @@ class ConfirmExchangeGiftController extends GetxController {
   // }
 }
 
-void showSessionPicker(
-    BuildContext context, ConfirmExchangeGiftController controller) async {
-  while (controller.selectedSession.value == null) {
-    DateTime? pickedDate = await showDatePicker(
-      context: Get.context!,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 5),
-    );
+// Future showSessionDatePicker() async {
+//   ConfirmExchangeGiftController controller = Get.find();
+//   // while (controller.selectedSession.value == null) {
+//   DateTime? pickedDate = await showDatePicker(
+//     context: Get.context!,
+//     initialDate: DateTime.now(),
+//     firstDate: DateTime.now(),
+//     lastDate: DateTime(DateTime.now().year + 5),
+//   );
 
-    if (pickedDate == null) {
-      if (controller.selectedSession.value == null) {
-        Get.back();
-      }
-      return;
-    } else {
-      controller.getSession(currentProfile.value!.school!.id!, pickedDate);
-    }
+//   if (pickedDate == null) {
+//     Get.back();
+//     // if (controller.selectedSession.value == null) {
+//     // }
+//     return;
+//   } else {
+//     await controller.getSession(currentProfile.value!.school!.id!, pickedDate);
+//   }
+// }
 
-    // bool sessionSelected = false;
+void showSessionPicker() async {
+  ConfirmExchangeGiftController controller = Get.find();
+  DateTime? pickedDate = await showDatePicker(
+    context: Get.context!,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now(),
+    lastDate: DateTime(DateTime.now().year + 5),
+  );
 
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          child: Column(
+  if (pickedDate == null) {
+    Get.back();
+    return;
+  } else {
+    await controller.getSession(currentProfile.value!.school!.id!, pickedDate);
+  }
+
+  showModalBottomSheet(
+    context: Get.context!,
+    builder: (BuildContext context) {
+      return SizedBox(
+        width: Get.width,
+        child: Obx(
+          () => Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
@@ -510,103 +526,33 @@ void showSessionPicker(
                   style: Get.textTheme.titleLarge,
                 ),
               ),
-              Obx(
-                () => Column(
-                  children: controller.listSession
-                      .map(
-                        (session) => ListTile(
-                          leading: const Icon(Icons.access_time),
-                          title: Text(
-                              'Từ ${DateFormat('HH:mm').format(session.deliveryStartTime!)} đến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}'),
-                          onTap: () {
-                            controller.selectedSession.value = session;
-                            Get.back();
-                          },
-                        ),
-                      )
-                      .toList(),
+              if (controller.listSession.isEmpty)
+                const Center(
+                  child: Text('Không tồn tại khung giờ nào'),
                 ),
-              )
+              Column(
+                children: controller.listSession
+                    .map(
+                      (session) => ListTile(
+                        leading: const Icon(Icons.access_time),
+                        title: Text(
+                            'Từ ${DateFormat('HH:mm').format(session.deliveryStartTime!)} đến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}'),
+                        onTap: () {
+                          controller.selectedSession.value = session;
+                          Get.back();
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  // .then((value) {
-  //   if (controller.selectedSession.value == null) {
-  //     Get.back();
-  //   }
-  // });
+        ),
+      );
+    },
+  ).then((value) async {
+    if (controller.selectedSession.value == null) {
+      showSessionPicker();
+    }
+  });
 }
-
-
-//  Future<dynamic> gateSelection(BuildContext context, String sessionId) {
-//     return showModalBottomSheet(
-//       isScrollControlled: true,
-//       context: context,
-//       builder: (context) {
-//         return Container(
-//           height: MediaQuery.of(context).size.height * 0.5,
-//           padding: const EdgeInsets.only(
-//             top: 20,
-//             bottom: 20,
-//             right: 10,
-//             left: 10,
-//           ),
-//           child: Column(
-//             children: [
-//               const Icon(Icons.more_horiz_outlined),
-//               Column(
-//                 children: controller.listSession[sessionId]!.sessionDetails!
-//                     .map(
-//                       (sessionDetail) => Container(
-//                         decoration: const BoxDecoration(
-//                           border: Border(
-//                             bottom: BorderSide(
-//                               color: Colors.grey,
-//                               width: 0.5,
-//                             ),
-//                           ),
-//                         ),
-//                         child: ListTile(
-//                           leading: Container(
-//                             width: 50,
-//                             height: 50,
-//                             decoration: BoxDecoration(
-//                               color: Colors.white,
-//                               borderRadius: BorderRadius.circular(25),
-//                               border: Border.all(color: Colors.grey),
-//                             ),
-//                             child: Image.network(
-//                               controller
-//                                   .listLocation[sessionDetail.location!.id]!
-//                                   .imagePath
-//                                   .toString(),
-//                               fit: BoxFit.cover,
-//                             ),
-//                           ),
-//                           title: Text(controller
-//                               .listLocation[sessionDetail.location!.id]!.name
-//                               .toString()),
-//                           subtitle: Text(controller
-//                               .listLocation[sessionDetail.location!.id]!
-//                               .description
-//                               .toString()),
-//                           onTap: () {
-//                             controller.updateSessionDetai(
-//                                 sessionId, sessionDetail.id!);
-//                             Get.back();
-//                           },
-//                         ),
-//                       ),
-//                     )
-//                     .toList(),
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }

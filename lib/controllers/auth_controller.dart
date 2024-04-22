@@ -52,12 +52,6 @@ class AuthController extends GetxController with CacheManager {
   }
 
   Future login() async {
-    // phoneController.text = '0372266084';
-    // passwordController.text = '12345678';
-    // phoneController.text = '0369998759';
-    // passwordController.text = 'thanh1234';
-    // phoneController.text = '0361118759';
-    // passwordController.text = '12345678';
     try {
       logger.e('login');
       var response = await AuthService()
