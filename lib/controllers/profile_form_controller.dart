@@ -35,7 +35,7 @@ class ProfileFormController extends GetxController {
       // model.value = await ProfileService().getById(id);
       fullnameController.text = profile.fullName!;
       nickNameController.text = profile.nickName!;
-      heightController.text = profile.fullName!;
+      // heightController.text = profile.fullName!;
       selectedDate.value = profile.dob!;
       // weightController.text = profile.fullName!;
       // heightController.text =

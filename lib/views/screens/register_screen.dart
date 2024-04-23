@@ -192,7 +192,9 @@ class RegisterView extends GetView<AuthController> {
                       text: 'Đăng ký',
                       onPressed: () async {
                         if (controller.isChecked.value == true) {
+                          controller.errorMessage.value = '';
                           if (_formKey.currentState!.validate()) {
+                            controller.errorMessage.value = '';
                             await controller.register();
                             Get.to(
                               () => const OtpConfirmationView(),
