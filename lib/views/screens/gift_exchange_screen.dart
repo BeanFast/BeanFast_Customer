@@ -136,9 +136,6 @@ class PointManagementTabView extends GetView<TransactionController> {
                       ),
                       Column(
                         children: transaction.value.map((element) {
-                          var transactionType = element.order!.code == null
-                              ? "Đổi quà"
-                              : "Đơn hàng";
                           IconData iconData = element.order!.code == null
                               ? Iconsax.wallet_add_1
                               : Iconsax.wallet_minus;
@@ -170,9 +167,10 @@ class PointManagementTabView extends GetView<TransactionController> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
+                                          
                                           element.order!.code != null
-                                              ? "$transactionType: #${element.order!.code!}"
-                                              : transactionType,
+                                              ? "Đơn hàng: #${element.order!.code!}"
+                                              : element.exchangeGiftId != null ? "Đổi quà: #${element.exchangeGift!.code}" : "Chơi game : #${element.gameId}",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style:

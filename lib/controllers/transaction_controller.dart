@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/utils/constants.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +19,6 @@ class TransactionController extends GetxController {
   Future getTransaction() async {
     listMonth.clear();
     listMonth.add('Tất cả');
-    mapTransactions.clear();
     try {
       List<Transaction> transactions =
           await TransactionService().getTransactions(1, 100);
@@ -28,6 +29,8 @@ class TransactionController extends GetxController {
   }
 
   void setInitListTransaction(List<Transaction> list) {
+    mapTransactions.clear();
+    initListTransaction.clear();
     for (var e in list) {
       String key = DateFormat('MM/yyyy').format(e.time!);
       if (initListTransaction.containsKey(key)) {
@@ -88,18 +91,26 @@ class TransactionController extends GetxController {
       //       }
       //     }
       //     break;
-      //   default: 
+      //   default:
       // }
     }
   }
 
   Future getPointTransaction(String profileId) async {
-    mapTransactions.clear();
     try {
       List<Transaction> transactions =
           await TransactionService().getPointTransactions(profileId, 1, 100);
       setInitListTransaction(transactions);
     } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future createGameTransaction(String gameId, int points) async {
+    try {
+      bool result = await TransactionService()
+          .createGameTransaction(currentProfile.value!.id!, gameId, points);
+    } on DioException catch (e) {
       throw Exception(e);
     }
   }

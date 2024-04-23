@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:beanfast_customer/controllers/transaction_controller.dart';
 import 'package:beanfast_customer/game/pac_man/ghost.dart';
 import 'package:beanfast_customer/game/pac_man/ghost2.dart';
 import 'package:beanfast_customer/game/pac_man/ghost3.dart';
@@ -154,6 +155,8 @@ class _PacmanGameState extends State<PacmanGame> {
             player = -1;
           });
           //send data to server
+          TransactionController transactionController = Get.put(TransactionController());
+          transactionController.createGameTransaction('DDC8018A-06A6-4DC1-87C7-E02C053FDB0F', score);
           currentProfileOnPage.playTimes.value--;
           showDialog(
               barrierDismissible: false,

@@ -1,7 +1,8 @@
-import 'package:beanfast_customer/models/transaction.dart';
-import 'package:beanfast_customer/services/api_service.dart';
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:get/get.dart';
+
+import '/models/transaction.dart';
+import '/services/api_service.dart';
+import '/utils/logger.dart';
 
 class TransactionService {
   final String baseUrl = 'transactions';
