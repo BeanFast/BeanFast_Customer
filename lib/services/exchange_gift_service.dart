@@ -1,5 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
+import 'package:get/get.dart';
 
 import '/enums/status_enum.dart';
 import '/models/exchange_gift.dart';
@@ -8,7 +7,7 @@ import '/services/api_service.dart';
 class ExchangeGiftService {
   final String baseUrl = 'ExchangeGifts';
 
-  final ApiService _apiService = getx.Get.put(ApiService());
+  final ApiService _apiService = Get.put(ApiService());
 
   Future<List<ExchangeGift>> getByStatus(ExchangeGiftStatus status) async {
     final response = await _apiService.request.get(baseUrl,
@@ -21,7 +20,7 @@ class ExchangeGiftService {
     return list;
   }
 
-  Future<Response> createExchangeGift(
+  Future<bool> createExchangeGift(
       String giftId, String profileId, String sessionDetailId) async {
     Map<String, dynamic> data = {
       'giftId': giftId,
@@ -29,6 +28,6 @@ class ExchangeGiftService {
       'sessionDetailId': sessionDetailId,
     };
     final response = await _apiService.request.post(baseUrl, data: data);
-    return response;
+    return response.statusCode == 200;
   }
 }

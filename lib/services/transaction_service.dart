@@ -13,6 +13,18 @@ class TransactionService {
     return response.data['data'];
   }
 
+  Future<bool> createGameTransaction(
+      String profileId, String gameId, int points) async {
+    Map<String, dynamic> data = {
+      'profileId': profileId,
+      'gameId': gameId,
+      'points': points,
+    };
+    final response =
+        await _apiService.request.post('$baseUrl/games', data: data);
+    return response.statusCode == 200;
+  }
+
   Future<List<Transaction>> getTransactions(int page, int size) async {
     var response = await _apiService.request
         .get(baseUrl, queryParameters: Map.from({"page": page, "size": size}));

@@ -65,7 +65,7 @@ class HomeController extends GetxController {
     clear();
     try {
       listSession.value = await SessionService()
-          .getSessionsBySchoolId(schoolId, dateTime, true);
+          .getSessionsBySchoolId(schoolId, dateTime);
     } on DioException catch (e) {
       throw Exception(e);
     }

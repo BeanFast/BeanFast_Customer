@@ -1,25 +1,25 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
-import '/models/session.dart';
-import '/services/session_service.dart';
+import '/controllers/exchange_gift_controller.dart';
+import '/models/gift.dart';
 import '/contrains/theme_color.dart';
 import '/utils/constants.dart';
-import '/utils/logger.dart';
 import '/utils/formater.dart';
-import '/views/widgets/row_info_confirm_item_widget.dart';
 
-class GiftCheckOutScreen extends StatelessWidget {
-  const GiftCheckOutScreen({super.key});
+class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
+  const GiftCheckOutScreen({
+    super.key,
+    required this.gift,
+  });
 
+  final Gift gift;
   @override
   Widget build(BuildContext context) {
-    final ConfirmExchangeGiftController controller =
-        Get.put(ConfirmExchangeGiftController());
+    Get.put(ExchangeGiftController());
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       showSessionPicker();
@@ -64,7 +64,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                                   ),
                                 ),
                                 child: Text(
-                                  'Tên người nhận',
+                                  currentProfile.value!.fullName.toString(),
                                   style: Get.textTheme.titleMedium,
                                 ),
                               ),
@@ -79,17 +79,31 @@ class GiftCheckOutScreen extends StatelessWidget {
                               ListTile(
                                 leading: const Icon(Iconsax.location),
                                 title: const Text('Địa chỉ nhận hàng'),
-                                subtitle: const Column(
+                                subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Địa chỉ nhận hàng'),
-                                    Text('Địa chỉ nhận hàng'),
+                                    Text(currentProfile.value!.school!.name
+                                        .toString()),
+                                    Obx(
+                                      () => Text(controller
+                                                  .selectedSession.value ==
+                                              null
+                                          ? 'Chưa chọn địa điểm nhận hàng'
+                                          : controller.selectedSession.value!
+                                              .sessionDetails!
+                                              .firstWhere((e) =>
+                                                  e.id! ==
+                                                  controller.sessionDetailId)
+                                              .location!
+                                              .name
+                                              .toString()),
+                                    )
                                   ],
                                 ),
                                 trailing: IconButton(
                                   iconSize: 24,
                                   onPressed: () {
-                                    // gateSelection(context, session.key);
+                                    gateSelection();
                                   },
                                   icon: const Icon(Iconsax.arrow_circle_right),
                                 ),
@@ -98,17 +112,15 @@ class GiftCheckOutScreen extends StatelessWidget {
                                 onTap: () => showSessionPicker(),
                                 child: ListTile(
                                     leading: const Icon(Iconsax.truck_time),
-                                    title: Obx(
+                                    title: Text('Thời gian nhận hàng',
+                                        style: Get.textTheme.bodyMedium),
+                                    subtitle: Obx(
                                       () => Text(
-                                        controller.selectedSession.value == null
-                                            ? ''
-                                            : DateFormat('HH:mm dd-MM-yy')
-                                                .format(controller
-                                                    .selectedSession
-                                                    .value!
-                                                    .deliveryStartTime!),
-                                        style: Get.textTheme.bodyMedium,
-                                      ),
+                                          controller.selectedSession.value ==
+                                                  null
+                                              ? 'Chưa chọn khung giờ nhận hàng'
+                                              : 'Từ ${DateFormat('HH:mm').format(controller.selectedSession.value!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}',
+                                          style: Get.textTheme.bodyMedium),
                                     ),
                                     trailing: IconButton(
                                       iconSize: 24,
@@ -136,7 +148,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                                           bottomLeft: Radius.circular(12),
                                         ),
                                         child: Image.network(
-                                          'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=',
+                                          gift.imagePath.toString(),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -157,7 +169,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                                             Expanded(
                                               child: SizedBox(
                                                 child: Text(
-                                                  'Tên quà',
+                                                  gift.name.toString(),
                                                   style:
                                                       Get.textTheme.bodyLarge,
                                                   overflow:
@@ -183,7 +195,8 @@ class GiftCheckOutScreen extends StatelessWidget {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    '10',
+                                                    Formater.formatPoint(
+                                                        gift.points.toString()),
                                                     style: Get
                                                         .textTheme.bodyLarge!
                                                         .copyWith(
@@ -234,24 +247,15 @@ class GiftCheckOutScreen extends StatelessWidget {
                                   style: Get.textTheme.titleMedium),
                             ],
                           ),
-                          RowInforWidget(
-                            title: 'Tổng đơn hàng ',
-                            data: Formater.formatMoney(
-                              '100000',
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RowInforWidget(
-                            title: 'Giảm giá sản phẩm ',
-                            data: Formater.formatMoney(
-                              ('100000').toString(),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
+                          // RowInforWidget(
+                          //   title: 'Tổng đơn hàng ',
+                          //   data: Formater.formatPoint(
+                          //     gift.points.toString(),
+                          //   ),
+                          // ),
+                          // const SizedBox(
+                          //   height: 5,
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,8 +268,8 @@ class GiftCheckOutScreen extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  Formater.formatMoney(
-                                    ('1200000').toString(),
+                                  Formater.formatPoint(
+                                    gift.points.toString(),
                                   ),
                                   textAlign: TextAlign.right,
                                   style: Get.textTheme.bodyLarge!,
@@ -311,8 +315,8 @@ class GiftCheckOutScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 14),
                       ),
                       Text(
-                          Formater.formatMoney(
-                            ('100000').toString(),
+                          Formater.formatPoint(
+                            gift.points.toString(),
                           ),
                           style: const TextStyle(
                               fontSize: 18,
@@ -341,97 +345,13 @@ class GiftCheckOutScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      if (false) {
-                        showDialog(
-                          context: context,
-                          // barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            // Return object of type Dialog
-                            return AlertDialog(
-                              content: SizedBox(
-                                height: 160,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      width: Get.width,
-                                      height: 100,
-                                      child: Lottie.asset(
-                                        "assets/unsuccess.json",
-                                        repeat: true,
-                                        fit: BoxFit.contain,
-                                        // animate: true,
-                                      ),
-                                    ),
-                                    const Text('Thông báo',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Số dư không đủ, ',
-                                          style: Get.textTheme.bodyLarge,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // Get.to(DepositeScreen());
-                                          },
-                                          child: Text(
-                                            'nạp thêm',
-                                            style: Get.textTheme.bodyLarge!
-                                                .copyWith(
-                                                    color: Color.fromRGBO(
-                                                        240, 103, 24, 1)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        //Không đủ số dư - nạp tiền
-                      } else {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            // Return object of type Dialog
-                            return AlertDialog(
-                              content: SizedBox(
-                                height: 180,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 150,
-                                      width: 150,
-                                      child: Lottie.asset(
-                                        "assets/success.json",
-                                        repeat: false,
-                                        animate: true,
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Đặt hàng thành công !',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        await Future.delayed(const Duration(seconds: 2));
-                        Navigator.pop(context);
-                        //Api đổi quà
-                      }
+                      bool result =
+                          await controller.createExchangeGift(gift.id!);
+                      Get.snackbar(
+                        'Đổi quà ${result ? 'thành công' : 'thất bại'}',
+                        controller.messages.toString(),
+                        snackPosition: SnackPosition.TOP,
+                      );
                     },
                     child: Text(
                       'Đặt hàng',
@@ -447,112 +367,129 @@ class GiftCheckOutScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-class ConfirmExchangeGiftController extends GetxController {
-  Rx<Session?> selectedSession = Rx<Session?>(null);
-  RxList<Session> listSession = <Session>[].obs;
+  void showSessionPicker() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
 
-  void clear() {
-    listSession.clear();
-    selectedSession.value = null;
-  }
-
-  Future getSession(String schoolId, DateTime dateTime) async {
-    clear();
-    try {
-      listSession.value = await SessionService()
-          .getSessionsBySchoolId(schoolId, dateTime, false);
-      logger.e(listSession.length);
-    } on DioException catch (e) {
-      throw Exception(e);
+    if (pickedDate == null) {
+      Get.back();
+      return;
+    } else {
+      await controller.getSession(
+          currentProfile.value!.school!.id!, pickedDate);
     }
+
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return SizedBox(
+          width: Get.width,
+          child: Obx(
+            () => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Chọn thời gian nhận hàng',
+                    style: Get.textTheme.titleLarge,
+                  ),
+                ),
+                if (controller.listSession.isEmpty)
+                  const Center(
+                    child: Text('Không tồn tại khung giờ nào'),
+                  ),
+                Column(
+                  children: controller.listSession
+                      .map(
+                        (session) => ListTile(
+                          leading: const Icon(Icons.access_time),
+                          title: Text(
+                              'Từ ${DateFormat('HH:mm').format(session.deliveryStartTime!)} đến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}'),
+                          onTap: () {
+                            controller.selectSession(session);
+
+                            Get.back();
+                          },
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ).then((value) async {
+      if (controller.selectedSession.value == null) {
+        showSessionPicker();
+      }
+    });
   }
 
-  // void selectSession(Session session) {
-  //   selectedSession.value = session;
-  // }
-}
-
-// Future showSessionDatePicker() async {
-//   ConfirmExchangeGiftController controller = Get.find();
-//   // while (controller.selectedSession.value == null) {
-//   DateTime? pickedDate = await showDatePicker(
-//     context: Get.context!,
-//     initialDate: DateTime.now(),
-//     firstDate: DateTime.now(),
-//     lastDate: DateTime(DateTime.now().year + 5),
-//   );
-
-//   if (pickedDate == null) {
-//     Get.back();
-//     // if (controller.selectedSession.value == null) {
-//     // }
-//     return;
-//   } else {
-//     await controller.getSession(currentProfile.value!.school!.id!, pickedDate);
-//   }
-// }
-
-void showSessionPicker() async {
-  ConfirmExchangeGiftController controller = Get.find();
-  DateTime? pickedDate = await showDatePicker(
-    context: Get.context!,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime(DateTime.now().year + 5),
-  );
-
-  if (pickedDate == null) {
-    Get.back();
-    return;
-  } else {
-    await controller.getSession(currentProfile.value!.school!.id!, pickedDate);
-  }
-
-  showModalBottomSheet(
-    context: Get.context!,
-    builder: (BuildContext context) {
-      return SizedBox(
-        width: Get.width,
-        child: Obx(
-          () => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Chọn thời gian nhận hàng',
-                  style: Get.textTheme.titleLarge,
-                ),
-              ),
-              if (controller.listSession.isEmpty)
-                const Center(
-                  child: Text('Không tồn tại khung giờ nào'),
-                ),
+  Future<dynamic> gateSelection() {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: Get.context!,
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          padding: const EdgeInsets.only(
+            top: 20,
+            bottom: 20,
+            right: 10,
+            left: 10,
+          ),
+          child: Column(
+            children: [
+              const Icon(Icons.more_horiz_outlined),
               Column(
-                children: controller.listSession
+                children: controller.selectedSession.value!.sessionDetails!
                     .map(
-                      (session) => ListTile(
-                        leading: const Icon(Icons.access_time),
-                        title: Text(
-                            'Từ ${DateFormat('HH:mm').format(session.deliveryStartTime!)} đến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}'),
-                        onTap: () {
-                          controller.selectedSession.value = session;
-                          Get.back();
-                        },
+                      (sessionDetail) => Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey,
+                              width: 0.5,
+                            ),
+                          ),
+                        ),
+                        child: ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            // child: Image.network(
+                            //   sessionDetail.location!.imagePath.toString(),
+                            //   fit: BoxFit.cover,
+                            // ),
+                          ),
+                          title: Text(sessionDetail.location!.name.toString()),
+                          // subtitle: Text(
+                          //     sessionDetail.location!.description.toString()),
+                          onTap: () {
+                            controller.sessionDetailId = sessionDetail.id!;
+                            Get.back();
+                          },
+                        ),
                       ),
                     )
                     .toList(),
               ),
             ],
           ),
-        ),
-      );
-    },
-  ).then((value) async {
-    if (controller.selectedSession.value == null) {
-      showSessionPicker();
-    }
-  });
+        );
+      },
+    );
+  }
 }

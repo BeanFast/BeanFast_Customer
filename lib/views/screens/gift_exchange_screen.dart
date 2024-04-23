@@ -360,7 +360,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
                                       if (currentProfile
                                               .value!.wallet!.balance! >
                                           gift.points!) {
-                                        Get.to(const GiftCheckOutScreen());
+                                        Get.to(GiftCheckOutScreen(gift: gift));
                                       } else {
                                         Get.snackbar(
                                           'Đổi quà thất bại',

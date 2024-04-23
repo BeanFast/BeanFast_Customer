@@ -9,13 +9,13 @@ class SessionService {
   final ApiService _apiService = getx.Get.put(ApiService());
 
   Future<List<Session>> getSessionsBySchoolId(
-      String schoolId, DateTime dateTime, bool orderable) async {
+      String schoolId, DateTime dateTime) async {
     String date = DateFormat('yyyy-MM-dd').format(dateTime);
     final response = await _apiService.request.get(baseUrl,
         queryParameters: Map.from({
           "SchoolId": schoolId,
           "DeliveryTime": date,
-          'Orderable': orderable
+          'Orderable': true
         }));
     List<Session> list = [];
     for (var e in response.data['data']) {
