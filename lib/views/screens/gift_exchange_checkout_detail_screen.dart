@@ -334,13 +334,13 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                       foregroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Text color
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green), // Background color
+                          ThemeColor.textButtonColor), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.all(5)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.grey),
+                          side:  BorderSide(color: ThemeColor.textButtonColor),
                         ),
                       ),
                     ),
