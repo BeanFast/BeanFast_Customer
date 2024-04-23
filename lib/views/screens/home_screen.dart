@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/views/screens/order_screen.dart';
+import 'package:beanfast_customer/views/widgets/result_screen_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -331,7 +333,7 @@ class HomeScreen extends GetView<HomeController> {
                                           color: controller.selectedSessionId
                                                       .value ==
                                                   session.id.toString()
-                                              ? Colors.green
+                                              ? ThemeColor.textButtonColor
                                               : Colors.white,
                                           child: Container(
                                             padding: const EdgeInsets.only(
@@ -414,7 +416,7 @@ class HomeScreen extends GetView<HomeController> {
                                       color:
                                           controller.selectedCategoryId.value ==
                                                   category.value
-                                              ? Colors.green
+                                              ? ThemeColor.textButtonColor
                                               : Colors.white,
                                       child: Container(
                                         padding: const EdgeInsets.only(
@@ -821,7 +823,18 @@ List<Widget> headerActionWidget() {
                     text: "Nạp tiền",
                     isNew: false,
                     onPressed: () {
-                      Get.to(DepositeScreen());
+                      Get.to(
+                        ResultScreenWidget(
+                        isSuccess: false,
+                        content: 'Cảm ơn bạn đã ủng hộ BeanFast!. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng của bạn.',
+                        ontapNameLeftSide: 'Trang chủ',
+                        ontapLeftSide: () {},
+                        ontapNameRightSide: 'Đơn hàng',
+                        ontapRightSide: () {
+                          Get.to(const OrderScreen());
+                        },
+                      ));
+                      // Get.to(DepositeScreen());
                     },
                   ),
                   MainIconButton(

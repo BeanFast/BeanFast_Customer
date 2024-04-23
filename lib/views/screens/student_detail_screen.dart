@@ -61,64 +61,64 @@ class StudentDetailScreen extends GetView<ProfileController> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Text(
-                    'Thẻ nhận hàng',
-                    style: Get.textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: controller.model.value.loyaltyCards!.map((e) {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 20),
-                            width: 300,
-                            height: 170,
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Card(
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: SizedBox(
-                                      width: Get.width,
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10),
-                                        ),
-                                        child: Image.network(
-                                          e.backgroundImagePath!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 25,
-                                    alignment: Alignment.center,
-                                    width: Get.width,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(10),
-                                          bottomRight: Radius.circular(10)),
-                                    ),
-                                    child: const Text('Đang dùng'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  // Text(
+                  //   'Thẻ nhận hàng',
+                  //   style: Get.textTheme.titleMedium,
+                  // ),
+                  // const SizedBox(height: 20),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   child: SingleChildScrollView(
+                  //     scrollDirection: Axis.horizontal,
+                  //     child: Row(
+                  //       children: controller.model.value.loyaltyCards!.map((e) {
+                  //         return Container(
+                  //           margin: const EdgeInsets.only(right: 20),
+                  //           width: 300,
+                  //           height: 170,
+                  //           decoration: const BoxDecoration(
+                  //             borderRadius:
+                  //                 BorderRadius.all(Radius.circular(10)),
+                  //           ),
+                  //           child: Card(
+                  //             child: Column(
+                  //               children: [
+                  //                 Expanded(
+                  //                   child: SizedBox(
+                  //                     width: Get.width,
+                  //                     child: ClipRRect(
+                  //                       borderRadius: const BorderRadius.only(
+                  //                         topLeft: Radius.circular(10),
+                  //                         topRight: Radius.circular(10),
+                  //                       ),
+                  //                       child: Image.network(
+                  //                         e.backgroundImagePath!,
+                  //                         fit: BoxFit.cover,
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 Container(
+                  //                   height: 25,
+                  //                   alignment: Alignment.center,
+                  //                   width: Get.width,
+                  //                   decoration: const BoxDecoration(
+                  //                     color: Colors.green,
+                  //                     borderRadius: BorderRadius.only(
+                  //                         bottomLeft: Radius.circular(10),
+                  //                         bottomRight: Radius.circular(10)),
+                  //                   ),
+                  //                   child: const Text('Đang dùng'),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         );
+                  //       }).toList(),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
                   Text(
                     'Thông tin học sinh',
                     style: Get.textTheme.titleMedium,
