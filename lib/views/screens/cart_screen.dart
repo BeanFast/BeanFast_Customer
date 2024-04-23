@@ -367,7 +367,7 @@ class CartScreen extends GetView<CartController> {
                             if (states.contains(MaterialState.disabled)) {
                               return Colors.grey;
                             }
-                            return Colors.green;
+                            return ThemeColor.textButtonColor;
                           }),
                           padding: MaterialStateProperty.all<EdgeInsets>(
                               const EdgeInsets.all(5)),
@@ -375,7 +375,7 @@ class CartScreen extends GetView<CartController> {
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
-                              side: const BorderSide(color: Colors.grey),
+                              side:  BorderSide(color: ThemeColor.textButtonColor),
                             ),
                           ),
                         ),

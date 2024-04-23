@@ -333,7 +333,7 @@ class HomeScreen extends GetView<HomeController> {
                                           color: controller.selectedSessionId
                                                       .value ==
                                                   session.id.toString()
-                                              ? Colors.green
+                                              ? ThemeColor.textButtonColor
                                               : Colors.white,
                                           child: Container(
                                             padding: const EdgeInsets.only(
@@ -416,7 +416,7 @@ class HomeScreen extends GetView<HomeController> {
                                       color:
                                           controller.selectedCategoryId.value ==
                                                   category.value
-                                              ? Colors.green
+                                              ? ThemeColor.textButtonColor
                                               : Colors.white,
                                       child: Container(
                                         padding: const EdgeInsets.only(

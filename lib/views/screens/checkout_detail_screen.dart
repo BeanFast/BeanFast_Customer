@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/views/widgets/row_info_confirm_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -389,16 +390,16 @@ class CheckOutDetailScreen extends GetView<CartController> {
                     child: TextButton(
                       style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white), // Text color
+                            ThemeColor.textButtonColor), // Text color
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.green), // Background color
+                            ThemeColor.textButtonColor), // Background color
                         padding: MaterialStateProperty.all<EdgeInsets>(
                             const EdgeInsets.all(5)),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            side: const BorderSide(color: Colors.grey),
+                            side:  BorderSide(color: ThemeColor.textButtonColor),
                           ),
                         ),
                       ),
@@ -499,7 +500,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                       child: Text(
                         'Đặt hàng',
                         style: Get.textTheme.titleLarge!
-                            .copyWith(color: Colors.white),
+                            .copyWith(color: ThemeColor.itemColor),
                       ),
                     ),
                   ),
