@@ -823,18 +823,20 @@ List<Widget> headerActionWidget() {
                     text: "Nạp tiền",
                     isNew: false,
                     onPressed: () {
-                      Get.to(
-                        ResultScreenWidget(
-                        isSuccess: false,
-                        content: 'Cảm ơn bạn đã ủng hộ BeanFast!. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng của bạn.',
-                        ontapNameLeftSide: 'Trang chủ',
-                        ontapLeftSide: () {},
-                        ontapNameRightSide: 'Đơn hàng',
-                        ontapRightSide: () {
-                          Get.to(const OrderScreen());
-                        },
-                      ));
-                      // Get.to(DepositeScreen());
+                      // Get.to(
+                      //   ResultScreenWidget(
+                      //     isSuccess: true,
+                      //     content:
+                      //         'Cảm ơn bạn đã ủng hộ BeanFast!. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng của bạn.',
+                      //     ontapNameLeftSide: 'Trang chủ',
+                      //     ontapLeftSide: () {},
+                      //     ontapNameRightSide: 'Đơn hàng',
+                      //     ontapRightSide: () {
+                      //       Get.to(const OrderScreen());
+                      //     },
+                      //   ),
+                      // );
+                       Get.to(DepositeScreen());
                     },
                   ),
                   MainIconButton(
