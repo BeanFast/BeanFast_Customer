@@ -1,21 +1,19 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/views/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '/controllers/auth_controller.dart';
+import '/views/widgets/gradient_button.dart';
 import '/views/screens/register_screen.dart';
 
 class LoginView extends GetView<AuthController> {
-  final AuthController _authController = Get.put(AuthController());
-  final Duration duration = const Duration(milliseconds: 800);
-  final _formKey = GlobalKey<FormState>();
-
-  LoginView({super.key});
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final formKey = controller.formKey;
+    Get.put(AuthController());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -25,7 +23,7 @@ class LoginView extends GetView<AuthController> {
       body: SingleChildScrollView(
         reverse: true,
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               SizedBox(
@@ -61,7 +59,7 @@ class LoginView extends GetView<AuthController> {
                     FadeInUp(
                       child: SizedBox(
                         child: TextFormField(
-                          controller: _authController.phoneController,
+                          controller: controller.phoneController,
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.phone_android_outlined),
                             border: UnderlineInputBorder(),
@@ -97,7 +95,7 @@ class LoginView extends GetView<AuthController> {
                       child: Obx(
                         () => SizedBox(
                           child: TextFormField(
-                            controller: _authController.passwordController,
+                            controller: controller.passwordController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.lock_outlined),
                               border: const UnderlineInputBorder(),
@@ -166,12 +164,12 @@ class LoginView extends GetView<AuthController> {
                       child: GradientButton(
                         text: 'Đăng nhập',
                         onPressed: () {
-                          if (!_formKey.currentState!.validate()) {
+                          if (!formKey.currentState!.validate()) {
                             controller.errorMessage.value = '';
                           }
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             controller.errorMessage.value = '';
-                            _authController.login();
+                            controller.login();
                           }
                         },
                       ),

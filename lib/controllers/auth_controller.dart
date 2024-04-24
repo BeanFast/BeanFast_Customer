@@ -11,12 +11,10 @@ import '/views/screens/splash_screen.dart';
 import '/utils/constants.dart';
 import '/utils/logger.dart';
 import '/services/auth_service.dart';
-import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
 
 class AuthController extends GetxController with CacheManager {
-  late Rx<Account?> account;
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 

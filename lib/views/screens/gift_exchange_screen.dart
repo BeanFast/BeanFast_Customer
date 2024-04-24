@@ -167,10 +167,11 @@ class PointManagementTabView extends GetView<TransactionController> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          
                                           element.order!.code != null
                                               ? "Đơn hàng: #${element.order!.code!}"
-                                              : element.exchangeGiftId != null ? "Đổi quà: #${element.exchangeGift!.code}" : "Chơi game : #${element.gameId}",
+                                              : element.exchangeGift != null
+                                                  ? "Đổi quà: #${element.exchangeGift!.code}"
+                                                  : "Chơi game : #${element.game!.code}",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style:

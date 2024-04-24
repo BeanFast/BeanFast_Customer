@@ -1,5 +1,4 @@
 import 'base_model.dart';
-import 'order.dart';
 import 'transaction.dart';
 
 class Game extends BaseModel {

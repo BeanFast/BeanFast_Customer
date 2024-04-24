@@ -105,24 +105,31 @@ class ResultScreenWidget extends StatelessWidget {
             ),
             //Rich text copy xong nhớ set height lai
             //Thanh công cụ
-            QuillToolbar.simple(
-              configurations: QuillSimpleToolbarConfigurations(
-                controller: controller.quillController,
-                //hiện thị nhiều dòng ở thanh công cụ
-                multiRowsDisplay: false,
-                sharedConfigurations: const QuillSharedConfigurations(
-                  locale: Locale('vi', 'VN'),
-                ),
-              ),
-            ),
+            // QuillToolbar.simple(
+            //   configurations: QuillSimpleToolbarConfigurations(
+            //     controller: controller.quillController,
+            //     //hiện thị nhiều dòng ở thanh công cụ
+            //     multiRowsDisplay: false,
+            //     sharedConfigurations: const QuillSharedConfigurations(
+            //       locale: Locale('vi', 'VN'),
+            //     ),
+            //   ),
+            // ),
             //Ô input
-            Expanded(
+            Container(
+              padding: const EdgeInsets.all(10),
+              height: 150,
+              width: Get.width - 20,
+              decoration: BoxDecoration(
+                color: ThemeColor.itemColor,
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: QuillEditor.basic(
                 configurations: QuillEditorConfigurations(
                     controller: controller.quillController),
               ),
             ),
-            //Nút in nội dung
             ElevatedButton(
               onPressed: controller.printContent,
               child: const Text('Print Content'),
