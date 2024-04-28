@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 
 import '/controllers/exchange_gift_controller.dart';
 import '/models/gift.dart';
@@ -17,6 +16,7 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
   });
 
   final Gift gift;
+
   @override
   Widget build(BuildContext context) {
     Get.put(ExchangeGiftController());
@@ -24,6 +24,7 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       showSessionPicker();
     });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Đổi quà'),
@@ -40,35 +41,30 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                         Container(
                           padding: const EdgeInsets.only(
                               left: 10, right: 10, top: 5, bottom: 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                height: 50,
-                                width: Get.width,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                  ),
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.grey,
-                                      width: 0.5,
-                                    ),
-                                  ),
-                                ),
-                                child: Text(
-                                  currentProfile.value!.fullName.toString(),
-                                  style: Get.textTheme.titleMedium,
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                            ),
+                            alignment: Alignment.centerLeft,
+                            height: 50,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.5,
                                 ),
                               ),
-                            ],
+                            ),
+                            child: Text(
+                              currentProfile.value!.fullName.toString(),
+                              style: Get.textTheme.titleMedium,
+                            ),
                           ),
                         ),
                         Container(
@@ -247,15 +243,6 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                                   style: Get.textTheme.titleMedium),
                             ],
                           ),
-                          // RowInforWidget(
-                          //   title: 'Tổng đơn hàng ',
-                          //   data: Formater.formatPoint(
-                          //     gift.points.toString(),
-                          //   ),
-                          // ),
-                          // const SizedBox(
-                          //   height: 5,
-                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,7 +327,7 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side:  BorderSide(color: ThemeColor.textButtonColor),
+                          side: BorderSide(color: ThemeColor.textButtonColor),
                         ),
                       ),
                     ),

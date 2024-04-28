@@ -8,13 +8,14 @@ class ApiService extends getx.GetxService {
   late Dio _dio;
 
   static BaseOptions options = BaseOptions(
-      baseUrl: 'https://beanfast.id.vn/api/v1/',
-      headers: {
-        Headers.contentTypeHeader: "application/json",
-        Headers.acceptHeader: "text/plain"
-      },
-      sendTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 5));
+    baseUrl: 'https://beanfast.id.vn/api/v1/',
+    headers: {
+      Headers.contentTypeHeader: "application/json",
+      Headers.acceptHeader: "text/plain"
+    },
+    sendTimeout: const Duration(seconds: 15),
+    receiveTimeout: const Duration(seconds: 5),
+  );
 
   // ApiService(){
   //   _dio = Dio(options);

@@ -14,7 +14,11 @@ Future<void> main() async {
   // Get.put(HomeController());
   timeago.setLocaleMessages('vi', ViMessages());
   timeago.setDefaultLocale('vi');
-  runApp(const MyApp());
+  try {
+    runApp(const MyApp());
+  } catch (e) {
+    Get.snackbar('try', e.toString());
+  }
 }
 
 class MyApp extends StatelessWidget {

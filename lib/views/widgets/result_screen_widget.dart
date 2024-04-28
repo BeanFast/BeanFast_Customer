@@ -1,7 +1,8 @@
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/views/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '/contrains/theme_color.dart';
+import '/views/screens/welcome_screen.dart';
 
 class ResultScreenWidget extends StatelessWidget {
   final bool isSuccess;

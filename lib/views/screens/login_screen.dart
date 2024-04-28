@@ -164,11 +164,7 @@ class LoginView extends GetView<AuthController> {
                       child: GradientButton(
                         text: 'Đăng nhập',
                         onPressed: () {
-                          if (!formKey.currentState!.validate()) {
-                            controller.errorMessage.value = '';
-                          }
                           if (formKey.currentState!.validate()) {
-                            controller.errorMessage.value = '';
                             controller.login();
                           }
                         },

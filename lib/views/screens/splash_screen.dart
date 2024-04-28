@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/views/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +7,7 @@ import '/utils/constants.dart';
 import '/utils/logger.dart';
 import 'error_screen.dart';
 import 'main_screen.dart';
+import 'onboarding_screen.dart';
 
 class SplashScreen extends GetView<AuthController> {
   const SplashScreen({super.key});

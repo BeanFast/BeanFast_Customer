@@ -6,11 +6,14 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../enums/menu_index_enum.dart';
+import '../widgets/result_screen_widget.dart';
 import '/controllers/cart_controller.dart';
 import '/utils/constants.dart';
 import '/utils/formater.dart';
 import '/views/screens/deposit_screen.dart';
 import '/views/screens/loading_screen.dart';
+import 'splash_screen.dart';
 
 class CheckOutDetailScreen extends GetView<CartController> {
   const CheckOutDetailScreen({super.key});
@@ -399,7 +402,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            side:  BorderSide(color: ThemeColor.textButtonColor),
+                            side: BorderSide(color: ThemeColor.textButtonColor),
                           ),
                         ),
                       ),
@@ -459,42 +462,25 @@ class CheckOutDetailScreen extends GetView<CartController> {
                               );
                             },
                           );
-                          //Không đủ số dư - nạp tiền
                         } else {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              // Return object of type Dialog
-                              return AlertDialog(
-                                content: SizedBox(
-                                  height: 180,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 150,
-                                        width: 150,
-                                        child: Lottie.asset(
-                                          "assets/success.json",
-                                          repeat: false,
-                                          animate: true,
-                                        ),
-                                      ),
-                                      const Text(
-                                        'Đặt hàng thành công !',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
+                          bool result = await controller.checkout();
+                          Get.to(
+                            ResultScreenWidget(
+                              isSuccess: result,
+                              content:
+                                  'Cảm ơn bạn đã ủng hộ BeanFast!.',
+                              ontapNameLeftSide: 'Trang chủ',
+                              ontapLeftSide: () {
+                                changePage(MenuIndexState.home.index);
+                                Get.offAll(const SplashScreen());
+                              },
+                              ontapNameRightSide: 'Đơn hàng',
+                              ontapRightSide: () {
+                                changePage(MenuIndexState.order.index);
+                                Get.offAll(const SplashScreen());
+                              },
+                            ),
                           );
-                          await Future.delayed(const Duration(seconds: 2));
-                          Navigator.pop(context);
-                          await controller.checkout();
                         }
                       },
                       child: Text(

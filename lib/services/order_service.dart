@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
 import '/utils/logger.dart';
@@ -33,7 +32,7 @@ class OrderService {
     return order;
   }
 
-  Future<Response> createOrder(String sessionDetailId, String profileId,
+  Future<bool> create(String sessionDetailId, String profileId,
       Map<String, int> listCart) async {
     List<Map<String, dynamic>> orderDetails = [];
     listCart.forEach((key, value) {
@@ -51,6 +50,6 @@ class OrderService {
     };
     logger.e('data - $data');
     final response = await _apiService.request.post(baseUrl, data: data);
-    return response;
+    return response.statusCode == 201;
   }
 }
