@@ -1,21 +1,19 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/views/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '/controllers/auth_controller.dart';
+import '/views/widgets/gradient_button.dart';
 import '/views/screens/register_screen.dart';
 
 class LoginView extends GetView<AuthController> {
-  final AuthController _authController = Get.put(AuthController());
-  final Duration duration = const Duration(milliseconds: 800);
-  final _formKey = GlobalKey<FormState>();
-
-  LoginView({super.key});
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final formKey = controller.formKey;
+    Get.put(AuthController());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -25,7 +23,7 @@ class LoginView extends GetView<AuthController> {
       body: SingleChildScrollView(
         reverse: true,
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               SizedBox(
@@ -61,17 +59,18 @@ class LoginView extends GetView<AuthController> {
                     FadeInUp(
                       child: SizedBox(
                         child: TextFormField(
-                          controller: _authController.phoneController,
+                          controller: controller.phoneController,
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.phone_android_outlined),
                             border: UnderlineInputBorder(),
                           ),
+                          keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập số diện thoại';
                             }
-                            if (value.length < 10) {
-                              return 'Số điện thoại có độ dài ít nhất là 10';
+                            if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                              return 'Số điện thoại phải có 10 chữ số';
                             }
                             return null;
                           },
@@ -96,7 +95,7 @@ class LoginView extends GetView<AuthController> {
                       child: Obx(
                         () => SizedBox(
                           child: TextFormField(
-                            controller: _authController.passwordController,
+                            controller: controller.passwordController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.lock_outlined),
                               border: const UnderlineInputBorder(),
@@ -126,12 +125,14 @@ class LoginView extends GetView<AuthController> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    Obx(
-                      () => Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          controller.errorMessage.value,
-                          style: const TextStyle(color: Colors.red),
+                    FadeInUp(
+                      child: Obx(
+                        () => Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            controller.errorMessage.value,
+                            style: const TextStyle(color: Colors.red),
+                          ),
                         ),
                       ),
                     ),
@@ -163,8 +164,8 @@ class LoginView extends GetView<AuthController> {
                       child: GradientButton(
                         text: 'Đăng nhập',
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _authController.login();
+                          if (formKey.currentState!.validate()) {
+                            controller.login();
                           }
                         },
                       ),

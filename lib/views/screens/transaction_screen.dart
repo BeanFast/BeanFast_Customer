@@ -14,7 +14,7 @@ class TransactionScreen extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.find<HomeController>();
-    DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm');
+    DateFormat formatter = DateFormat('HH:mm dd/MM/yy');
     Get.put(TransactionController());
     return LoadingScreen(
       future: controller.getTransaction,
@@ -265,8 +265,6 @@ class TransactionScreen extends GetView<TransactionController> {
 
 void showFilterDialog(BuildContext context) {
   final TransactionController controller = Get.find();
-  Rx<int> tempselectedSortByMonth = controller.indexSelectedSortByMonth.obs;
-  Rx<int> tempselectedSortByStatus = controller.indexSelectedSortByStatus.obs;
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -298,10 +296,11 @@ void showFilterDialog(BuildContext context) {
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: tempselectedSortByMonth.value ==
-                                      controller.listMonth.indexOf(month)
-                                  ? Colors.pink[100]
-                                  : Colors.white,
+                              color:
+                                  controller.indexSelectedSortByMonth.value ==
+                                          controller.listMonth.indexOf(month)
+                                      ? Colors.pink[100]
+                                      : Colors.white,
                               border: Border.all(
                                 color: Colors.pink,
                                 width: 1,
@@ -310,7 +309,7 @@ void showFilterDialog(BuildContext context) {
                             child: Text(month),
                           ),
                           onTap: () {
-                            tempselectedSortByMonth.value =
+                            controller.indexSelectedSortByMonth.value =
                                 controller.listMonth.indexOf(month);
                           },
                         ));
@@ -335,10 +334,11 @@ void showFilterDialog(BuildContext context) {
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: tempselectedSortByStatus.value ==
-                                      controller.listStatus.indexOf(status)
-                                  ? Colors.pink[100]
-                                  : Colors.white,
+                              color:
+                                  controller.indexSelectedSortByStatus.value ==
+                                          controller.listStatus.indexOf(status)
+                                      ? Colors.pink[100]
+                                      : Colors.white,
                               border: Border.all(
                                 color: Colors.pink,
                                 width: 1,
@@ -347,7 +347,7 @@ void showFilterDialog(BuildContext context) {
                             child: Text(status),
                           ),
                           onTap: () {
-                            tempselectedSortByStatus.value =
+                            controller.indexSelectedSortByStatus.value =
                                 controller.listStatus.indexOf(status);
                           },
                         ));
@@ -365,8 +365,9 @@ void showFilterDialog(BuildContext context) {
                 child: SizedBox(
                   height: 40,
                   child: Obx(() => ElevatedButton(
-                        style: tempselectedSortByStatus.value != 0 ||
-                                tempselectedSortByMonth.value != 0
+                        style: controller.indexSelectedSortByStatus.value !=
+                                    0 ||
+                                controller.indexSelectedSortByMonth.value != 0
                             ? ButtonStyle(
                                 foregroundColor:
                                     MaterialStateProperty.all<Color>(
@@ -402,8 +403,8 @@ void showFilterDialog(BuildContext context) {
                                 ),
                               ),
                         onPressed: () {
-                          tempselectedSortByMonth.value = 0;
-                          tempselectedSortByStatus.value = 0;
+                          controller.indexSelectedSortByMonth.value = 0;
+                          controller.indexSelectedSortByStatus.value = 0;
                         },
                         child: const Text('Xoá bộ lọc',
                             style: TextStyle(fontSize: 16)),
@@ -430,12 +431,8 @@ void showFilterDialog(BuildContext context) {
                       ),
                     ),
                     onPressed: () {
-                      controller.indexSelectedSortByMonth =
-                          tempselectedSortByMonth.value;
-                      print(tempselectedSortByMonth.value);
-                      controller.indexSelectedSortByStatus =
-                          tempselectedSortByStatus.value;
-                      Navigator.of(context).pop();
+                      controller.filterTransactions();
+                      Get.back();
                     },
                     child:
                         const Text('Áp dụng', style: TextStyle(fontSize: 16)),

@@ -1,32 +1,76 @@
-import 'package:beanfast_customer/models/gift.dart';
-import 'package:beanfast_customer/services/gift_service.dart';
-import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
+import 'package:dio/dio.dart' as dio;
+import 'package:get/get.dart';
 
-class ExchangeGiftController extends getx.GetxController {
-  getx.RxBool isError = false.obs;
-  getx.RxList<Gift> listData = <Gift>[].obs;
+import '/models/session.dart';
+import '/services/session_service.dart';
+import '/enums/status_enum.dart';
+import '/models/gift.dart';
+import '/services/gift_service.dart';
+import '/services/exchange_gift_service.dart';
+import '/models/exchange_gift.dart';
+import '/utils/logger.dart';
+import '/utils/constants.dart';
 
-  // Future<Profile?> getProfile() async {
-  //   await ProfileService().getById(currentProfile.id);
-  //   return profile;
-  // }
+class ExchangeGiftController extends GetxController {
+  ExchangeGiftStatus orderStatus = ExchangeGiftStatus.preparing;
+  RxList<Gift> listData = <Gift>[].obs;
+  RxList<ExchangeGift> listExchangeGiftData = <ExchangeGift>[].obs;
+  //checkout
+  Rx<Session?> selectedSession = Rx<Session?>(null);
+  RxList<Session> listSession = <Session>[].obs;
+  String? sessionDetailId;
+  String? messages;
+  bool? isError;
+
+  void clear() {
+    listSession.clear();
+    selectedSession.value = null;
+    messages = null;
+    isError = null;
+  }
+
+  Future getSession(String schoolId, DateTime dateTime) async {
+    clear();
+    try {
+      listSession.value =
+          await SessionService().getSessionsBySchoolId(schoolId, dateTime);
+      logger.e(listSession.length);
+    } on dio.DioException catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  void selectSession(Session session) {
+    selectedSession.value = session;
+    sessionDetailId = session.sessionDetails!.first.id;
+  }
 
   Future getData() async {
     try {
       listData.value = await GiftService().getAll();
     } catch (e) {
-      isError.value = true;
+      throw Exception(e);
     }
   }
 
-  Future<bool> exchangeGift(String id) async {
+  Future getExchangeGiftByStatus() async {
     try {
-      Response response = await GiftService()
-          .exchangeGift('giftId', 'profileId', 'sessionDetailId');
-      if (response.statusCode == 200) return true;
-      return false;
+      listExchangeGiftData.value =
+          await ExchangeGiftService().getByStatus(orderStatus);
+      listExchangeGiftData
+          .sort((a, b) => b.paymentDate!.compareTo(a.paymentDate!));
     } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> createExchangeGift(String giftId) async {
+    try {
+      bool result = await ExchangeGiftService().createExchangeGift(
+          giftId, currentProfile.value!.id!, sessionDetailId!);
+      return result;
+    } on dio.DioException catch (e) {
+      messages = e.response!.data['message'];
       return false;
     }
   }

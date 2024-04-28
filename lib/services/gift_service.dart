@@ -1,7 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
-import '../models/gift.dart';
+import '/models/gift.dart';
 import '/services/api_service.dart';
 
 class GiftService {
@@ -18,19 +17,10 @@ class GiftService {
     return list;
   }
 
-  Future<Response> getById(String id) async {
-    final response = await _apiService.request.get('$baseUrl/$id');
-    return response;
-  }
+  // Future<Response> getById(String id) async {
+  //   final response = await _apiService.request.get('$baseUrl/$id');
+  //   return response;
+  // }
 
-  Future<Response> exchangeGift(
-      String giftId, String profileId, String sessionDetailId) async {
-    Map<String, dynamic> data = {
-      'giftId': giftId,
-      'profileId': profileId,
-      'sessionDetailId': sessionDetailId,
-    };
-    final response = await _apiService.request.post(baseUrl, data: data);
-    return response;
-  }
+  
 }

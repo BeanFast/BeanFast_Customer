@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '/utils/formater.dart';
 import '/game/matching_card/start_game_screen.dart';
 import '/game/pac_man/pacman_homepage.dart';
 import '/game/tetris/board.dart';
@@ -79,21 +80,25 @@ class GameSelectScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 20),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                       
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.black),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Obx(() => Text(currentProfile.value!.wallets!.isEmpty
-                              ? '0'
-                              : currentProfile
-                                  .value!.wallets!.first.balance!.obs.value
-                                  .toInt()
-                                  .toString(), style: Get.textTheme.bodyMedium,),),
+                          Obx(
+                            () => Text(
+                              Formater.formatPoint(currentProfile
+                                  .value!.wallet!.balance
+                                  .toString()),
+                            ),
+                          ),
                           const SizedBox(width: 5),
-                          const Icon(Iconsax.gift, color: Colors.black, size: 20,),
+                          const Icon(
+                            Iconsax.gift,
+                            color: Colors.black,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),

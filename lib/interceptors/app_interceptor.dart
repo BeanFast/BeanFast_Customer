@@ -1,7 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:get_storage/get_storage.dart';
-
-// import 'package:get/get.dart' hide Response;
 
 import '/controllers/auth_controller.dart';
 import '/utils/logger.dart';

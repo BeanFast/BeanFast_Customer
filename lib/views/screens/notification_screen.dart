@@ -35,13 +35,11 @@ class NotificationScreen extends GetView<NotificationController> {
           ],
         ),
         body: Obx(
-          () => Column(
-            children: controller.notifications.map((notification) {
-              return SizedBox(
-                // height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
+          () => SingleChildScrollView(
+            child: Column(
+              children: controller.notifications.map((notification) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: [
                       GestureDetector(
@@ -150,9 +148,9 @@ class NotificationScreen extends GetView<NotificationController> {
                       ),
                     ],
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
         ),
       ),

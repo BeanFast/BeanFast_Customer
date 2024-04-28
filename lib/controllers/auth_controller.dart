@@ -12,12 +12,10 @@ import '/views/screens/splash_screen.dart';
 import '/utils/constants.dart';
 import '/utils/logger.dart';
 import '/services/auth_service.dart';
-import '/models/account.dart';
 import '/enums/auth_state_enum.dart';
 
 class AuthController extends GetxController with CacheManager {
-  late Rx<Account?> account;
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -54,27 +52,21 @@ class AuthController extends GetxController with CacheManager {
   }
 
   Future login() async {
-    // phoneController.text = '0372266084';
-    // passwordController.text = '12345678';
-    // phoneController.text = '0369998759';
-    // passwordController.text = 'thanh1234';
-    // phoneController.text = '0361118759';
-    // passwordController.text = '12345678';
+    Get.snackbar('login', 'login');
     try {
       logger.e('login');
       deviceToken = await _firebaseMessaging.getToken();
       var response = await AuthService()
           .login(phoneController.text, passwordController.text, deviceToken!);
       if (response.statusCode == 200) {
+        Get.snackbar('Thành công', 'Đăng nhập thành công');
         changeAuthState(AuthState.authenticated);
         await saveToken(response.data['data']['accessToken']);
         changePage(MenuIndexState.home.index);
         Get.offAll(const SplashScreen());
       }
     } on DioException catch (e) {
-      if (e.response!.statusCode == 400) {
-        errorMessage.value = 'Tài khoản hoặc mật khẩu không đúng';
-      }
+      Get.snackbar('Lỗi', e.response!.data['']);
     }
   }
 
@@ -136,16 +128,16 @@ class AuthController extends GetxController with CacheManager {
 mixin CacheManager {
   final box = GetStorage();
   Future<bool> saveToken(String? token) async {
-    await box.write(CacheManagerKey.TOKEN.toString(), token);
+    await box.write(CacheManagerKey.CUSTOMERTOKEN.toString(), token);
     return true;
   }
 
   String? getToken() {
-    return box.read(CacheManagerKey.TOKEN.toString());
+    return box.read(CacheManagerKey.CUSTOMERTOKEN.toString());
   }
 
   Future<void> removeToken() async {
-    await box.remove(CacheManagerKey.TOKEN.toString());
+    await box.remove(CacheManagerKey.CUSTOMERTOKEN.toString());
   }
 
   Future<bool> saveCart(
@@ -164,4 +156,4 @@ mixin CacheManager {
 }
 
 // ignore: constant_identifier_names
-enum CacheManagerKey { TOKEN, CART }
+enum CacheManagerKey { CUSTOMERTOKEN, CART }

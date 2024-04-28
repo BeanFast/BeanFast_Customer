@@ -125,7 +125,6 @@ class HomeScreen extends GetView<HomeController> {
                     );
                   }).toList(),
                 ),
-
                 //day selecter
                 Card(
                   child: Container(
@@ -332,7 +331,7 @@ class HomeScreen extends GetView<HomeController> {
                                           color: controller.selectedSessionId
                                                       .value ==
                                                   session.id.toString()
-                                              ? Colors.green
+                                              ? ThemeColor.textButtonColor
                                               : Colors.white,
                                           child: Container(
                                             padding: const EdgeInsets.only(
@@ -415,7 +414,7 @@ class HomeScreen extends GetView<HomeController> {
                                       color:
                                           controller.selectedCategoryId.value ==
                                                   category.value
-                                              ? Colors.green
+                                              ? ThemeColor.textButtonColor
                                               : Colors.white,
                                       child: Container(
                                         padding: const EdgeInsets.only(
@@ -639,9 +638,7 @@ List<Widget> headerActionWidget() {
                       )
                     : GestureDetector(
                         onTap: () {
-                          Get.to(const StudentFormScreen(
-                            isUpdate: false,
-                          ));
+                          Get.to(const StudentFormScreen());
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, bottom: 5),
@@ -696,14 +693,11 @@ List<Widget> headerActionWidget() {
                                         'Chưa có thông tin',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: currentProfile.value!.school !=
-                                                null
-                                            ? Get.textTheme.bodySmall!.copyWith(
-                                                color: Colors.black,
-                                              )
-                                            : Get.textTheme.bodyMedium!
-                                                .copyWith(color: Colors.black),
-                                      ),
+                                        style:
+                                            Get.textTheme.bodyMedium!.copyWith(
+                                          color: Colors.black,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -827,7 +821,7 @@ List<Widget> headerActionWidget() {
                     text: "Nạp tiền",
                     isNew: false,
                     onPressed: () {
-                      Get.to(DepositeScreen());
+                       Get.to(DepositeScreen());
                     },
                   ),
                   MainIconButton(

@@ -135,7 +135,7 @@ class GiftDetailScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Get.to(const GiftCheckOutScreen());
+                  Get.to(GiftCheckOutScreen(gift: gift));
                 },
                 child: Text('Đổi quà',
                     style: Get.textTheme.titleMedium!

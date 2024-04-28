@@ -80,6 +80,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
                   ),
                   onPressed: () {
                     //send data to server
+                    
                     currentProfileOnPage.playTimes.value--;
                     Navigator.of(context).pop();
                     Navigator.pop(context);

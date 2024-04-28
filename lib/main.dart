@@ -100,8 +100,6 @@ Future<void> showFlutterNotificationForeground(RemoteMessage message) async {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          // TODO add a proper drawable resource to android, for now using
-          //      one that already exists in example app.
           icon: 'launch_background',
         ),
       ),
@@ -139,12 +137,23 @@ Future<void> main() async {
   timeago.setLocaleMessages('vi', ViMessages());
   timeago.setDefaultLocale('vi');
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   var token = await FirebaseMessaging.instance.getToken();
   print("token: $token");
-
+  NotificationSettings settings =
+      await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {
     await setupFlutterNotifications();
@@ -152,8 +161,7 @@ Future<void> main() async {
   FirebaseMessaging.onMessageOpenedApp
       .listen(showFlutterNotificationForeground);
   FirebaseMessaging.onMessage.listen(showFlutterNotificationBackground);
-  final fcm = await FirebaseMessaging.instance
-      .setForegroundNotificationPresentationOptions(
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true, // Required to display a heads up notification
     badge: true,
     sound: true,
@@ -169,6 +177,11 @@ Future<void> main() async {
         details.exception.toString()); // the stack trace at the time
   };
   runApp(const MyApp());
+  // try {
+  //   runApp(const MyApp());
+  // } catch (e) {
+  //   Get.snackbar('try', e.toString());
+  // }
 }
 
 class MyApp extends StatelessWidget {

@@ -1,11 +1,10 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/controllers/auth_controller.dart';
-import 'package:beanfast_customer/services/auth_service.dart';
-import 'package:beanfast_customer/views/screens/otp_confirmation.dart';
-import 'package:beanfast_customer/views/widgets/gradient_button.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '/controllers/auth_controller.dart';
+import '/views/screens/otp_confirmation.dart';
+import '/views/widgets/gradient_button.dart';
 
 class RegisterView extends GetView<AuthController> {
   RegisterView({super.key});
@@ -49,6 +48,7 @@ class RegisterView extends GetView<AuthController> {
                           prefixIcon: Icon(Icons.phone_android_outlined),
                           border: UnderlineInputBorder(),
                         ),
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Vui lòng nhập số điện thoại';
@@ -63,7 +63,7 @@ class RegisterView extends GetView<AuthController> {
                         },
                       ),
                     ),
-                   const SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Align(
@@ -79,7 +79,6 @@ class RegisterView extends GetView<AuthController> {
                       () => SizedBox(
                         child: TextFormField(
                           obscureText: controller.isPasswordVisible.value,
-
                           controller: controller.passwordController,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.lock_outlined),
@@ -93,20 +92,21 @@ class RegisterView extends GetView<AuthController> {
                               onPressed: controller.togglePasswordVisibility,
                             ),
                           ),
-                          // obscureText: _isPasswordHidden.value,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập mật khẩu';
                             }
-                            if (value.length < 8) {
-                              return 'Mật khẩu phải có ít nhất 8 ký tự';
+                            if (!RegExp(
+                                    r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,20}$')
+                                .hasMatch(value)) {
+                              return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ hoa, chữ thường và số';
                             }
                             return null;
                           },
                         ),
                       ),
                     ),
-                   const SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Align(
@@ -138,8 +138,13 @@ class RegisterView extends GetView<AuthController> {
                             if (value == null || value.isEmpty) {
                               return 'Vui lòng nhập mật khẩu';
                             }
-                            if (value.length < 8) {
-                              return 'Mật khẩu phải có ít nhất 8 ký tự';
+                            if (!RegExp(
+                                    r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,20}$')
+                                .hasMatch(value)) {
+                              return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ hoa, chữ thường và số';
+                            }
+                            if (value != controller.passwordController.text) {
+                              return 'Mật khẩu không khớp';
                             }
                             return null;
                           },
@@ -175,7 +180,10 @@ class RegisterView extends GetView<AuthController> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           controller.errorMessage.value,
-                          style: const TextStyle(color: Colors.red),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(fontSize: 10, color: Colors.red),
                         ),
                       ),
                     ),
@@ -184,10 +192,12 @@ class RegisterView extends GetView<AuthController> {
                       text: 'Đăng ký',
                       onPressed: () async {
                         if (controller.isChecked.value == true) {
+                          controller.errorMessage.value = '';
                           if (_formKey.currentState!.validate()) {
+                            controller.errorMessage.value = '';
                             await controller.register();
                             Get.to(
-                              () => OtpConfirmationView(),
+                              () => const OtpConfirmationView(),
                               binding: BindingsBuilder(() {
                                 Get.put(OTPController(
                                   phone: controller.phoneController.text,
@@ -196,11 +206,8 @@ class RegisterView extends GetView<AuthController> {
                             );
                           }
                         } else {
-                          Get.snackbar(
-                            'Thông báo',
-                            'Vui lòng chấp nhận điều khoản',
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
+                          controller.errorMessage.value =
+                              'Vui lòng chấp nhận điều khoản';
                         }
                       },
                     ),

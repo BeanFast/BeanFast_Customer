@@ -1,8 +1,7 @@
-import 'package:beanfast_customer/models/profile.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
-import '../utils/logger.dart';
+import '/models/profile.dart';
 import '/services/api_service.dart';
 
 class ProfileService {
@@ -23,17 +22,12 @@ class ProfileService {
     return Profile.fromJson(response.data['data']);
   }
 
-  Future create(Profile model) async {
-    logger.e(model.bmis!.last.height);
-    logger.e(model.bmis!.last.weight);
-    logger.e(model.bmis!.last.age);
-    logger.e(model.fullName);
-    logger.e(model.className);
-    logger.e(model.avatarPath!);
-    logger.e(model.gender);
-    logger.e(model.nickName);
-    logger.e(model.school!.id);
-    logger.e(model.dob);
+  Future<Response> deleteById(String id) async {
+    final response = await _apiService.request.delete('$baseUrl/$id');
+    return response;
+  }
+
+  Future<Response> create(Profile model) async {
     FormData formData = FormData.fromMap({
       'Bmi.Height': model.bmis!.last.height,
       'Bmi.Weight': model.bmis!.last.weight,
@@ -47,6 +41,7 @@ class ProfileService {
       'SchoolId': model.school!.id,
       'Dob': model.dob,
     });
-    await _apiService.request.post(baseUrl, data: formData);
+    final response = await _apiService.request.post(baseUrl, data: formData);
+    return response;
   }
 }

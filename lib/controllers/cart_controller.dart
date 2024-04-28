@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import '/enums/menu_index_enum.dart';
@@ -82,26 +83,25 @@ class CartController extends GetxController with CacheManager {
     );
   }
 
-  Future<void> checkout() async {
-    logger.e('start checkout');
+  Future<bool> checkout() async {
     try {
       for (var cart in listCart.entries) {
         for (var session in cart.value.entries) {
           Map<String, int> map = {};
-
           for (var menuDetail in session.value.entries) {
             map[menuDetail.key] = menuDetail.value.value;
           }
-          var response = await OrderService()
-              .createOrder(listSessionDetailId[session.key]!, cart.key, map);
-          logger.e('checkout - ${response.data}');
+          await OrderService()
+              .create(listSessionDetailId[session.key]!, cart.key, map);
         }
       }
       listCart.clear();
-      changePage(MenuIndexState.order.index);
-      Get.offAll(const SplashScreen());
-    } catch (e) {
-      logger.e(e);
+      return true;
+      // changePage(MenuIndexState.order.index);
+      // Get.offAll(const SplashScreen());
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
+      return false;
     }
   }
 

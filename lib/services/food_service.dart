@@ -8,10 +8,10 @@ class FoodService {
 
   final ApiService _apiService = getx.Get.put(ApiService());
 
-  Future<dynamic> getAll() async {
-    final response = await _apiService.request.get(baseUrl);
-    return response.data;
-  }
+  // Future<dynamic> getAll() async {
+  //   final response = await _apiService.request.get(baseUrl);
+  //   return response.data;
+  // }
 
   Future<Response> getById(String id) async {
     final response = await _apiService.request.get('$baseUrl/$id');

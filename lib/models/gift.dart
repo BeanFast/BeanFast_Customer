@@ -19,7 +19,7 @@ class Gift extends BaseModel {
     this.inStock,
     this.imagePath,
     this.description,
-  });
+  }) : super(id: id, status: status);
 
   @override
   String toString() {

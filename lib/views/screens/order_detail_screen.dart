@@ -1,11 +1,14 @@
-import 'package:beanfast_customer/views/screens/order_time_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '/enums/status_enum.dart';
+import '/views/screens/order_time_line.dart';
+import '/views/screens/welcome_screen.dart';
 import '/contrains/theme_color.dart';
 import '/controllers/order_controller.dart';
 import '/utils/formater.dart';
@@ -251,7 +254,101 @@ class OrderDetailScreen extends GetView<OrderController> {
                       ),
                     ],
                   ),
-                )
+                ),
+                const SizedBox(height: 50),
+                //cancel order
+                if (controller.model.value.status !=
+                        OrderStatus.completed.code &&
+                    controller.model.value.status != OrderStatus.cancelled.code)
+                  Center(
+                    child: SButton(
+                      color: controller.model.value.status ==
+                              OrderStatus.preparing.code
+                          ? ThemeColor.itemColor
+                          : ThemeColor.textButtonColor,
+                      borderColor: ThemeColor.textButtonColor,
+                      text: 'Huỷ đơn hàng',
+                      textStyle: Get.textTheme.titleMedium!.copyWith(
+                        color: controller.model.value.status ==
+                                OrderStatus.preparing.code
+                            ? ThemeColor.textButtonColor
+                            : ThemeColor.itemColor,
+                      ),
+                      onPressed: () {
+                        // Check if order is not preparing
+                        // Đang set == preparing.code sai để test giao diện đúng thì != preparing.code
+                        if (controller.model.value.status ==
+                            OrderStatus.preparing.code) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text(
+                                    'Bạn có chắc chắn muốn huỷ đơn hàng?'),
+                                content: SizedBox(
+                                  height: 130,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Đơn hàng của bạn: ${OrderStatus.fromInt(controller.model.value.status! + 1).message}',
+                                        style: Get.textTheme.bodyLarge,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        'Bạn sẽ không đươc hoàn lại số tiền đã thanh toán với đơn hàng ở trạng thái này.',
+                                        style: Get.textTheme.bodyLarge,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back(); // Close the confirmation dialog
+                                      // Show the cancellation dialog
+                                      //initially set selected value to -1
+                                      controller.handleRadioValueChanged(-1);
+                                      // Show dialog
+                                      showCancelDialog(controller, context);
+                                    },
+                                    child: const Text('Xác nhận huỷ đơn hàng'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back(); // Close the confirmation dialog
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          //initially set selected value to -1
+                          controller.handleRadioValueChanged(-1);
+                          // Show dialog
+                          showCancelDialog(controller, context);
+                        }
+                      },
+                    ),
+                  ),
+                //feedback
+                if (controller.model.value.status == OrderStatus.completed.code)
+                  Center(
+                    child: SButton(
+                      color: ThemeColor.textButtonColor,
+                      borderColor: ThemeColor.textButtonColor,
+                      text: 'Đánh giá đơn hàng',
+                      textStyle: Get.textTheme.titleMedium!.copyWith(
+                        color: ThemeColor.itemColor,
+                      ),
+                      onPressed: () {
+                        showFeedbackDialog(controller, context);
+                      },
+                    ),
+                  ),
               ],
             ),
           ),
@@ -259,4 +356,174 @@ class OrderDetailScreen extends GetView<OrderController> {
       ),
     );
   }
+}
+
+class CancellationReason {
+  final String title;
+  final int value;
+
+  CancellationReason(this.title, this.value);
+}
+
+extension CancelReasonOptions on OrderController {
+  List<Map<String, dynamic>> get cancelReasonOptions => [
+        {'title': 'Đặt nhầm món', 'value': 0},
+        {'title': 'Thay đổi kế hoạch', 'value': 1},
+        {'title': 'Không liên hệ được với quán', 'value': 2},
+        {'title': 'Lý do khác', 'value': 3},
+      ];
+}
+
+extension FeedbackReasonOptions on OrderController {
+  List<Map<String, dynamic>> get feedbackReasonOptions => [
+        {'title': 'Món ăn rất ngon', 'value': 0},
+        {'title': 'Người giao hàng thân thiện', 'value': 1},
+        {'title': 'Tất cả điều tốt', 'value': 2},
+        {'title': 'Đánh giá khác', 'value': 3},
+      ];
+}
+
+void showCancelDialog(OrderController controller, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
+        content: SizedBox(
+          height: Get.height / 2,
+          width: Get.width,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Loop through options to create radio buttons
+                for (var option in controller.cancelReasonOptions)
+                  Obx(
+                    () => RadioListTile<int>(
+                      title: Text(option['title'] as String),
+                      value: option['value'] as int,
+                      groupValue: controller.selectedValue,
+                      onChanged: controller.handleRadioValueChanged,
+                    ),
+                  ),
+                Obx(
+                  () => controller.selectedValue == 3
+                      ? TextField(
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.zero),
+                          onChanged: controller.handleOtherReasonChanged,
+                        )
+                      : Container(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (controller.selectedValue == null) {
+                // Handle case where no option is selected
+              } else if (controller.selectedValue == 3 &&
+                  controller.otherReason.isEmpty) {
+                // Handle case where "Other" is selected but reason is empty
+                Get.snackbar('Hệ thống', 'Vui lòng nhập lý do huỷ',
+                    duration: const Duration(seconds: 1));
+              } else {
+                // Handle successful selection with reason (if applicable)
+                //lý do huỷ radio value (có cả other reason)
+                print(controller.cancelReasonOptions[controller.selectedValue!]
+                    ['title'] as String);
+                Get.back(); // Close the dialog first
+                Future.delayed(
+                  Duration(seconds: 1),
+                  () {
+                    // Then show the snackbar after a delay
+                    Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
+                    if (controller.otherReason.isNotEmpty) {
+                      //lý do khác value
+                      print(controller.otherReason);
+                    }
+                  },
+                );
+              }
+            },
+            child: const Text('Xác nhận huỷ đơn'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showFeedbackDialog(OrderController controller, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Đánh giá đơn hàng'),
+        content: SizedBox(
+          height: Get.height / 2,
+          width: Get.width,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Loop through options to create radio buttons
+                for (var option in controller.feedbackReasonOptions)
+                  Obx(
+                    () => RadioListTile<int>(
+                      title: Text(option['title'] as String),
+                      value: option['value'] as int,
+                      groupValue: controller.selectedValue,
+                      onChanged: controller.handleRadioValueChanged,
+                    ),
+                  ),
+                Obx(
+                  () => controller.selectedValue == 3
+                      ? TextField(
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.zero),
+                          onChanged: controller.handleOtherReasonChanged,
+                        )
+                      : Container(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (controller.selectedValue == null) {
+                // Handle case where no option is selected
+              } else if (controller.selectedValue == 3 &&
+                  controller.otherReason.isEmpty) {
+                // Handle case where "Other" is selected but reason is empty
+                Get.snackbar('Hệ thống', 'Vui lòng nhập đánh giá khác',
+                    duration: const Duration(seconds: 1));
+              } else {
+                // Handle successful selection with reason (if applicable)
+                //lý do huỷ radio value (có cả other reason)
+                print(
+                    controller.feedbackReasonOptions[controller.selectedValue!]
+                        ['title'] as String);
+                Get.back(); // Close the dialog first
+                Future.delayed(
+                  const Duration(seconds: 1),
+                  () {
+                    // Then show the snackbar after a delay
+                    Get.snackbar('Hệ thống', 'Đánh giá thành công');
+                    if (controller.otherReason.isNotEmpty) {
+                      //lý do khác value
+                      print(controller.otherReason);
+                    }
+                  },
+                );
+              }
+            },
+            child: const Text('Gửi đánh giá'),
+          ),
+        ],
+      );
+    },
+  );
 }

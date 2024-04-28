@@ -1,4 +1,5 @@
 import 'base_model.dart';
+import 'game.dart';
 import 'order.dart';
 import 'wallet.dart';
 import 'exchange_gift.dart';
@@ -6,12 +7,14 @@ import 'exchange_gift.dart';
 class Transaction extends BaseModel {
   String? orderId;
   String? exchangeGiftId;
+  String? gameId;
   String? walletId;
   String? code;
   DateTime? time;
   double? value;
   Order? order;
   ExchangeGift? exchangeGift;
+  Game? game;
   Wallet? wallet;
 
   Transaction({
@@ -20,6 +23,9 @@ class Transaction extends BaseModel {
     this.orderId,
     this.order,
     this.exchangeGiftId,
+    this.exchangeGift,
+    this.gameId,
+    this.game,
     this.walletId,
     this.code,
     this.time,
@@ -32,6 +38,11 @@ class Transaction extends BaseModel {
         orderId: json["orderId"],
         order: json["order"] == null ? Order() : Order.fromJson(json["order"]),
         exchangeGiftId: json['exchangeGiftId'],
+        exchangeGift: json["exchangeGift"] == null
+            ? ExchangeGift()
+            : ExchangeGift.fromJson(json["exchangeGift"]),
+        gameId: json['gameId'],
+        game: json["game"] == null ? Game() : Game.fromJson(json["game"]),
         walletId: json['walletId'],
         code: json['code'],
         time: DateTime.parse(json['time']),

@@ -1,23 +1,30 @@
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/utils/formater.dart';
-import 'package:beanfast_customer/views/widgets/row_info_confirm_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 
-class GiftCheckOutScreen extends StatelessWidget {
-  const GiftCheckOutScreen({super.key});
+import '/controllers/exchange_gift_controller.dart';
+import '/models/gift.dart';
+import '/contrains/theme_color.dart';
+import '/utils/constants.dart';
+import '/utils/formater.dart';
+
+class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
+  const GiftCheckOutScreen({
+    super.key,
+    required this.gift,
+  });
+
+  final Gift gift;
 
   @override
   Widget build(BuildContext context) {
-    final ConfirmExchangeGiftController controller =
-        Get.put(ConfirmExchangeGiftController());
+    Get.put(ExchangeGiftController());
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      showSessionPicker(context, controller);
+      showSessionPicker();
     });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Đổi quà'),
@@ -34,36 +41,30 @@ class GiftCheckOutScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.only(
                               left: 10, right: 10, top: 5, bottom: 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                height: 50,
-                                width: Get.width,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                  ),
-                               
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.grey,
-                                      width: 0.5,
-                                    ),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Tên người nhận',
-                                  style: Get.textTheme.titleMedium,
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                            ),
+                            alignment: Alignment.centerLeft,
+                            height: 50,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                  width: 0.5,
                                 ),
                               ),
-                            ],
+                            ),
+                            child: Text(
+                              currentProfile.value!.fullName.toString(),
+                              style: Get.textTheme.titleMedium,
+                            ),
                           ),
                         ),
                         Container(
@@ -74,36 +75,53 @@ class GiftCheckOutScreen extends StatelessWidget {
                               ListTile(
                                 leading: const Icon(Iconsax.location),
                                 title: const Text('Địa chỉ nhận hàng'),
-                                subtitle: const Column(
+                                subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Địa chỉ nhận hàng'),
-                                    Text('Địa chỉ nhận hàng'),
+                                    Text(currentProfile.value!.school!.name
+                                        .toString()),
+                                    Obx(
+                                      () => Text(controller
+                                                  .selectedSession.value ==
+                                              null
+                                          ? 'Chưa chọn địa điểm nhận hàng'
+                                          : controller.selectedSession.value!
+                                              .sessionDetails!
+                                              .firstWhere((e) =>
+                                                  e.id! ==
+                                                  controller.sessionDetailId)
+                                              .location!
+                                              .name
+                                              .toString()),
+                                    )
                                   ],
                                 ),
                                 trailing: IconButton(
                                   iconSize: 24,
                                   onPressed: () {
-                                    // gateSelection(context, session.key);
+                                    gateSelection();
                                   },
                                   icon: const Icon(Iconsax.arrow_circle_right),
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () =>
-                                    showSessionPicker(context, controller),
+                                onTap: () => showSessionPicker(),
                                 child: ListTile(
                                     leading: const Icon(Iconsax.truck_time),
-                                    title: Obx(
+                                    title: Text('Thời gian nhận hàng',
+                                        style: Get.textTheme.bodyMedium),
+                                    subtitle: Obx(
                                       () => Text(
-                                        controller.selectedSession.value,
-                                        style: Get.textTheme.bodyMedium,
-                                      ),
+                                          controller.selectedSession.value ==
+                                                  null
+                                              ? 'Chưa chọn khung giờ nhận hàng'
+                                              : 'Từ ${DateFormat('HH:mm').format(controller.selectedSession.value!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.selectedSession.value!.deliveryEndTime!)}',
+                                          style: Get.textTheme.bodyMedium),
                                     ),
                                     trailing: IconButton(
                                       iconSize: 24,
                                       onPressed: () {
-                                        showSessionPicker(context, controller);
+                                        showSessionPicker();
                                       },
                                       icon: const Icon(Iconsax.edit),
                                     )),
@@ -126,7 +144,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                                           bottomLeft: Radius.circular(12),
                                         ),
                                         child: Image.network(
-                                          'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=',
+                                          gift.imagePath.toString(),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -147,7 +165,7 @@ class GiftCheckOutScreen extends StatelessWidget {
                                             Expanded(
                                               child: SizedBox(
                                                 child: Text(
-                                                  'Tên quà',
+                                                  gift.name.toString(),
                                                   style:
                                                       Get.textTheme.bodyLarge,
                                                   overflow:
@@ -173,7 +191,8 @@ class GiftCheckOutScreen extends StatelessWidget {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    '10',
+                                                    Formater.formatPoint(
+                                                        gift.points.toString()),
                                                     style: Get
                                                         .textTheme.bodyLarge!
                                                         .copyWith(
@@ -224,24 +243,6 @@ class GiftCheckOutScreen extends StatelessWidget {
                                   style: Get.textTheme.titleMedium),
                             ],
                           ),
-                          RowInforWidget(
-                            title: 'Tổng đơn hàng ',
-                            data: Formater.formatMoney(
-                              '100000',
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RowInforWidget(
-                            title: 'Giảm giá sản phẩm ',
-                            data: Formater.formatMoney(
-                              ('100000').toString(),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,8 +255,8 @@ class GiftCheckOutScreen extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  Formater.formatMoney(
-                                    ('1200000').toString(),
+                                  Formater.formatPoint(
+                                    gift.points.toString(),
                                   ),
                                   textAlign: TextAlign.right,
                                   style: Get.textTheme.bodyLarge!,
@@ -301,8 +302,8 @@ class GiftCheckOutScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 14),
                       ),
                       Text(
-                          Formater.formatMoney(
-                            ('100000').toString(),
+                          Formater.formatPoint(
+                            gift.points.toString(),
                           ),
                           style: const TextStyle(
                               fontSize: 18,
@@ -320,108 +321,24 @@ class GiftCheckOutScreen extends StatelessWidget {
                       foregroundColor: MaterialStateProperty.all<Color>(
                           Colors.white), // Text color
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green), // Background color
+                          ThemeColor.textButtonColor), // Background color
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.all(5)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.grey),
+                          side: BorderSide(color: ThemeColor.textButtonColor),
                         ),
                       ),
                     ),
                     onPressed: () async {
-                      if (false) {
-                        showDialog(
-                          context: context,
-                          // barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            // Return object of type Dialog
-                            return AlertDialog(
-                              content: SizedBox(
-                                height: 160,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      width: Get.width,
-                                      height: 100,
-                                      child: Lottie.asset(
-                                        "assets/unsuccess.json",
-                                        repeat: true,
-                                        fit: BoxFit.contain,
-                                        // animate: true,
-                                      ),
-                                    ),
-                                    const Text('Thông báo',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Số dư không đủ, ',
-                                          style: Get.textTheme.bodyLarge,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // Get.to(DepositeScreen());
-                                          },
-                                          child: Text(
-                                            'nạp thêm',
-                                            style: Get.textTheme.bodyLarge!
-                                                .copyWith(
-                                                    color: Color.fromRGBO(
-                                                        240, 103, 24, 1)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        //Không đủ số dư - nạp tiền
-                      } else {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            // Return object of type Dialog
-                            return AlertDialog(
-                              content: SizedBox(
-                                height: 180,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 150,
-                                      width: 150,
-                                      child: Lottie.asset(
-                                        "assets/success.json",
-                                        repeat: false,
-                                        animate: true,
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Đặt hàng thành công !',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        await Future.delayed(const Duration(seconds: 2));
-                        Navigator.pop(context);
-                       //Api đổi quà
-                      }
+                      bool result =
+                          await controller.createExchangeGift(gift.id!);
+                      Get.snackbar(
+                        'Đổi quà ${result ? 'thành công' : 'thất bại'}',
+                        controller.messages.toString(),
+                        snackPosition: SnackPosition.TOP,
+                      );
                     },
                     child: Text(
                       'Đặt hàng',
@@ -437,158 +354,129 @@ class GiftCheckOutScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-class ConfirmExchangeGiftController extends GetxController {
-  RxString selectedSession = ''.obs;
+  void showSessionPicker() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
 
-  void selectSession(String session) {
-    selectedSession.value = session;
-  }
-}
-
-void showSessionPicker(
-    BuildContext context, ConfirmExchangeGiftController controller) async {
-  DateTime? pickedDate = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime(DateTime.now().year + 5),
-  );
-
-  if (pickedDate == null) {
-    if (controller.selectedSession.value.isEmpty) {
-      Navigator.pop(context);
+    if (pickedDate == null) {
+      Get.back();
+      return;
+    } else {
+      await controller.getSession(
+          currentProfile.value!.school!.id!, pickedDate);
     }
-    return;
+
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return SizedBox(
+          width: Get.width,
+          child: Obx(
+            () => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Chọn thời gian nhận hàng',
+                    style: Get.textTheme.titleLarge,
+                  ),
+                ),
+                if (controller.listSession.isEmpty)
+                  const Center(
+                    child: Text('Không tồn tại khung giờ nào'),
+                  ),
+                Column(
+                  children: controller.listSession
+                      .map(
+                        (session) => ListTile(
+                          leading: const Icon(Icons.access_time),
+                          title: Text(
+                              'Từ ${DateFormat('HH:mm').format(session.deliveryStartTime!)} đến ${DateFormat('HH:mm dd-MM-yy').format(session.deliveryEndTime!)}'),
+                          onTap: () {
+                            controller.selectSession(session);
+
+                            Get.back();
+                          },
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ).then((value) async {
+      if (controller.selectedSession.value == null) {
+        showSessionPicker();
+      }
+    });
   }
 
-  bool sessionSelected = false;
-
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Chọn thời gian nhận hàng',
-                style: Get.textTheme.titleLarge,
+  Future<dynamic> gateSelection() {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: Get.context!,
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          padding: const EdgeInsets.only(
+            top: 20,
+            bottom: 20,
+            right: 10,
+            left: 10,
+          ),
+          child: Column(
+            children: [
+              const Icon(Icons.more_horiz_outlined),
+              Column(
+                children: controller.selectedSession.value!.sessionDetails!
+                    .map(
+                      (sessionDetail) => Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey,
+                              width: 0.5,
+                            ),
+                          ),
+                        ),
+                        child: ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            // child: Image.network(
+                            //   sessionDetail.location!.imagePath.toString(),
+                            //   fit: BoxFit.cover,
+                            // ),
+                          ),
+                          title: Text(sessionDetail.location!.name.toString()),
+                          // subtitle: Text(
+                          //     sessionDetail.location!.description.toString()),
+                          onTap: () {
+                            controller.sessionDetailId = sessionDetail.id!;
+                            Get.back();
+                          },
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time),
-              title: Text(
-                  'Từ 10:00 đến 12:00, ${DateFormat('dd/MM/yyyy').format(pickedDate)}'),
-              onTap: () {
-                controller.selectSession(
-                    'Từ 10:00 đến 12:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}');
-                sessionSelected = true;
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time),
-              title: Text(
-                  'Từ 1:00 đến 2:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}'),
-              onTap: () {
-                controller.selectSession(
-                    'Từ 1:00 đến 2:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}');
-                sessionSelected = true;
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time),
-              title: Text(
-                  'Từ 3:00 đến 4:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}'),
-              onTap: () {
-                controller.selectSession(
-                    'Từ 3:00 đến 4:00,  ${DateFormat('dd/MM/yyyy').format(pickedDate)}');
-                sessionSelected = true;
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      );
-    },
-  ).then((value) {
-    if (!sessionSelected && controller.selectedSession.value.isEmpty) {
-      Navigator.pop(context);
-    }
-  });
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
-
-
-//  Future<dynamic> gateSelection(BuildContext context, String sessionId) {
-//     return showModalBottomSheet(
-//       isScrollControlled: true,
-//       context: context,
-//       builder: (context) {
-//         return Container(
-//           height: MediaQuery.of(context).size.height * 0.5,
-//           padding: const EdgeInsets.only(
-//             top: 20,
-//             bottom: 20,
-//             right: 10,
-//             left: 10,
-//           ),
-//           child: Column(
-//             children: [
-//               const Icon(Icons.more_horiz_outlined),
-//               Column(
-//                 children: controller.listSession[sessionId]!.sessionDetails!
-//                     .map(
-//                       (sessionDetail) => Container(
-//                         decoration: const BoxDecoration(
-//                           border: Border(
-//                             bottom: BorderSide(
-//                               color: Colors.grey,
-//                               width: 0.5,
-//                             ),
-//                           ),
-//                         ),
-//                         child: ListTile(
-//                           leading: Container(
-//                             width: 50,
-//                             height: 50,
-//                             decoration: BoxDecoration(
-//                               color: Colors.white,
-//                               borderRadius: BorderRadius.circular(25),
-//                               border: Border.all(color: Colors.grey),
-//                             ),
-//                             child: Image.network(
-//                               controller
-//                                   .listLocation[sessionDetail.location!.id]!
-//                                   .imagePath
-//                                   .toString(),
-//                               fit: BoxFit.cover,
-//                             ),
-//                           ),
-//                           title: Text(controller
-//                               .listLocation[sessionDetail.location!.id]!.name
-//                               .toString()),
-//                           subtitle: Text(controller
-//                               .listLocation[sessionDetail.location!.id]!
-//                               .description
-//                               .toString()),
-//                           onTap: () {
-//                             controller.updateSessionDetai(
-//                                 sessionId, sessionDetail.id!);
-//                             Get.back();
-//                           },
-//                         ),
-//                       ),
-//                     )
-//                     .toList(),
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
