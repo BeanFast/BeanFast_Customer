@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,7 +20,8 @@ class AuthController extends GetxController with CacheManager {
 
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  String? deviceToken;
   RxString errorMessage = ''.obs;
   var isPasswordVisible = true.obs;
   var isChecked = false.obs;
@@ -60,8 +62,9 @@ class AuthController extends GetxController with CacheManager {
     // passwordController.text = '12345678';
     try {
       logger.e('login');
+      deviceToken = await _firebaseMessaging.getToken();
       var response = await AuthService()
-          .login(phoneController.text, passwordController.text);
+          .login(phoneController.text, passwordController.text, deviceToken!);
       if (response.statusCode == 200) {
         changeAuthState(AuthState.authenticated);
         await saveToken(response.data['data']['accessToken']);

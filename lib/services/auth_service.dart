@@ -8,10 +8,12 @@ import '/services/api_service.dart';
 class AuthService {
   final String baseUrl = 'auth';
   final ApiService _apiService = getx.Get.put(ApiService());
-  Future<Response> login(String phone, String password) async {
+  Future<Response> login(
+      String phone, String password, String deviceToken) async {
     Map<String, dynamic> data = {
       'phone': phone,
       'password': password,
+      'deviceToken': deviceToken,
     };
     final response =
         await _apiService.request.post('$baseUrl/login', data: data);
@@ -43,15 +45,15 @@ class AuthService {
   }
 
   Future verifyOtp(String phone, String otpValue) async {
-      Map<String, dynamic> data = {
-        'phone': phone,
-        'otpValue': otpValue,
-      };
-      final response =
-          await _apiService.request.post('$baseUrl/otp/verify', data: data);
-      logger.i(response.statusCode);
-      logger.i(response.data);
-      return response;
+    Map<String, dynamic> data = {
+      'phone': phone,
+      'otpValue': otpValue,
+    };
+    final response =
+        await _apiService.request.post('$baseUrl/otp/verify', data: data);
+    logger.i(response.statusCode);
+    logger.i(response.data);
+    return response;
   }
 
   Future<User> getUser() async {

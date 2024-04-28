@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "479274730269",
+    "project_id": "bean-fast",
+    "storage_bucket": "bean-fast.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479274730269:android:077614c7e1dbbf3a1797f4",
+        "android_client_info": {
+          "package_name": "com.example.beanfast_customer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzFsTVQ-6davocW6ZT3VNFcmMEIRG0IVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479274730269:android:e143b89ce6aed2ad1797f4",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzFsTVQ-6davocW6ZT3VNFcmMEIRG0IVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
