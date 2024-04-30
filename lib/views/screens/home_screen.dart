@@ -450,7 +450,7 @@ class HomeScreen extends GetView<HomeController> {
                               }).toList(),
                             ),
                           ),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 10),
                           Obx(
                             () => MenuItem(
                                 title: 'Combo',
