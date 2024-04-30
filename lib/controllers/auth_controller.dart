@@ -3,7 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '/enums/menu_index_enum.dart';
 import '/models/profile.dart';
@@ -123,6 +125,44 @@ class AuthController extends GetxController with CacheManager {
   // void toggleIschecked() {
   //   isChecked.value = !isChecked.value;
   // }
+  
+//update user avatar
+RxString imagePath = ''.obs;
+final ImagePicker _picker = ImagePicker();
+  Future<void> pickPhotoFormCamera() async {
+    var status = await Permission.camera.status;
+    if (!status.isGranted) {
+      status = await Permission.camera.request();
+    }
+
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      // imagePath.value = image.path;
+      // logger.e(image.path);
+      //  Get.back();
+    } else {
+      logger.e('No picture taken.');
+    }
+  }
+
+  Future<void> pickPhotoFormStorage() async {
+    var status = await Permission.photos.status;
+    if (!status.isGranted) {
+      status = await Permission.photos.request();
+    }
+
+    if (status.isGranted) {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        // imagePath.value = image.path;
+        // logger.e(image.path);
+        //  Get.back();
+      } else {
+        Get.snackbar('Thông báo', 'No image selected.');
+      }
+    }
+  }
 }
 
 mixin CacheManager {

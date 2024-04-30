@@ -78,7 +78,7 @@ void showFlutterNotification(RemoteMessage message) async {
           channelDescription: channel.description,
           // TODO add a proper drawable resource to android, for now using
           //      one that already exists in example app.
-          icon: 'launch_background',
+          icon: '@mipmap/ic_launcher',
         ),
       ),
     );
@@ -100,7 +100,7 @@ Future<void> showFlutterNotificationForeground(RemoteMessage message) async {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          icon: 'launch_background',
+          icon: '@mipmap/ic_launcher',
         ),
       ),
     );
@@ -124,7 +124,7 @@ void showFlutterNotificationBackground(RemoteMessage message) {
           channel.id,
           channel.name,
           channelDescription: channel.description,
-          icon: 'launch_background',
+          icon: '@mipmap/ic_launcher',
         ),
       ),
     );

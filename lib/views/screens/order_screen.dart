@@ -19,47 +19,48 @@ class OrderScreen extends GetView<OrderController> {
             'Lịch sử đơn hàng',
           ),
           actions: [
-            GestureDetector(
-              onTap: () async {
-                final DateTimeRange? pickedDateRange =
-                    await showDateRangePicker(
-                  context: context,
-                  locale: const Locale("vi", "VI"),
-                  firstDate: DateTime.now().subtract(const Duration(days: 180)),
-                  lastDate: DateTime.now(),
-                  initialDateRange: controller.selectedDateRange.value,
-                );
+            // GestureDetector(
+            //   onTap: () async {
+            //     final DateTimeRange? pickedDateRange =
+            //         await showDateRangePicker(
+            //       context: context,
+            //       locale: const Locale("vi", "VI"),
+            //       firstDate: DateTime.now().subtract(const Duration(days: 180)),
+            //       lastDate: DateTime.now(),
+            //       initialDateRange: controller.selectedDateRange.value,
+            //     );
 
-                if (pickedDateRange != null &&
-                    pickedDateRange != controller.selectedDateRange.value) {
-                  controller.selectedDateRange.value = pickedDateRange;
-                }
-              },
-              child: Container(
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.only(
-                    right: 10, top: 10, bottom: 10, left: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 0.8),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Icon(Iconsax.calendar_search,
-                        size: 20, color: Colors.black),
-                    Obx(
-                      () => Text(
-                        ' ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.start)}'
-                        ' - ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.end)}',
-                        style: Get.textTheme.labelLarge!
-                            .copyWith(color: Colors.black, fontSize: 13),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            //     if (pickedDateRange != null &&
+            //         pickedDateRange != controller.selectedDateRange.value) {
+            //       controller.selectedDateRange.value = pickedDateRange;
+            //     }
+            //   },
+            //   child: Container(
+            //     margin: const EdgeInsets.only(right: 10),
+            //     padding: const EdgeInsets.only(
+            //         right: 10, top: 10, bottom: 10, left: 10),
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.black, width: 0.8),
+            //       borderRadius: BorderRadius.circular(8),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         const Icon(Iconsax.calendar_search,
+            //             size: 20, color: Colors.black),
+            //         Obx(
+            //           () => Text(
+            //             ' ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.start)}'
+            //             ' - ${DateFormat('dd/MM/yy').format(controller.selectedDateRange.value.end)}',
+            //             style: Get.textTheme.labelLarge!
+            //                 .copyWith(color: Colors.black, fontSize: 13),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+          
           ],
         ),
         body: const DefaultTabController(

@@ -4,9 +4,12 @@ import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:beanfast_customer/views/screens/student_list_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
 class AccountProfileScreen extends GetView<AuthController> {
   const AccountProfileScreen({super.key});
@@ -27,11 +30,6 @@ class AccountProfileScreen extends GetView<AuthController> {
                   Container(
                     height: Get.height,
                     color: ThemeColor.primaryColor.withOpacity(0.3),
-                    // Lottie.asset(
-                    //   "assets/account_banner.json",
-                    //   animate: true,
-                    //   fit: BoxFit.cover,
-                    // ),
                   ),
                   Positioned(
                     top: 70,
@@ -56,7 +54,9 @@ class AccountProfileScreen extends GetView<AuthController> {
               child: Column(
                 children: [
                   Text(
-                    currentUser.value!.fullName.toString(),
+                    currentUser.value!.fullName.toString() == 'null'
+                        ? 'Trống'
+                        : currentUser.value!.fullName.toString(),
                     style: const TextStyle(
                       fontSize: 20,
                     ),
@@ -79,16 +79,93 @@ class AccountProfileScreen extends GetView<AuthController> {
               top: 150,
               left: 0,
               right: 0,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundColor: ThemeColor.iconColor,
-                child: CircleAvatar(
-                  radius: 68,
-                  backgroundImage:
-                      Image.network(currentUser.value!.avatarPath.toString())
-                          .image,
-                  backgroundColor: Colors.red,
-                ),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: CircleAvatar(
+                      radius: 70,
+                      backgroundColor: ThemeColor.iconColor,
+                      child: CircleAvatar(
+                        radius: 68,
+                        backgroundImage: Image.network(
+                                currentUser.value!.avatarPath.toString())
+                            .image,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 80,
+                    right: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 0.5,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 15,
+                        child: IconButton(
+                          icon: const Icon(Icons.edit, size: 15),
+                          color: Colors.black,
+                          onPressed: () {
+                                 showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return Container(
+                                              padding: const EdgeInsets.only(
+                                                top: 20,
+                                                bottom: 20,
+                                                right: 10,
+                                                left: 10,
+                                              ),
+                                              child: Wrap(
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Lựa chọn phương thức",
+                                                        style: Get.textTheme
+                                                            .titleLarge,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    leading: const Icon(
+                                                        Iconsax.camera),
+                                                    title:
+                                                        const Text('Chụp ảnh'),
+                                                    onTap: () async {
+                                                      controller
+                                                          .pickPhotoFormCamera();
+                                                    },
+                                                  ),
+                                                  ListTile(
+                                                    leading: const Icon(
+                                                        Iconsax.gallery_add),
+                                                    title: const Text(
+                                                        'Chọn ảnh từ thư viện ảnh'),
+                                                    onTap: () async {
+                                                      controller
+                                                          .pickPhotoFormStorage();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                   
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             FadeInUp(
@@ -110,8 +187,11 @@ class AccountProfileScreen extends GetView<AuthController> {
                         child: ListTile(
                           leading: const Icon(Iconsax.personalcard),
                           title: const Text('Tên'),
-                          subtitle:
-                              Text(currentUser.value!.fullName.toString()),
+                          subtitle: Text(
+                            currentUser.value!.fullName.toString() == 'null'
+                                ? 'Trống'
+                                : currentUser.value!.fullName.toString(),
+                          ),
                           trailing: IconButton(
                             icon: const Icon(Iconsax.edit),
                             onPressed: () {
@@ -126,7 +206,11 @@ class AccountProfileScreen extends GetView<AuthController> {
                                     content: TextField(
                                       decoration: InputDecoration(
                                         hintText: currentUser.value!.fullName
-                                            .toString(),
+                                                    .toString() ==
+                                                'null'
+                                            ? ''
+                                            : currentUser.value!.fullName
+                                                .toString(),
                                       ),
                                     ),
                                     actions: [

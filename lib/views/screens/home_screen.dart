@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/widgets/is_empty.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -101,11 +102,11 @@ class HomeScreen extends GetView<HomeController> {
                         return GestureDetector(
                           onTap: () {
                             // Handle the tap
-                            Get.snackbar(
-                              "SnakeBar Title",
-                              'Image clicked: $imageUrl',
-                              snackPosition: SnackPosition.TOP,
-                            );
+                            // Get.snackbar(
+                            //   "SnakeBar Title",
+                            //   'Image clicked: $imageUrl',
+                            //   snackPosition: SnackPosition.TOP,
+                            // );
                           },
                           child: Card(
                             child: Container(
@@ -501,22 +502,24 @@ void showProfilesDialog(Function() onPressed) {
             SizedBox(
               width: Get.width,
               height: Get.height * 0.4,
-              child: SingleChildScrollView(
-                child: Obx(
-                  () => Column(
-                    children: controller.listProfile.map((e) {
-                      return ItemProfile(
-                        model: e,
-                        onPressed: () => {
-                          currentProfile.value = e,
-                          Get.back(),
-                          onPressed(),
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
+              child: controller.listProfile.isEmpty
+                  ? const IsEmptyWidget(title: 'Chưa có học sinh')
+                  : SingleChildScrollView(
+                      child: Obx(
+                        () => Column(
+                          children: controller.listProfile.map((e) {
+                            return ItemProfile(
+                              model: e,
+                              onPressed: () => {
+                                currentProfile.value = e,
+                                Get.back(),
+                                onPressed(),
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
             ),
           ],
         ),
@@ -821,7 +824,7 @@ List<Widget> headerActionWidget() {
                     text: "Nạp tiền",
                     isNew: false,
                     onPressed: () {
-                       Get.to(DepositeScreen());
+                      Get.to(DepositeScreen());
                     },
                   ),
                   MainIconButton(

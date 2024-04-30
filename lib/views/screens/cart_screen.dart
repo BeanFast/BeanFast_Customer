@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/controllers/home_controller.dart';
 import 'package:beanfast_customer/views/screens/checkout_detail_screen.dart';
+import 'package:beanfast_customer/views/widgets/is_empty.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -67,248 +68,248 @@ class CartScreen extends GetView<CartController> {
               height: 5,
             ),
             Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Obx(
-                  () => Column(
-                    children: controller.listCart.entries.map((profile) {
-                      return Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(left: 5, right: 5),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(12)),
-                              child: Card(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      alignment: Alignment.centerLeft,
-                                      height: 50,
-                                      width: Get.width,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(12),
-                                          topRight: Radius.circular(12),
-                                        ),
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: Colors.grey,
-                                            width: 0.5,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        controller
-                                            .listProfile[profile.key]!.fullName
-                                            .toString(),
-                                        style: Get.textTheme.titleMedium,
-                                      ),
-                                    ),
-                                    Container(
-                                      color: ThemeColor.itemColor,
-                                      padding: const EdgeInsets.only(
-                                          left: 5, right: 5),
+              child: controller.listCart.isEmpty
+                  ? const IsEmptyWidget(title: 'Giỏ hàng trống')
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Obx(
+                        () => Column(
+                          children: controller.listCart.entries.map((profile) {
+                            return Column(
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.only(left: 5, right: 5),
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(12)),
+                                    child: Card(
                                       child: Column(
-                                        children: profile.value.entries
-                                            .map((session) => Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 5,
-                                                              bottom: 5),
-                                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            alignment: Alignment.centerLeft,
+                                            height: 50,
+                                            width: Get.width,
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                topRight: Radius.circular(12),
+                                              ),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              controller
+                                                  .listProfile[profile.key]!
+                                                  .fullName
+                                                  .toString(),
+                                              style: Get.textTheme.titleMedium,
+                                            ),
+                                          ),
+                                          Container(
+                                            color: ThemeColor.itemColor,
+                                            padding: const EdgeInsets.only(
+                                                left: 5, right: 5),
+                                            child: Column(
+                                              children: profile.value.entries
+                                                  .map((session) => Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          Text('Mở đặt đến',
-                                                              style: Get
-                                                                  .textTheme
-                                                                  .bodyMedium),
-                                                          Text(
-                                                            ' ${DateFormat('HH:mm, dd/MM/yyyy').format(controller.listSession[session.key]!.orderEndTime!)}',
-                                                            style: Get.textTheme
-                                                                .bodyMedium!
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: Colors
-                                                                        .green),
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    top: 5,
+                                                                    bottom: 5),
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                    'Mở đặt đến',
+                                                                    style: Get
+                                                                        .textTheme
+                                                                        .bodyMedium),
+                                                                Text(
+                                                                  ' ${DateFormat('HH:mm, dd/MM/yyyy').format(controller.listSession[session.key]!.orderEndTime!)}',
+                                                                  style: Get
+                                                                      .textTheme
+                                                                      .bodyMedium!
+                                                                      .copyWith(
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          color:
+                                                                              Colors.green),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Column(
-                                                      children:
-                                                          session.value.entries
-                                                              .map(
-                                                                (menuDetail) =>
-                                                                    Container(
-                                                                  margin:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          bottom:
-                                                                              10),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: ThemeColor
-                                                                        .itemColor,
-                                                                    borderRadius:
-                                                                        const BorderRadius
-                                                                            .all(
-                                                                      Radius.circular(
-                                                                          14),
-                                                                    ),
-                                                                  ),
-                                                                  child:
-                                                                      SizedBox(
-                                                                    height: 100,
-                                                                    child: Row(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          width:
-                                                                              90,
-                                                                          height:
-                                                                              90,
-                                                                          child:
-                                                                              ClipRRect(
-                                                                            borderRadius:
-                                                                                const BorderRadius.all(
-                                                                              Radius.circular(12),
-                                                                            ),
-                                                                            child:
-                                                                                Image.network(
-                                                                              controller.listMenuDetail[menuDetail.key]!.food!.imagePath!,
-                                                                              fit: BoxFit.cover,
-                                                                            ),
+                                                          Column(
+                                                            children:
+                                                                session.value
+                                                                    .entries
+                                                                    .map(
+                                                                      (menuDetail) =>
+                                                                          Container(
+                                                                        margin: const EdgeInsets
+                                                                            .only(
+                                                                            bottom:
+                                                                                10),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              ThemeColor.itemColor,
+                                                                          borderRadius:
+                                                                              const BorderRadius.all(
+                                                                            Radius.circular(14),
                                                                           ),
                                                                         ),
-                                                                        Expanded(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          height:
+                                                                              100,
                                                                           child:
-                                                                              Container(
-                                                                            padding:
-                                                                                const EdgeInsets.only(
-                                                                              left: 15,
-                                                                              right: 15,
-                                                                            ),
-                                                                            child:
-                                                                                Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                SizedBox(
-                                                                                  child: Text(
-                                                                                    controller.listMenuDetail[menuDetail.key]!.food!.name.toString(),
-                                                                                    style: Get.textTheme.bodyMedium,
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    maxLines: 1,
+                                                                              Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              SizedBox(
+                                                                                width: 90,
+                                                                                height: 90,
+                                                                                child: ClipRRect(
+                                                                                  borderRadius: const BorderRadius.all(
+                                                                                    Radius.circular(12),
+                                                                                  ),
+                                                                                  child: Image.network(
+                                                                                    controller.listMenuDetail[menuDetail.key]!.food!.imagePath!,
+                                                                                    fit: BoxFit.cover,
                                                                                   ),
                                                                                 ),
-                                                                                const SizedBox(height: 2),
-                                                                                SizedBox(
-                                                                                  child: Text(
-                                                                                    'Loại: ${controller.listMenuDetail[menuDetail.key]!.food!.category!.name}',
-                                                                                    style: Get.textTheme.bodySmall!.copyWith(color: Colors.black54),
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    maxLines: 1,
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Container(
+                                                                                  padding: const EdgeInsets.only(
+                                                                                    left: 15,
+                                                                                    right: 15,
                                                                                   ),
-                                                                                ),
-                                                                                const SizedBox(height: 2),
-                                                                                Row(
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
-                                                                                      style: Get.textTheme.bodyLarge!.copyWith(color: const Color.fromRGBO(240, 103, 24, 1)),
-                                                                                      overflow: TextOverflow.ellipsis,
-                                                                                      maxLines: 1,
-                                                                                    ),
-                                                                                    const SizedBox(width: 10),
-                                                                                    if (controller.listMenuDetail[menuDetail.key]!.price != controller.listMenuDetail[menuDetail.key]!.food!.price)
-                                                                                      Text(
-                                                                                        Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.food!.price.toString()),
-                                                                                        style: const TextStyle(
-                                                                                          fontSize: 16,
-                                                                                          decoration: TextDecoration.lineThrough,
-                                                                                        ),
-                                                                                        overflow: TextOverflow.ellipsis,
-                                                                                        maxLines: 1,
-                                                                                      ),
-                                                                                  ],
-                                                                                ),
-                                                                                const SizedBox(height: 2),
-                                                                                SizedBox(
-                                                                                  width: 100,
-                                                                                  height: 30,
-                                                                                  child: Row(
+                                                                                  child: Column(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                     children: [
-                                                                                      GestureDetector(
-                                                                                        onTap: () {
-                                                                                          controller.decreaseItemCart(profile.key, session.key, menuDetail.key);
-                                                                                        },
-                                                                                        child: const Icon(
-                                                                                          Iconsax.minus_square,
-                                                                                        ),
-                                                                                      ),
                                                                                       SizedBox(
-                                                                                        width: 30,
                                                                                         child: Text(
-                                                                                          menuDetail.value.toString(),
-                                                                                          textAlign: TextAlign.center,
-                                                                                          style: Get.textTheme.bodyLarge,
+                                                                                          controller.listMenuDetail[menuDetail.key]!.food!.name.toString(),
+                                                                                          style: Get.textTheme.bodyMedium,
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          maxLines: 1,
                                                                                         ),
                                                                                       ),
-                                                                                      GestureDetector(
-                                                                                        onTap: () {
-                                                                                          controller.increaseItemCart(profile.key, session.key, menuDetail.key);
-                                                                                        },
-                                                                                        child: const Icon(
-                                                                                          Iconsax.add_square,
+                                                                                      const SizedBox(height: 2),
+                                                                                      SizedBox(
+                                                                                        child: Text(
+                                                                                          'Loại: ${controller.listMenuDetail[menuDetail.key]!.food!.category!.name}',
+                                                                                          style: Get.textTheme.bodySmall!.copyWith(color: Colors.black54),
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                          maxLines: 1,
                                                                                         ),
                                                                                       ),
+                                                                                      const SizedBox(height: 2),
+                                                                                      Row(
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
+                                                                                            style: Get.textTheme.bodyLarge!.copyWith(color: const Color.fromRGBO(240, 103, 24, 1)),
+                                                                                            overflow: TextOverflow.ellipsis,
+                                                                                            maxLines: 1,
+                                                                                          ),
+                                                                                          const SizedBox(width: 10),
+                                                                                          if (controller.listMenuDetail[menuDetail.key]!.price != controller.listMenuDetail[menuDetail.key]!.food!.price)
+                                                                                            Text(
+                                                                                              Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.food!.price.toString()),
+                                                                                              style: const TextStyle(
+                                                                                                fontSize: 16,
+                                                                                                decoration: TextDecoration.lineThrough,
+                                                                                              ),
+                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                              maxLines: 1,
+                                                                                            ),
+                                                                                        ],
+                                                                                      ),
+                                                                                      const SizedBox(height: 2),
+                                                                                      SizedBox(
+                                                                                        width: 100,
+                                                                                        height: 30,
+                                                                                        child: Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                          children: [
+                                                                                            GestureDetector(
+                                                                                              onTap: () {
+                                                                                                controller.decreaseItemCart(profile.key, session.key, menuDetail.key);
+                                                                                              },
+                                                                                              child: const Icon(
+                                                                                                Iconsax.minus_square,
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              width: 30,
+                                                                                              child: Text(
+                                                                                                menuDetail.value.toString(),
+                                                                                                textAlign: TextAlign.center,
+                                                                                                style: Get.textTheme.bodyLarge,
+                                                                                              ),
+                                                                                            ),
+                                                                                            GestureDetector(
+                                                                                              onTap: () {
+                                                                                                controller.increaseItemCart(profile.key, session.key, menuDetail.key);
+                                                                                              },
+                                                                                              child: const Icon(
+                                                                                                Iconsax.add_square,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      const Spacer(),
                                                                                     ],
                                                                                   ),
                                                                                 ),
-                                                                                const Spacer(),
-                                                                              ],
-                                                                            ),
+                                                                              ),
+                                                                            ],
                                                                           ),
                                                                         ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                              .toList(),
-                                                    )
-                                                  ],
-                                                ))
-                                            .toList(),
+                                                                      ),
+                                                                    )
+                                                                    .toList(),
+                                                          )
+                                                        ],
+                                                      ))
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
+                                const SizedBox(
+                                  height: 20,
+                                )
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
             ),
             Container(
               decoration: BoxDecoration(
@@ -356,9 +357,6 @@ class CartScreen extends GetView<CartController> {
                           foregroundColor:
                               MaterialStateProperty.resolveWith<Color>(
                                   (states) {
-                            // if (states.contains(MaterialState.disabled)) {
-                            //   return Colors.grey;
-                            // }
                             return Colors.white;
                           }),
                           backgroundColor:
@@ -375,7 +373,8 @@ class CartScreen extends GetView<CartController> {
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
-                              side:  BorderSide(color: ThemeColor.textButtonColor),
+                              // side:
+                              //     BorderSide(color: ThemeColor.textButtonColor),
                             ),
                           ),
                         ),
