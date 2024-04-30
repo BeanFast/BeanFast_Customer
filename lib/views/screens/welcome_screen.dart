@@ -1,10 +1,11 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/views/screens/login_screen.dart';
-import 'package:beanfast_customer/views/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+
+import '/contains/theme_color.dart';
+import '/views/screens/login_screen.dart';
+import '/views/screens/register_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   final Duration duration = const Duration(milliseconds: 800);

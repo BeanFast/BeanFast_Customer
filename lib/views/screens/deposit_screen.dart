@@ -1,15 +1,14 @@
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/services/transaction_service.dart';
-import 'package:beanfast_customer/views/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../enums/menu_index_enum.dart';
-import '../../utils/constants.dart';
+import '/contains/theme_color.dart';
+import '/services/transaction_service.dart';
+import '/views/widgets/gradient_button.dart';
+import '/enums/menu_index_enum.dart';
+import '/utils/constants.dart';
 import 'splash_screen.dart';
 
 class DepositeScreen extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:beanfast_customer/contrains/contrain.dart';
+import 'package:beanfast_customer/contains/contrain.dart';
 import 'package:beanfast_customer/models/profile.dart';
 
 import 'base_model.dart';

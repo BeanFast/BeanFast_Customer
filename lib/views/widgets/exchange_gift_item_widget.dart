@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '/models/exchange_gift.dart';
 import '/enums/status_enum.dart';
-import '/contrains/theme_color.dart';
+import '../../contains/theme_color.dart';
 import 'text_order_status_widget.dart';
 import '/utils/formater.dart';
 

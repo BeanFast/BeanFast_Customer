@@ -1,12 +1,13 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/controllers/auth_controller.dart';
-import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/screens/loading_screen.dart';
-import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:animate_do/animate_do.dart';
+
+import '/contains/theme_color.dart';
+import '/controllers/auth_controller.dart';
+import '/utils/constants.dart';
+import '/views/screens/loading_screen.dart';
+import '/views/screens/student_list_screen.dart';
 
 class AccountProfileScreen extends GetView<AuthController> {
   const AccountProfileScreen({super.key});

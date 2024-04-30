@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '/views/screens/loading_screen.dart';
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/controllers/profile_form_controller.dart';
 import '/views/widgets/gradient_button.dart';
 

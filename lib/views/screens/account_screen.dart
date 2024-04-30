@@ -4,7 +4,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/controllers/auth_controller.dart';
 import '/utils/constants.dart';
 import '/views/screens/account_profile_screen.dart';

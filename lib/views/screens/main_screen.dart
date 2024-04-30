@@ -8,7 +8,7 @@ import 'account_screen.dart';
 import 'home_screen.dart';
 import 'order_screen.dart';
 import 'transaction_screen.dart';
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/views/screens/profile_qr.dart';
 
 class MainScreen extends StatelessWidget {

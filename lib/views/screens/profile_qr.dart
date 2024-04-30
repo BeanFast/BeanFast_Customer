@@ -1,13 +1,12 @@
 import 'dart:async';
-
-import 'package:beanfast_customer/controllers/home_controller.dart';
-import 'package:beanfast_customer/views/widgets/item_profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-import '/contrains/theme_color.dart';
+import '/controllers/home_controller.dart';
+import '/views/widgets/item_profile_widget.dart';
+import '/contains/theme_color.dart';
 import '/models/profile.dart';
 import '/utils/constants.dart';
 import '/views/screens/loading_screen.dart';

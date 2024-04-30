@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '/enums/status_enum.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/transaction_controller.dart';
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/controllers/exchange_gift_controller.dart';
 import '/utils/constants.dart';
 import 'exchange_gift_history_tabview.dart';

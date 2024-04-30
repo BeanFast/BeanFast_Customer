@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '/contrains/theme_text.dart';
+import 'theme_text.dart';
 import 'theme_color.dart';
 
 class AppTheme {

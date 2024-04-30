@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '/views/widgets/exchange_gift_item_widget.dart';
 import '/controllers/exchange_gift_controller.dart';
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/enums/status_enum.dart';
 import 'loading_screen.dart';
 

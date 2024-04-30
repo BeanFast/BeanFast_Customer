@@ -1,15 +1,15 @@
 import 'dart:async';
-
-import 'package:beanfast_customer/contrains/theme_color.dart';
-import 'package:beanfast_customer/services/auth_service.dart';
-import 'package:beanfast_customer/utils/logger.dart';
-import 'package:beanfast_customer/views/screens/login_screen.dart';
-import 'package:beanfast_customer/views/widgets/gradient_button.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+
+import '/contains/theme_color.dart';
+import '/services/auth_service.dart';
+import '/utils/logger.dart';
+import '/views/screens/login_screen.dart';
+import '/views/widgets/gradient_button.dart';
 
 class OtpConfirmationView extends StatelessWidget {
   const OtpConfirmationView({super.key});

@@ -1,10 +1,10 @@
-import 'package:beanfast_customer/controllers/profile_controller.dart';
-import 'package:beanfast_customer/views/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../widgets/row_info_item_widget.dart';
+import '/controllers/profile_controller.dart';
+import '/views/screens/loading_screen.dart';
+import '/views//widgets/row_info_item_widget.dart';
 import 'student_form_screen.dart';
 
 class StudentDetailScreen extends GetView<ProfileController> {

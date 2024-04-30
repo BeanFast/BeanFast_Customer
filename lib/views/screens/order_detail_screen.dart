@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +7,7 @@ import 'package:intl/intl.dart';
 import '/enums/status_enum.dart';
 import '/views/screens/order_time_line.dart';
 import '/views/screens/welcome_screen.dart';
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/controllers/order_controller.dart';
 import '/utils/formater.dart';
 import '/views/screens/loading_screen.dart';

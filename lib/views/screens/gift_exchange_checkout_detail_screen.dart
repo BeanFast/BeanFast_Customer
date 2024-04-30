@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import '/controllers/exchange_gift_controller.dart';
 import '/models/gift.dart';
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/utils/constants.dart';
 import '/utils/formater.dart';
 

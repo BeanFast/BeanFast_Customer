@@ -5,7 +5,7 @@ import '../../utils/formater.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/views/screens/order_detail_screen.dart';
-import '/contrains/theme_color.dart';
+import '../../contains/theme_color.dart';
 import 'text_order_status_widget.dart';
 
 class OrderItem extends StatelessWidget {

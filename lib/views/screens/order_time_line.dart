@@ -1,10 +1,11 @@
-import 'package:beanfast_customer/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:timelines/timelines.dart';
+
+import '/models/order.dart';
 
 class OrderTimeline extends StatelessWidget {
   const OrderTimeline({super.key, required this.order});

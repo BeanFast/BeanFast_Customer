@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/contrains/theme_color.dart';
+import '../../contains/theme_color.dart';
 import '/views/screens/welcome_screen.dart';
 
 class ResultScreenWidget extends StatelessWidget {

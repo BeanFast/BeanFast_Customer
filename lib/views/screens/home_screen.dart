@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '/contrains/theme_color.dart';
+import '/contains/theme_color.dart';
 import '/controllers/cart_controller.dart';
 import '/controllers/home_controller.dart';
 import '/controllers/notification_controller.dart';

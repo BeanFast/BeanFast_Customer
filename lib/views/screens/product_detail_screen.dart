@@ -1,9 +1,8 @@
-import 'package:beanfast_customer/models/food.dart';
-import 'package:beanfast_customer/utils/formater.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import '/models/food.dart';
+import '/utils/formater.dart';
 import '/controllers/cart_controller.dart';
 
 class ProductDetailScreen extends StatelessWidget {

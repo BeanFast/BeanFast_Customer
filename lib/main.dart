@@ -6,7 +6,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:timeago/src/messages/vi_messages.dart';
 
 import 'binding.dart';
-import 'contrains/theme.dart';
+import 'contains/theme.dart';
 import 'views/screens/splash_screen.dart';
 
 Future<void> main() async {
