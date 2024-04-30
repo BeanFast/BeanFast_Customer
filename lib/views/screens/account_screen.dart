@@ -74,8 +74,7 @@ class AccountScreen extends GetView<AuthController> {
                                                 height: 20,
                                               ),
                                               Text(
-                                                currentUser.value!.fullName
-                                                    .toString(),
+                                                currentUser.value!.fullName.toString() == 'null' ? 'Trống' : currentUser.value!.fullName.toString(),
                                                 style: Get.textTheme.bodyMedium,
                                               ),
                                               const SizedBox(height: 5),

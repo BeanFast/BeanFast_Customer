@@ -29,77 +29,160 @@ class MenuItem extends GetView<CartController> {
     return Visibility(
       visible: list.isNotEmpty,
       child: isCombo
-          ? Row(
-              children: list.map((e) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(ProductDetailScreen(food: e.food!));
-                  },
-                  child: Card(
-                    child: SizedBox(
-                      height: 200,
-                      width: 150,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                            ),
-                            child: Image.network(
-                              'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-                              fit: BoxFit.cover,
-                              width: 150,
-                              height: 100,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Text(
-                              e.food!.name.toString(),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Get.textTheme.bodySmall,
-                            ),
-                          ),
-                          // const Spacer(),
-                          Container(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: SizedBox(
-                                    child: Text(
-                                      Formater.formatMoney(e.price.toString()),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Get.textTheme.bodyLarge!.copyWith(
-                                        color: const Color.fromRGBO(
-                                            240, 103, 24, 1),
+          ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                  title,
+                  style: Get.textTheme.titleMedium,
+                ),
+                const SizedBox(height: 5),
+              Row(
+                  children: list.map((e) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(ProductDetailScreen(food: e.food!));
+                      },
+                      child: Card(
+                        child: SizedBox(
+                          width: 170,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                                child: Image.network(
+                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                  fit: BoxFit.cover,
+                                  width: 170,
+                                  height: 100,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                child: Text(
+                                  e.food!.name.toString(),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Get.textTheme.bodySmall,
+                                ),
+                              ),
+                              // const Spacer(),
+                              Container(
+                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Visibility(
+                                      visible: e.food!.price != e.price,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            Formater.formatMoney(
+                                                e.food!.price.toString()),
+                                            style:
+                                                Get.textTheme.bodyLarge!.copyWith(
+                                              color: Colors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          const SizedBox(width: 5),
+                                        ],
                                       ),
                                     ),
-                                  ),
+                                    Expanded(
+                                      child: SizedBox(
+                                        child: Text(
+                                          Formater.formatMoney(e.price.toString()),
+                                          style: Get.textTheme.bodyLarge!.copyWith(
+                                            color: const Color.fromRGBO(
+                                                240, 103, 24, 1),
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 40,
-                                  child: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.add_outlined)),
+                              ),
+                              Obx(
+                                () => Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Visibility(
+                                      visible: controller.ifAbsent(
+                                          currentProfile.value!.id!,
+                                          sessionId,
+                                          e.id!),
+                                      child: SizedBox(
+                                        width: 40,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            controller.decreaseItemCart(
+                                                currentProfile.value!.id!,
+                                                sessionId,
+                                                e.id!);
+                                          },
+                                          icon: const Icon(Iconsax.minus_square),
+                                        ),
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: controller.ifAbsent(
+                                          currentProfile.value!.id!,
+                                          sessionId,
+                                          e.id!),
+                                      child: Container(
+                                        width: 30,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          controller.ifAbsent(
+                                                  currentProfile.value!.id!,
+                                                  sessionId,
+                                                  e.id!)
+                                              ? controller.listCart[currentProfile
+                                                      .value!
+                                                      .id!]![sessionId]![e.id!]
+                                                  .toString()
+                                              : '0',
+                                          style: Get.textTheme.bodyLarge,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          controller.increaseItemCart(
+                                              currentProfile.value!.id!,
+                                              sessionId,
+                                              e.id!);
+                                        },
+                                        icon: const Icon(Iconsax.add_square),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            )
+                    );
+                  }).toList(),
+                ),
+            ],
+          )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

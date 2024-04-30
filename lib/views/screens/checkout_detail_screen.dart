@@ -238,7 +238,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                                     if (controller.listMenuDetail[menuDetail.key]!.price != controller.listMenuDetail[menuDetail.key]!.food!.price) const SizedBox(width: 10),
                                                                                     Text(
                                                                                       Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
-                                                                                      style: Get.textTheme.bodySmall!.copyWith(color: Color.fromRGBO(240, 103, 24, 1)),
+                                                                                      style: Get.textTheme.bodySmall!.copyWith(color: const Color.fromRGBO(240, 103, 24, 1)),
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 1,
                                                                                     ),
@@ -450,7 +450,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                               'nạp thêm',
                                               style: Get.textTheme.bodyLarge!
                                                   .copyWith(
-                                                      color: Color.fromRGBO(
+                                                      color: const Color.fromRGBO(
                                                           240, 103, 24, 1)),
                                             ),
                                           ),

@@ -275,6 +275,9 @@ class DepositeScreen extends GetView<DepositeController> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14),
                           color: ThemeColor.textButtonColor,
+                          border: Border.all(
+                            color: ThemeColor.textButtonColor,
+                          ),
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(14),
