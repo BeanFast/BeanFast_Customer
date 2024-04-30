@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,7 +18,8 @@ class AuthController extends GetxController with CacheManager {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  String? deviceToken;
   RxString errorMessage = ''.obs;
   var isPasswordVisible = true.obs;
   var isChecked = false.obs;
@@ -52,8 +54,10 @@ class AuthController extends GetxController with CacheManager {
   Future login() async {
     Get.snackbar('login', 'login');
     try {
+      logger.e('login');
+      deviceToken = await _firebaseMessaging.getToken();
       var response = await AuthService()
-          .login(phoneController.text, passwordController.text);
+          .login(phoneController.text, passwordController.text, deviceToken!);
       if (response.statusCode == 200) {
         Get.snackbar('Thành công', 'Đăng nhập thành công');
         changeAuthState(AuthState.authenticated);

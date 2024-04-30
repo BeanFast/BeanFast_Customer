@@ -4,6 +4,8 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
+  firebase_auth
+  firebase_core
   irondash_engine_context
   permission_handler_windows
   super_native_extensions
