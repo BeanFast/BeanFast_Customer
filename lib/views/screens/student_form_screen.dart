@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -467,7 +468,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                                               color:
                                                                   Colors.grey),
                                                         ),
-                                                        child: Image.network(
+                                                        child:CustomNetworkImage(
                                                           controller
                                                               .filteredSchools[
                                                                   index]

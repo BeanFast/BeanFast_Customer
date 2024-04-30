@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -283,7 +284,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
                                       topLeft: Radius.circular(12),
                                       bottomLeft: Radius.circular(12),
                                     ),
-                                    child: Image.network(
+                                    child: CustomNetworkImage(
                                       gift.imagePath.toString(),
                                       fit: BoxFit.cover,
                                     ),

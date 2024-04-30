@@ -170,12 +170,12 @@ Future<void> main() async {
   //   print("Token FCM: " + token.toString());
   // });
 
-  WidgetsFlutterBinding.ensureInitialized();
-  FlutterError.onError = (details) {
-    print("error");
-    Get.snackbar("Some thing went wrong",
-        details.exception.toString()); // the stack trace at the time
-  };
+  // WidgetsFlutterBinding.ensureInitialized();
+  // FlutterError.onError = (details) {
+  //   print("error");
+  //   Get.snackbar("Some thing went wrong",
+  //       details.exception.toString()); // the stack trace at the time
+  // };
   runApp(const MyApp());
   // try {
   //   runApp(const MyApp());

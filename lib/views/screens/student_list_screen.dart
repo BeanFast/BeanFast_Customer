@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:beanfast_customer/views/widgets/is_empty.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,54 +28,47 @@ class StudentListScreen extends GetView<ProfileController> {
                   child: controller.listData.isEmpty
                       ? const IsEmptyWidget(title: 'Chưa có học sinh')
                       : SingleChildScrollView(
-                          child: Obx(
-                            () => Column(
-                              children: controller.listData.map((profile) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(StudentDetailScreen(
-                                        id: profile.id.toString()));
-                                  },
-                                  child: Card(
-                                    child: ListTile(
-                                      leading: Container(
+                          child: Column(
+                            children: controller.listData.map((profile) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(StudentDetailScreen(
+                                      id: profile.id.toString()));
+                                },
+                                child: Card(
+                                  child: ListTile(
+                                    leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: CustomNetworkImage(
+                                        profile.avatarPath.toString(),
                                         width: 50,
                                         height: 50,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                profile.avatarPath.toString()),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      title: Text(
-                                        profile.fullName.toString(),
-                                        style:
-                                            Get.textTheme.bodyLarge!.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        profile.className.toString(),
-                                        style:
-                                            Get.textTheme.bodySmall!.copyWith(
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                      trailing: IconButton(
-                                        onPressed: () {
-                                          Get.to(StudentFormScreen(
-                                              profileId: profile.id));
-                                        },
-                                        icon: const Icon(Iconsax.edit),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
+                                    title: Text(
+                                      profile.fullName.toString(),
+                                      style: Get.textTheme.bodyLarge!.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      profile.className.toString(),
+                                      style: Get.textTheme.bodySmall!.copyWith(
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    trailing: IconButton(
+                                      onPressed: () {
+                                        Get.to(StudentFormScreen(
+                                            profileId: profile.id));
+                                      },
+                                      icon: const Icon(Iconsax.edit),
+                                    ),
                                   ),
-                                );
-                              }).toList(),
-                            ),
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                 ),

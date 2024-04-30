@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/models/gift.dart';
 import 'package:beanfast_customer/views/screens/gift_exchange_checkout_detail_screen.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +24,7 @@ class GiftDetailScreen extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width * 0.8,
-                      child: Image.network(gift.imagePath!, fit: BoxFit.cover),
+                      child: CustomNetworkImage(gift.imagePath!, fit: BoxFit.cover),
                     ),
                     Stack(
                       children: [

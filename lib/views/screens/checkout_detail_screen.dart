@@ -1,4 +1,5 @@
 import 'package:beanfast_customer/contrains/theme_color.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:beanfast_customer/views/widgets/row_info_confirm_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -187,7 +188,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                             borderRadius:
                                                                                 const BorderRadius.all(Radius.circular(12)),
                                                                             child:
-                                                                                Image.network(
+                                                                                CustomNetworkImage(
                                                                               controller.listMenuDetail[menuDetail.key]!.food!.imagePath!,
                                                                               fit: BoxFit.cover,
                                                                             ),
@@ -536,7 +537,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                               borderRadius: BorderRadius.circular(25),
                               border: Border.all(color: Colors.grey),
                             ),
-                            child: Image.network(
+                            child: CustomNetworkImage(
                               controller
                                   .listLocation[sessionDetail.location!.id]!
                                   .imagePath

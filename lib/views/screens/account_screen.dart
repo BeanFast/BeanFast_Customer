@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
@@ -184,7 +185,7 @@ class AccountScreen extends GetView<AuthController> {
                                       right: 0,
                                       child: Center(
                                         child: ClipOval(
-                                          child: Image.network(
+                                          child: CustomNetworkImage(
                                             currentUser.value!.avatarPath
                                                 .toString(),
                                             width: 100,

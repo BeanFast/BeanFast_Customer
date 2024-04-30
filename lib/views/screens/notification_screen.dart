@@ -35,145 +35,132 @@ class NotificationScreen extends GetView<NotificationController> {
             ),
           ],
         ),
-        body: Obx(() => Expanded(
-              child: controller.notifications.isEmpty
-                  ? const IsEmptyWidget(title: 'Chưa có thông báo nào')
-                  : Obx(
-                      () => SingleChildScrollView(
+        body: Obx(
+          () => controller.notifications.isEmpty
+              ? const IsEmptyWidget(title: 'Chưa có thông báo nào')
+              : SingleChildScrollView(
+                  child: Column(
+                    children: controller.notifications.map((notification) {
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.width,
                         child: Column(
-                          children:
-                              controller.notifications.map((notification) {
-                            return SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.snackbar(
-                                        notification.title!,
-                                        notification.body!,
-                                        snackPosition: SnackPosition.TOP,
-                                        duration: 1.seconds,
-                                      );
-                                    },
-                                    child: Card(
-                                      child: Container(
-                                        width: Get.width,
-                                        padding: const EdgeInsets.only(
-                                            top: 5,
-                                            bottom: 5,
-                                            left: 10,
-                                            right: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.snackbar(
+                                  notification.title!,
+                                  notification.body!,
+                                  snackPosition: SnackPosition.TOP,
+                                  duration: 1.seconds,
+                                );
+                              },
+                              child: Card(
+                                child: Container(
+                                  width: Get.width,
+                                  padding: const EdgeInsets.only(
+                                      top: 5, bottom: 5, left: 10, right: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Stack(
                                           children: [
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
-                                                  color: Colors.grey,
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  const Align(
-                                                    alignment: Alignment.center,
-                                                    child: Icon(
-                                                        Iconsax.notification,
-                                                        color: Colors
-                                                            .black), // Add this line
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topRight,
-                                                    child: Container(
-                                                      width: 10,
-                                                      height: 10,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: notification
-                                                                    .readDate !=
-                                                                null
-                                                            ? Colors.transparent
-                                                            : Colors.red,
-                                                        // border: const Border.fromBorderSide(
-                                                        //   BorderSide(
-                                                        //       color: Colors.white,
-                                                        //       width: 0),
-                                                        // ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                            const Align(
+                                              alignment: Alignment.center,
+                                              child: Icon(Iconsax.notification,
+                                                  color: Colors
+                                                      .black), // Add this line
                                             ),
-                                            const SizedBox(width: 10),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        notification.title!,
-                                                        style: Get.textTheme
-                                                            .titleSmall,
-                                                      ),
-                                                      const SizedBox(width: 3),
-                                                      const Icon(
-                                                        Icons.circle,
-                                                        size: 5,
-                                                        color: Colors.black,
-                                                      ),
-                                                      const SizedBox(width: 3),
-                                                      Text(
-                                                        timeago.format(
-                                                            notification
-                                                                .sendDate!,
-                                                            locale: 'vi'),
-                                                        style: const TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                    notification.body!,
-                                                    style:
-                                                        Get.textTheme.bodySmall,
-                                                    maxLines: 4,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ],
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: Container(
+                                                width: 10,
+                                                height: 10,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color:
+                                                      notification.readDate !=
+                                                              null
+                                                          ? Colors.transparent
+                                                          : Colors.red,
+                                                  // border: const Border.fromBorderSide(
+                                                  //   BorderSide(
+                                                  //       color: Colors.white,
+                                                  //       width: 0),
+                                                  // ),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  notification.title!,
+                                                  style:
+                                                      Get.textTheme.titleSmall,
+                                                ),
+                                                const SizedBox(width: 3),
+                                                const Icon(
+                                                  Icons.circle,
+                                                  size: 5,
+                                                  color: Colors.black,
+                                                ),
+                                                const SizedBox(width: 3),
+                                                Text(
+                                                  timeago.format(
+                                                      notification.sendDate!,
+                                                      locale: 'vi'),
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              notification.body!,
+                                              style: Get.textTheme.bodySmall,
+                                              maxLines: 4,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            );
-                          }).toList(),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-            )),
+                      );
+                    }).toList(),
+                  ),
+                ),
+        ),
       ),
     );
   }

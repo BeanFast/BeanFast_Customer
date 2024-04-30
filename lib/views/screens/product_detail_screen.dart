@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/models/food.dart';
 import 'package:beanfast_customer/utils/formater.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -22,16 +23,14 @@ class ProductDetailScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(food.imagePath.toString()),
-                      fit: BoxFit.contain,
-                    ),
-                    borderRadius: BorderRadius.circular(14),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: CustomNetworkImage(
+                    food.imagePath.toString(),
+                    fit: BoxFit.contain,
+                    width: MediaQuery.of(context).size.width,
+                    height: 250,
                   ),
-                  width: MediaQuery.of(context).size.width,
-                  height: 250,
                 ),
                 Stack(
                   children: [

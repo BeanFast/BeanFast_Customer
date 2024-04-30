@@ -1,6 +1,7 @@
 import 'package:beanfast_customer/contrains/theme_color.dart';
 import 'package:beanfast_customer/services/transaction_service.dart';
 import 'package:beanfast_customer/views/widgets/gradient_button.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -281,7 +282,7 @@ class DepositeScreen extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(14),
-                          child: Image.network(
+                          child: const CustomNetworkImage(
                             'https://vnpay.vn/s1/statics.vnpay.vn/2023/9/06ncktiwd6dc1694418196384.png',
                             fit: BoxFit.cover,
                           ),

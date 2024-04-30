@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/controllers/profile_controller.dart';
 import 'package:beanfast_customer/views/screens/loading_screen.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -31,14 +32,13 @@ class StudentDetailScreen extends GetView<ProfileController> {
                 children: [
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          controller.model.value.avatarPath.toString(),
-                        ),
-                        radius: 15,
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CustomNetworkImage(
+                        controller.model.value.avatarPath.toString(),
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     title: Text(
@@ -50,8 +50,8 @@ class StudentDetailScreen extends GetView<ProfileController> {
                     ),
                     trailing: TextButton(
                       onPressed: () {
-                        Get.to(
-                            StudentFormScreen(profileId: controller.model.value.id));
+                        Get.to(StudentFormScreen(
+                            profileId: controller.model.value.id));
                       },
                       child: const Text(
                         'Thay đổi',
