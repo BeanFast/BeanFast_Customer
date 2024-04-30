@@ -67,7 +67,7 @@ class CartScreen extends GetView<CartController> {
             const SizedBox(
               height: 5,
             ),
-            Expanded(
+            Obx(() =>  Expanded(
               child: controller.listCart.isEmpty
                   ? const IsEmptyWidget(title: 'Giỏ hàng trống')
                   : SingleChildScrollView(
@@ -310,7 +310,7 @@ class CartScreen extends GetView<CartController> {
                         ),
                       ),
                     ),
-            ),
+            ),),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,

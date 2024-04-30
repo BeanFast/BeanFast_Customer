@@ -499,27 +499,29 @@ void showProfilesDialog(Function() onPressed) {
         height: Get.height * 0.4,
         child: Column(
           children: [
-            SizedBox(
-              width: Get.width,
-              height: Get.height * 0.4,
-              child: controller.listProfile.isEmpty
-                  ? const IsEmptyWidget(title: 'Chưa có học sinh')
-                  : SingleChildScrollView(
-                      child: Obx(
-                        () => Column(
-                          children: controller.listProfile.map((e) {
-                            return ItemProfile(
-                              model: e,
-                              onPressed: () => {
-                                currentProfile.value = e,
-                                Get.back(),
-                                onPressed(),
-                              },
-                            );
-                          }).toList(),
+            Obx(
+              () => SizedBox(
+                width: Get.width,
+                height: Get.height * 0.4,
+                child: controller.listProfile.isEmpty
+                    ? const IsEmptyWidget(title: 'Chưa có học sinh')
+                    : SingleChildScrollView(
+                        child: Obx(
+                          () => Column(
+                            children: controller.listProfile.map((e) {
+                              return ItemProfile(
+                                model: e,
+                                onPressed: () => {
+                                  currentProfile.value = e,
+                                  Get.back(),
+                                  onPressed(),
+                                },
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
-                    ),
+              ),
             ),
           ],
         ),
