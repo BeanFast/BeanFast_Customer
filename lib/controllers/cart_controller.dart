@@ -91,8 +91,9 @@ class CartController extends GetxController with CacheManager {
           for (var menuDetail in session.value.entries) {
             map[menuDetail.key] = menuDetail.value.value;
           }
-          await OrderService()
+          bool result = await OrderService()
               .create(listSessionDetailId[session.key]!, cart.key, map);
+          logger.e(result.toString());
         }
       }
       listCart.clear();

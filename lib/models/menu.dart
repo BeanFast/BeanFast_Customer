@@ -9,8 +9,8 @@ class Menu extends BaseModel {
   String? createrId;
   String? updaterId;
   String? code;
-  DateTime? createDate;
-  DateTime? updateDate;
+  DateTime? createdDate;
+  DateTime? updatedDate;
   User? creater;
   User? updater;
   Kitchen? kitchen;
@@ -24,8 +24,8 @@ class Menu extends BaseModel {
     this.createrId,
     this.updaterId,
     this.code,
-    this.createDate,
-    this.updateDate,
+    this.createdDate,
+    this.updatedDate,
     this.menuDetails,
   }) : super(id: id, status: status);
 
@@ -37,8 +37,8 @@ class Menu extends BaseModel {
       createrId: json['createrId'],
       updaterId: json['updaterId'],
       code: json['code'],
-      createDate: DateTime.parse(json['createDate']),
-      updateDate: DateTime.parse(json['updateDate']),
+      // createdDate: DateTime.parse(json['createdDate']),
+      // updatedDate: DateTime.parse(json['updatedDate']),
       menuDetails: json['menuDetails']?.map<MenuDetail>((item) {
         return MenuDetail.fromJson(item);
       }).toList(),

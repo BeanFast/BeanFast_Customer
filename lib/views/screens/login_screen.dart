@@ -163,9 +163,9 @@ class LoginView extends GetView<AuthController> {
                     FadeInUp(
                       child: GradientButton(
                         text: 'Đăng nhập',
-                        onPressed: () {
+                        onPressed: () async {
                           if (formKey.currentState!.validate()) {
-                            controller.login();
+                            await controller.login();
                           }
                         },
                       ),

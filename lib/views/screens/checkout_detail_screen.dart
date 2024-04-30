@@ -467,8 +467,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                           Get.to(
                             ResultScreenWidget(
                               isSuccess: result,
-                              content:
-                                  'Cảm ơn bạn đã ủng hộ BeanFast!.',
+                              content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
                               ontapNameLeftSide: 'Trang chủ',
                               ontapLeftSide: () {
                                 changePage(MenuIndexState.home.index);
@@ -518,38 +517,10 @@ class CheckOutDetailScreen extends GetView<CartController> {
               Column(
                 children: controller.listSession[sessionId]!.sessionDetails!
                     .map(
-                      (sessionDetail) => Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
+                      (sessionDetail) => Card(
                         child: ListTile(
-                          leading: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: Image.network(
-                              controller
-                                  .listLocation[sessionDetail.location!.id]!
-                                  .imagePath
-                                  .toString(),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
                           title: Text(controller
                               .listLocation[sessionDetail.location!.id]!.name
-                              .toString()),
-                          subtitle: Text(controller
-                              .listLocation[sessionDetail.location!.id]!
-                              .description
                               .toString()),
                           onTap: () {
                             controller.updateSessionDetai(

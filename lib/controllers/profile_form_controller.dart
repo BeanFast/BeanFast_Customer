@@ -115,9 +115,9 @@ class ProfileFormController extends GetxController {
     if (formKey.currentState!.validate() && imagePath.value.isNotEmpty) {
       try {
         //form
-        model.value.fullName = fullnameController.text;
-        model.value.nickName = nickNameController.text;
-        model.value.className = classController.text;
+        model.value.fullName = fullnameController.text.trim();
+        model.value.nickName = nickNameController.text.trim();
+        model.value.className = classController.text.trim();
         model.value.dob = selectedDate.value;
         model.value.avatarPath = imagePath.value;
         model.value.bmis = [Bmi()];
@@ -135,8 +135,8 @@ class ProfileFormController extends GetxController {
         } else {
           Get.snackbar('Lỗi', response.data['message']);
         }
-      } catch (e) {
-        throw Exception(e);
+      } on dio.DioException catch (e) {
+        Get.snackbar('Lỗi', e.response!.data['message']);
       }
     } else {
       Get.snackbar('Lỗi', 'Thông tin chưa chính xác');

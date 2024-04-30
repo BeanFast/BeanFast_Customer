@@ -41,12 +41,18 @@ class AuthController extends GetxController with CacheManager {
     logger.e('token - ${token != null}');
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-      final expiryTimestamp = decodedToken["exp"];
-      final currentTime = DateTime.now().millisecondsSinceEpoch;
-      if (expiryTimestamp < currentTime) {
+      // final expiryTimestamp = decodedToken["exp"];
+      int exp = decodedToken['exp'];
+      DateTime expirationDate = DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+      if (expirationDate.isAfter(DateTime.now())) {
         changeAuthState(AuthState.authenticated);
         return;
       }
+      // final currentTime = DateTime.now().millisecondsSinceEpoch;
+      // if (expiryTimestamp > currentTime) {
+      //   changeAuthState(AuthState.authenticated);
+      //   return;
+      // }
     }
     logOut();
   }

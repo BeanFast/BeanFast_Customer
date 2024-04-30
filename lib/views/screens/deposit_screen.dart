@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,12 +12,12 @@ import '/enums/menu_index_enum.dart';
 import '/utils/constants.dart';
 import 'splash_screen.dart';
 
-class DepositeScreen extends StatelessWidget {
-  final DepositeController depositeController = Get.put(DepositeController());
-  DepositeScreen({super.key});
+class DepositeScreen extends GetView<DepositeController> {
+  const DepositeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DepositeController());
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +61,7 @@ class DepositeScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                depositeController.updateMoney('100.000');
+                                controller.updateMoney('100.000');
                               },
                               child: Text(
                                 '100.000',
@@ -89,7 +90,7 @@ class DepositeScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                depositeController.updateMoney('200.000');
+                                controller.updateMoney('200.000');
                               },
                               child: Text(
                                 '200.000',
@@ -118,7 +119,7 @@ class DepositeScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                depositeController.updateMoney('300.000');
+                                controller.updateMoney('300.000');
                               },
                               child: Text(
                                 '300.000',
@@ -153,7 +154,7 @@ class DepositeScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                depositeController.updateMoney('500.000');
+                                controller.updateMoney('500.000');
                               },
                               child: Text(
                                 '500.000',
@@ -182,7 +183,7 @@ class DepositeScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                depositeController.updateMoney('1.000.000');
+                                controller.updateMoney('1.000.000');
                               },
                               child: Text(
                                 '1.000.000',
@@ -211,7 +212,7 @@ class DepositeScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                depositeController.updateMoney('2.000.000');
+                                controller.updateMoney('2.000.000');
                               },
                               child: Text(
                                 '2.000.000',
@@ -225,7 +226,7 @@ class DepositeScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       SizedBox(
                         child: TextFormField(
-                          controller: depositeController.textController,
+                          controller: controller.textController,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             CurrencyInputFormatter(),
@@ -245,7 +246,7 @@ class DepositeScreen extends StatelessWidget {
                             final number =
                                 num.tryParse(value.replaceAll('.', ''));
 
-                                print(number);
+                            print(number);
 
                             if (number == null) {
                               return 'Vui lòng nhập đúng giá trị';
@@ -299,7 +300,7 @@ class DepositeScreen extends StatelessWidget {
                                         style: Get.textTheme.bodyLarge),
                                     const Spacer(),
                                     Obx(
-                                      () => Text(depositeController.money.value,
+                                      () => Text(controller.money.value,
                                           style: Get.textTheme.bodyLarge),
                                     ),
                                   ],
@@ -310,7 +311,7 @@ class DepositeScreen extends StatelessWidget {
                                         style: Get.textTheme.bodyLarge),
                                     const Spacer(),
                                     Obx(
-                                      () => Text(depositeController.money.value,
+                                      () => Text(controller.money.value,
                                           style: Get.textTheme.bodyLarge),
                                     ),
                                   ],
@@ -327,67 +328,68 @@ class DepositeScreen extends StatelessWidget {
               GradientButton(
                 text: 'Nạp tiền',
                 onPressed: () async {
+                  //
                   if (_formKey.currentState!.validate()) {
-                    var url = await TransactionService()
-                        .createVnpayRequest(depositeController.moneyInt);
-
-                    Get.to(
-                      // ignore: deprecated_member_use
-                      () => WillPopScope(
-                        onWillPop: () async {
-                          return await showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Xác nhận'),
-                                  content:
-                                      const Text('Bạn có muốn thoát không?'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
-                                      child: const Text('Không'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(true),
-                                      child: const Text('Có'),
-                                    ),
-                                  ],
-                                ),
-                              ) ??
-                              false;
-                        },
-                        child: SafeArea(
-                          child: Scaffold(
-                            body: WebView(
-                              initialUrl: url,
-                              javascriptMode: JavascriptMode.unrestricted,
-                              javascriptChannels: {
-                                JavascriptChannel(
-                                  name: 'Pay',
-                                  onMessageReceived:
-                                      (JavascriptMessage message) async {
-                                    var resultMessage = message.message;
-                                    if (resultMessage == 'true') {
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
-                                      // currentUser.value =
-                                      //     await AuthService().getUser();
-                                      changePage(MenuIndexState.home.index);
-                                      Get.offAll(const SplashScreen());
-                                    } else {
-                                      await Future.delayed(
-                                          const Duration(seconds: 1));
-                                      Get.back();
-                                    }
-                                  },
-                                ),
-                              },
+                    var url = await controller.getUrl();
+                    if (url != null) {
+                      Get.to(
+                        // ignore: deprecated_member_use
+                        () => WillPopScope(
+                          onWillPop: () async {
+                            return await showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Xác nhận'),
+                                    content:
+                                        const Text('Bạn có muốn thoát không?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(false),
+                                        child: const Text('Không'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: const Text('Có'),
+                                      ),
+                                    ],
+                                  ),
+                                ) ??
+                                false;
+                          },
+                          child: SafeArea(
+                            child: Scaffold(
+                              body: WebView(
+                                javascriptMode: JavascriptMode.unrestricted,
+                                initialUrl: url,
+                                javascriptChannels: {
+                                  JavascriptChannel(
+                                    name: 'Pay',
+                                    onMessageReceived:
+                                        (JavascriptMessage message) async {
+                                      var resultMessage = message.message;
+                                      if (resultMessage == 'true') {
+                                        await Future.delayed(
+                                            const Duration(seconds: 1));
+                                        // currentUser.value =
+                                        //     await AuthService().getUser();
+                                        changePage(MenuIndexState.home.index);
+                                        Get.offAll(const SplashScreen());
+                                      } else {
+                                        await Future.delayed(
+                                            const Duration(seconds: 1));
+                                        Get.back();
+                                      }
+                                    },
+                                  ),
+                                },
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
                 },
               ),
@@ -404,6 +406,18 @@ class DepositeController extends GetxController {
 
   int moneyInt = 0;
   RxString money = ''.obs;
+
+  Future<String?> getUrl() async {
+    try {
+       moneyInt = int.parse(textController.text.replaceAll(".", ""));
+      var url = await TransactionService().createVnpayRequest(moneyInt);
+      return url;
+    } on DioException catch (e) {
+      Get.snackbar('Thất bại', e.response!.data['message']);
+      return null;
+    }
+  }
+
   void updateMoney(String value) {
     if (value.isNotEmpty) {
       textController.text = value;

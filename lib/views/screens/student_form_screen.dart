@@ -165,7 +165,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                               ),
                               decoration: const InputDecoration(),
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.trim().isEmpty) {
                                   return 'Vui lòng nhập họ và tên';
                                 }
                                 return null;
@@ -190,7 +190,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                 border: UnderlineInputBorder(),
                               ),
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.trim().isEmpty) {
                                   return 'Vui lòng nhập biệt danh';
                                 }
                                 return null;
@@ -243,7 +243,8 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                 final DateTime? picked = await showDatePicker(
                                   context: context,
                                   locale: const Locale("vi", "VI"),
-                                  firstDate: DateTime(1924),
+                                  firstDate: DateTime.now()
+                                      .subtract(const Duration(days: 20 * 365)),
                                   lastDate: DateTime.now()
                                       .subtract(const Duration(days: 5 * 365)),
                                 );
@@ -561,7 +562,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                               ),
                               decoration: const InputDecoration(),
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.trim().isEmpty) {
                                   return 'Vui lòng nhập lớp học';
                                 }
                                 return null;
