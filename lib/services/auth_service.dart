@@ -1,13 +1,15 @@
-import 'package:beanfast_customer/models/user.dart';
-import 'package:beanfast_customer/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
+import '/models/qrcode.dart';
 import '/services/api_service.dart';
+import '/models/user.dart';
+import '/utils/logger.dart';
 
 class AuthService {
   final String baseUrl = 'auth';
   final ApiService _apiService = getx.Get.put(ApiService());
+
   Future<Response> login(
       String phone, String password, String deviceToken) async {
     Map<String, dynamic> data = {

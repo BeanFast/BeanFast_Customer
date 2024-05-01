@@ -213,32 +213,35 @@ class CartController extends GetxController with CacheManager {
     updateItemCount();
     updateTotal();
   }
-  void deleteItemFromCart(String profileId, String sessionId, String menuDetailId) {
-  if (listCart.containsKey(profileId)) {
-    // If profileId exists
-    Map<String, Map<String, RxInt>> listSession = listCart[profileId]!;
-    if (listSession.containsKey(sessionId)) {
-      // If sessionId exists
-      Map<String, RxInt> cart = listSession[sessionId]!;
-      if (cart.containsKey(menuDetailId)) {
-        // If menuDetailId exists, remove it
-        cart.remove(menuDetailId);
-        cleanCart();
+
+  Future<void> deleteItemFromCart(
+      String profileId, String sessionId, String menuDetailId) async {
+    if (listCart.containsKey(profileId)) {
+      // If profileId exists
+      Map<String, Map<String, RxInt>> listSession = listCart[profileId]!;
+      if (listSession.containsKey(sessionId)) {
+        // If sessionId exists
+        Map<String, RxInt> cart = listSession[sessionId]!;
+        if (cart.containsKey(menuDetailId)) {
+          // If menuDetailId exists, remove it
+          cart.remove(menuDetailId);
+          cleanCart();
+        } else {
+          // If menuDetailId does not exist
+          return;
+        }
       } else {
-        // If menuDetailId does not exist
+        // If sessionId does not exist
         return;
       }
     } else {
-      // If sessionId does not exist
+      // If profileId does not exist
       return;
     }
-  } else {
-    // If profileId does not exist
-    return;
+    await saveCart(listCart);
+    updateItemCount();
+    updateTotal();
   }
-  updateItemCount();
-  updateTotal();
-}
 
   bool ifAbsent(String profileId, String sessionId, String menuDetailId) {
     if (listCart.containsKey(profileId)) {

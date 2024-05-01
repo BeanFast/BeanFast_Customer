@@ -1,7 +1,7 @@
-import 'package:beanfast_customer/contains/contrain.dart';
-import 'package:beanfast_customer/models/profile.dart';
-
 import 'base_model.dart';
+import '/contains/contrain.dart';
+import 'profile.dart';
+import 'qrcode.dart';
 
 class User extends BaseModel {
   String? roleId;
@@ -13,6 +13,7 @@ class User extends BaseModel {
   // String? deviceToken;
   double? balance;
   List<Profile>? profiles;
+  UserQrCode? qrCode;
 
   User({
     id,
@@ -25,6 +26,7 @@ class User extends BaseModel {
     this.avatarPath,
     this.balance,
     this.profiles,
+    this.qrCode,
   }) : super(id: id, status: status);
 
   factory User.fromJson(dynamic json) {

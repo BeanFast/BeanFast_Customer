@@ -39,8 +39,12 @@ class ExchangeGift extends BaseModel {
         giftId: json['giftId'],
         code: json['code'],
         points: json['points'],
-        paymentDate: json['paymentDate'],
-        deliveryDate: json['deliveryDate'],
+        paymentDate: json['paymentDate'] == null
+            ? null
+            : DateTime.parse(json['paymentDate']),
+        deliveryDate: json['deliveryDate'] == null
+            ? null
+            : DateTime.parse(json['deliveryDate']),
       );
 
   // Map<String, dynamic> toJson() {

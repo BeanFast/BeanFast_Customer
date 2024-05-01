@@ -80,7 +80,7 @@ class ExchangeGiftScreen extends StatelessWidget {
                         child: TabBarView(
                           children: [
                             ExchangeGiftTabView(), // Đổi thưởng
-                            PointManagementTabView(), // Thống kê
+                            PointManagementTabView(), // Lịch sử điểm
                             ExchangeGiftHistoryTabView(), // Lịch sử
                           ],
                         ),
@@ -170,9 +170,9 @@ class PointManagementTabView extends GetView<TransactionController> {
                                         Text(
                                           element.order!.code != null
                                               ? "Đơn hàng: #${element.order!.code!}"
-                                              : element.exchangeGift != null
+                                              : element.exchangeGift!.code != null
                                                   ? "Đổi quà: #${element.exchangeGift!.code}"
-                                                  : "Chơi game : #${element.game!.code}",
+                                                  : "Chơi game : ${element.game!.name}",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style:
@@ -266,7 +266,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
                     Get.to(GiftDetailScreen(gift: gift));
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 5),
+                    margin: const EdgeInsets.only(bottom: 1),
                     child: Card(
                       child: Stack(
                         children: [
@@ -325,7 +325,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
                                                 gift.points.toString(),
                                                 style: Get.textTheme.bodyLarge!
                                                     .copyWith(
-                                                  color: Colors.red,
+                                                  color: const Color.fromARGB(255, 26, 128, 30),
                                                 ),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,

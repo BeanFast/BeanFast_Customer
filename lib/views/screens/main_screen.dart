@@ -9,7 +9,7 @@ import 'home_screen.dart';
 import 'order_screen.dart';
 import 'transaction_screen.dart';
 import '/contains/theme_color.dart';
-import '/views/screens/profile_qr.dart';
+import 'user_qr.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -52,7 +52,7 @@ class MainScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(const ProfileQRScreen());
+          Get.to(const UserQRScreen());
         },
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),

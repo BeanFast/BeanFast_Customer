@@ -27,7 +27,7 @@ class ExchangeGiftItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(exchangeGift.profile!.fullName.toString(),
+                  Text('exchangeGift.profile!.fullName.toString()',
                       style: Get.textTheme.titleSmall),
                   TextOrderStatus(
                     status: OrderStatus.fromInt(exchangeGift.status!),

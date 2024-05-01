@@ -1,6 +1,9 @@
 import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/transaction_controller.dart';
 
 class GameOverScreen extends StatefulWidget {
   final int duration;
@@ -80,7 +83,10 @@ class _GameOverScreenState extends State<GameOverScreen> {
                   ),
                   onPressed: () {
                     //send data to server
-                    
+                    TransactionController transactionController =
+                        Get.put(TransactionController());
+                    transactionController.createGameTransaction(
+                        'B2F1C432-8282-42B2-9C5B-39706E28E736', 5);
                     currentProfileOnPage.playTimes.value--;
                     Navigator.of(context).pop();
                     Navigator.pop(context);

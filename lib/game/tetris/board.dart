@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:beanfast_customer/controllers/transaction_controller.dart';
 import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 
 import 'piece.dart';
@@ -243,12 +245,16 @@ class _GameBoardState extends State<GameBoard> {
   // game over message
   void showGameOverDialog() {
     //send data to server
+    TransactionController transactionController =
+        Get.put(TransactionController());
+    transactionController.createGameTransaction(
+        'B2F1C432-8282-42B2-9C5B-39706E28E736', currentScore);
     currentProfileOnPage.playTimes.value--;
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) => WillPopScope(
-          onWillPop: () async => false,
+        onWillPop: () async => false,
         child: AlertDialog(
           backgroundColor: Colors.amber,
           title: const Text('Game Over!'),
@@ -261,14 +267,15 @@ class _GameBoardState extends State<GameBoard> {
                   Navigator.pop(context);
                 } else {
                   showDialog(
-                      barrierDismissible: false, 
+                    barrierDismissible: false,
                     context: context,
                     builder: (BuildContext context) {
                       return WillPopScope(
-                         onWillPop: () async => false,
+                        onWillPop: () async => false,
                         child: AlertDialog(
                           title: const Text('Thông báo'),
-                          content: const Text('Bạn đã hết lượt chơi cho hôm nay!.'),
+                          content:
+                              const Text('Bạn đã hết lượt chơi cho hôm nay!.'),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('OK'),
