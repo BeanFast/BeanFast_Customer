@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/contains/theme_color.dart';
+import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,18 +16,19 @@ class GiftDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
+        padding: const EdgeInsets.only(left: 5, right: 5),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
+            const SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width * 0.8,
+                      height: 250,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(14),
                           child: CustomNetworkImage(gift.imagePath!,
@@ -42,8 +45,8 @@ class GiftDetailScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   gift.name!,
-                                  style: const TextStyle(
-                                    fontSize: 20,
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   maxLines: 2,
@@ -75,32 +78,17 @@ class GiftDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: Get.height / 20),
-              width: Get.width / 1.2,
-              height: Get.height / 15,
-              child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all<Color>(
-                      Colors.white), // Text color
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Colors.green), // Background color
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(10)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Get.to(GiftCheckOutScreen(gift: gift));
-                },
-                child: Text('Đổi quà',
-                    style: Get.textTheme.titleMedium!
-                        .copyWith(color: Colors.white)),
-              ),
+            SButton(
+              onPressed: () {
+                Get.to(GiftCheckOutScreen(gift: gift));
+              },
+              text: 'Đổi quà',
+              color: ThemeColor.textButtonColor,
+              borderColor: ThemeColor.textButtonColor,
+              textStyle: Get.textTheme.titleMedium!
+                  .copyWith(color: ThemeColor.itemColor),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

@@ -18,4 +18,12 @@ class NotificationService {
     }
     return notifications;
   }
+
+  Future markAsRead(List<String> ids) async {
+    Map<String, dynamic> data = {
+      'NotificationIds': ids,
+    };
+    final response = await _apiService.request.put(baseUrl, data: data);
+    return response.statusCode == 200;
+  }
 }

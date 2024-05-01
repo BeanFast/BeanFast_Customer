@@ -19,6 +19,11 @@ class ExchangeGiftService {
     }
     return list;
   }
+   Future<ExchangeGift> getById(String id) async {
+    final response = await _apiService.request.get('$baseUrl/$id');
+    ExchangeGift exchangeGift = ExchangeGift.fromJson(response.data['data']);
+    return exchangeGift;
+  }
 
   Future<bool> createExchangeGift(
       String giftId, String profileId, String sessionDetailId) async {

@@ -19,6 +19,21 @@ enum ExchangeGiftStatus {
 
   final int code;
   final String message;
+
+  static ExchangeGiftStatus fromInt(int code) {
+    switch (code) {
+      case 1:
+        return ExchangeGiftStatus.preparing;
+      case 2:
+        return ExchangeGiftStatus.delivering;
+      case 3:
+        return ExchangeGiftStatus.completed;
+      case 4:
+        return ExchangeGiftStatus.cancelled;
+      default:
+        return ExchangeGiftStatus.preparing;
+    }
+  }
 }
 
 enum OrderStatus {
@@ -41,6 +56,8 @@ enum OrderStatus {
       case 5:
         return OrderStatus.completed;
       case 6:
+        return OrderStatus.cancelled;
+      case 7:
         return OrderStatus.cancelled;
       default:
         return OrderStatus.preparing;

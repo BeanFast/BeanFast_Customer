@@ -1,5 +1,7 @@
 import 'package:beanfast_customer/views/widgets/image_default.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../utils/formater.dart';
@@ -28,15 +30,27 @@ class OrderItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(order.profile!.fullName.toString(),
-                      style: Get.textTheme.titleSmall),
-                  TextOrderStatus(
-                    status: OrderStatus.fromInt(order.status!),
-                  ),
-                ],
+              SizedBox(
+                width: Get.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        order.profile!.fullName.toString(),
+                        style: Get.textTheme.titleSmall,
+                    
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      width: 90,
+                      child: TextOrderStatus(
+                        status: OrderStatus.fromInt(order.status!),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 5),
               SizedBox(
@@ -118,20 +132,20 @@ class OrderItem extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 5),
-              if(order.status == 5)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Điểm tích luỹ',
-                    style: Get.textTheme.bodySmall,
-                  ),
-                  Text(
-                    '${order.rewardPoints} điểm',
-                    style: Get.textTheme.bodySmall,
-                  ),
-                ],
-              ),
+              if (order.status ==  OrderStatus.completed.code)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Điểm tích luỹ',
+                      style: Get.textTheme.bodySmall,
+                    ),
+                    Text(
+                      '${order.rewardPoints} điểm',
+                      style: Get.textTheme.bodySmall,
+                    ),
+                  ],
+                ),
             ],
           ),
         ),

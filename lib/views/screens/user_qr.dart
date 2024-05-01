@@ -50,13 +50,9 @@ class UserQRScreen extends GetView<ProfileQRController> {
                                     .copyWith(color: Colors.black54),
                               ),
                               QrImageView(
-                                embeddedImage: const NetworkImage(
-                                  'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745',
-                                ),
                                 data: controller.qrData.value.toString(),
                                 version: QrVersions.auto,
                               ),
-
                               Obx(
                                 () => SizedBox(
                                   height: 50,

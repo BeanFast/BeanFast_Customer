@@ -33,7 +33,7 @@ class NotificationScreen extends GetView<NotificationController> {
                 size: 30,
               ),
               onPressed: () {
-                controller.allDone.value = true;
+                controller.markAsRead();
               },
             ),
           ],
@@ -93,8 +93,7 @@ class NotificationScreen extends GetView<NotificationController> {
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color:
-                                                      notification.readDate !=
-                                                              null
+                                                      notification.status == 3
                                                           ? Colors.transparent
                                                           : Colors.red,
                                                   // border: const Border.fromBorderSide(

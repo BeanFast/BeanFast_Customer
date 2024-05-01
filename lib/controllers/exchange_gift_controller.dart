@@ -16,11 +16,33 @@ class ExchangeGiftController extends GetxController {
   RxList<Gift> listData = <Gift>[].obs;
   RxList<ExchangeGift> listExchangeGiftData = <ExchangeGift>[].obs;
   //checkout
+  Rx<ExchangeGift> model = ExchangeGift().obs;
   Rx<Session?> selectedSession = Rx<Session?>(null);
   RxList<Session> listSession = <Session>[].obs;
   String? sessionDetailId;
   String? messages;
   bool? isError;
+
+  final RxInt _selectedValue = RxInt(-1);
+  final RxString _otherReason = RxString('');
+
+  int get selectedValue => _selectedValue.value;
+  String get otherReason => _otherReason.value;
+
+  void handleRadioValueChanged(int? value) {
+    if (value != null) {
+      _selectedValue.value = value;
+      if (value != 3) {
+        _otherReason.value = '';
+      }
+      update();
+    }
+  }
+
+  void handleOtherReasonChanged(String reason) {
+    _otherReason.value = reason;
+    update();
+  }
 
   void clear() {
     listSession.clear();
@@ -48,6 +70,15 @@ class ExchangeGiftController extends GetxController {
   Future getData() async {
     try {
       listData.value = await GiftService().getAll();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future getById(String id) async {
+    try {
+      var data =  await ExchangeGiftService().getById(id);
+      model.value = data;
     } catch (e) {
       throw Exception(e);
     }
