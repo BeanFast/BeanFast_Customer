@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../enums/menu_index_enum.dart';
+import '/enums/menu_index_enum.dart';
+import '/views/widgets/image_default.dart';
 import '/controllers/auth_controller.dart';
 import '/utils/constants.dart';
 import '/views/widgets/is_empty.dart';
@@ -47,16 +48,13 @@ class StudentListScreen extends GetView<AuthController> {
                                 },
                                 child: Card(
                                   child: ListTile(
-                                    leading: Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              profile.avatarPath.toString()),
-                                          fit: BoxFit.cover,
-                                        ),
+                                    leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: CustomNetworkImage(
+                                        profile.avatarPath.toString(),
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                     title: Text(

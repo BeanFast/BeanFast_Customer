@@ -1,10 +1,10 @@
-import 'package:beanfast_customer/models/session_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
+import '../widgets/image_default.dart';
 import '/contains/theme_color.dart';
 import '/views/widgets/row_info_confirm_item_widget.dart';
 import '/enums/menu_index_enum.dart';
@@ -188,7 +188,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                             borderRadius:
                                                                                 const BorderRadius.all(Radius.circular(12)),
                                                                             child:
-                                                                                Image.network(
+                                                                                CustomNetworkImage(
                                                                               controller.listMenuDetail[menuDetail.key]!.food!.imagePath!,
                                                                               fit: BoxFit.cover,
                                                                             ),

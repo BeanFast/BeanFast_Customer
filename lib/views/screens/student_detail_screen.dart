@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/image_default.dart';
 import '/controllers/auth_controller.dart';
 import '/models/profile.dart';
 import '/utils/constants.dart';
@@ -35,14 +36,13 @@ class StudentDetailScreen extends GetView<AuthController> {
                 children: [
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          model.value.avatarPath.toString(),
-                        ),
-                        radius: 15,
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CustomNetworkImage(
+                        model.value.avatarPath.toString(),
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     title: Text(

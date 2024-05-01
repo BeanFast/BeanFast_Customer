@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,7 +44,7 @@ class OrderItem extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network(
+                    CustomNetworkImage(
                       order.orderDetails![0].food!.imagePath.toString(),
                       width: 80,
                       height: Get.height,

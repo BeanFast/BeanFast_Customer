@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/image_default.dart';
 import '/views/widgets/is_empty.dart';
 import '/controllers/home_controller.dart';
 import '/views/screens/checkout_detail_screen.dart';
@@ -67,13 +68,13 @@ class CartScreen extends GetView<CartController> {
             const SizedBox(
               height: 5,
             ),
-            Obx(() =>  Expanded(
-              child: controller.listCart.isEmpty
-                  ? const IsEmptyWidget(title: 'Giỏ hàng trống')
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Obx(
-                        () => Column(
+            Obx(
+              () => Expanded(
+                child: controller.listCart.isEmpty
+                    ? const IsEmptyWidget(title: 'Giỏ hàng trống')
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
                           children: controller.listCart.entries.map((profile) {
                             return Column(
                               children: [
@@ -122,44 +123,106 @@ class CartScreen extends GetView<CartController> {
                                                 left: 5, right: 5),
                                             child: Column(
                                               children: profile.value.entries
-                                                  .map((session) => Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    top: 5,
-                                                                    bottom: 5),
-                                                            child: Row(
-                                                              children: [
-                                                                Text(
-                                                                    'Mở đặt đến',
-                                                                    style: Get
-                                                                        .textTheme
-                                                                        .bodyMedium),
-                                                                Text(
-                                                                  ' ${DateFormat('HH:mm, dd/MM/yyyy').format(controller.listSession[session.key]!.orderEndTime!)}',
+                                                  .map(
+                                                    (session) => Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  top: 5,
+                                                                  bottom: 5),
+                                                          child: Row(
+                                                            children: [
+                                                              Text('Mở đặt đến',
                                                                   style: Get
                                                                       .textTheme
-                                                                      .bodyMedium!
-                                                                      .copyWith(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                              Colors.green),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                                      .bodyMedium),
+                                                              Text(
+                                                                ' ${DateFormat('HH:mm, dd/MM/yyyy').format(controller.listSession[session.key]!.orderEndTime!)}',
+                                                                style: Get
+                                                                    .textTheme
+                                                                    .bodyMedium!
+                                                                    .copyWith(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        color: Colors
+                                                                            .green),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          Column(
-                                                            children:
-                                                                session.value
-                                                                    .entries
-                                                                    .map(
-                                                                      (menuDetail) =>
+                                                        ),
+                                                        Column(
+                                                          children:
+                                                              session
+                                                                  .value.entries
+                                                                  .map(
+                                                                    (menuDetail) =>
+                                                                        Dismissible(
+                                                                      key: Key(
+                                                                          menuDetail
+                                                                              .key),
+                                                                      direction:
+                                                                          DismissDirection
+                                                                              .endToStart,
+                                                                      confirmDismiss:
+                                                                          (direction) async {
+                                                                        return await showDeleteDialog(
+                                                                          () async {
+                                                                            await controller.deleteItemFromCart(
+                                                                                profile.key,
+                                                                                session.key,
+                                                                                menuDetail.key);
+                                                                            Get.back();
+                                                                          },
+                                                                        );
+                                                                        // showDialog(
+                                                                        //   context:
+                                                                        //       context,
+                                                                        //   builder:
+                                                                        //       (BuildContext context) {
+                                                                        //     return AlertDialog(
+                                                                        //       title: const Text("Xác nhận"),
+                                                                        //       content: const Text("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"),
+                                                                        //       actions: <Widget>[
+                                                                        //         TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text("Xoá")),
+                                                                        //         TextButton(
+                                                                        //           onPressed: () => Navigator.of(context).pop(false),
+                                                                        //           child: const Text("Huỷ"),
+                                                                        //         ),
+                                                                        //       ],
+                                                                        //     );
+                                                                        //   },
+                                                                        // );
+                                                                      },
+                                                                      onDismissed:
+                                                                          (direction) {
+                                                                        controller.deleteItemFromCart(
+                                                                            profile.key,
+                                                                            session.key,
+                                                                            menuDetail.key);
+                                                                      },
+                                                                      background:
+                                                                          Container(
+                                                                        alignment:
+                                                                            Alignment.centerRight,
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            right:
+                                                                                20.0),
+                                                                        color: Colors
+                                                                            .redAccent,
+                                                                        child: const Icon(
+                                                                            Icons
+                                                                                .delete,
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                      child:
                                                                           Container(
                                                                         margin: const EdgeInsets
                                                                             .only(
@@ -190,7 +253,7 @@ class CartScreen extends GetView<CartController> {
                                                                                   borderRadius: const BorderRadius.all(
                                                                                     Radius.circular(12),
                                                                                   ),
-                                                                                  child: Image.network(
+                                                                                  child: CustomNetworkImage(
                                                                                     controller.listMenuDetail[menuDetail.key]!.food!.imagePath!,
                                                                                     fit: BoxFit.cover,
                                                                                   ),
@@ -228,7 +291,7 @@ class CartScreen extends GetView<CartController> {
                                                                                         children: [
                                                                                           Text(
                                                                                             Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.price.toString()),
-                                                                                            style: Get.textTheme.bodyLarge!.copyWith(color: const Color.fromRGBO(240, 103, 24, 1)),
+                                                                                            style: Get.textTheme.bodySmall!.copyWith(color: const Color.fromRGBO(240, 103, 24, 1)),
                                                                                             overflow: TextOverflow.ellipsis,
                                                                                             maxLines: 1,
                                                                                           ),
@@ -236,10 +299,7 @@ class CartScreen extends GetView<CartController> {
                                                                                           if (controller.listMenuDetail[menuDetail.key]!.price != controller.listMenuDetail[menuDetail.key]!.food!.price)
                                                                                             Text(
                                                                                               Formater.formatMoney(controller.listMenuDetail[menuDetail.key]!.food!.price.toString()),
-                                                                                              style: const TextStyle(
-                                                                                                fontSize: 16,
-                                                                                                decoration: TextDecoration.lineThrough,
-                                                                                              ),
+                                                                                              style: Get.textTheme.bodySmall!.copyWith(decoration: TextDecoration.lineThrough, color: Colors.black54),
                                                                                               overflow: TextOverflow.ellipsis,
                                                                                               maxLines: 1,
                                                                                             ),
@@ -254,7 +314,16 @@ class CartScreen extends GetView<CartController> {
                                                                                           children: [
                                                                                             GestureDetector(
                                                                                               onTap: () {
-                                                                                                controller.decreaseItemCart(profile.key, session.key, menuDetail.key);
+                                                                                                if (menuDetail.value.value == 1) {
+                                                                                                  showDeleteDialog(
+                                                                                                    () async {
+                                                                                                      await controller.deleteItemFromCart(profile.key, session.key, menuDetail.key);
+                                                                                                      Get.back();
+                                                                                                    },
+                                                                                                  );
+                                                                                                } else {
+                                                                                                  controller.decreaseItemCart(profile.key, session.key, menuDetail.key);
+                                                                                                }
                                                                                               },
                                                                                               child: const Icon(
                                                                                                 Iconsax.minus_square,
@@ -288,11 +357,13 @@ class CartScreen extends GetView<CartController> {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    )
-                                                                    .toList(),
-                                                          )
-                                                        ],
-                                                      ))
+                                                                    ),
+                                                                  )
+                                                                  .toList(),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
                                                   .toList(),
                                             ),
                                           ),
@@ -309,8 +380,8 @@ class CartScreen extends GetView<CartController> {
                           }).toList(),
                         ),
                       ),
-                    ),
-            ),),
+              ),
+            ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -399,5 +470,22 @@ class CartScreen extends GetView<CartController> {
         ),
       ),
     );
+  }
+
+  Future showDeleteDialog(Function() onPressed) async {
+    Get.dialog(AlertDialog(
+      title: const Text("Xác nhận"),
+      content: const Text(
+          "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"),
+      actions: <Widget>[
+        TextButton(onPressed: onPressed, child: const Text("Xoá")),
+        TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: const Text("Huỷ"),
+        ),
+      ],
+    ));
   }
 }

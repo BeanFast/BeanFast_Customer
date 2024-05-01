@@ -1,5 +1,6 @@
 import 'package:beanfast_customer/contains/theme_color.dart';
 import 'package:beanfast_customer/utils/constants.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/profile.dart';
@@ -23,17 +24,15 @@ class ItemProfile extends StatelessWidget {
                 border: currentProfile.value!.id == model.id ?  Border.all(color: Colors.amber, width: 1) : null,
               ),
               child: ListTile(
-                leading: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(model.avatarPath.toString()),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: CustomNetworkImage(
+                                        model.avatarPath.toString(),
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                 title: Text(model.fullName.toString(),
                     style: const TextStyle(fontWeight: FontWeight.w500)),
                 subtitle: Text(model.school!.name.toString(),

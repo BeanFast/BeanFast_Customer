@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../widgets/image_default.dart';
 import '/models/food.dart';
 import '/utils/formater.dart';
 import '/controllers/cart_controller.dart';
@@ -21,16 +22,14 @@ class ProductDetailScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(food.imagePath.toString()),
-                      fit: BoxFit.contain,
-                    ),
-                    borderRadius: BorderRadius.circular(14),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: CustomNetworkImage(
+                    food.imagePath.toString(),
+                    fit: BoxFit.contain,
+                    width: MediaQuery.of(context).size.width,
+                    height: 250,
                   ),
-                  width: MediaQuery.of(context).size.width,
-                  height: 250,
                 ),
                 Stack(
                   children: [

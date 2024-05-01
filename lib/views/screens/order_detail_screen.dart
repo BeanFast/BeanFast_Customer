@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/image_default.dart';
 import '/enums/status_enum.dart';
 import '/views/screens/order_time_line.dart';
 import '/views/screens/welcome_screen.dart';
@@ -120,17 +121,14 @@ class OrderDetailScreen extends GetView<OrderController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Image.network(
+                                       CustomNetworkImage(
                                           e.food!.imagePath!,
                                           width: 80,
                                           height: 80,
                                           fit: BoxFit.cover,
                                         ),
                                         Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              130,
+                                          width: Get.width - 100,
                                           height: 80,
                                           padding:
                                               const EdgeInsets.only(left: 10),
@@ -160,17 +158,19 @@ class OrderDetailScreen extends GetView<OrderController> {
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: Text(
-                                                    Formater.formatMoney(
-                                                        e.price.toString()),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: Get
-                                                        .textTheme.bodySmall!
-                                                        .copyWith(
-                                                            color: const Color
-                                                                .fromRGBO(240,
-                                                                103, 24, 1))),
+                                                  Formater.formatMoney(
+                                                    e.price.toString(),
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: Get
+                                                      .textTheme.bodySmall!
+                                                      .copyWith(
+                                                    color: const Color.fromRGBO(
+                                                        240, 103, 24, 1),
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -281,10 +281,11 @@ class OrderDetailScreen extends GetView<OrderController> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: const Text(
-                                    'Bạn có chắc chắn muốn huỷ đơn hàng?'),
+                                surfaceTintColor: Colors.white,
+                                backgroundColor: ThemeColor.itemColor,
+                                title: const Text('Xác nhận'),
                                 content: SizedBox(
-                                  height: 130,
+                                  height: 100,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -311,13 +312,17 @@ class OrderDetailScreen extends GetView<OrderController> {
                                       // Show dialog
                                       showCancelDialog(controller, context);
                                     },
-                                    child: const Text('Xác nhận huỷ đơn hàng'),
+                                    child: Text('Huỷ đơn hàng',
+                                        style: Get.textTheme.bodyMedium!
+                                            .copyWith(color: Colors.red)),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       Get.back(); // Close the confirmation dialog
                                     },
-                                    child: const Text('Cancel'),
+                                    child: Text('Đóng',
+                                        style: Get.textTheme.bodyMedium!
+                                            .copyWith(color: Colors.grey)),
                                   ),
                                 ],
                               );
@@ -386,9 +391,11 @@ void showCancelDialog(OrderController controller, BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        surfaceTintColor: Colors.white,
+        backgroundColor: ThemeColor.itemColor,
         title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
         content: SizedBox(
-          height: Get.height / 2,
+          // height: Get.height / 2,
           width: Get.width,
           child: SingleChildScrollView(
             child: Column(
@@ -397,6 +404,7 @@ void showCancelDialog(OrderController controller, BuildContext context) {
                 for (var option in controller.cancelReasonOptions)
                   Obx(
                     () => RadioListTile<int>(
+                      contentPadding: EdgeInsets.zero,
                       title: Text(option['title'] as String),
                       value: option['value'] as int,
                       groupValue: controller.selectedValue,
@@ -419,7 +427,7 @@ void showCancelDialog(OrderController controller, BuildContext context) {
         actions: [
           TextButton(
             onPressed: () {
-              if (controller.selectedValue == null) {
+              if (controller.selectedValue == -1) {
                 // Handle case where no option is selected
               } else if (controller.selectedValue == 3 &&
                   controller.otherReason.isEmpty) {
@@ -445,7 +453,8 @@ void showCancelDialog(OrderController controller, BuildContext context) {
                 );
               }
             },
-            child: const Text('Xác nhận huỷ đơn'),
+            child: Text('Huỷ đơn hàng',
+                style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red)),
           ),
         ],
       );
@@ -458,9 +467,10 @@ void showFeedbackDialog(OrderController controller, BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        surfaceTintColor: Colors.white,
+        backgroundColor: ThemeColor.itemColor,
         title: const Text('Đánh giá đơn hàng'),
         content: SizedBox(
-          height: Get.height / 2,
           width: Get.width,
           child: SingleChildScrollView(
             child: Column(
@@ -469,6 +479,7 @@ void showFeedbackDialog(OrderController controller, BuildContext context) {
                 for (var option in controller.feedbackReasonOptions)
                   Obx(
                     () => RadioListTile<int>(
+                      contentPadding: EdgeInsets.zero,
                       title: Text(option['title'] as String),
                       value: option['value'] as int,
                       groupValue: controller.selectedValue,
@@ -491,7 +502,7 @@ void showFeedbackDialog(OrderController controller, BuildContext context) {
         actions: [
           TextButton(
             onPressed: () {
-              if (controller.selectedValue == null) {
+              if (controller.selectedValue == -1) {
                 // Handle case where no option is selected
               } else if (controller.selectedValue == 3 &&
                   controller.otherReason.isEmpty) {
@@ -518,7 +529,12 @@ void showFeedbackDialog(OrderController controller, BuildContext context) {
                 );
               }
             },
-            child: const Text('Gửi đánh giá'),
+            child: Text(
+              'Gửi đánh giá',
+              style: Get.textTheme.bodyMedium!.copyWith(
+                color: Colors.black,
+              ),
+            ),
           ),
         ],
       );

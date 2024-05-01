@@ -1,6 +1,7 @@
 import 'package:beanfast_customer/contains/theme_color.dart';
 import 'package:beanfast_customer/controllers/cart_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -49,13 +50,13 @@ class MenuItem extends GetView<CartController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              ClipRRect(
+                               ClipRRect(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
                                 ),
-                                child: Image.network(
-                                  'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+                                child: CustomNetworkImage(
+                                  e.food!.imagePath.toString(),
                                   fit: BoxFit.cover,
                                   width: 170,
                                   height: 100,
@@ -222,7 +223,7 @@ class MenuItem extends GetView<CartController> {
                                           topLeft: Radius.circular(12),
                                           bottomLeft: Radius.circular(12),
                                         ),
-                                        child: Image.network(
+                                        child: CustomNetworkImage(
                                           e.food!.imagePath.toString(),
                                           fit: BoxFit.cover,
                                         ),

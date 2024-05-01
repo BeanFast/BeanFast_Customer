@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../widgets/image_default.dart';
 import '/contains/theme_color.dart';
 import '/services/transaction_service.dart';
 import '/views/widgets/gradient_button.dart';
@@ -246,7 +248,7 @@ class DepositeScreen extends GetView<DepositeController> {
                             final number =
                                 num.tryParse(value.replaceAll('.', ''));
 
-                            print(number);
+                            logger.i(number);
 
                             if (number == null) {
                               return 'Vui lòng nhập đúng giá trị';
@@ -281,7 +283,7 @@ class DepositeScreen extends GetView<DepositeController> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(14),
-                          child: Image.network(
+                          child: const CustomNetworkImage(
                             'https://vnpay.vn/s1/statics.vnpay.vn/2023/9/06ncktiwd6dc1694418196384.png',
                             fit: BoxFit.cover,
                           ),
