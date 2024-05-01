@@ -118,9 +118,7 @@ class ProfileQRController extends GetxController {
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
     }
-    // startCountdown();
     timer?.cancel();
-
     int expireTime = 59;
     qrExpiration.value = expireTime.toString();
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) async {
@@ -133,29 +131,6 @@ class ProfileQRController extends GetxController {
       }
     });
   }
-
-  // void startCountdown() {
-  //   timer?.cancel();
-
-  //   int expireTime = 59;
-  //   qrExpiration.value = expireTime.toString();
-  //   timer = Timer.periodic(const Duration(seconds: 1), (Timer t) async {
-  //     if (expireTime > 0) {
-  //       expireTime--;
-  //       qrExpiration.value = expireTime.toString();
-  //     } else {
-  //       t.cancel();
-  //       await generateQRData();
-  //     }
-  //   });
-  // }
-
-  // @override
-  // Future<void> onInit() async {
-  //   await generateQRData();
-  //   // qrExpiration.value = '59';
-  //   super.onInit();
-  // }
 
   @override
   void onClose() {
