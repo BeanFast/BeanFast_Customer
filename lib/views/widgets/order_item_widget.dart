@@ -132,7 +132,7 @@ class OrderItem extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 5),
-              if (order.status == 5)
+              if (order.status ==  OrderStatus.completed.code)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
