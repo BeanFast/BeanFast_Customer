@@ -154,17 +154,11 @@ class SButton extends StatelessWidget {
             color: color,
             borderRadius: BorderRadius.circular(30),
             border: Border.all(color: borderColor, width: 1)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              text,
-              style: textStyle,
-            ),
-          ],
+        child: Center(
+          child: Text(
+            text,
+            style: textStyle,
+          ),
         ),
       ),
     );

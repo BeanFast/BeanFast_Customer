@@ -13,7 +13,8 @@ class GiftDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SizedBox(
+      body: Container(
+        padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -25,7 +26,10 @@ class GiftDetailScreen extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width * 0.8,
-                      child: CustomNetworkImage(gift.imagePath!, fit: BoxFit.cover),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: CustomNetworkImage(gift.imagePath!,
+                              fit: BoxFit.cover)),
                     ),
                     Stack(
                       children: [
@@ -65,55 +69,8 @@ class GiftDetailScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Positioned(
-                        //   right: 0,
-                        //   top: 0,
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(4),
-                        //     ),
-                        //     child: Container(
-                        //       padding: const EdgeInsets.all(4),
-                        //       decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(4),
-                        //       ),
-                        //       child: Container(
-                        //         padding: const EdgeInsets.symmetric(
-                        //             horizontal: 6, vertical: 3),
-                        //         decoration: const BoxDecoration(
-                        //           color: Colors.red,
-                        //           borderRadius: BorderRadius.only(
-                        //             bottomLeft: Radius.circular(12),
-                        //             topRight: Radius.circular(12),
-                        //           ),
-                        //         ),
-                        //         child: const Text(
-                        //           '40%',
-                        //           style: TextStyle(
-                        //             color: Colors.white,
-                        //             fontSize: 12,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
-                    // Card(
-                    //   child: Container(
-                    //     width: MediaQuery.of(context).size.width,
-                    //     padding: const EdgeInsets.all(10),
-                    //     child: Column(
-                    //       mainAxisAlignment: MainAxisAlignment.start,
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         const Text('Mô tả', style: TextStyle(fontSize: 16)),
-                    //         Text(gift.description!),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

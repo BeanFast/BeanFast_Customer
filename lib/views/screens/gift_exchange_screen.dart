@@ -137,7 +137,7 @@ class PointManagementTabView extends GetView<TransactionController> {
                       ),
                       Column(
                         children: transaction.value.map((element) {
-                          IconData iconData = element.order!.code == null
+                          IconData iconData = element.value! > 0 
                               ? Iconsax.wallet_add_1
                               : Iconsax.wallet_minus;
                           var color =
