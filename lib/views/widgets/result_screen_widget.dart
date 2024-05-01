@@ -1,8 +1,8 @@
+import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../contains/theme_color.dart';
-import '/views/screens/welcome_screen.dart';
 
 class ResultScreenWidget extends StatelessWidget {
   final bool isSuccess;

@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,6 @@ import '/enums/status_enum.dart';
 import '/utils/formater.dart';
 import '/views/screens/loading_screen.dart';
 import '/views/screens/order_time_line.dart';
-import '/views/screens/welcome_screen.dart';
 import '/views/widgets/banner_order_status.dart';
 
 class OrderDetailScreen extends GetView<OrderController> {

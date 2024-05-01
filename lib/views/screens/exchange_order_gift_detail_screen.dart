@@ -1,7 +1,7 @@
 import 'package:beanfast_customer/controllers/exchange_gift_controller.dart';
 import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/screens/order_time_line.dart';
 import 'package:beanfast_customer/views/widgets/banner_order_exchange_gift_status.dart';
+import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,11 +10,9 @@ import 'package:intl/intl.dart';
 
 import '../widgets/image_default.dart';
 import '/contains/theme_color.dart';
-import '/controllers/order_controller.dart';
 import '/enums/status_enum.dart';
 import '/utils/formater.dart';
 import '/views/screens/loading_screen.dart';
-import '/views/screens/welcome_screen.dart';
 
 class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
   const OrderGiftDetailScreen({super.key, required this.orderGiftId});
