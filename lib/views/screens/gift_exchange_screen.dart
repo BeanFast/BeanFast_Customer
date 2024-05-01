@@ -137,7 +137,7 @@ class PointManagementTabView extends GetView<TransactionController> {
                       ),
                       Column(
                         children: transaction.value.map((element) {
-                          IconData iconData = element.order!.code == null
+                          IconData iconData = element.value! > 0 
                               ? Iconsax.wallet_add_1
                               : Iconsax.wallet_minus;
                           var color =
@@ -172,7 +172,7 @@ class PointManagementTabView extends GetView<TransactionController> {
                                               ? "Đơn hàng: #${element.order!.code!}"
                                               : element.exchangeGift != null
                                                   ? "Đổi quà: #${element.exchangeGift!.code}"
-                                                  : "Chơi game : #${element.game!.code}",
+                                                  : "Chơi game: #${element.game!.code}",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style:

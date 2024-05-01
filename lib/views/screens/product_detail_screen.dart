@@ -27,7 +27,7 @@ class ProductDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                   child: CustomNetworkImage(
                     food.imagePath.toString(),
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     height: 250,
                   ),

@@ -1,5 +1,8 @@
 import 'package:beanfast_customer/views/widgets/is_empty.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -47,12 +50,12 @@ class NotificationScreen extends GetView<NotificationController> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Get.snackbar(
-                                  notification.title!,
-                                  notification.body!,
-                                  snackPosition: SnackPosition.TOP,
-                                  duration: 1.seconds,
-                                );
+                                // Get.snackbar(
+                                //   notification.title!,
+                                //   notification.body!,
+                                //   snackPosition: SnackPosition.TOP,
+                                //   duration: 1.seconds,
+                                // );
                               },
                               child: Card(
                                 child: Container(
@@ -115,28 +118,46 @@ class NotificationScreen extends GetView<NotificationController> {
                                           children: [
                                             Row(
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  notification.title!,
-                                                  style:
-                                                      Get.textTheme.titleSmall,
-                                                ),
-                                                const SizedBox(width: 3),
-                                                const Icon(
-                                                  Icons.circle,
-                                                  size: 5,
-                                                  color: Colors.black,
-                                                ),
-                                                const SizedBox(width: 3),
-                                                Text(
-                                                  timeago.format(
-                                                      notification.sendDate!,
-                                                      locale: 'vi'),
-                                                  style: const TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.grey,
+                                                Expanded(
+                                                  child: Text(
+                                                    notification.title!,
+                                                    style: Get
+                                                        .textTheme.titleSmall,
                                                   ),
+                                                ),
+                                                const SizedBox(width: 5),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.circle,
+                                                      size: 8,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    SizedBox(
+                                                   
+                                                      child: Text(
+                                                        timeago.format(
+                                                            notification
+                                                                .sendDate!,
+                                                            locale: 'vi'),
+                                                        style: Get.textTheme
+                                                            .bodySmall!
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .grey),
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
