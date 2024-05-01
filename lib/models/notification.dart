@@ -7,11 +7,13 @@ class Notification extends BaseModel {
   final String? body;
   final String? link;
   final DateTime? sendDate;
-  final DateTime? readDate;
+   DateTime? readDate;
   // final String description;
   final IconData trailingIcon;
 
   Notification({
+     id,
+     status,
     required this.icon,
     required this.title,
     required this.link,
@@ -19,10 +21,12 @@ class Notification extends BaseModel {
     required this.readDate,
     required this.trailingIcon,
     required this.body,
-  });
+  }): super(id: id, status: status);
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
       icon: Icons.notification_important,
+       id: json['id'],
+       status: json['status'],
       title: json['title'],
       body: json['body'],
       link: json['link'],

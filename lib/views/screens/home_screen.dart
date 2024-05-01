@@ -619,8 +619,7 @@ List<Widget> headerActionWidget() {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
-                                    child: 
-                                    CustomNetworkImage(
+                                    child: CustomNetworkImage(
                                       currentProfile.value!.avatarPath
                                           .toString(),
                                       width: 40,
@@ -768,16 +767,17 @@ List<Widget> headerActionWidget() {
                       ),
                     ),
                   ),
-                  Visibility(
-                    visible: notificationController.notifications
-                        .where((n) => n.readDate == null)
-                        .isNotEmpty,
-                    child: Positioned(
-                      top: 5,
-                      right: 3,
-                      width: 20,
-                      height: 20,
-                      child: Container(
+                  Obx(
+                    () => Visibility(
+                      visible: notificationController.notifications
+                          .where((n) => n.readDate == null)
+                          .isNotEmpty,
+                      child: Positioned(
+                        top: 5,
+                        right: 3,
+                        width: 20,
+                        height: 20,
+                        child: Container(
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.red,
@@ -794,7 +794,9 @@ List<Widget> headerActionWidget() {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

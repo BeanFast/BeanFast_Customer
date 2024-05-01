@@ -15,5 +15,14 @@ class NotificationController extends GetxController {
     }
   }
 
-  Future<void> markAsRead() async {}
+  Future<void> markAsRead() async {
+    var result = await NotificationService().markAsRead(notifications
+        .where((e) => e.readDate == null)
+        .map((e) => e.id!)
+        .toList());
+    if (result) {
+      await fetchData();
+      allDone.value = true;
+    }
+  }
 }

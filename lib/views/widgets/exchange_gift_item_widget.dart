@@ -1,11 +1,15 @@
+import 'package:beanfast_customer/utils/constants.dart';
+import 'package:beanfast_customer/views/screens/exchange_order_gift_detail_screen.dart';
+import 'package:beanfast_customer/views/screens/order_detail_screen.dart';
+import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/models/exchange_gift.dart';
-import '/enums/status_enum.dart';
 import '../../contains/theme_color.dart';
-import 'text_order_status_widget.dart';
+import '/enums/status_enum.dart';
+import '/models/exchange_gift.dart';
 import '/utils/formater.dart';
+import 'text_order_status_widget.dart';
 
 class ExchangeGiftItem extends StatelessWidget {
   final ExchangeGift exchangeGift;
@@ -14,7 +18,7 @@ class ExchangeGiftItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Get.to(OrderDetailScreen(orderId: order.id!));
+        Get.to(OrderGiftDetailScreen(orderGiftId: exchangeGift.id!));
       },
       child: Container(
         color: ThemeColor.itemColor,
@@ -27,10 +31,18 @@ class ExchangeGiftItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('exchangeGift.profile!.fullName.toString()',
-                      style: Get.textTheme.titleSmall),
-                  TextOrderStatus(
-                    status: OrderStatus.fromInt(exchangeGift.status!),
+                  Expanded(
+                    child: Text(
+                      currentProfile.value!.fullName.toString(),
+                      style: Get.textTheme.titleSmall,
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    width: 90,
+                    child: TextOrderStatus(
+                      status: OrderStatus.fromInt(exchangeGift.status!),
+                    ),
                   ),
                 ],
               ),
@@ -40,49 +52,49 @@ class ExchangeGiftItem extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //   Image.network(
-                    //     order.orderDetails![0].food!.imagePath.toString(),
-                    //     width: 80,
-                    //     height: Get.height,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    //   Expanded(
-                    //     child: Container(
-                    //       padding: const EdgeInsets.only(left: 10),
-                    //       child: Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Text(
-                    //             order.orderDetails![0].food!.name.toString(),
-                    //             style: Get.textTheme.bodyLarge,
-                    //             overflow: TextOverflow.ellipsis,
-                    //             maxLines: 1,
-                    //           ),
-                    //           Align(
-                    //             alignment: Alignment.centerRight,
-                    //             child: Text(
-                    //               'x${order.orderDetails![0].quantity.toString()}',
-                    //               maxLines: 1,
-                    //               overflow: TextOverflow.ellipsis,
-                    //               style: Get.textTheme.bodySmall,
-                    //             ),
-                    //           ),
-                    //           Align(
-                    //             alignment: Alignment.centerRight,
-                    //             child: Text(
-                    //               Formater.formatMoney(
-                    //                   order.orderDetails![0].price.toString()),
-                    //               maxLines: 1,
-                    //               style: Get.textTheme.bodySmall!.copyWith(
-                    //                 color: const Color.fromRGBO(240, 103, 24, 1),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
+                    CustomNetworkImage(
+                      exchangeGift.gift!.imagePath!,
+                      width: 80,
+                      height: Get.height,
+                      fit: BoxFit.cover,
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              exchangeGift.gift!.name!,
+                              style: Get.textTheme.bodyLarge,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'x1',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Get.textTheme.bodySmall,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                Formater.formatPoint(
+                                    exchangeGift.points.toString()),
+                                maxLines: 1,
+                                style: Get.textTheme.bodySmall!.copyWith(
+                                  color: const Color.fromRGBO(240, 103, 24, 1),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -93,10 +105,10 @@ class ExchangeGiftItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Text(
-                  //   '${order.orderDetails!.length} sản phẩm',
-                  //   style: Get.textTheme.bodySmall,
-                  // ),
+                  Text(
+                    '1 sản phẩm',
+                    style: Get.textTheme.bodySmall,
+                  ),
                   Row(
                     children: [
                       Text(

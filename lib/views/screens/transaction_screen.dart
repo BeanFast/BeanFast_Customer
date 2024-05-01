@@ -144,9 +144,9 @@ class TransactionScreen extends GetView<TransactionController> {
                                         var transactionType =
                                             element.order!.code == null
                                                 ? "Nạp tiền"
-                                                : "Thanh toán";
+                                                : element.value! > 0? "Hoàn tiền" : "Thanh toán";
                                         IconData iconData =
-                                            element.order!.code == null
+                                             element.value! > 0
                                                 ? Iconsax.wallet_add_1
                                                 : Iconsax.wallet_minus;
                                         var color = element.value! > 0

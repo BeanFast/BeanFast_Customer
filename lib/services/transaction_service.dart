@@ -28,7 +28,7 @@ class TransactionService {
 
   Future<List<Transaction>> getTransactions(int page, int size) async {
     var response = await _apiService.request
-        .get(baseUrl, queryParameters: Map.from({"page": page, "size": size}));
+        .get(baseUrl, queryParameters: Map.from({"page": page, "size": size,'type': 'money'}));
     List<Transaction> result = List.empty(growable: true);
     if (response.statusCode == 200) {
       for (var e in response.data['data']["items"]) {

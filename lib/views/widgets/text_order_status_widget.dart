@@ -27,8 +27,11 @@ class TextOrderStatus extends StatelessWidget {
         color = Colors.black;
     }
 
-    return Text(status.message,
-        style:
-            Get.textTheme.labelLarge!.copyWith(color: color));
+    return Text(
+      status.message,
+      style: Get.textTheme.labelLarge!.copyWith(color: color),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
   }
 }

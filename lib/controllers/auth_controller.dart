@@ -61,7 +61,7 @@ class AuthController extends GetxController with CacheManager {
   }
 
   Future login() async {
-    Get.snackbar('login', 'login');
+    // Get.snackbar('login', 'login');
     try {
       logger.e('login');
       deviceToken = await _firebaseMessaging.getToken();
