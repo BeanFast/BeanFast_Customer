@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,6 +49,14 @@ class OrderController extends GetxController {
       model.value = await OrderService().getById(id);
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Future cancelOrder(String id) async {
+    try {
+      await OrderService().cancelOrder(id, _otherReason.value);
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
 

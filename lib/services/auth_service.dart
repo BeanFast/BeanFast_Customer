@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
-import '/models/qrcode.dart';
 import '/services/api_service.dart';
 import '/models/user.dart';
 import '/utils/logger.dart';
@@ -61,20 +60,5 @@ class AuthService {
   Future<User> getUser() async {
     final response = await _apiService.request.get('$baseUrl/current');
     return User.fromJson(response.data['data']);
-  }
-
-  Future<bool> updateUser(User model) async {
-    FormData formData = FormData.fromMap({
-      'FullName': model.fullName,
-    });
-    if (model.avatarPath != null) {
-      formData.files.add(MapEntry(
-        'Image',
-        await MultipartFile.fromFile(model.avatarPath!,
-            filename: 'uploadFile.jpg'),
-      ));
-    }
-    final response = await _apiService.request.put(baseUrl, data: formData);
-    return response.statusCode == 200;
   }
 }

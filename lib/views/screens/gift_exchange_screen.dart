@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '../../enums/menu_index_enum.dart';
 import '/enums/status_enum.dart';
 import '/controllers/auth_controller.dart';
 import '/controllers/transaction_controller.dart';
@@ -16,6 +17,7 @@ import 'error_screen.dart';
 import 'gift_detail_screen.dart';
 import 'loading_screen.dart';
 import '/utils/formater.dart';
+import 'splash_screen.dart';
 
 class ExchangeGiftScreen extends StatelessWidget {
   const ExchangeGiftScreen({super.key});
@@ -32,6 +34,13 @@ class ExchangeGiftScreen extends StatelessWidget {
             ? const ErrorScreen(message: 'Chưa có học sinh')
             : Scaffold(
                 appBar: AppBar(
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      changePage(MenuIndexState.home.index);
+                      Get.off(const SplashScreen());
+                    },
+                  ),
                   title: const Text(
                     'Đổi quà',
                   ),
@@ -137,7 +146,7 @@ class PointManagementTabView extends GetView<TransactionController> {
                       ),
                       Column(
                         children: transaction.value.map((element) {
-                          IconData iconData = element.value! > 0 
+                          IconData iconData = element.value! > 0
                               ? Iconsax.wallet_add_1
                               : Iconsax.wallet_minus;
                           var color =
@@ -170,7 +179,8 @@ class PointManagementTabView extends GetView<TransactionController> {
                                         Text(
                                           element.order!.code != null
                                               ? "Đơn hàng: #${element.order!.code!}"
-                                              : element.exchangeGift!.code != null
+                                              : element.exchangeGift!.code !=
+                                                      null
                                                   ? "Đổi quà: #${element.exchangeGift!.code}"
                                                   : "Chơi game : ${element.game!.name}",
                                           maxLines: 1,
@@ -325,7 +335,8 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
                                                 gift.points.toString(),
                                                 style: Get.textTheme.bodyLarge!
                                                     .copyWith(
-                                                  color: const Color.fromARGB(255, 26, 128, 30),
+                                                  color: const Color.fromARGB(
+                                                      255, 26, 128, 30),
                                                 ),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,

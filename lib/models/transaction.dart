@@ -35,13 +35,10 @@ class Transaction extends BaseModel {
   factory Transaction.fromJson(dynamic json) => Transaction(
         id: json["id"],
         status: json['status'],
-        orderId: json["orderId"],
         order: json["order"] == null ? Order() : Order.fromJson(json["order"]),
-        exchangeGiftId: json['exchangeGiftId'],
         exchangeGift: json["exchangeGift"] == null
             ? ExchangeGift()
             : ExchangeGift.fromJson(json["exchangeGift"]),
-        gameId: json['gameId'],
         game: json["game"] == null ? Game() : Game.fromJson(json["game"]),
         walletId: json['walletId'],
         code: json['code'],

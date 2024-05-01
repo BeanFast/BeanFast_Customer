@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 
 import '/utils/logger.dart';
@@ -30,6 +31,15 @@ class OrderService {
       order.orderDetails![i].food = Food.fromJson(responseFood.data['data']);
     }
     return order;
+  }
+
+  Future<bool> cancelOrder(String orderId, String reason) async {
+    FormData formData = FormData.fromMap({
+      'Reason': reason,
+    });
+    Response response = await _apiService.request
+        .put('$baseUrl/cancel/$orderId', data: formData);
+    return response.statusCode == 200;
   }
 
   Future<bool> create(String sessionDetailId, String profileId,

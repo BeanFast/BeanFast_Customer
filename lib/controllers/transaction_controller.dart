@@ -1,11 +1,10 @@
-import 'package:beanfast_customer/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/models/transaction.dart';
 import '/services/transaction_service.dart';
-import '/utils/logger.dart';
+import '/utils/constants.dart';
 
 class TransactionController extends GetxController {
   Map<String, List<Transaction>> initListTransaction = {};
@@ -19,6 +18,8 @@ class TransactionController extends GetxController {
   Future getTransaction() async {
     listMonth.clear();
     listMonth.add('Tất cả');
+    indexSelectedSortByMonth = 0.obs;
+    indexSelectedSortByStatus = 0.obs;
     try {
       List<Transaction> transactions =
           await TransactionService().getTransactions(1, 100);
@@ -43,56 +44,63 @@ class TransactionController extends GetxController {
     mapTransactions.addAll(initListTransaction);
   }
 
-  // void search(String value) {
-  //   if (value.isEmpty) {
-  //     setDataTable(initModelList);
-  //   } else {
-  //     currentModelList = initModelList
-  //         .where((e) =>
-  //             e.code!.toLowerCase().contains(value.toLowerCase()) ||
-  //             e.name!.toLowerCase().contains(value.toLowerCase()))
-  //         .toList();
-  //     setDataTable(currentModelList);
-  //   }
-  // }
+  void search(String value) {
+    mapTransactions.clear();
+    if (value.isEmpty) {
+      mapTransactions.addAll(initListTransaction);
+    } else {
+      List<Transaction> list = [];
+      // for (var e in initListTransaction.values) {
+      //   e
+      //       .where((transaction) => transaction.order!.code!
+      //           .toLowerCase()
+      //           .contains(value.toLowerCase()))
+      //       .toList();
+      // }
+
+      // .where((e) =>
+      //     e.code!.toLowerCase().contains(value.toLowerCase()) ||
+      //     e.name!.toLowerCase().contains(value.toLowerCase()))
+      // .toList();
+      
+      // setDataTable(currentModelList);
+    }
+  }
 
   void filterTransactions() {
     mapTransactions.clear();
     if (indexSelectedSortByMonth.value == 0 &&
         indexSelectedSortByStatus.value == 0) {
-      mapTransactions.value = initListTransaction;
+      mapTransactions.addAll(initListTransaction);
+      return;
+    }
+    if (indexSelectedSortByMonth.value != 0) {
+      List<Transaction> list = [];
+      list.addAll(
+          initListTransaction[listMonth[indexSelectedSortByMonth.value]]!);
+      mapTransactions.putIfAbsent(
+          listMonth[indexSelectedSortByMonth.value], () => list);
     } else {
-      if (indexSelectedSortByMonth.value != 0) {
-        mapTransactions.putIfAbsent(
-            listMonth[indexSelectedSortByMonth.value],
-            () => initListTransaction[
-                listMonth[indexSelectedSortByMonth.value]]!);
+      mapTransactions.addAll(initListTransaction);
+    }
+    if (indexSelectedSortByStatus.value != 0) {
+      for (var e in mapTransactions.entries.toList()) {
+        for (var transaction in e.value.toList()) {
+          if (indexSelectedSortByStatus.value == 1) {
+            if (transaction.value! < 0) {
+              e.value.remove(transaction);
+            }
+          } else {
+            if (transaction.value! > 0) {
+              e.value.remove(transaction);
+            }
+          }
+        }
+        if (e.value.isEmpty) {
+          mapTransactions.remove(e.key);
+        }
       }
-      // switch (indexSelectedSortByStatus.value) {
-      //   case 1:
-      //     {
-      //       for (var e in mapTransactions.entries) {
-      //         for (var transaction in e.value) {
-      //           if (transaction.value! < 0) {
-      //             e.value.remove(transaction);
-      //           }
-      //         }
-      //       }
-      //     }
-      //     break;
-      //   case 2:
-      //     {
-      //       for (var e in mapTransactions.entries) {
-      //         for (var transaction in e.value) {
-      //           if (transaction.value! > 0) {
-      //             e.value.remove(transaction);
-      //           }
-      //         }
-      //       }
-      //     }
-      //     break;
-      //   default:
-      // }
+      int a = initListTransaction.length;
     }
   }
 

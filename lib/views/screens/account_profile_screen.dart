@@ -3,19 +3,24 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:animate_do/animate_do.dart';
 
-import '/contains/theme_color.dart';
 import '/controllers/auth_controller.dart';
+import '/controllers/user_controller.dart';
+import '/contains/theme_color.dart';
 import '/utils/constants.dart';
 import '/views/screens/loading_screen.dart';
 import '/views/screens/student_list_screen.dart';
 
-class AccountProfileScreen extends GetView<AuthController> {
+class AccountProfileScreen extends GetView<UserController> {
   const AccountProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(UserController());
+    AuthController authController = Get.put(AuthController());
     return LoadingScreen(
-      future: controller.getCurrentUser,
+      future: () async {
+        await authController.getCurrentUser();
+      },
       child: Scaffold(
         body: Stack(
           children: [
@@ -84,12 +89,12 @@ class AccountProfileScreen extends GetView<AuthController> {
                     child: CircleAvatar(
                       radius: 70,
                       backgroundColor: ThemeColor.iconColor,
-                      child: CircleAvatar(
-                        radius: 68,
-                        backgroundImage: Image.network(
-                                currentUser.value!.avatarPath.toString())
-                            .image,
-                      ),
+                      child: Obx(() => CircleAvatar(
+                            radius: 68,
+                            backgroundImage: Image.network(
+                                    currentUser.value!.avatarPath.toString())
+                                .image,
+                          )),
                     ),
                   ),
                   Positioned(
@@ -179,50 +184,17 @@ class AccountProfileScreen extends GetView<AuthController> {
                         child: ListTile(
                           leading: const Icon(Iconsax.personalcard),
                           title: const Text('Tên'),
-                          subtitle: Text(
-                            currentUser.value!.fullName == null
-                                ? 'Chưa có thông tin'
-                                : currentUser.value!.fullName.toString(),
-                          ),
+                          subtitle: Obx(() => Text(
+                                currentUser.value!.fullName == null
+                                    ? 'Chưa có thông tin'
+                                    : currentUser.value!.fullName.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )),
                           trailing: IconButton(
                             icon: const Icon(Iconsax.edit),
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      'Cập nhật tên',
-                                      style: Get.textTheme.bodyLarge,
-                                    ),
-                                    content: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: currentUser.value!.fullName
-                                                    .toString() ==
-                                                'null'
-                                            ? ''
-                                            : currentUser.value!.fullName
-                                                .toString(),
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        child: const Text('Huỷ'),
-                                        onPressed: () {
-                                          Get.back();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: const Text('Cập nhật'),
-                                        onPressed: () {
-                                          // Perform the update logic here
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                              showDialog();
                             },
                           ),
                         ),
@@ -235,9 +207,9 @@ class AccountProfileScreen extends GetView<AuthController> {
                           child: ListTile(
                             leading: const Icon(Icons.child_care),
                             title: const Text('Số học sinh'),
-                            subtitle: Text(
-                              currentUser.value!.profiles!.length.toString(),
-                            ),
+                            subtitle: Obx(() => Text(currentUser
+                                .value!.profiles!.length
+                                .toString())),
                             trailing: IconButton(
                                 icon: const Icon(Iconsax.arrow_right_3),
                                 onPressed: () =>
@@ -249,6 +221,53 @@ class AccountProfileScreen extends GetView<AuthController> {
                   ),
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showDialog() {
+    controller.imagePath.value = '';
+    if (currentUser.value!.fullName != null) {
+      controller.fullnameController.text = currentUser.value!.fullName!;
+    }
+    Get.dialog(
+      Form(
+        key: controller.formKey,
+        child: AlertDialog(
+          title: Text(
+            'Cập nhật tên',
+            style: Get.textTheme.bodyLarge,
+          ),
+          content: TextFormField(
+            controller: controller.fullnameController,
+            decoration: InputDecoration(
+              hintText: currentUser.value!.fullName == null
+                  ? ''
+                  : currentUser.value!.fullName.toString(),
+            ),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Vui lòng nhập họ và tên';
+              }
+              return null;
+            },
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Huỷ'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: const Text('Cập nhật'),
+              onPressed: () async {
+                Get.back();
+                await controller.submitForm();
+              },
             ),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
@@ -8,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import '/contains/theme_color.dart';
 import '/controllers/auth_controller.dart';
 import '/utils/constants.dart';
+import '/views/widgets/image_default.dart';
 import '/views/screens/account_profile_screen.dart';
 import '/views/screens/home_screen.dart';
 import '/views/screens/loading_screen.dart';

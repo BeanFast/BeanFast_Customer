@@ -25,8 +25,8 @@ class HomeController extends GetxController {
   RxList<Session> listSession = <Session>[].obs;
   Rx<MenuModel> menuModel = MenuModel().obs;
   Rx<String> selectedSessionId = ''.obs;
-  RxString selectedCategoryId = 'All'.obs;
-  final Map<String, String> listCategories = {};
+  RxString selectedCategoryId = 'Tất cả'.obs;
+  List<String> listCategories = [];
 
   Future getProfiles() async {
     try {
@@ -64,8 +64,8 @@ class HomeController extends GetxController {
   Future getSession(String schoolId, DateTime dateTime) async {
     clear();
     try {
-      listSession.value = await SessionService()
-          .getSessionsBySchoolId(schoolId, dateTime);
+      listSession.value =
+          await SessionService().getSessionsBySchoolId(schoolId, dateTime);
     } on DioException catch (e) {
       throw Exception(e);
     }
@@ -75,7 +75,7 @@ class HomeController extends GetxController {
     Menu menu =
         listSession.where((e) => e.id! == selectedSessionId.value).first.menu!;
     List<MenuDetail> list = menu.menuDetails!;
-    if (value != 'All') {
+    if (value != 'Tất cả') {
       list = menu.menuDetails!
           .where((item) => item.food!.category!.name == value)
           .toList();
@@ -85,10 +85,12 @@ class HomeController extends GetxController {
 
   void getMenu(String id) {
     Menu menu = listSession.where((e) => e.id! == id).first.menu!;
-    listCategories.putIfAbsent('All', () => 'Tất cả');
-    for (var e in menu.menuDetails!) {
-      listCategories.putIfAbsent(
-          e.food!.category!.name!, () => e.food!.category!.name!);
+    listCategories.add('Tất cả');
+    selectedCategoryId.value = 'Tất cả';
+    for (var menuDetail in menu.menuDetails!) {
+      if (!listCategories.contains(menuDetail.food!.category!.name!)) {
+        listCategories.add(menuDetail.food!.category!.name!);
+      }
     }
     updateMenu(menu.menuDetails!);
   }

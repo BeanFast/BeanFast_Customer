@@ -1,14 +1,14 @@
-import 'package:beanfast_customer/controllers/exchange_gift_controller.dart';
-import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/widgets/banner_order_exchange_gift_status.dart';
-import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '../widgets/image_default.dart';
+import '/controllers/exchange_gift_controller.dart';
+import '/utils/constants.dart';
+import '/views/widgets/banner_order_exchange_gift_status.dart';
+import '/views/widgets/sbutton.dart';
+import '/views/widgets/image_default.dart';
 import '/contains/theme_color.dart';
 import '/enums/status_enum.dart';
 import '/utils/formater.dart';

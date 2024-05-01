@@ -1,11 +1,10 @@
-import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/screens/exchange_order_gift_detail_screen.dart';
-import 'package:beanfast_customer/views/screens/order_detail_screen.dart';
-import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../contains/theme_color.dart';
+import '/utils/constants.dart';
+import '/views/screens/exchange_order_gift_detail_screen.dart';
+import '/views/widgets/image_default.dart';
+import '/contains/theme_color.dart';
 import '/enums/status_enum.dart';
 import '/models/exchange_gift.dart';
 import '/utils/formater.dart';

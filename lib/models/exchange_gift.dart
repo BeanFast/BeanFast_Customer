@@ -30,7 +30,7 @@ class ExchangeGift extends BaseModel {
     this.points,
     this.paymentDate,
     this.deliveryDate,
-     this.sessionDetail,
+    this.sessionDetail,
     this.profile,
     this.transactions,
     this.activities,
@@ -41,7 +41,7 @@ class ExchangeGift extends BaseModel {
         status: json['status'],
         profileId: json["profileId"],
         sessionDetailId: json['sessionDetailId'],
-        gift: Gift.fromJson(json['gift']),
+        gift: json['gift'] == null ? Gift() : Gift.fromJson(json['gift']),
         giftId: json['giftId'],
         code: json['code'],
         points: json['points'],
@@ -51,16 +51,14 @@ class ExchangeGift extends BaseModel {
         deliveryDate: json['deliveryDate'] == null
             ? null
             : DateTime.parse(json['deliveryDate']),
-           
-      profile:
-          json['profile'] != null ? Profile.fromJson(json['profile']) : null,
-      
-      activities: json['orderActivities']?.map<OrderActivity>((item) {
-        return OrderActivity.fromJson(item);
-      }).toList(),
-      sessionDetail: json['sessionDetail'] == null
-          ? SessionDetail()
-          : SessionDetail.fromJson(json['sessionDetail']),
+        profile:
+            json['profile'] != null ? Profile.fromJson(json['profile']) : null,
+        activities: json['orderActivities']?.map<OrderActivity>((item) {
+          return OrderActivity.fromJson(item);
+        }).toList(),
+        sessionDetail: json['sessionDetail'] == null
+            ? SessionDetail()
+            : SessionDetail.fromJson(json['sessionDetail']),
       );
 
   // Map<String, dynamic> toJson() {

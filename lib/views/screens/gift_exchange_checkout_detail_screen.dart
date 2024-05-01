@@ -4,11 +4,15 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '../../enums/menu_index_enum.dart';
+import '../widgets/result_screen_widget.dart';
 import '/controllers/exchange_gift_controller.dart';
 import '/models/gift.dart';
 import '/contains/theme_color.dart';
 import '/utils/constants.dart';
 import '/utils/formater.dart';
+import 'gift_exchange_screen.dart';
+import 'splash_screen.dart';
 
 class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
   const GiftCheckOutScreen({
@@ -335,10 +339,20 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                     onPressed: () async {
                       bool result =
                           await controller.createExchangeGift(gift.id!);
-                      Get.snackbar(
-                        'Đổi quà ${result ? 'thành công' : 'thất bại'}',
-                        controller.messages.toString(),
-                        snackPosition: SnackPosition.TOP,
+                      Get.to(
+                        ResultScreenWidget(
+                          isSuccess: result,
+                          content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
+                          ontapNameLeftSide: 'Trang chủ',
+                          ontapLeftSide: () {
+                            changePage(MenuIndexState.home.index);
+                            Get.offAll(const SplashScreen());
+                          },
+                          ontapNameRightSide: 'Đơn hàng',
+                          ontapRightSide: () {
+                            Get.offAll(const ExchangeGiftScreen());
+                          },
+                        ),
                       );
                     },
                     child: Text(

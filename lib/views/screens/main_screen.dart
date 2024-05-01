@@ -20,7 +20,7 @@ class MainScreen extends StatelessWidget {
       const HomeScreen(),
       const OrderScreen(),
       const TransactionScreen(),
-      const AccountScreen()
+      const AccountScreen(),
     ];
 
     List iconList = [

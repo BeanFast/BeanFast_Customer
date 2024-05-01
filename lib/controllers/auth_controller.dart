@@ -1,13 +1,11 @@
-import 'package:beanfast_customer/utils/formater.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:permission_handler/permission_handler.dart';
 
+import '/utils/formater.dart';
 import '/enums/menu_index_enum.dart';
 import '/models/profile.dart';
 import '/services/profile_service.dart';
@@ -95,8 +93,8 @@ class AuthController extends GetxController with CacheManager {
       currentUser.value = await AuthService().getUser();
       List<Profile>? list = await ProfileService().getAll();
       if (list.isNotEmpty) {
-        currentUser.value!.profiles!.addAll(list);
         list.sort((a, b) => b.dob!.compareTo(a.dob!));
+        currentUser.value!.profiles = list;
         currentProfile.value = currentProfile.value != null
             ? list.firstWhere((e) => e.id == currentProfile.value!.id)
             : list.first;
@@ -122,54 +120,8 @@ class AuthController extends GetxController with CacheManager {
     // var fullName = fullNameController.text;
   }
 
-  // void togglePasswordVisibility() {
-  //   isPasswordVisible.value = !isPasswordVisible.value;
-  // }
-
   void toggleRePasswordVisibility() {
     isRePasswordVisible.value = !isRePasswordVisible.value;
-  }
-
-  // void toggleIschecked() {
-  //   isChecked.value = !isChecked.value;
-  // }
-
-//update user avatar
-  RxString imagePath = ''.obs;
-  final ImagePicker _picker = ImagePicker();
-  Future<void> pickPhotoFormCamera() async {
-    var status = await Permission.camera.status;
-    if (!status.isGranted) {
-      status = await Permission.camera.request();
-    }
-
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      // imagePath.value = image.path;
-      // logger.e(image.path);
-      //  Get.back();
-    } else {
-      logger.e('No picture taken.');
-    }
-  }
-
-  Future<void> pickPhotoFormStorage() async {
-    var status = await Permission.photos.status;
-    if (!status.isGranted) {
-      status = await Permission.photos.request();
-    }
-
-    if (status.isGranted) {
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        // imagePath.value = image.path;
-        // logger.e(image.path);
-        //  Get.back();
-      } else {
-        Get.snackbar('Thông báo', 'No image selected.');
-      }
-    }
   }
 }
 

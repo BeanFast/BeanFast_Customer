@@ -414,7 +414,7 @@ class HomeScreen extends GetView<HomeController> {
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
-                                    children: controller.listCategories.entries
+                                    children: controller.listCategories
                                         .map((category) {
                                       return Container(
                                         alignment: Alignment.center,
@@ -422,16 +422,16 @@ class HomeScreen extends GetView<HomeController> {
                                           onTap: () {
                                             //name
                                             controller.selectedCategoryId
-                                                .value = category.value;
+                                                .value = category;
                                             controller
-                                                .sortByCategory(category.key);
+                                                .sortByCategory(category);
                                           },
                                           child: Card(
                                             margin: const EdgeInsets.only(
                                                 right: 10),
                                             color: controller.selectedCategoryId
                                                         .value ==
-                                                    category.value
+                                                    category
                                                 ? ThemeColor.textButtonColor
                                                 : Colors.white,
                                             child: Container(
@@ -451,13 +451,13 @@ class HomeScreen extends GetView<HomeController> {
                                                 ),
                                               ),
                                               child: Text(
-                                                category.value,
+                                                category,
                                                 style: Get.textTheme.bodySmall!
                                                     .copyWith(
                                                   color: controller
                                                               .selectedCategoryId
                                                               .value ==
-                                                          category.value
+                                                          category
                                                       ? Colors.white
                                                       : Colors.black,
                                                 ),
@@ -470,6 +470,16 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
+                                Obx(
+                                  () => MenuItem(
+                                      title: 'Ưu đãi combo',
+                                      isCombo: true,
+                                      sessionId:
+                                          controller.selectedSessionId.value,
+                                      list: controller
+                                          .menuModel.value.listDiscountedCombo),
+                                ),
+                                const SizedBox(height: 5),
                                 Obx(
                                   () => MenuItem(
                                       title: 'Combo',
