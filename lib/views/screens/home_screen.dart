@@ -96,33 +96,22 @@ class HomeScreen extends GetView<HomeController> {
                           autoPlayInterval: const Duration(seconds: 15),
                         ),
                         items: [
-                          // Replace these with your image widgets
-                          'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                          'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
-                          'https://img.freepik.com/free-vector/flat-sale-banner-with-photo_23-2149026968.jpg',
+                          'assets/images/banner_1.jpg',
+                          'assets/images/banner_2.png',
+                          'assets/images/banner_3.png',
                         ].map((imageUrl) {
                           return Builder(
                             builder: (BuildContext context) {
-                              return GestureDetector(
-                                onTap: () {
-                                  // Handle the tap
-                                  // Get.snackbar(
-                                  //   "SnakeBar Title",
-                                  //   'Image clicked: $imageUrl',
-                                  //   snackPosition: SnackPosition.TOP,
-                                  // );
-                                },
-                                child: Card(
-                                  child: Container(
-                                    width: Get.width,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: CustomNetworkImage(
-                                        imageUrl,
-                                        fit: BoxFit.cover,
-                                      ),
+                              return Card(
+                                child: Container(
+                                  width: Get.width,
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.asset(
+                                      imageUrl,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),

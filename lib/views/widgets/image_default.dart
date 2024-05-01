@@ -19,7 +19,7 @@ class CustomNetworkImage extends StatelessWidget {
       errorBuilder:
           (BuildContext context, Object exception, StackTrace? stackTrace) {
         return Image.asset(
-          'assets/images/logo.png',
+          'assets/images/logo_new.png',
           fit: fit,
           width: width,
           height: height,
