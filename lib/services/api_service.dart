@@ -14,7 +14,7 @@ class ApiService extends getx.GetxService {
       Headers.acceptHeader: "text/plain"
     },
     sendTimeout: const Duration(seconds: 15),
-    receiveTimeout: const Duration(seconds: 5),
+    receiveTimeout: const Duration(seconds: 15),
   );
 
   // ApiService(){

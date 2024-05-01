@@ -40,6 +40,7 @@ class User extends BaseModel {
       balance: json['balance'] == null
           ? 0
           : double.parse(json['balance'].toString()),
+      profiles: [],
     );
   }
 

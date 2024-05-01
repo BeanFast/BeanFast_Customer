@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
@@ -21,7 +22,7 @@ class ProfileFormController extends GetxController {
   Rx<DateTime> selectedDate =
       DateTime.now().subtract(const Duration(days: 4 * 365)).obs;
   Rx<School?> selectedSchool = Rx<School?>(null);
-  RxList<School> listSchool = <School>[].obs;
+  List<School> listSchool = [];
   RxList<School> filteredSchools = <School>[].obs;
   final TextEditingController fullnameController = TextEditingController();
   final TextEditingController nickNameController = TextEditingController();
@@ -45,9 +46,10 @@ class ProfileFormController extends GetxController {
   }
 
   Future getSchools() async {
+    filteredSchools.clear();
     try {
-      listSchool.value = await SchoolService().getAll();
-      filteredSchools = listSchool;
+      listSchool = await SchoolService().getAll();
+      filteredSchools.addAll(listSchool);
     } catch (e) {
       throw Exception(e);
     }
@@ -100,19 +102,24 @@ class ProfileFormController extends GetxController {
   );
 
   void updateFilteredSchools([String? searchQuery]) {
+    filteredSchools.clear();
     if (searchQuery != null && searchQuery.isNotEmpty) {
-      filteredSchools.value = listSchool
+      var list = listSchool
           .where((school) =>
               school.name!.toLowerCase().contains(searchQuery.toLowerCase()))
           .toList();
+      filteredSchools.addAll(list);
     } else {
-      filteredSchools = listSchool;
+      filteredSchools.addAll(listSchool);
     }
   }
 
   Future<void> submitForm() async {
     if (imagePath.value.isEmpty) Get.snackbar('Lỗi', 'Chưa có ảnh');
-    if (formKey.currentState!.validate() && imagePath.value.isNotEmpty) {
+    if (selectedSchool.value == null) {
+      Get.snackbar('Lỗi', 'Vui lòng chọn trường');
+    }
+    if (formKey.currentState!.validate()) {
       try {
         //form
         model.value.fullName = fullnameController.text.trim();
@@ -131,7 +138,7 @@ class ProfileFormController extends GetxController {
         //
         dio.Response response = await ProfileService().create(model.value);
         if (response.statusCode == 201) {
-          Get.back();
+          Get.off(const StudentListScreen());
         } else {
           Get.snackbar('Lỗi', response.data['message']);
         }

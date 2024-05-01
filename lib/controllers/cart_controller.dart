@@ -1,14 +1,9 @@
+import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-import '/enums/menu_index_enum.dart';
-import '/models/location.dart';
-import '/models/school.dart';
 import '/services/order_service.dart';
-import '/utils/constants.dart';
 import '/utils/logger.dart';
-import '/services/school_service.dart';
-import '/views/screens/splash_screen.dart';
 import '/models/session.dart';
 import '/models/menu_detail.dart';
 import '/models/profile.dart';
@@ -22,16 +17,38 @@ class CartController extends GetxController with CacheManager {
   double totalPrice = 0;
   Map<String, Profile> listProfile = <String, Profile>{}; // key: profileId
   Map<String, Session> listSession = <String, Session>{}; // key: sessionId
-  Map<String, Location> listLocation = <String, Location>{}; // key: locationId
   Map<String, MenuDetail> listMenuDetail = <String, MenuDetail>{};
   Map<String, String> listSessionDetailId =
       <String, String>{}; // key: sessionId, value: sessionDetailId
   RxMap<String, Map<String, RxMap<String, RxInt>>> listCart =
       <String, Map<String, RxMap<String, RxInt>>>{}.obs;
 
+  Future checkCartItem() async {
+    for (var profile in listCart.entries.toList()) {
+      for (var session in profile.value.entries.toList()) {
+        for (var cart in session.value.entries.toList()) {
+          bool result;
+          try {
+            result = await SessionService()
+                .checkCartItem(profile.key, session.key, cart.key);
+          } on DioException catch (e) {
+            result = false;
+          }
+          if (!result) {
+            session.value.remove(cart.key);
+          }
+        }
+      }
+    }
+    cleanCart();
+    updateItemCount();
+  }
+
   Future getData() async {
     Map<String, Map<String, RxMap<String, RxInt>>>? listData = getCart();
     logger.e('getCart - $listData');
+    await checkCartItem();
+    logger.e('checkCartItem - $listData');
     for (var profile in listCart.entries) {
       try {
         Profile profileData = await ProfileService().getById(profile.key);
@@ -61,21 +78,7 @@ class CartController extends GetxController with CacheManager {
     updateTotal();
   }
 
-  Future getLocationsData() async {
-    try {
-      for (var cart in listCart.entries) {
-        School school = await SchoolService()
-            .getById(listProfile[cart.key]!.school!.id.toString());
-        school.locations?.forEach((e) {
-          listLocation.putIfAbsent(e.id!, () => e);
-        });
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  void updateSessionDetai(String sessionId, String sessionDetailId) {
+  void updateSessionDetail(String sessionId, String sessionDetailId) {
     listSessionDetailId.update(
       sessionId,
       (value) => sessionDetailId,
@@ -113,7 +116,7 @@ class CartController extends GetxController with CacheManager {
       listSession.forEach((sessionId, cart) {
         cart.forEach((key, value) {
           if (listMenuDetail[key] != null) {
-            totalPrice += listMenuDetail[key]!.food!.price!;
+            totalPrice += value * listMenuDetail[key]!.food!.price!;
             total.value += value * listMenuDetail[key]!.price!;
           }
         });
@@ -174,12 +177,13 @@ class CartController extends GetxController with CacheManager {
                 sessionId: {menuDetailId: 1.obs}.obs
               });
     }
+    await saveCart(listCart);
     updateItemCount();
     updateTotal();
   }
 
-  void decreaseItemCart(
-      String profileId, String sessionId, String menuDetailId) {
+  Future<void> decreaseItemCart(
+      String profileId, String sessionId, String menuDetailId) async {
     if (listCart.containsKey(profileId)) {
       //if profileId đã có
       Map<String, Map<String, RxInt>> listSession = listCart[profileId]!;
@@ -205,6 +209,7 @@ class CartController extends GetxController with CacheManager {
       //profileId chưa tồn tại
       return;
     }
+    await saveCart(listCart);
     updateItemCount();
     updateTotal();
   }

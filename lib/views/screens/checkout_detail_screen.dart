@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/models/session_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -25,7 +26,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
         title: const Text('Thanh toán'),
       ),
       body: LoadingScreen(
-        future: controller.getLocationsData,
+        future: controller.getData,
         child: Column(
           children: [
             Expanded(
@@ -444,14 +445,15 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Get.to(DepositeScreen());
+                                              Get.to(const DepositeScreen());
                                             },
                                             child: Text(
                                               'nạp thêm',
                                               style: Get.textTheme.bodyLarge!
                                                   .copyWith(
-                                                      color: const Color.fromRGBO(
-                                                          240, 103, 24, 1)),
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              240, 103, 24, 1)),
                                             ),
                                           ),
                                         ],
@@ -519,11 +521,9 @@ class CheckOutDetailScreen extends GetView<CartController> {
                     .map(
                       (sessionDetail) => Card(
                         child: ListTile(
-                          title: Text(controller
-                              .listLocation[sessionDetail.location!.id]!.name
-                              .toString()),
+                          title: Text(sessionDetail.location!.name.toString()),
                           onTap: () {
-                            controller.updateSessionDetai(
+                            controller.updateSessionDetail(
                                 sessionId, sessionDetail.id!);
                             Get.back();
                           },

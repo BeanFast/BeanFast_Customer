@@ -1,11 +1,9 @@
-import 'package:beanfast_customer/controllers/home_controller.dart';
-import 'package:beanfast_customer/views/screens/checkout_detail_screen.dart';
-import 'package:beanfast_customer/views/widgets/is_empty.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '/views/widgets/is_empty.dart';
 import '/controllers/home_controller.dart';
 import '/views/screens/checkout_detail_screen.dart';
 import '/contains/theme_color.dart';

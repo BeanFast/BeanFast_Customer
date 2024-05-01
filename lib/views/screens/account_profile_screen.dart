@@ -51,16 +51,16 @@ class AccountProfileScreen extends GetView<AuthController> {
               right: 0,
               child: Column(
                 children: [
-                  Text(
-                    currentUser.value!.fullName.toString() == 'null'
-                        ? 'Trống'
-                        : currentUser.value!.fullName.toString(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  Obx(() => Text(
+                        currentUser.value!.fullName == null
+                            ? 'Chưa có thông tin'
+                            : currentUser.value!.fullName.toString(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                   const SizedBox(
                     height: 5,
                   ),
@@ -111,53 +111,47 @@ class AccountProfileScreen extends GetView<AuthController> {
                           icon: const Icon(Icons.edit, size: 15),
                           color: Colors.black,
                           onPressed: () {
-                                 showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return Container(
-                                              padding: const EdgeInsets.only(
-                                                top: 20,
-                                                bottom: 20,
-                                                right: 10,
-                                                left: 10,
-                                              ),
-                                              child: Wrap(
-                                                children: <Widget>[
-                                                  SizedBox(
-                                                    child: Center(
-                                                      child: Text(
-                                                        "Lựa chọn phương thức",
-                                                        style: Get.textTheme
-                                                            .titleLarge,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  ListTile(
-                                                    leading: const Icon(
-                                                        Iconsax.camera),
-                                                    title:
-                                                        const Text('Chụp ảnh'),
-                                                    onTap: () async {
-                                                      controller
-                                                          .pickPhotoFormCamera();
-                                                    },
-                                                  ),
-                                                  ListTile(
-                                                    leading: const Icon(
-                                                        Iconsax.gallery_add),
-                                                    title: const Text(
-                                                        'Chọn ảnh từ thư viện ảnh'),
-                                                    onTap: () async {
-                                                      controller
-                                                          .pickPhotoFormStorage();
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        );
-                                   
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  padding: const EdgeInsets.only(
+                                    top: 20,
+                                    bottom: 20,
+                                    right: 10,
+                                    left: 10,
+                                  ),
+                                  child: Wrap(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        child: Center(
+                                          child: Text(
+                                            "Lựa chọn phương thức",
+                                            style: Get.textTheme.titleLarge,
+                                          ),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        leading: const Icon(Iconsax.camera),
+                                        title: const Text('Chụp ảnh'),
+                                        onTap: () async {
+                                          controller.pickPhotoFormCamera();
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading:
+                                            const Icon(Iconsax.gallery_add),
+                                        title: const Text(
+                                            'Chọn ảnh từ thư viện ảnh'),
+                                        onTap: () async {
+                                          controller.pickPhotoFormStorage();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
                           },
                         ),
                       ),
@@ -186,8 +180,8 @@ class AccountProfileScreen extends GetView<AuthController> {
                           leading: const Icon(Iconsax.personalcard),
                           title: const Text('Tên'),
                           subtitle: Text(
-                            currentUser.value!.fullName.toString() == 'null'
-                                ? 'Trống'
+                            currentUser.value!.fullName == null
+                                ? 'Chưa có thông tin'
                                 : currentUser.value!.fullName.toString(),
                           ),
                           trailing: IconButton(
@@ -215,7 +209,7 @@ class AccountProfileScreen extends GetView<AuthController> {
                                       TextButton(
                                         child: const Text('Huỷ'),
                                         onPressed: () {
-                                          Navigator.of(context).pop();
+                                          Get.back();
                                         },
                                       ),
                                       TextButton(
@@ -241,8 +235,8 @@ class AccountProfileScreen extends GetView<AuthController> {
                           child: ListTile(
                             leading: const Icon(Icons.child_care),
                             title: const Text('Số học sinh'),
-                            subtitle: const Text(
-                              '5',
+                            subtitle: Text(
+                              currentUser.value!.profiles!.length.toString(),
                             ),
                             trailing: IconButton(
                                 icon: const Icon(Iconsax.arrow_right_3),

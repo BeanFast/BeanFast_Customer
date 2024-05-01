@@ -512,8 +512,8 @@ void showProfilesDialog(Function() onPressed) {
                               return ItemProfile(
                                 model: e,
                                 onPressed: () => {
-                                  currentProfile.value = e,
                                   Get.back(),
+                                  currentProfile.value = e,
                                   onPressed(),
                                 },
                               );
@@ -826,7 +826,7 @@ List<Widget> headerActionWidget() {
                     text: "Nạp tiền",
                     isNew: false,
                     onPressed: () {
-                      Get.to(DepositeScreen());
+                      Get.to(const DepositeScreen());
                     },
                   ),
                   MainIconButton(

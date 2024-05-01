@@ -444,16 +444,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                                 itemCount: controller
                                                     .filteredSchools.length,
                                                 itemBuilder: (context, index) {
-                                                  return Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      border: Border(
-                                                        bottom: BorderSide(
-                                                          color: Colors.grey,
-                                                          width: 0.5,
-                                                        ),
-                                                      ),
-                                                    ),
+                                                  return Card(
                                                     child: ListTile(
                                                       leading: Container(
                                                         width: 50,
@@ -579,13 +570,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
               GradientButton(
                 text: 'Lưu Thông tin',
                 onPressed: () async {
-                  if (controller.formKey.currentState!.validate()) {
-                    if (controller.selectedSchool.value == null) {
-                      Get.snackbar('Lỗi', 'Vui lòng chọn trường');
-                    } else {
-                      await controller.submitForm();
-                    }
-                  }
+                  await controller.submitForm();
                 },
               )
             ],

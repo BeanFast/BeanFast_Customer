@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/utils/formater.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -94,13 +95,14 @@ class AuthController extends GetxController with CacheManager {
       currentUser.value = await AuthService().getUser();
       List<Profile>? list = await ProfileService().getAll();
       if (list.isNotEmpty) {
+        currentUser.value!.profiles!.addAll(list);
         list.sort((a, b) => b.dob!.compareTo(a.dob!));
         currentProfile.value = currentProfile.value != null
             ? list.firstWhere((e) => e.id == currentProfile.value!.id)
             : list.first;
       }
-    } catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
 
@@ -131,10 +133,10 @@ class AuthController extends GetxController with CacheManager {
   // void toggleIschecked() {
   //   isChecked.value = !isChecked.value;
   // }
-  
+
 //update user avatar
-RxString imagePath = ''.obs;
-final ImagePicker _picker = ImagePicker();
+  RxString imagePath = ''.obs;
+  final ImagePicker _picker = ImagePicker();
   Future<void> pickPhotoFormCamera() async {
     var status = await Permission.camera.status;
     if (!status.isGranted) {
@@ -188,12 +190,13 @@ mixin CacheManager {
 
   Future<bool> saveCart(
       Map<String, Map<String, RxMap<String, RxInt>>> cart) async {
-    await box.write(CacheManagerKey.CART.toString(), cart);
+    String json = Formater.rxMapToJson(cart);
+    await box.write(CacheManagerKey.CART.toString(), json);
     return true;
   }
 
   Map<String, Map<String, RxMap<String, RxInt>>>? getCart() {
-    return box.read(CacheManagerKey.CART.toString());
+    return Formater.jsonToRxMap(box.read(CacheManagerKey.CART.toString()));
   }
 
   Future<void> removeCart() async {
