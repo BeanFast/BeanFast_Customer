@@ -24,10 +24,10 @@ class StudentListScreen extends GetView<AuthController> {
           appBar: AppBar(
             title: const Text('Danh sách học sinh'),
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(Iconsax.arrow_left_2),
               onPressed: () {
                 changePage(MenuIndexState.account.index);
-                Get.off(const SplashScreen());
+                Get.offAll(const SplashScreen());
               },
             ),
           ),

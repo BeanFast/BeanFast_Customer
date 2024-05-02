@@ -35,7 +35,7 @@ class ExchangeGiftScreen extends StatelessWidget {
             : Scaffold(
                 appBar: AppBar(
                   leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon:  const Icon(Iconsax.arrow_left_2),
                     onPressed: () {
                       changePage(MenuIndexState.home.index);
                       Get.off(const SplashScreen());
