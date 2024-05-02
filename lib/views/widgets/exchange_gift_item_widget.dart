@@ -86,7 +86,8 @@ class ExchangeGiftItem extends StatelessWidget {
                                     exchangeGift.points.toString()),
                                 maxLines: 1,
                                 style: Get.textTheme.bodySmall!.copyWith(
-                                  color: const Color.fromRGBO(240, 103, 24, 1),
+                                  color: const Color.fromARGB(
+                                                      255, 26, 128, 30),
                                 ),
                               ),
                             ),
@@ -117,7 +118,8 @@ class ExchangeGiftItem extends StatelessWidget {
                       Text(
                         Formater.formatPoint(exchangeGift.points.toString()),
                         style: Get.textTheme.bodySmall!.copyWith(
-                          color: const Color.fromRGBO(240, 103, 24, 1),
+                          color: const Color.fromARGB(
+                                                      255, 26, 128, 30),
                         ),
                       ),
                     ],

@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:beanfast_customer/models/transaction.dart';
+import 'package:beanfast_customer/services/transaction_service.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +28,7 @@ class AuthController extends GetxController with CacheManager {
   RxString errorMessage = ''.obs;
   var isPasswordVisible = true.obs;
   var isChecked = false.obs;
+  RxInt playTimes = 0.obs;
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
@@ -91,7 +96,6 @@ class AuthController extends GetxController with CacheManager {
   Future getCurrentUser() async {
     try {
       currentUser.value = await AuthService().getUser();
-      logger.e(currentUser.value!.avatarPath.toString());
       List<Profile>? list = await ProfileService().getAll();
       if (list.isNotEmpty) {
         list.sort((a, b) => b.dob!.compareTo(a.dob!));
@@ -123,6 +127,11 @@ class AuthController extends GetxController with CacheManager {
 
   void toggleRePasswordVisibility() {
     isRePasswordVisible.value = !isRePasswordVisible.value;
+  }
+
+  Future getPlayTime() async {
+    playTimes.value =
+        await TransactionService().getPlayTime(currentProfile.value!.id!);
   }
 }
 

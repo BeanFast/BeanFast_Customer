@@ -59,7 +59,8 @@ class GiftDetailScreen extends StatelessWidget {
                                     Text(
                                       gift.points!.toString(),
                                       style: Get.textTheme.bodyLarge!
-                                          .copyWith(color: Colors.red),
+                                          .copyWith(color: const Color.fromARGB(
+                                                      255, 26, 128, 30)),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),

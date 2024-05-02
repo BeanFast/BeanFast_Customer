@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -207,13 +208,21 @@ class AccountProfileScreen extends GetView<UserController> {
                           child: ListTile(
                             leading: const Icon(Icons.child_care),
                             title: const Text('Số học sinh'),
-                            subtitle: Obx(() => Text(currentUser
-                                .value!.profiles!.length
-                                .toString())),
+                            subtitle: Obx(
+                              () => Text(
+                                currentUser.value!.profiles!.length.toString(),
+                              ),
+                            ),
                             trailing: IconButton(
                                 icon: const Icon(Iconsax.arrow_right_3),
-                                onPressed: () =>
-                                    Get.to(const StudentListScreen())),
+                                onPressed: () => {
+                                      logger.e(currentUser
+                                          .value!.profiles!.length
+                                          .toString()),
+                                      Get.to(
+                                        const StudentListScreen(),
+                                      ),
+                                    }),
                           ),
                         ),
                       ),

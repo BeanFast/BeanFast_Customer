@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/controllers/home_controller.dart';
 import 'package:beanfast_customer/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,8 @@ class DepositeScreen extends GetView<DepositeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(DepositeController());
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
+    HomeController homeController = Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
           title: const Text(
@@ -30,7 +32,7 @@ class DepositeScreen extends GetView<DepositeController> {
         padding:
             const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               Expanded(
@@ -38,6 +40,36 @@ class DepositeScreen extends GetView<DepositeController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        children: [
+                          Text('Số dư ví', style: Get.textTheme.titleMedium),
+                          const Spacer(),
+                          Obx(
+                            () => Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    homeController.isMoneyVisible.value
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    size: 16,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    homeController.toggleMoneyVisibility();
+                                  },
+                                ),
+                                Text(
+                                  homeController.moneyValue.value,
+                                  style: Get.textTheme.bodyLarge,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
                       Text('Số tiền nạp (đ)', style: Get.textTheme.titleMedium),
                       const SizedBox(height: 10),
                       Row(
@@ -334,7 +366,7 @@ class DepositeScreen extends GetView<DepositeController> {
                 text: 'Nạp tiền',
                 onPressed: () async {
                   //
-                  if (_formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     var url = await controller.getUrl();
                     if (url != null) {
                       Get.to(
@@ -414,7 +446,7 @@ class DepositeController extends GetxController {
 
   Future<String?> getUrl() async {
     try {
-       moneyInt = int.parse(textController.text.replaceAll(".", ""));
+      moneyInt = int.parse(textController.text.replaceAll(".", ""));
       var url = await TransactionService().createVnpayRequest(moneyInt);
       return url;
     } on DioException catch (e) {

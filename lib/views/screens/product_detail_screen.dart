@@ -28,7 +28,7 @@ class ProductDetailScreen extends StatelessWidget {
                     food.imagePath.toString(),
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
-                    height: 250,
+                    height: 400,
                   ),
                 ),
                 Stack(

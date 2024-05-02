@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/services/auth_service.dart';
+import 'package:beanfast_customer/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +48,12 @@ class HomeController extends GetxController {
     }
   }
 
-  void toggleMoneyVisibility() {
+  Future<void> toggleMoneyVisibility() async {
+    try {
+      currentUser.value = await AuthService().getUser();
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
+    }
     isMoneyVisible.value = !isMoneyVisible.value;
     moneyValue.value = isMoneyVisible.value
         ? Formater.formatMoney(currentUser.value!.balance.toString())

@@ -151,8 +151,8 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                                           overflow: TextOverflow.ellipsis,
                                           style:
                                               Get.textTheme.bodySmall!.copyWith(
-                                            color: const Color.fromRGBO(
-                                                240, 103, 24, 1),
+                                            color: const Color.fromARGB(
+                                                      255, 26, 128, 30),
                                           ),
                                         ),
                                       ),
@@ -184,7 +184,8 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                                     .toString()),
                                 style: Get.textTheme.bodySmall!.copyWith(
                                     color:
-                                        const Color.fromRGBO(240, 103, 24, 1)),
+                                        const Color.fromARGB(
+                                                      255, 26, 128, 30)),
                               ),
                             ],
                           ),

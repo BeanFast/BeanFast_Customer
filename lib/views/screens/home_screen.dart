@@ -323,7 +323,7 @@ class HomeScreen extends GetView<HomeController> {
                             Obx(
                               () => controller.listSession.isEmpty
                                   ? const IsEmptyWidget(
-                                      title: 'Chưa có thực đơn cho hôm nay')
+                                      title: 'Chưa có thực đơn vào ngày bạn chọn')
                                   : SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: Row(

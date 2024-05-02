@@ -31,14 +31,14 @@ class MenuItem extends GetView<CartController> {
       visible: list.isNotEmpty,
       child: isCombo
           ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   title,
                   style: Get.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5),
-              Row(
+                Row(
                   children: list.map((e) {
                     return GestureDetector(
                       onTap: () {
@@ -47,10 +47,11 @@ class MenuItem extends GetView<CartController> {
                       child: Card(
                         child: SizedBox(
                           width: 170,
+                          height: 220,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                               ClipRRect(
+                              ClipRRect(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
@@ -65,7 +66,8 @@ class MenuItem extends GetView<CartController> {
                               const SizedBox(height: 10),
                               Container(
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 child: Text(
                                   e.food!.name.toString(),
                                   maxLines: 2,
@@ -73,22 +75,24 @@ class MenuItem extends GetView<CartController> {
                                   style: Get.textTheme.bodySmall,
                                 ),
                               ),
-                              // const Spacer(),
+                              const Spacer(),
                               Container(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Visibility(
                                       visible: e.food!.price != e.price,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             Formater.formatMoney(
                                                 e.food!.price.toString()),
-                                            style:
-                                                Get.textTheme.bodyLarge!.copyWith(
+                                            style: Get.textTheme.bodyLarge!
+                                                .copyWith(
                                               color: Colors.grey,
                                               decoration:
                                                   TextDecoration.lineThrough,
@@ -103,8 +107,10 @@ class MenuItem extends GetView<CartController> {
                                     Expanded(
                                       child: SizedBox(
                                         child: Text(
-                                          Formater.formatMoney(e.price.toString()),
-                                          style: Get.textTheme.bodyLarge!.copyWith(
+                                          Formater.formatMoney(
+                                              e.price.toString()),
+                                          style:
+                                              Get.textTheme.bodyLarge!.copyWith(
                                             color: const Color.fromRGBO(
                                                 240, 103, 24, 1),
                                           ),
@@ -134,7 +140,8 @@ class MenuItem extends GetView<CartController> {
                                                 sessionId,
                                                 e.id!);
                                           },
-                                          icon: const Icon(Iconsax.minus_square),
+                                          icon:
+                                              const Icon(Iconsax.minus_square),
                                         ),
                                       ),
                                     ),
@@ -151,7 +158,8 @@ class MenuItem extends GetView<CartController> {
                                                   currentProfile.value!.id!,
                                                   sessionId,
                                                   e.id!)
-                                              ? controller.listCart[currentProfile
+                                              ? controller
+                                                  .listCart[currentProfile
                                                       .value!
                                                       .id!]![sessionId]![e.id!]
                                                   .toString()
@@ -182,8 +190,8 @@ class MenuItem extends GetView<CartController> {
                     );
                   }).toList(),
                 ),
-            ],
-          )
+              ],
+            )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
