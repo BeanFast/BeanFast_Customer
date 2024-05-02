@@ -29,6 +29,7 @@ class HomeScreen extends GetView<HomeController> {
     Get.put(HomeController());
     NotificationController notificationController =
         Get.put(NotificationController());
+    CartController cartController = Get.put(CartController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 140,
@@ -312,6 +313,8 @@ class HomeScreen extends GetView<HomeController> {
                             controller
                                 .getMenu(controller.selectedSessionId.value);
                           }
+                          //get cart cache
+                          await cartController.getData();
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -581,6 +584,7 @@ List<Widget> headerActionWidget() {
   Get.put(CartController());
   HomeController controller = Get.find();
   NotificationController notificationController = Get.find();
+  CartController cartController = Get.find<CartController>();
 
   return <Widget>[
     SizedBox(
@@ -831,7 +835,7 @@ List<Widget> headerActionWidget() {
                   ),
                   Obx(
                     () => Visibility(
-                      visible: Get.find<CartController>().itemCount.value != 0,
+                      visible: cartController.itemCount.value != 0,
                       child: Positioned(
                         top: 5,
                         right: 3,
@@ -844,10 +848,7 @@ List<Widget> headerActionWidget() {
                           ),
                           child: Center(
                             child: Text(
-                              Get.find<CartController>()
-                                  .itemCount
-                                  .value
-                                  .toString(),
+                              cartController.itemCount.value.toString(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 10,

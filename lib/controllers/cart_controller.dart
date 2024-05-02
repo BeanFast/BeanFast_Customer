@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-import '../utils/formater.dart';
 import '/services/order_service.dart';
 import '/utils/logger.dart';
 import '/models/session.dart';
@@ -19,8 +18,8 @@ class CartController extends GetxController with CacheManager {
   Map<String, Profile> listProfile = <String, Profile>{}; // key: profileId
   Map<String, Session> listSession = <String, Session>{}; // key: sessionId
   Map<String, MenuDetail> listMenuDetail = <String, MenuDetail>{};
-  Map<String, String> listSessionDetailId =
-      <String, String>{}; // key: sessionId, value: sessionDetailId
+  RxMap<String, String> listSessionDetailId =
+      <String, String>{}.obs; // key: sessionId, value: sessionDetailId
   RxMap<String, Map<String, RxMap<String, RxInt>>> listCart =
       <String, Map<String, RxMap<String, RxInt>>>{}.obs;
 
@@ -43,6 +42,7 @@ class CartController extends GetxController with CacheManager {
     }
 
     cleanCart();
+    await saveCart(listCart);
     updateItemCount();
   }
 
@@ -81,6 +81,7 @@ class CartController extends GetxController with CacheManager {
       }
     }
     updateTotal();
+    updateItemCount();
     logger.e('getData end - $listCart');
   }
 
@@ -94,6 +95,7 @@ class CartController extends GetxController with CacheManager {
 
   Future<bool> checkout() async {
     try {
+      await checkCartItem();
       for (var cart in listCart.entries) {
         for (var session in cart.value.entries) {
           Map<String, int> map = {};
@@ -106,6 +108,7 @@ class CartController extends GetxController with CacheManager {
         }
       }
       listCart.clear();
+      await saveCart(listCart);
       return true;
       // changePage(MenuIndexState.order.index);
       // Get.offAll(const SplashScreen());
@@ -131,7 +134,7 @@ class CartController extends GetxController with CacheManager {
   }
 
   void updateItemCount() {
-    // itemCount.value = 0;
+    itemCount.value = 0;
     listCart.forEach((profileId, listSession) {
       listSession.forEach((sessionId, cart) {
         itemCount += cart.length;

@@ -111,7 +111,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                 .school!
                                                                 .name
                                                                 .toString()),
-                                                            Text(controller
+                                                            Obx(() => Text(controller
                                                                 .listSession[
                                                                     session
                                                                         .key]!
@@ -125,7 +125,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                 .first
                                                                 .location!
                                                                 .name
-                                                                .toString()),
+                                                                .toString())),
                                                           ],
                                                         ),
                                                         trailing: IconButton(
