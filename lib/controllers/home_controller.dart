@@ -66,6 +66,8 @@ class HomeController extends GetxController {
     try {
       listSession.value =
           await SessionService().getSessionsBySchoolId(schoolId, dateTime);
+      listSession
+          .sort((a, b) => a.deliveryStartTime!.compareTo(b.deliveryStartTime!));
     } on DioException catch (e) {
       throw Exception(e);
     }

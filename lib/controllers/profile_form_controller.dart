@@ -14,6 +14,7 @@ import '/utils/logger.dart';
 
 class ProfileFormController extends GetxController {
   Rx<Profile> model = Profile().obs;
+  Rx<bool> isImageFile = true.obs;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
@@ -43,6 +44,7 @@ class ProfileFormController extends GetxController {
       //default image
       model.value.id = profile.id;
       model.value.avatarPath = profile.avatarPath.toString();
+      isImageFile.value = false;
     } on dio.DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
     }
@@ -71,6 +73,7 @@ class ProfileFormController extends GetxController {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
+      isImageFile.value = true;
       imagePath.value = image.path;
       logger.e(image.path);
       Get.back();
@@ -88,6 +91,7 @@ class ProfileFormController extends GetxController {
     if (status.isGranted) {
       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
+        isImageFile.value = true;
         imagePath.value = image.path;
         logger.e(image.path);
         Get.back();
@@ -118,9 +122,13 @@ class ProfileFormController extends GetxController {
   }
 
   Future<void> submitForm(bool isUpdate) async {
-    if (imagePath.value.isEmpty) Get.snackbar('Lỗi', 'Chưa có ảnh');
+    if (imagePath.value.isEmpty) {
+      Get.snackbar('Lỗi', 'Chưa có ảnh');
+      return;
+    }
     if (selectedSchool.value == null) {
       Get.snackbar('Lỗi', 'Vui lòng chọn trường');
+      return;
     }
     if (formKey.currentState!.validate()) {
       try {
@@ -141,6 +149,9 @@ class ProfileFormController extends GetxController {
         //
         if (isUpdate) {
           bool isUpdateImage = model.value.avatarPath != imagePath.value;
+          if (isUpdateImage) {
+            model.value.avatarPath = imagePath.value;
+          }
           await ProfileService().update(model.value, isUpdateImage);
         } else {
           model.value.avatarPath = imagePath.value;

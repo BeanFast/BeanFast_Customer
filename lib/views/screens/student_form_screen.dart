@@ -50,7 +50,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                               () => Stack(
                                 children: [
                                   controller.imagePath.value.isNotEmpty
-                                      ? profileId == null
+                                      ? controller.isImageFile.value
                                           ? ClipOval(
                                               child: Image.file(
                                                 File(
