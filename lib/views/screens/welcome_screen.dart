@@ -39,11 +39,11 @@ class WelcomeScreen extends StatelessWidget {
                 child: Lottie.asset("assets/wl.json", animate: true),
               ),
             ),
-
+      
             const SizedBox(
               height: 15,
             ),
-
+      
             /// TITLE
             FadeInUp(
               duration: duration,
@@ -56,12 +56,12 @@ class WelcomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-
+      
             ///
             const SizedBox(
               height: 10,
             ),
-
+      
             /// SUBTITLE
             FadeInUp(
               duration: duration,
@@ -76,10 +76,10 @@ class WelcomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.w300),
               ),
             ),
-
+      
             ///
             Expanded(child: Container()),
-
+      
             /// GOOGLE BTN
             FadeInUp(
               duration: duration,
@@ -95,12 +95,12 @@ class WelcomeScreen extends StatelessWidget {
                 },
               ),
             ),
-
+      
             ///
             const SizedBox(
               height: 20,
             ),
-
+      
             /// GITHUB BTN
             FadeInUp(
               duration: duration,
@@ -116,7 +116,7 @@ class WelcomeScreen extends StatelessWidget {
                 },
               ),
             ),
-
+      
             ///
             const SizedBox(
               height: 40,

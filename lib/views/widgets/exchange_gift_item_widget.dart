@@ -39,8 +39,8 @@ class ExchangeGiftItem extends StatelessWidget {
                   Container(
                     alignment: Alignment.topRight,
                     width: 90,
-                    child: TextOrderStatus(
-                      status: OrderStatus.fromInt(exchangeGift.status!),
+                    child: TextGiftOrderStatus(
+                      status: ExchangeGiftStatus.fromInt(exchangeGift.status!),
                     ),
                   ),
                 ],

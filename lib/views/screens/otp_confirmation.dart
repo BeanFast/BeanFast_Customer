@@ -17,7 +17,6 @@ class OtpConfirmationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final OTPController otpController = Get.find();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(

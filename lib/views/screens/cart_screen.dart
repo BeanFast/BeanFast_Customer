@@ -17,7 +17,8 @@ class CartScreen extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    var homeController = Get.find<HomeController>();
+      HomeController homeController = Get.put(HomeController());
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Giỏ hàng'),

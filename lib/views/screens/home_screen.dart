@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -323,89 +324,120 @@ class HomeScreen extends GetView<HomeController> {
                             Obx(
                               () => controller.listSession.isEmpty
                                   ? const IsEmptyWidget(
-                                      title: 'Chưa có thực đơn vào ngày bạn chọn')
-                                  : SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: controller.listSession
-                                            .map(
-                                              (session) => Obx(
-                                                () => GestureDetector(
-                                                  onTap: () {
-                                                    controller.selectedSessionId
-                                                            .value =
-                                                        session.id.toString();
-                                                    controller
-                                                        .getMenu(session.id!);
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 5, left: 5),
-                                                    child: Card(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              right: 10),
-                                                      color: controller
-                                                                  .selectedSessionId
-                                                                  .value ==
-                                                              session.id
-                                                                  .toString()
-                                                          ? ThemeColor
-                                                              .textButtonColor
-                                                          : Colors.white,
-                                                      child: Container(
+                                      title:
+                                          'Chưa có thực đơn vào ngày bạn chọn')
+                                  : Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        if (controller.listSession.isNotEmpty)
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 5, right: 5),
+                                            child: Text(
+                                              "Khung giờ",
+                                              style: Get.textTheme.titleMedium,
+                                            ),
+                                          ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: controller.listSession
+                                                .map(
+                                                  (session) => Obx(
+                                                    () => GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                                .selectedSessionId
+                                                                .value =
+                                                            session.id
+                                                                .toString();
+                                                        controller.getMenu(
+                                                            session.id!);
+                                                      },
+                                                      child: Padding(
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(
-                                                                left: 10,
-                                                                right: 10,
-                                                                top: 5,
-                                                                bottom: 5),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                  .all(
-                                                            Radius.circular(12),
-                                                          ),
-                                                          border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 1,
-                                                          ),
-                                                        ),
-                                                        child: Text(
-                                                          DateFormat('HH:mm - ')
-                                                                  .format(session
-                                                                      .deliveryStartTime!) +
-                                                              DateFormat(
-                                                                      'HH:mm')
-                                                                  .format(session
-                                                                      .deliveryEndTime!),
-                                                          style: Get.textTheme
-                                                              .bodySmall!
-                                                              .copyWith(
-                                                            color: controller
-                                                                        .selectedSessionId
-                                                                        .value ==
-                                                                    session.id
-                                                                        .toString()
-                                                                ? Colors.white
-                                                                : Colors.black,
+                                                                right: 5,
+                                                                left: 5),
+                                                        child: Card(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 10),
+                                                          color: controller
+                                                                      .selectedSessionId
+                                                                      .value ==
+                                                                  session.id
+                                                                      .toString()
+                                                              ? ThemeColor
+                                                                  .textButtonColor
+                                                              : Colors.white,
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 10,
+                                                                    right: 10,
+                                                                    top: 5,
+                                                                    bottom: 5),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .all(
+                                                                Radius.circular(
+                                                                    12),
+                                                              ),
+                                                              border:
+                                                                  Border.all(
+                                                                color:
+                                                                    Colors.grey,
+                                                                width: 1,
+                                                              ),
+                                                            ),
+                                                            child: Text(
+                                                              DateFormat('HH:mm - ')
+                                                                      .format(session
+                                                                          .deliveryStartTime!) +
+                                                                  DateFormat(
+                                                                          'HH:mm')
+                                                                      .format(session
+                                                                          .deliveryEndTime!),
+                                                              style: Get
+                                                                  .textTheme
+                                                                  .bodySmall!
+                                                                  .copyWith(
+                                                                color: controller
+                                                                            .selectedSessionId
+                                                                            .value ==
+                                                                        session
+                                                                            .id
+                                                                            .toString()
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
-                                      ),
+                                                )
+                                                .toList(),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                             ),
                           ],
@@ -486,14 +518,17 @@ class HomeScreen extends GetView<HomeController> {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-                                Obx(
-                                  () => MenuItem(
-                                      title: 'Combo',
-                                      isCombo: true,
-                                      sessionId:
-                                          controller.selectedSessionId.value,
-                                      list: controller
-                                          .menuModel.value.listDiscountedCombo),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Obx(
+                                    () => MenuItem(
+                                        title: 'Combo',
+                                        isCombo: true,
+                                        sessionId:
+                                            controller.selectedSessionId.value,
+                                        list: controller.menuModel.value
+                                            .listDiscountedCombo),
+                                  ),
                                 ),
                                 const SizedBox(height: 5),
                                 // Obx(
@@ -540,8 +575,7 @@ class HomeScreen extends GetView<HomeController> {
 }
 
 void showProfilesDialog(Function() onPressed) {
-  HomeController controller = Get.find<HomeController>();
-
+  HomeController controller = Get.put(HomeController());
   Get.dialog(AlertDialog(
     title: const Text('Chọn học sinh'),
     content: LoadingScreen(
@@ -582,9 +616,11 @@ void showProfilesDialog(Function() onPressed) {
 
 List<Widget> headerActionWidget() {
   Get.put(CartController());
-  HomeController controller = Get.find();
-  NotificationController notificationController = Get.find();
-  CartController cartController = Get.find<CartController>();
+
+  HomeController controller = Get.put(HomeController());
+  NotificationController notificationController =
+      Get.put(NotificationController());
+  CartController cartController = Get.put(CartController());
 
   return <Widget>[
     SizedBox(

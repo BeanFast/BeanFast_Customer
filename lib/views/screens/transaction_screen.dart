@@ -287,7 +287,8 @@ class TransactionScreen extends GetView<TransactionController> {
 }
 
 void showFilterDialog(BuildContext context) {
-  final TransactionController controller = Get.find();
+  
+ final  TransactionController controller = Get.put(TransactionController());
   showDialog(
     context: context,
     builder: (BuildContext context) {

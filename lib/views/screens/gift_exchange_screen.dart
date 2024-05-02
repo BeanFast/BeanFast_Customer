@@ -24,7 +24,8 @@ class ExchangeGiftScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find<AuthController>();
+      AuthController authController = Get.put(AuthController());
+   
     return LoadingScreen(
       future: () async {
         await authController.getCurrentUser();

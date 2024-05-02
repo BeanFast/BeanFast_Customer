@@ -17,7 +17,8 @@ class GameSelectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find<AuthController>();
+      AuthController authController = Get.put(AuthController());
+ 
 
     List<Game> games = [
       Game(

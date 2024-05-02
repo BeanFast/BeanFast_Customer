@@ -272,7 +272,7 @@ class OrderDetailScreen extends GetView<OrderController> {
                       onPressed: () {
                         // Check if order is not preparing
                         // Đang set == preparing.code sai để test giao diện đúng thì != preparing.code
-                        if (controller.model.value.status ==
+                        if (controller.model.value.status !=
                             OrderStatus.preparing.code) {
                           showDialog(
                             context: context,

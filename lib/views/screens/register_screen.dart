@@ -14,208 +14,217 @@ class RegisterView extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     Get.put(AuthController());
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Đăng ký',
+    
+    return WillPopScope(
+      onWillPop: () async {
+        controller.errorMessage.value = '';
+        controller.islogoinPasswordVisible.value = false;
+        controller.phoneController.clear();
+        controller.passwordController.clear();
+        return true;
+      },
+      child: Scaffold(
+        
+        appBar: AppBar(
+          title: const Text(
+            'Đăng ký',
+          ),
         ),
-      ),
-      body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: SingleChildScrollView(
-            reverse: true,
-            child: Form(
-              key: _formKey,
-              child: FadeInUp(
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Số điện thoại',
-                        style: Get.textTheme.titleMedium!.copyWith(
-                          color: Colors.black,
-                        ),
+        body: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Form(
+                key: _formKey,
+                child: FadeInUp(
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      child: TextFormField(
-                        controller: controller.phoneController,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.phone_android_outlined),
-                          border: UnderlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Vui lòng nhập số điện thoại';
-                          }
-                          String pattern = r'^(0[3|5|7|8|9])+([0-9]{8})\b$';
-
-                          RegExp regex = RegExp(pattern);
-                          if (!regex.hasMatch(value)) {
-                            return 'Số điện thoại không hợp lệ';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Mật khẩu',
-                        style: Get.textTheme.titleMedium!.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        child: TextFormField(
-                          obscureText: controller.isPasswordVisible.value,
-                          controller: controller.passwordController,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.lock_outlined),
-                            border: const UnderlineInputBorder(),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                controller.isPasswordVisible.value
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              onPressed: controller.togglePasswordVisibility,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Vui lòng nhập mật khẩu';
-                            }
-                            if (!RegExp(
-                                    r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,20}$')
-                                .hasMatch(value)) {
-                              return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ hoa, chữ thường và số';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Xác nhận mật khẩu',
-                        style: Get.textTheme.titleMedium!.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        child: TextFormField(
-                          obscureText: controller.isRePasswordVisible.value,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.lock_outlined),
-                            border: const UnderlineInputBorder(),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                controller.isRePasswordVisible.value
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              onPressed: controller.toggleRePasswordVisibility,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Vui lòng nhập mật khẩu';
-                            }
-                            if (!RegExp(
-                                    r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,20}$')
-                                .hasMatch(value)) {
-                              return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ hoa, chữ thường và số';
-                            }
-                            if (value != controller.passwordController.text) {
-                              return 'Mật khẩu không khớp';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Obx(
-                          () => SizedBox(
-                            height: 24,
-                            width: 24,
-                            child: Checkbox(
-                              value: controller.isChecked.value,
-                              onChanged: (value) {
-                                controller.toggleIschecked();
-                              },
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            ruleDialog(context);
-                          },
-                          child: const Text('Chấp nhận với điều khoản'),
-                        )
-                      ],
-                    ),
-                    Obx(
-                      () => Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          controller.errorMessage.value,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(fontSize: 10, color: Colors.red),
+                          'Số điện thoại',
+                          style: Get.textTheme.titleMedium!.copyWith(
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 30),
-                    GradientButton(
-                      text: 'Đăng ký',
-                      onPressed: () async {
-                        if (controller.isChecked.value == true) {
-                          controller.errorMessage.value = '';
-                          if (_formKey.currentState!.validate()) {
+                      SizedBox(
+                        child: TextFormField(
+                          controller: controller.phoneController,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.phone_android_outlined),
+                            border: UnderlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Vui lòng nhập số điện thoại';
+                            }
+                            String pattern = r'^(0[3|5|7|8|9])+([0-9]{8})\b$';
+
+                            RegExp regex = RegExp(pattern);
+                            if (!regex.hasMatch(value)) {
+                              return 'Số điện thoại không hợp lệ';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Mật khẩu',
+                          style: Get.textTheme.titleMedium!.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Obx(
+                        () => SizedBox(
+                          child: TextFormField(
+                            obscureText: !controller.isPasswordVisible.value,
+                            controller: controller.passwordController,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.lock_outlined),
+                              border: const UnderlineInputBorder(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  controller.isPasswordVisible.value
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                ),
+                                onPressed: controller.togglePasswordVisibility,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Vui lòng nhập mật khẩu';
+                              }
+                              if (!RegExp(
+                                      r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,20}$')
+                                  .hasMatch(value)) {
+                                controller.errorMessage.value =
+                                    'Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ hoa, chữ thường và số';
+                                return 'Chưa đúng định dạng mật khẩu';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Xác nhận mật khẩu',
+                          style: Get.textTheme.titleMedium!.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Obx(
+                        () => SizedBox(
+                          child: TextFormField(
+                            obscureText: !controller.isRePasswordVisible.value,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.lock_outlined),
+                              border: const UnderlineInputBorder(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  controller.isRePasswordVisible.value
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                ),
+                                onPressed:
+                                    controller.toggleRePasswordVisibility,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Vui lòng nhập mật khẩu';
+                              }
+                              if (value != controller.passwordController.text) {
+                                return 'Mật khẩu không khớp';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Obx(
+                            () => SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: Checkbox(
+                                value: controller.isChecked.value,
+                                onChanged: (value) {
+                                  controller.toggleIschecked();
+                                },
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              ruleDialog(context);
+                            },
+                            child: const Text('Chấp nhận với điều khoản'),
+                          )
+                        ],
+                      ),
+                      Obx(
+                        () => Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            controller.errorMessage.value,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(fontSize: 10, color: Colors.red),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      GradientButton(
+                        text: 'Đăng ký',
+                        onPressed: () async {
+                          if (controller.isChecked.value == true) {
                             controller.errorMessage.value = '';
-                            await controller.register();
-                            Get.to(
-                              () => const OtpConfirmationView(),
-                              binding: BindingsBuilder(() {
-                                Get.put(OTPController(
-                                  phone: controller.phoneController.text,
-                                ));
-                              }),
-                            );
+                            if (_formKey.currentState!.validate()) {
+                              controller.errorMessage.value = '';
+                              await controller.register();
+                              Get.to(
+                                () => const OtpConfirmationView(),
+                                binding: BindingsBuilder(() {
+                                  Get.put(OTPController(
+                                    phone: controller.phoneController.text,
+                                  ));
+                                }),
+                              );
+                            }
+                          } else {
+                            controller.errorMessage.value =
+                                'Vui lòng chấp nhận điều khoản';
                           }
-                        } else {
-                          controller.errorMessage.value =
-                              'Vui lòng chấp nhận điều khoản';
-                        }
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 
@@ -293,7 +302,8 @@ class RegisterView extends GetView<AuthController> {
                         text:
                             '\nĐăng ký tài khoản và cung cấp thông tin về nhà cung cấp, thực đơn món ăn sáng.',
                         style: Get.textTheme.bodyMedium),
-                    TextSpan(text: '\nNhận đơn hàng từ phụ huynh học sinh.',
+                    TextSpan(
+                        text: '\nNhận đơn hàng từ phụ huynh học sinh.',
                         style: Get.textTheme.bodyMedium),
                     TextSpan(
                         text:

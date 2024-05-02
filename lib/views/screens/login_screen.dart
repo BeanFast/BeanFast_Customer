@@ -101,16 +101,16 @@ class LoginView extends GetView<AuthController> {
                               border: const UnderlineInputBorder(),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  controller.isPasswordVisible.value
+                                  controller.islogoinPasswordVisible.value
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
                                 ),
                                 onPressed: () {
-                                  controller.togglePasswordVisibility();
+                                  controller.toggleLoginPasswordVisibility();
                                 },
                               ),
                             ),
-                            obscureText: controller.isPasswordVisible.value,
+                            obscureText: !controller.islogoinPasswordVisible.value,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Vui lòng nhập mật khẩu';
@@ -178,6 +178,8 @@ class LoginView extends GetView<AuthController> {
                           const Text('Chưa có tài khoản?'),
                           TextButton(
                             onPressed: () {
+                              controller.phoneController.clear();
+                              controller.passwordController.clear();
                               Get.to(RegisterView());
                             },
                             child: const Text('Đăng ký'),
