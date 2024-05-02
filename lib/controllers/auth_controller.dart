@@ -147,8 +147,9 @@ mixin CacheManager {
     return true;
   }
 
-  Map<String, Map<String, RxMap<String, RxInt>>>? getCart() {
-    return Formater.jsonToRxMap(box.read(CacheManagerKey.CART.toString()));
+  RxMap<String, Map<String, RxMap<String, RxInt>>>? getCart() {
+    String? json = box.read(CacheManagerKey.CART.toString());
+    return json == null ? null : Formater.jsonToRxMap(json);
   }
 
   Future<void> removeCart() async {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
+import '../utils/formater.dart';
 import '/services/order_service.dart';
 import '/utils/logger.dart';
 import '/models/session.dart';
@@ -40,15 +41,19 @@ class CartController extends GetxController with CacheManager {
         }
       }
     }
+
     cleanCart();
     updateItemCount();
   }
 
   Future getData() async {
-    Map<String, Map<String, RxMap<String, RxInt>>>? listData = getCart();
-    logger.e('getCart - $listData');
+    RxMap<String, Map<String, RxMap<String, RxInt>>>? listData = getCart();
+    if (listData != null) {
+      listCart = listData;
+    }
+    logger.e('getCart - $listCart');
     await checkCartItem();
-    logger.e('checkCartItem - $listData');
+    logger.e('checkCartItem - $listCart');
     for (var profile in listCart.entries) {
       try {
         Profile profileData = await ProfileService().getById(profile.key);
@@ -76,6 +81,7 @@ class CartController extends GetxController with CacheManager {
       }
     }
     updateTotal();
+    logger.e('getData end - $listCart');
   }
 
   void updateSessionDetail(String sessionId, String sessionDetailId) {
@@ -125,7 +131,7 @@ class CartController extends GetxController with CacheManager {
   }
 
   void updateItemCount() {
-    itemCount.value = 0;
+    // itemCount.value = 0;
     listCart.forEach((profileId, listSession) {
       listSession.forEach((sessionId, cart) {
         itemCount += cart.length;

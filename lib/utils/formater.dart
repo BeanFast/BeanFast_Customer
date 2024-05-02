@@ -36,7 +36,7 @@ class Formater {
     return json.encode(jsonMap);
   }
 
-  static Map<String, Map<String, RxMap<String, RxInt>>> jsonToRxMap(
+  static RxMap<String, Map<String, RxMap<String, RxInt>>> jsonToRxMap(
       String jsonString) {
     final Map<String, dynamic> jsonMap = json.decode(jsonString);
 
