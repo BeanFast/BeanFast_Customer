@@ -474,7 +474,7 @@ class HomeScreen extends GetView<HomeController> {
                                 const SizedBox(height: 10),
                                 Obx(
                                   () => MenuItem(
-                                      title: 'Ưu đãi combo',
+                                      title: 'Combo',
                                       isCombo: true,
                                       sessionId:
                                           controller.selectedSessionId.value,
@@ -482,16 +482,16 @@ class HomeScreen extends GetView<HomeController> {
                                           .menuModel.value.listDiscountedCombo),
                                 ),
                                 const SizedBox(height: 5),
-                                Obx(
-                                  () => MenuItem(
-                                      title: 'Combo',
-                                      isCombo: true,
-                                      sessionId:
-                                          controller.selectedSessionId.value,
-                                      list:
-                                          controller.menuModel.value.listCombo),
-                                ),
-                                const SizedBox(height: 5),
+                                // Obx(
+                                //   () => MenuItem(
+                                //       title: 'Combo',
+                                //       isCombo: true,
+                                //       sessionId:
+                                //           controller.selectedSessionId.value,
+                                //       list:
+                                //           controller.menuModel.value.listCombo),
+                                // ),
+                                // const SizedBox(height: 5),
                                 Obx(
                                   () => MenuItem(
                                       isCombo: false,

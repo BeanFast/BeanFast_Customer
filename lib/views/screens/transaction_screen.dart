@@ -22,30 +22,33 @@ class TransactionScreen extends GetView<TransactionController> {
       future: controller.getTransaction,
       child: Scaffold(
         appBar: AppBar(
-          title: Container(
-            alignment: Alignment.center,
-            height: 40,
-            child: TextField(
-              style: const TextStyle(height: 1), // Adjust the height as needed
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(right: 10),
-                hintText: 'Tìm kiếm giao dịch',
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(50), // Set the border radius to 10
-                ),
-                prefixIcon: const Icon(
-                  Iconsax.search_normal,
-                  size: 20,
-                ),
-              ),
-              onChanged: (value) {
-                controller.search(value);
-              },
-            ),
+          title: const Text(
+            'Lịch sử giao dịch',
           ),
+          // title: Container(
+          //   alignment: Alignment.center,
+          //   height: 40,
+          //   child: TextField(
+          //     style: const TextStyle(height: 1), // Adjust the height as needed
+          //     decoration: InputDecoration(
+          //       contentPadding: const EdgeInsets.only(right: 10),
+          //       hintText: 'Tìm kiếm giao dịch',
+          //       filled: true,
+          //       fillColor: Colors.white,
+          //       border: OutlineInputBorder(
+          //         borderRadius:
+          //             BorderRadius.circular(50), // Set the border radius to 10
+          //       ),
+          //       prefixIcon: const Icon(
+          //         Iconsax.search_normal,
+          //         size: 20,
+          //       ),
+          //     ),
+          //     onChanged: (value) {
+          //       controller.search(value);
+          //     },
+          //   ),
+          // ),
           actions: <Widget>[
             IconButton(
               icon: const Icon(
@@ -336,43 +339,43 @@ void showFilterDialog(BuildContext context) {
                   }).toList(),
                 ),
                 const SizedBox(height: 20),
-                const Text('Theo Trạng thái',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 10),
-                GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: (3 / 1),
-                  children: controller.listStatus.map((status) {
-                    return Obx(() => GestureDetector(
-                          child: Container(
-                            height: 10,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color:
-                                  controller.indexSelectedSortByStatus.value ==
-                                          controller.listStatus.indexOf(status)
-                                      ? Colors.pink[100]
-                                      : Colors.white,
-                              border: Border.all(
-                                color: Colors.pink,
-                                width: 1,
-                              ),
-                            ),
-                            child: Text(status),
-                          ),
-                          onTap: () {
-                            controller.indexSelectedSortByStatus.value =
-                                controller.listStatus.indexOf(status);
-                          },
-                        ));
-                  }).toList(),
-                ),
+                // const Text('Theo Trạng thái',
+                //     style:
+                //         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                // const SizedBox(height: 10),
+                // GridView.count(
+                //   shrinkWrap: true,
+                //   physics: const NeverScrollableScrollPhysics(),
+                //   crossAxisCount: 2,
+                //   mainAxisSpacing: 10,
+                //   crossAxisSpacing: 10,
+                //   childAspectRatio: (3 / 1),
+                //   children: controller.listStatus.map((status) {
+                //     return Obx(() => GestureDetector(
+                //           child: Container(
+                //             height: 10,
+                //             alignment: Alignment.center,
+                //             decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(10),
+                //               color:
+                //                   controller.indexSelectedSortByStatus.value ==
+                //                           controller.listStatus.indexOf(status)
+                //                       ? Colors.pink[100]
+                //                       : Colors.white,
+                //               border: Border.all(
+                //                 color: Colors.pink,
+                //                 width: 1,
+                //               ),
+                //             ),
+                //             child: Text(status),
+                //           ),
+                //           onTap: () {
+                //             controller.indexSelectedSortByStatus.value =
+                //                 controller.listStatus.indexOf(status);
+                //           },
+                //         ));
+                //   }).toList(),
+                // ),
               ],
             ),
           ),

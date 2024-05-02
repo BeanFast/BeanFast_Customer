@@ -106,6 +106,7 @@ class HomeController extends GetxController {
         e.food!.isCombo! ? model.listCombo.add(e) : model.listFood.add(e);
       }
     }
+    model.listDiscountedCombo.addAll(model.listCombo);
     menuModel.value = model;
   }
 

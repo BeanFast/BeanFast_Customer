@@ -91,6 +91,7 @@ class AuthController extends GetxController with CacheManager {
   Future getCurrentUser() async {
     try {
       currentUser.value = await AuthService().getUser();
+      logger.e(currentUser.value!.avatarPath.toString());
       List<Profile>? list = await ProfileService().getAll();
       if (list.isNotEmpty) {
         list.sort((a, b) => b.dob!.compareTo(a.dob!));
