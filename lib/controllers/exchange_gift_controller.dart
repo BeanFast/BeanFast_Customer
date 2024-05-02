@@ -19,7 +19,7 @@ class ExchangeGiftController extends GetxController {
   Rx<ExchangeGift> model = ExchangeGift().obs;
   Rx<Session?> selectedSession = Rx<Session?>(null);
   RxList<Session> listSession = <Session>[].obs;
-  String? sessionDetailId;
+  Rx<String?> sessionDetailId = Rx<String?>(null);
   String? messages;
   bool? isError;
 
@@ -64,7 +64,7 @@ class ExchangeGiftController extends GetxController {
 
   void selectSession(Session session) {
     selectedSession.value = session;
-    sessionDetailId = session.sessionDetails!.first.id;
+    sessionDetailId.value = session.sessionDetails!.first.id;
   }
 
   Future getData() async {
@@ -77,7 +77,7 @@ class ExchangeGiftController extends GetxController {
 
   Future getById(String id) async {
     try {
-      var data =  await ExchangeGiftService().getById(id);
+      var data = await ExchangeGiftService().getById(id);
       model.value = data;
     } catch (e) {
       throw Exception(e);
@@ -98,7 +98,7 @@ class ExchangeGiftController extends GetxController {
   Future<bool> createExchangeGift(String giftId) async {
     try {
       bool result = await ExchangeGiftService().createExchangeGift(
-          giftId, currentProfile.value!.id!, sessionDetailId!);
+          giftId, currentProfile.value!.id!, sessionDetailId.value!);
       return result;
     } on dio.DioException catch (e) {
       messages = e.response!.data['message'];

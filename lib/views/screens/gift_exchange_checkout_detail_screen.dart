@@ -94,11 +94,11 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                                               .sessionDetails!
                                               .firstWhere((e) =>
                                                   e.id! ==
-                                                  controller.sessionDetailId)
+                                                  controller.sessionDetailId.value)
                                               .location!
                                               .name
                                               .toString()),
-                                    )
+                                    ),
                                   ],
                                 ),
                                 trailing: IconButton(
@@ -453,34 +453,11 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
               Column(
                 children: controller.selectedSession.value!.sessionDetails!
                     .map(
-                      (sessionDetail) => Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.grey,
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
+                      (sessionDetail) => Card(
                         child: ListTile(
-                          leading: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            // child: Image.network(
-                            //   sessionDetail.location!.imagePath.toString(),
-                            //   fit: BoxFit.cover,
-                            // ),
-                          ),
                           title: Text(sessionDetail.location!.name.toString()),
-                          // subtitle: Text(
-                          //     sessionDetail.location!.description.toString()),
                           onTap: () {
-                            controller.sessionDetailId = sessionDetail.id!;
+                            controller.sessionDetailId.value = sessionDetail.id!;
                             Get.back();
                           },
                         ),
@@ -494,4 +471,65 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
       },
     );
   }
+
+  // Future<dynamic> gateSelection() {
+  //   return showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     context: Get.context!,
+  //     builder: (context) {
+  //       return Container(
+  //         height: MediaQuery.of(context).size.height * 0.5,
+  //         padding: const EdgeInsets.only(
+  //           top: 20,
+  //           bottom: 20,
+  //           right: 10,
+  //           left: 10,
+  //         ),
+  //         child: Column(
+  //           children: [
+  //             const Icon(Icons.more_horiz_outlined),
+  //             Column(
+  //               children: controller.selectedSession.value!.sessionDetails!
+  //                   .map(
+  //                     (sessionDetail) => Container(
+  //                       decoration: const BoxDecoration(
+  //                         border: Border(
+  //                           bottom: BorderSide(
+  //                             color: Colors.grey,
+  //                             width: 0.5,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       child: ListTile(
+  //                         leading: Container(
+  //                           width: 50,
+  //                           height: 50,
+  //                           decoration: BoxDecoration(
+  //                             color: Colors.white,
+  //                             borderRadius: BorderRadius.circular(25),
+  //                             border: Border.all(color: Colors.grey),
+  //                           ),
+  //                           // child: Image.network(
+  //                           //   sessionDetail.location!.imagePath.toString(),
+  //                           //   fit: BoxFit.cover,
+  //                           // ),
+  //                         ),
+  //                         title: Text(sessionDetail.location!.name.toString()),
+  //                         // subtitle: Text(
+  //                         //     sessionDetail.location!.description.toString()),
+  //                         onTap: () {
+  //                           controller.sessionDetailId = sessionDetail.id!;
+  //                           Get.back();
+  //                         },
+  //                       ),
+  //                     ),
+  //                   )
+  //                   .toList(),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }
