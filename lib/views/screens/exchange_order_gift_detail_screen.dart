@@ -151,8 +151,8 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                                           overflow: TextOverflow.ellipsis,
                                           style:
                                               Get.textTheme.bodySmall!.copyWith(
-                                            color: const Color.fromRGBO(
-                                                240, 103, 24, 1),
+                                            color: const Color.fromARGB(
+                                                255, 26, 128, 30),
                                           ),
                                         ),
                                       ),
@@ -183,8 +183,8 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                                     .model.value.gift!.points
                                     .toString()),
                                 style: Get.textTheme.bodySmall!.copyWith(
-                                    color:
-                                        const Color.fromRGBO(240, 103, 24, 1)),
+                                  color: const Color.fromARGB(255, 26, 128, 30),
+                                ),
                               ),
                             ],
                           ),
@@ -256,7 +256,7 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                       onPressed: () {
                         // Check if order is not preparing
                         // Đang set == preparing.code sai để test giao diện đúng thì != preparing.code
-                        if (controller.model.value.status ==
+                        if (controller.model.value.status !=
                             ExchangeGiftStatus.preparing.code) {
                           showDialog(
                             context: context,

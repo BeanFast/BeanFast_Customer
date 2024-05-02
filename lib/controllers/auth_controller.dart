@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:beanfast_customer/models/transaction.dart';
+import 'package:beanfast_customer/services/transaction_service.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +26,22 @@ class AuthController extends GetxController with CacheManager {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String? deviceToken;
   RxString errorMessage = ''.obs;
-  var isPasswordVisible = true.obs;
-  var isChecked = false.obs;
 
+  var isChecked = false.obs;
+  RxInt playTimes = 0.obs;
+
+ var islogoinPasswordVisible = false.obs;
+  void toggleLoginPasswordVisibility() {
+    islogoinPasswordVisible.value = !islogoinPasswordVisible.value;
+  }
+
+  var isPasswordVisible = false.obs;
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
+  }
+  var isRePasswordVisible = false.obs;
+  void toggleRePasswordVisibility() {
+    isRePasswordVisible.value = !isRePasswordVisible.value;
   }
 
   void toggleIschecked() {
@@ -105,7 +120,7 @@ class AuthController extends GetxController with CacheManager {
   }
 
   //---------------------------------------------------
-  var isRePasswordVisible = true.obs;
+
   Future register() async {
     var phone = phoneController.text;
     var password = passwordController.text;
@@ -119,9 +134,11 @@ class AuthController extends GetxController with CacheManager {
     }
     // var fullName = fullNameController.text;
   }
+  
 
-  void toggleRePasswordVisibility() {
-    isRePasswordVisible.value = !isRePasswordVisible.value;
+  Future getPlayTime() async {
+    playTimes.value =
+        await TransactionService().getPlayTime(currentProfile.value!.id!);
   }
 }
 

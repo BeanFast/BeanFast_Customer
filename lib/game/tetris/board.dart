@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/controllers/transaction_controller.dart';
 import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 
@@ -243,13 +245,15 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   // game over message
-  void showGameOverDialog() {
+  Future<void> showGameOverDialog() async {
     //send data to server
     TransactionController transactionController =
         Get.put(TransactionController());
-    transactionController.createGameTransaction(
+    await transactionController.createGameTransaction(
         'B2F1C432-8282-42B2-9C5B-39706E28E736', currentScore);
-    currentProfileOnPage.playTimes.value--;
+    AuthController authController = Get.put(AuthController());
+    await authController.getCurrentUser();
+    await authController.getPlayTime();
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -258,59 +262,92 @@ class _GameBoardState extends State<GameBoard> {
         child: AlertDialog(
           backgroundColor: Colors.amber,
           title: const Text('Game Over!'),
-          content: Text('You Scored: $currentScore'),
+          content: Text('Điểm của bạn: $currentScore'),
           actions: [
-            GestureDetector(
-              onTap: () {
-                if (currentProfileOnPage.playTimes.value >= 1) {
-                  resetGame();
-                  Navigator.pop(context);
-                } else {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return WillPopScope(
-                        onWillPop: () async => false,
-                        child: AlertDialog(
-                          title: const Text('Thông báo'),
-                          content:
-                              const Text('Bạn đã hết lượt chơi cho hôm nay!.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('OK'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                                Navigator.pop(context);
-                              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (authController.playTimes >= 1) {
+                      resetGame();
+                      Navigator.pop(context);
+                    } else {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return WillPopScope(
+                            onWillPop: () async => false,
+                            child: AlertDialog(
+                              title: const Text('Thông báo'),
+                              content: const Text(
+                                  'Bạn đã hết lượt chơi cho hôm nay!.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
                     ),
-                  ],
+                    child: const Text(
+                      'Chơi lại',
+                      style: TextStyle(color: Colors.amber),
+                    ),
+                  ),
                 ),
-                child: const Text(
-                  'Play Again',
-                  style: TextStyle(color: Colors.amber),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    resetGame();
+                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pop(true);
+                    
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: const Text(
+                      'Thoát',
+                      style: TextStyle(color: Colors.amber),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             )
           ],
         ),
@@ -383,7 +420,7 @@ class _GameBoardState extends State<GameBoard> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text(
-                            'Current Score',
+                            'Điểm số:',
                             style: TextStyle(color: Colors.white, fontSize: 15),
                           ),
                           Text(

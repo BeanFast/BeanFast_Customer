@@ -201,7 +201,8 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                                                     style: Get
                                                         .textTheme.bodyLarge!
                                                         .copyWith(
-                                                      color: Colors.red,
+                                                      color: const Color.fromARGB(
+                                                      255, 26, 128, 30),
                                                     ),
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -310,9 +311,10 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                           Formater.formatPoint(
                             gift.points.toString(),
                           ),
-                          style: const TextStyle(
+                          style:  const TextStyle(
                               fontSize: 18,
-                              color: Color.fromRGBO(240, 103, 24, 1),
+                              color: Color.fromARGB(
+                                                      255, 26, 128, 30),
                               fontWeight: FontWeight.bold)),
                     ],
                   ),

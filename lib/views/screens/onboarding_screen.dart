@@ -36,7 +36,6 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
-
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
@@ -49,7 +48,6 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       key: introKey,
       globalBackgroundColor: Colors.white,
       allowImplicitScrolling: true,
-
       pages: [
         PageViewModel(
           title: "Chất lượng món ăn",

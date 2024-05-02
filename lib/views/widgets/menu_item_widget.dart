@@ -31,159 +31,206 @@ class MenuItem extends GetView<CartController> {
       visible: list.isNotEmpty,
       child: isCombo
           ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   title,
                   style: Get.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 5),
-              Row(
+                Row(
                   children: list.map((e) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(ProductDetailScreen(food: e.food!));
-                      },
-                      child: Card(
-                        child: SizedBox(
-                          width: 170,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                               ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                ),
-                                child: CustomNetworkImage(
-                                  e.food!.imagePath.toString(),
-                                  fit: BoxFit.cover,
-                                  width: 170,
-                                  height: 100,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Container(
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.only(left: 10, right: 10),
-                                child: Text(
-                                  e.food!.name.toString(),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Get.textTheme.bodySmall,
-                                ),
-                              ),
-                              // const Spacer(),
-                              Container(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Visibility(
-                                      visible: e.food!.price != e.price,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            Formater.formatMoney(
-                                                e.food!.price.toString()),
-                                            style:
-                                                Get.textTheme.bodyLarge!.copyWith(
-                                              color: Colors.grey,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
+                    return Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            e.food!.price != e.price
+                                ? Get.to(
+                                    ProductDetailScreen(
+                                      food: e.food!,
+                                      salePrice: e.price,
+                                    ),
+                                  )
+                                : Get.to(
+                                    ProductDetailScreen(food: e.food!),
+                                  );
+                          },
+                          child: Card(
+                            child: SizedBox(
+                              width: 170,
+                              height: 220,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
+                                    child: CustomNetworkImage(
+                                      e.food!.imagePath.toString(),
+                                      fit: BoxFit.cover,
+                                      width: 170,
+                                      height: 100,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Text(
+                                      e.food!.name.toString(),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Get.textTheme.bodySmall,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Visibility(
+                                          visible: e.food!.price != e.price,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                Formater.formatMoney(
+                                                    e.food!.price.toString()),
+                                                style: Get.textTheme.bodyLarge!
+                                                    .copyWith(
+                                                  color: Colors.grey,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              ),
+                                              const SizedBox(width: 5),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: SizedBox(
+                                            child: Text(
+                                              Formater.formatMoney(
+                                                  e.price.toString()),
+                                              style: Get.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                color: const Color.fromRGBO(
+                                                    240, 103, 24, 1),
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
                                             ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
                                           ),
-                                          const SizedBox(width: 5),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: SizedBox(
-                                        child: Text(
-                                          Formater.formatMoney(e.price.toString()),
-                                          style: Get.textTheme.bodyLarge!.copyWith(
-                                            color: const Color.fromRGBO(
-                                                240, 103, 24, 1),
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                              Obx(
-                                () => Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Visibility(
-                                      visible: controller.ifAbsent(
-                                          currentProfile.value!.id!,
-                                          sessionId,
-                                          e.id!),
-                                      child: SizedBox(
-                                        width: 40,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            controller.decreaseItemCart(
-                                                currentProfile.value!.id!,
-                                                sessionId,
-                                                e.id!);
-                                          },
-                                          icon: const Icon(Iconsax.minus_square),
-                                        ),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: controller.ifAbsent(
-                                          currentProfile.value!.id!,
-                                          sessionId,
-                                          e.id!),
-                                      child: Container(
-                                        width: 30,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          controller.ifAbsent(
-                                                  currentProfile.value!.id!,
-                                                  sessionId,
-                                                  e.id!)
-                                              ? controller.listCart[currentProfile
-                                                      .value!
-                                                      .id!]![sessionId]![e.id!]
-                                                  .toString()
-                                              : '0',
-                                          style: Get.textTheme.bodyLarge,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 40,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          controller.increaseItemCart(
+                                  ),
+                                  Obx(
+                                    () => Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Visibility(
+                                          visible: controller.ifAbsent(
                                               currentProfile.value!.id!,
                                               sessionId,
-                                              e.id!);
-                                        },
-                                        icon: const Icon(Iconsax.add_square),
-                                      ),
+                                              e.id!),
+                                          child: SizedBox(
+                                            width: 40,
+                                            child: IconButton(
+                                              onPressed: () {
+                                                controller.decreaseItemCart(
+                                                    currentProfile.value!.id!,
+                                                    sessionId,
+                                                    e.id!);
+                                              },
+                                              icon: const Icon(
+                                                  Iconsax.minus_square),
+                                            ),
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: controller.ifAbsent(
+                                              currentProfile.value!.id!,
+                                              sessionId,
+                                              e.id!),
+                                          child: Container(
+                                            width: 30,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              controller.ifAbsent(
+                                                      currentProfile.value!.id!,
+                                                      sessionId,
+                                                      e.id!)
+                                                  ? controller.listCart[
+                                                          currentProfile
+                                                              .value!.id!]![
+                                                          sessionId]![e.id!]
+                                                      .toString()
+                                                  : '0',
+                                              style: Get.textTheme.bodyLarge,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 40,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              controller.increaseItemCart(
+                                                  currentProfile.value!.id!,
+                                                  sessionId,
+                                                  e.id!);
+                                            },
+                                            icon:
+                                                const Icon(Iconsax.add_square),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                        Visibility(
+                          visible: e.food!.price != e.price,
+                          child: Positioned(
+                            top: 4,
+                            right: 4,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 3),
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                'SALE',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     );
                   }).toList(),
                 ),
-            ],
-          )
+              ],
+            )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -196,7 +243,12 @@ class MenuItem extends GetView<CartController> {
                   children: list.map((e) {
                     return GestureDetector(
                       onTap: () {
-                        Get.to(ProductDetailScreen(food: e.food!));
+                        e.food!.price != e.price
+                            ? Get.to(ProductDetailScreen(
+                                food: e.food!,
+                                salePrice: e.price,
+                              ))
+                            : Get.to(ProductDetailScreen(food: e.food!));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 8),

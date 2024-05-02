@@ -24,7 +24,8 @@ class ExchangeGiftScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find<AuthController>();
+      AuthController authController = Get.put(AuthController());
+   
     return LoadingScreen(
       future: () async {
         await authController.getCurrentUser();
@@ -146,11 +147,11 @@ class PointManagementTabView extends GetView<TransactionController> {
                       ),
                       Column(
                         children: transaction.value.map((element) {
-                          IconData iconData = element.value! > 0
+                          IconData iconData = element.value! >= 0
                               ? Iconsax.wallet_add_1
                               : Iconsax.wallet_minus;
                           var color =
-                              element.value! > 0 ? Colors.green : Colors.red;
+                              element.value! >= 0 ? Colors.green : Colors.red;
                           return Card(
                             child: Container(
                               padding: const EdgeInsets.all(10),
@@ -182,7 +183,7 @@ class PointManagementTabView extends GetView<TransactionController> {
                                               : element.exchangeGift!.code !=
                                                       null
                                                   ? "Đổi quà: #${element.exchangeGift!.code}"
-                                                  : "Chơi game : ${element.game!.name}",
+                                                  : "Chơi game: ${element.game!.name}",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style:

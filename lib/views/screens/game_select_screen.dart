@@ -17,7 +17,8 @@ class GameSelectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.find<AuthController>();
+      AuthController authController = Get.put(AuthController());
+ 
 
     List<Game> games = [
       Game(
@@ -55,6 +56,7 @@ class GameSelectScreen extends StatelessWidget {
     return LoadingScreen(
       future: () async {
         await authController.getCurrentUser();
+        await authController.getPlayTime();
       },
       child: Obx(
         () => currentProfile.value == null
@@ -72,8 +74,11 @@ class GameSelectScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           const Text('Lượt chơi: '),
-                          Obx(() =>
-                              Text(currentProfileOnPage.playTimes.toString())),
+                          Obx(
+                            () => Text(
+                              authController.playTimes.toString(),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -216,8 +221,8 @@ class GameSelectScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                                 onPressed: () {
-                                                  if (currentProfileOnPage
-                                                          .playTimes.value >=
+                                                  if (authController
+                                                          .playTimes >=
                                                       1) {
                                                     games[index].onClick();
                                                   } else {
@@ -290,12 +295,6 @@ class GameSelectScreen extends StatelessWidget {
     );
   }
 }
-
-class Profile {
-  RxInt playTimes = 1.obs;
-}
-
-Profile currentProfileOnPage = Profile();
 
 class Game {
   final String name;

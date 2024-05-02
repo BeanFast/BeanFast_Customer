@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
@@ -81,13 +82,18 @@ class _GameOverScreenState extends State<GameOverScreen> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.green),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     //send data to server
                     TransactionController transactionController =
                         Get.put(TransactionController());
-                    transactionController.createGameTransaction(
+                   await transactionController.createGameTransaction(
                         'B2F1C432-8282-42B2-9C5B-39706E28E736', 5);
-                    currentProfileOnPage.playTimes.value--;
+                    //get current user again
+
+                    AuthController authController = Get.put(AuthController());
+                   await authController.getCurrentUser();
+                   await authController.getPlayTime();
+                   
                     Navigator.of(context).pop();
                     Navigator.pop(context);
                   },

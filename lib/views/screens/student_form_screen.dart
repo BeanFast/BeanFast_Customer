@@ -582,7 +582,11 @@ class StudentFormScreen extends GetView<ProfileFormController> {
               GradientButton(
                 text: 'Lưu Thông tin',
                 onPressed: () async {
-                  await controller.submitForm(profileId != null);
+                  if (controller.imagePath.value.isEmpty) {
+                    Get.snackbar('Hệ thống', 'Vui lòng chọn ảnh');
+                  } else if (controller.formKey.currentState!.validate()) {
+                    await controller.submitForm(profileId != null);
+                  }
                 },
               )
             ],
