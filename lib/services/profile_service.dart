@@ -44,4 +44,28 @@ class ProfileService {
     final response = await _apiService.request.post(baseUrl, data: formData);
     return response;
   }
+
+  Future<bool> update(Profile model, bool isUpdateImage) async {
+    FormData formData = FormData.fromMap({
+      'Bmi.Height': model.bmis!.last.height,
+      'Bmi.Weight': model.bmis!.last.weight,
+      'Bmi.Age': model.bmis!.last.age,
+      'FullName': model.fullName,
+      'Class': model.className,
+      'Gender': model.gender,
+      'NickName': model.nickName,
+      'SchoolId': model.school!.id,
+      'Dob': model.dob,
+    });
+    if (isUpdateImage) {
+      formData.files.add(MapEntry(
+        'Image',
+        await MultipartFile.fromFile(model.avatarPath!,
+            filename: 'uploadFile.jpg'),
+      ));
+    }
+    final response =
+        await _apiService.request.put('$baseUrl/${model.id}', data: formData);
+    return response.statusCode == 200;
+  }
 }

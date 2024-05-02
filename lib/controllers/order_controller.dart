@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../enums/menu_index_enum.dart';
+import '../utils/constants.dart';
+import '../views/screens/splash_screen.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/services/order_service.dart';
@@ -54,7 +57,10 @@ class OrderController extends GetxController {
 
   Future cancelOrder(String id) async {
     try {
-      await OrderService().cancelOrder(id, _otherReason.value);
+      await OrderService().cancelOrder(id, otherReason);
+      Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
+      changePage(MenuIndexState.order.index);
+      Get.offAll(const SplashScreen());
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
     }

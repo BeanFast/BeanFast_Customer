@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
@@ -10,6 +9,7 @@ import '/services/profile_service.dart';
 import '/services/school_service.dart';
 import '/models/profile.dart';
 import '/models/school.dart';
+import '/views/screens/student_list_screen.dart';
 import '/utils/logger.dart';
 
 class ProfileFormController extends GetxController {
@@ -33,15 +33,18 @@ class ProfileFormController extends GetxController {
   Future getProfileById(String id) async {
     try {
       Profile profile = await ProfileService().getById(id);
-      // model.value = await ProfileService().getById(id);
-      fullnameController.text = profile.fullName!;
-      nickNameController.text = profile.nickName!;
-      // heightController.text = profile.fullName!;
+      imagePath.value = profile.avatarPath.toString();
+      fullnameController.text = profile.fullName.toString();
+      nickNameController.text = profile.nickName.toString();
       selectedDate.value = profile.dob!;
-      // weightController.text = profile.fullName!;
-      // heightController.text =
-    } catch (e) {
-      throw Exception(e);
+      selectedSchool.value = profile.school;
+      classController.text = profile.className.toString();
+      gender.value = profile.gender == true ? 'Nam' : 'Nữ';
+      //default image
+      model.value.id = profile.id;
+      model.value.avatarPath = profile.avatarPath.toString();
+    } on dio.DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
 
@@ -114,7 +117,7 @@ class ProfileFormController extends GetxController {
     }
   }
 
-  Future<void> submitForm() async {
+  Future<void> submitForm(bool isUpdate) async {
     if (imagePath.value.isEmpty) Get.snackbar('Lỗi', 'Chưa có ảnh');
     if (selectedSchool.value == null) {
       Get.snackbar('Lỗi', 'Vui lòng chọn trường');
@@ -126,7 +129,7 @@ class ProfileFormController extends GetxController {
         model.value.nickName = nickNameController.text.trim();
         model.value.className = classController.text.trim();
         model.value.dob = selectedDate.value;
-        model.value.avatarPath = imagePath.value;
+
         model.value.bmis = [Bmi()];
         model.value.bmis!.last.height = double.parse(heightController.text);
         model.value.bmis!.last.weight = double.parse(weightController.text);
@@ -136,14 +139,18 @@ class ProfileFormController extends GetxController {
         model.value.school!.id = selectedSchool.value!.id!;
         model.value.gender = gender.value == 'Nam' ? true : false;
         //
-        dio.Response response = await ProfileService().create(model.value);
-        if (response.statusCode == 201) {
-          Get.off(const StudentListScreen());
+        if (isUpdate) {
+          bool isUpdateImage = model.value.avatarPath != imagePath.value;
+          await ProfileService().update(model.value, isUpdateImage);
         } else {
-          Get.snackbar('Lỗi', response.data['message']);
+          model.value.avatarPath = imagePath.value;
+          await ProfileService().create(model.value);
         }
+
+        Get.off(const StudentListScreen());
       } on dio.DioException catch (e) {
-        Get.snackbar('Lỗi', e.response!.data['message']);
+        logger.e(e.response.toString());
+        Get.snackbar('Lỗi', e.message.toString());
       }
     } else {
       Get.snackbar('Lỗi', 'Thông tin chưa chính xác');
