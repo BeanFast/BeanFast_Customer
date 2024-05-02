@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '/controllers/profile_controller.dart';
 import '/enums/menu_index_enum.dart';
 import '/views/widgets/image_default.dart';
-import '/controllers/auth_controller.dart';
 import '/utils/constants.dart';
 import '/views/widgets/is_empty.dart';
 import '/views/screens/loading_screen.dart';
@@ -12,14 +12,14 @@ import '/views/screens/student_detail_screen.dart';
 import 'splash_screen.dart';
 import 'student_form_screen.dart';
 
-class StudentListScreen extends GetView<AuthController> {
+class StudentListScreen extends GetView<ProfileController> {
   const StudentListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Get.put(ProfileController());
+    Get.put(ProfileController());
     return LoadingScreen(
-        future: controller.getCurrentUser,
+        future: controller.getData,
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Danh sách học sinh'),
@@ -35,12 +35,12 @@ class StudentListScreen extends GetView<AuthController> {
             children: [
               Obx(
                 () => Expanded(
-                  child: currentUser.value!.profiles!.isEmpty
+                  child: controller.listData.isEmpty
                       ? const IsEmptyWidget(title: 'Chưa có học sinh')
                       : SingleChildScrollView(
                           child: Column(
                             children:
-                                currentUser.value!.profiles!.map((profile) {
+                                controller.listData.map((profile) {
                               return GestureDetector(
                                 onTap: () {
                                   Get.to(StudentDetailScreen(

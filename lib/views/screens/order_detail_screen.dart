@@ -1,15 +1,15 @@
-import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '../widgets/image_default.dart';
 import '/contains/theme_color.dart';
 import '/controllers/order_controller.dart';
 import '/enums/status_enum.dart';
 import '/utils/formater.dart';
+import '/views/widgets/image_default.dart';
+import '/views/widgets/sbutton.dart';
 import '/views/screens/loading_screen.dart';
 import '/views/screens/order_time_line.dart';
 import '/views/widgets/banner_order_status.dart';
@@ -49,7 +49,7 @@ class OrderDetailScreen extends GetView<OrderController> {
                       color: ThemeColor.itemColor,
                       child: Column(
                         children: [
-                         ListTile(
+                          ListTile(
                             leading: const Icon(Iconsax.location),
                             title: const Text('Địa chỉ nhận hàng'),
                             subtitle: Column(
@@ -65,25 +65,25 @@ class OrderDetailScreen extends GetView<OrderController> {
                             ),
                           ),
                           const SizedBox(height: 5),
-                           if (controller.model.value.sessionDetail!.session!
+                          if (controller.model.value.sessionDetail!.session!
                                       .deliveryStartTime !=
                                   null &&
                               controller.model.value.sessionDetail!.session!
                                       .deliveryEndTime !=
                                   null)
-                          ListTile(
-                            leading: const Icon(Iconsax.truck_time),
-                            title: Text('Thời gian nhận hàng',
-                                style: Get.textTheme.bodyMedium),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    "Từ ${DateFormat('HH:mm').format(controller.model.value.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.model.value.sessionDetail!.session!.deliveryEndTime!)}",
-                                    style: Get.textTheme.bodyMedium),
-                              ],
+                            ListTile(
+                              leading: const Icon(Iconsax.truck_time),
+                              title: Text('Thời gian nhận hàng',
+                                  style: Get.textTheme.bodyMedium),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      "Từ ${DateFormat('HH:mm').format(controller.model.value.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.model.value.sessionDetail!.session!.deliveryEndTime!)}",
+                                      style: Get.textTheme.bodyMedium),
+                                ],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -307,7 +307,7 @@ class OrderDetailScreen extends GetView<OrderController> {
                                       //initially set selected value to -1
                                       controller.handleRadioValueChanged(-1);
                                       // Show dialog
-                                      showCancelDialog(controller, context);
+                                      showCancelDialog(orderId);
                                     },
                                     child: Text('Huỷ đơn hàng',
                                         style: Get.textTheme.bodyMedium!
@@ -329,7 +329,7 @@ class OrderDetailScreen extends GetView<OrderController> {
                           //initially set selected value to -1
                           controller.handleRadioValueChanged(-1);
                           // Show dialog
-                          showCancelDialog(controller, context);
+                          showCancelDialog(orderId);
                         }
                       },
                     ),
@@ -357,6 +357,78 @@ class OrderDetailScreen extends GetView<OrderController> {
       ),
     );
   }
+
+  void showCancelDialog(String orderId) {
+    Get.dialog(AlertDialog(
+      surfaceTintColor: Colors.white,
+      backgroundColor: ThemeColor.itemColor,
+      title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
+      content: SizedBox(
+        // height: Get.height / 2,
+        width: Get.width,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Loop through options to create radio buttons
+              for (var option in controller.cancelReasonOptions)
+                Obx(
+                  () => RadioListTile<int>(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(option['title'] as String),
+                    value: option['value'] as int,
+                    groupValue: controller.selectedValue,
+                    onChanged: controller.handleRadioValueChanged,
+                  ),
+                ),
+              Obx(
+                () => controller.selectedValue == 3
+                    ? TextField(
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero),
+                        onChanged: controller.handleOtherReasonChanged,
+                      )
+                    : Container(),
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            if (controller.selectedValue == -1) {
+              // Handle case where no option is selected
+            } else if (controller.selectedValue == 3 &&
+                controller.otherReason.isEmpty) {
+              // Handle case where "Other" is selected but reason is empty
+              Get.snackbar('Hệ thống', 'Vui lòng nhập lý do huỷ',
+                  duration: const Duration(seconds: 1));
+            } else {
+              // Handle successful selection with reason (if applicable)
+              //lý do huỷ radio value (có cả other reason)
+              print(controller.cancelReasonOptions[controller.selectedValue!]
+                  ['title'] as String);
+              Get.back(); // Close the dialog first
+              await controller.cancelOrder(orderId);
+              // Future.delayed(
+              //   Duration(seconds: 1),
+              //   () {
+              //     // Then show the snackbar after a delay
+              //     Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
+              //     if (controller.otherReason.isNotEmpty) {
+              //       //lý do khác value
+              //       print(controller.otherReason);
+              //     }
+              //   },
+              // );
+            }
+          },
+          child: Text('Huỷ đơn hàng',
+              style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red)),
+        ),
+      ],
+    ));
+  }
 }
 
 class CancellationReason {
@@ -382,82 +454,6 @@ extension FeedbackReasonOptions on OrderController {
         {'title': 'Tất cả điều tốt', 'value': 2},
         {'title': 'Đánh giá khác', 'value': 3},
       ];
-}
-
-void showCancelDialog(OrderController controller, BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        surfaceTintColor: Colors.white,
-        backgroundColor: ThemeColor.itemColor,
-        title: const Text('Lý do bạn muốn huỷ đơn hàng?'),
-        content: SizedBox(
-          // height: Get.height / 2,
-          width: Get.width,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                // Loop through options to create radio buttons
-                for (var option in controller.cancelReasonOptions)
-                  Obx(
-                    () => RadioListTile<int>(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(option['title'] as String),
-                      value: option['value'] as int,
-                      groupValue: controller.selectedValue,
-                      onChanged: controller.handleRadioValueChanged,
-                    ),
-                  ),
-                Obx(
-                  () => controller.selectedValue == 3
-                      ? TextField(
-                          decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.zero),
-                          onChanged: controller.handleOtherReasonChanged,
-                        )
-                      : Container(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              if (controller.selectedValue == -1) {
-                // Handle case where no option is selected
-              } else if (controller.selectedValue == 3 &&
-                  controller.otherReason.isEmpty) {
-                // Handle case where "Other" is selected but reason is empty
-                Get.snackbar('Hệ thống', 'Vui lòng nhập lý do huỷ',
-                    duration: const Duration(seconds: 1));
-              } else {
-                // Handle successful selection with reason (if applicable)
-                //lý do huỷ radio value (có cả other reason)
-                print(controller.cancelReasonOptions[controller.selectedValue!]
-                    ['title'] as String);
-                Get.back(); // Close the dialog first
-                Future.delayed(
-                  Duration(seconds: 1),
-                  () {
-                    // Then show the snackbar after a delay
-                    Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
-                    if (controller.otherReason.isNotEmpty) {
-                      //lý do khác value
-                      print(controller.otherReason);
-                    }
-                  },
-                );
-              }
-            },
-            child: Text('Huỷ đơn hàng',
-                style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red)),
-          ),
-        ],
-      );
-    },
-  );
 }
 
 void showFeedbackDialog(OrderController controller, BuildContext context) {

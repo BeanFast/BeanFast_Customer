@@ -25,10 +25,10 @@ class StudentFormScreen extends GetView<ProfileFormController> {
       ),
       body: LoadingScreen(
         future: () async {
+          await controller.getSchools();
           if (profileId != null) {
             await controller.getProfileById(profileId!);
           }
-          await controller.getSchools();
         },
         child: Form(
           key: controller.formKey,
@@ -50,14 +50,24 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                               () => Stack(
                                 children: [
                                   controller.imagePath.value.isNotEmpty
-                                      ? ClipOval(
-                                          child: Image.file(
-                                            File(controller.imagePath.value),
-                                            width: 110,
-                                            height: 110,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        )
+                                      ? profileId == null
+                                          ? ClipOval(
+                                              child: Image.file(
+                                                File(
+                                                    controller.imagePath.value),
+                                                width: 110,
+                                                height: 110,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            )
+                                          : ClipOval(
+                                              child: CustomNetworkImage(
+                                                controller.imagePath.value,
+                                                width: 110,
+                                                height: 110,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            )
                                       : Container(
                                           width: 110,
                                           height: 110,
@@ -460,7 +470,8 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                                               color:
                                                                   Colors.grey),
                                                         ),
-                                                        child:CustomNetworkImage(
+                                                        child:
+                                                            CustomNetworkImage(
                                                           controller
                                                               .filteredSchools[
                                                                   index]
@@ -571,7 +582,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
               GradientButton(
                 text: 'Lưu Thông tin',
                 onPressed: () async {
-                  await controller.submitForm();
+                  await controller.submitForm(profileId != null);
                 },
               )
             ],

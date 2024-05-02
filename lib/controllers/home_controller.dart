@@ -85,7 +85,9 @@ class HomeController extends GetxController {
 
   void getMenu(String id) {
     Menu menu = listSession.where((e) => e.id! == id).first.menu!;
-    listCategories.add('Tất cả');
+    if (!listCategories.contains('Tất cả')) {
+      listCategories.add('Tất cả');
+    }
     selectedCategoryId.value = 'Tất cả';
     for (var menuDetail in menu.menuDetails!) {
       if (!listCategories.contains(menuDetail.food!.category!.name!)) {

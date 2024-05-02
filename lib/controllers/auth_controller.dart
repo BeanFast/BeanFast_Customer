@@ -91,7 +91,6 @@ class AuthController extends GetxController with CacheManager {
   Future getCurrentUser() async {
     try {
       currentUser.value = await AuthService().getUser();
-      logger.e(currentUser.value!.avatarPath.toString());
       List<Profile>? list = await ProfileService().getAll();
       if (list.isNotEmpty) {
         list.sort((a, b) => b.dob!.compareTo(a.dob!));
@@ -144,17 +143,19 @@ mixin CacheManager {
   Future<bool> saveCart(
       Map<String, Map<String, RxMap<String, RxInt>>> cart) async {
     String json = Formater.rxMapToJson(cart);
-    await box.write(CacheManagerKey.CART.toString(), json);
+    await box.write(CacheManagerKey.CART.toString() + currentUser.value!.phone.toString(), json);
     return true;
   }
 
   RxMap<String, Map<String, RxMap<String, RxInt>>>? getCart() {
-    String? json = box.read(CacheManagerKey.CART.toString());
+    String a = CacheManagerKey.CART.toString() + currentUser.value!.phone.toString();
+    String? json = box.read(CacheManagerKey.CART.toString() + currentUser.value!.phone.toString());
     return json == null ? null : Formater.jsonToRxMap(json);
   }
 
   Future<void> removeCart() async {
-    await box.remove(CacheManagerKey.CART.toString());
+    
+    await box.remove(CacheManagerKey.CART.toString() + currentUser.value!.phone.toString());
   }
 }
 
