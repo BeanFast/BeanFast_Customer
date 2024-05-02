@@ -12,7 +12,7 @@ class BannerOrderExchangeGiftStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderStatus status = OrderStatus.fromInt(exchangeGift.status!);
+    ExchangeGiftStatus status = ExchangeGiftStatus.fromInt(exchangeGift.status!);
     Text text = const Text('');
     Icon icon = const Icon(
       Iconsax.truck_fast,
@@ -20,7 +20,7 @@ class BannerOrderExchangeGiftStatus extends StatelessWidget {
       size: 90,
     );
     switch (status) {
-      case OrderStatus.preparing:
+      case ExchangeGiftStatus.preparing:
         {
           text = const Text(
             'Đơn hàng của bạn đang được chuẩn bị',
@@ -31,7 +31,7 @@ class BannerOrderExchangeGiftStatus extends StatelessWidget {
         // color = Colors.grey[300]!;
 
         break;
-      case OrderStatus.delivering:
+      case ExchangeGiftStatus.delivering:
         {
           text = Text(
             'Đơn hàng sẽ được giao vào lúc ${DateFormat('hh:mm').format(exchangeGift.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('hh:mm dd/MM/yy').format(exchangeGift.sessionDetail!.session!.deliveryEndTime!)}. Vui lòng kiểm tra trước khi nhận hàng',
@@ -48,7 +48,7 @@ class BannerOrderExchangeGiftStatus extends StatelessWidget {
         // color = Colors.grey[300]!;
 
         break;
-      case OrderStatus.completed:
+      case ExchangeGiftStatus.completed:
         {
           text = const Text(
             'Cảm ơn bạn chọn BeanFast!',
@@ -60,7 +60,7 @@ class BannerOrderExchangeGiftStatus extends StatelessWidget {
         }
 
         break;
-      case OrderStatus.cancelled:
+      case ExchangeGiftStatus.cancelled:
         {
           text = const Text(
             'Đơn hàng đã bị huỷ. Vui lòng liên hệ với chúng tôi để biết thêm chi tiết.',

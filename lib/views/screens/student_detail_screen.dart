@@ -1,5 +1,7 @@
+import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '../widgets/image_default.dart';
@@ -21,11 +23,18 @@ class StudentDetailScreen extends GetView<AuthController> {
     return LoadingScreen(
       future: () async {
         await controller.getCurrentUser();
-        model.value = currentUser.value!.profiles!.firstWhere((e) => e.id == id);
+        model.value =
+            currentUser.value!.profiles!.firstWhere((e) => e.id == id);
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Thông tin học sinh'),
+          leading: IconButton(
+            icon: const Icon(Iconsax.arrow_left_2),
+            onPressed: () {
+              Get.off(const StudentListScreen());
+            },
+          ),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -54,8 +63,7 @@ class StudentDetailScreen extends GetView<AuthController> {
                     ),
                     trailing: TextButton(
                       onPressed: () {
-                        Get.to(StudentFormScreen(
-                            profileId: model.value.id));
+                        Get.to(StudentFormScreen(profileId: model.value.id));
                       },
                       child: const Text(
                         'Thay đổi',
@@ -89,25 +97,20 @@ class StudentDetailScreen extends GetView<AuthController> {
                               data: model.value.nickName.toString()),
                           RowInfoItemWidget(
                               title: 'Giới tính: ',
-                              data: model.value.gender!
-                                  ? 'Nam'
-                                  : 'Nữ'),
+                              data: model.value.gender! ? 'Nam' : 'Nữ'),
                           RowInfoItemWidget(
                               title: 'Ngày sinh: ',
                               data: DateFormat('dd/MM/yyyy')
                                   .format(model.value.dob!)),
                           RowInfoItemWidget(
                               title: 'BMI: ',
-                              data:
-                                  model.value.currentBMI.toString()),
+                              data: model.value.currentBMI.toString()),
                           RowInfoItemWidget(
                               title: 'Lớp: ',
-                              data:
-                                  model.value.className.toString()),
+                              data: model.value.className.toString()),
                           RowInfoItemWidget(
                               title: 'Trường: ',
-                              data: model.value.school!.name
-                                  .toString()),
+                              data: model.value.school!.name.toString()),
                         ],
                       ),
                     ),

@@ -237,7 +237,7 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                 //cancel order
                 if (controller.model.value.status ==
                         ExchangeGiftStatus.preparing.code ||
-                    controller.model.value.status !=
+                    controller.model.value.status ==
                         ExchangeGiftStatus.delivering.code)
                   Center(
                     child: SButton(
