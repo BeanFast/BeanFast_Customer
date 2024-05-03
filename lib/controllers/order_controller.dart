@@ -55,9 +55,9 @@ class OrderController extends GetxController {
     }
   }
 
-  Future cancelOrder(String id) async {
+  Future cancelOrder(String id, String reason) async {
     try {
-      await OrderService().cancelOrder(id, otherReason);
+      await OrderService().cancelOrder(id, reason);
       Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
       changePage(MenuIndexState.order.index);
       Get.offAll(const SplashScreen());

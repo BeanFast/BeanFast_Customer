@@ -383,7 +383,7 @@ void showCancelDialog(ExchangeGiftController controller, BuildContext context) {
         ),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               if (controller.selectedValue == -1) {
                 // Handle case where no option is selected
               } else if (controller.selectedValue == 3 &&
@@ -392,22 +392,18 @@ void showCancelDialog(ExchangeGiftController controller, BuildContext context) {
                 Get.snackbar('Hệ thống', 'Vui lòng nhập lý do huỷ',
                     duration: const Duration(seconds: 1));
               } else {
-                // Handle successful selection with reason (if applicable)
-                //lý do huỷ radio value (có cả other reason)
-                print(controller.cancelReasonOptions[controller.selectedValue!]
-                    ['title'] as String);
-                Get.back(); // Close the dialog first
-                Future.delayed(
-                  Duration(seconds: 1),
-                  () {
-                    // Then show the snackbar after a delay
-                    Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
-                    if (controller.otherReason.isNotEmpty) {
-                      //lý do khác value
-                      print(controller.otherReason);
-                    }
-                  },
-                );
+                 Get.back(); 
+              String reason;
+              if (controller.otherReason == '' &&
+                  controller.selectedValue != 3) {
+                reason =
+                    controller.cancelReasonOptions[controller.selectedValue]
+                        ['title'] as String;
+              } else {
+                reason = controller.otherReason;
+              }
+
+              await controller.cancelExchangeGift(controller.model.value.id.toString(), reason);
               }
             },
             child: Text('Huỷ đơn hàng',

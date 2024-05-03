@@ -40,7 +40,18 @@ class ExchangeGiftHistoryTabBarView extends GetView<ExchangeGiftController> {
                       Padding(
                         padding: const EdgeInsets.all(0),
                         child: Obx(
-                          () => Column(
+                          () => 
+                          controller.listExchangeGiftData.isEmpty
+                              ? SizedBox(
+                                height: Get.height * 0.6,
+                                child: Center(
+                                    child: Image.asset(
+                                      "assets/images/order_image.png",
+                                    ),
+                                  ),
+                              )
+                              :
+                          Column(
                             children: controller.listExchangeGiftData.map((exchangeGift) {
                               return ExchangeGiftItem(exchangeGift: exchangeGift);
                             }).toList(),
