@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import '/models/session.dart';
@@ -86,8 +87,8 @@ class ExchangeGiftController extends GetxController {
 
   Future getExchangeGiftByStatus() async {
     try {
-      listExchangeGiftData.value =
-          await ExchangeGiftService().getByStatus(orderStatus);
+      listExchangeGiftData.value = await ExchangeGiftService()
+          .getByStatus(orderStatus, currentProfile.value!.id!);
       listExchangeGiftData
           .sort((a, b) => b.paymentDate!.compareTo(a.paymentDate!));
     } catch (e) {
@@ -103,6 +104,16 @@ class ExchangeGiftController extends GetxController {
     } on dio.DioException catch (e) {
       messages = e.response!.data['message'];
       return false;
+    }
+  }
+
+  Future cancelExchangeGift(String id, String reason) async {
+    try {
+      await ExchangeGiftService().cancelExchangeGift(id, reason);
+      Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
+      Get.back();
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
     }
   }
 }

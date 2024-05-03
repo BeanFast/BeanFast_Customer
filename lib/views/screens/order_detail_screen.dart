@@ -406,10 +406,19 @@ class OrderDetailScreen extends GetView<OrderController> {
             } else {
               // Handle successful selection with reason (if applicable)
               //lý do huỷ radio value (có cả other reason)
-              print(controller.cancelReasonOptions[controller.selectedValue!]
-                  ['title'] as String);
-              Get.back(); // Close the dialog first
-              await controller.cancelOrder(orderId);
+
+              Get.back(); 
+              String reason;
+              if (controller.otherReason == '' &&
+                  controller.selectedValue != 3) {
+                reason =
+                    controller.cancelReasonOptions[controller.selectedValue!]
+                        ['title'] as String;
+              } else {
+                reason = controller.otherReason;
+              }
+
+              await controller.cancelOrder(orderId, reason);
               // Future.delayed(
               //   Duration(seconds: 1),
               //   () {
@@ -506,9 +515,8 @@ void showFeedbackDialog(OrderController controller, BuildContext context) {
               } else {
                 // Handle successful selection with reason (if applicable)
                 //lý do huỷ radio value (có cả other reason)
-                print(
-                    controller.feedbackReasonOptions[controller.selectedValue!]
-                        ['title'] as String);
+                print(controller.feedbackReasonOptions[controller.selectedValue]
+                    ['title'] as String);
                 Get.back(); // Close the dialog first
                 Future.delayed(
                   const Duration(seconds: 1),

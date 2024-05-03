@@ -11,9 +11,9 @@ enum Status {
 
 enum ExchangeGiftStatus {
   preparing(1, 'Chờ chuẩn bị'),
-  delivering(2, 'Chờ giao hàng'),
-  completed(3, 'Hoàn thành'),
-  cancelled(4, 'Đã hủy');
+  delivering(4, 'Chờ giao hàng'),
+  completed(5, 'Hoàn thành'),
+  cancelled(6, 'Đã hủy');
 
   const ExchangeGiftStatus(this.code, this.message);
 
@@ -24,11 +24,11 @@ enum ExchangeGiftStatus {
     switch (code) {
       case 1:
         return ExchangeGiftStatus.preparing;
-      case 2:
-        return ExchangeGiftStatus.delivering;
-      case 3:
-        return ExchangeGiftStatus.completed;
       case 4:
+        return ExchangeGiftStatus.delivering;
+      case 5:
+        return ExchangeGiftStatus.completed;
+      case 6:
         return ExchangeGiftStatus.cancelled;
       default:
         return ExchangeGiftStatus.preparing;
