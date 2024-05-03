@@ -69,7 +69,11 @@ class OrderController extends GetxController {
   Future getByStatus() async {
     try {
       listData.value = await OrderService().getByStatus(orderStatus);
-      listData.sort((a, b) => b.paymentDate!.compareTo(a.paymentDate!));
+      for (var e in listData) {
+        e.orderActivities!.sort((a, b) => b.time!.compareTo(a.time!));
+      }
+      listData.sort((a, b) => b.orderActivities!.last.time!
+          .compareTo(a.orderActivities!.last.time!));
     } catch (e) {
       throw Exception(e);
     }
