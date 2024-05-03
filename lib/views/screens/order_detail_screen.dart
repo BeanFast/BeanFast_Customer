@@ -30,7 +30,8 @@ class OrderDetailScreen extends GetView<OrderController> {
         ),
         body: SingleChildScrollView(
           child: Obx(
-            () => Column(
+            () => 
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BannerOrderStatus(
