@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:timeago/src/messages/vi_messages.dart';
+import 'package:timeago/src/messages/vi_messages.dart';     
 import 'package:firebase_core/firebase_core.dart';
 import 'utils/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -208,7 +208,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/',
           page: () => const SplashScreen(),
-          binding: AuthBindingController(),
+          binding: MainBindingController(),
           // transition: Transition.fade,
         )
       ],

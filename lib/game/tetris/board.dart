@@ -252,7 +252,7 @@ class _GameBoardState extends State<GameBoard> {
     await transactionController.createGameTransaction(
         'B2F1C432-8282-42B2-9C5B-39706E28E736', currentScore);
     AuthController authController = Get.put(AuthController());
-    await authController.getCurrentUser();
+    // await authController.getCurrentUser();
     await authController.getPlayTime();
     showDialog(
       barrierDismissible: false,

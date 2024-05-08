@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
-import '../widgets/image_default.dart';
+import '/views/widgets/image_default.dart';
 import '/contains/theme_color.dart';
 import '/views/widgets/row_info_confirm_item_widget.dart';
 import '/enums/menu_index_enum.dart';
@@ -26,7 +26,8 @@ class CheckOutDetailScreen extends GetView<CartController> {
         title: const Text('Thanh toán'),
       ),
       body: LoadingScreen(
-        future: controller.getData,
+        future: controller.fetchData,
+        messageNoData: 'Chưa có dữ liệu',
         child: Column(
           children: [
             Expanded(
@@ -445,7 +446,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Get.to(const DepositeScreen());
+                                              Get.to(() =>const DepositeScreen());
                                             },
                                             child: Text(
                                               'nạp thêm',
@@ -466,7 +467,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                           );
                         } else {
                           bool result = await controller.checkout();
-                          Get.to(
+                          Get.to(() =>
                             ResultScreenWidget(
                               isSuccess: result,
                               content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',

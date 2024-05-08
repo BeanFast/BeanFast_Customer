@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +15,6 @@ import '/views/widgets/main_icon_button_widget.dart';
 import '/views/widgets/item_profile_widget.dart';
 import '/views/widgets/menu_item_widget.dart';
 import '/views/widgets/image_default.dart';
-import '/views/widgets/is_empty.dart';
 import 'cart_screen.dart';
 import 'loading_screen.dart';
 import 'notification_screen.dart';
@@ -28,9 +26,6 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
-    NotificationController notificationController =
-        Get.put(NotificationController());
-    CartController cartController = Get.put(CartController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 140,
@@ -39,11 +34,8 @@ class HomeScreen extends GetView<HomeController> {
       ),
       body: RefreshIndicator(
         displacement: 0,
-        onRefresh: () {
-          return Future.delayed(const Duration(seconds: 3), () {
-            // controller.getSession(
-            //     currentProfile.value.school!.id!, controller.now.value);
-          });
+        onRefresh: () async {
+          await controller.fetchData();
         },
         child: Column(
           children: [
@@ -299,150 +291,109 @@ class HomeScreen extends GetView<HomeController> {
                       const SizedBox(height: 20),
                       LoadingScreen(
                         future: () async {
-                          //get notification
-                          await notificationController.fetchData();
-                          //get profile
-                          if (currentProfile.value != null) {
-                            await controller.getSession(
-                                currentProfile.value!.school!.id!,
-                                controller.selectedDate.value);
-                          }
-                          //get session of profile
-                          if (controller.listSession.isNotEmpty) {
-                            controller.selectedSessionId.value =
-                                controller.listSession[0].id!;
-                            controller
-                                .getMenu(controller.selectedSessionId.value);
-                          }
-                          //get cart cache
-                          await cartController.getData();
+                          await controller.fetchData();
                         },
+                        messageNoData: 'Chưa có thực đơn',
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //Sesion Selecter
-                            Obx(
-                              () => controller.listSession.isEmpty
-                                  ? const IsEmptyWidget(
-                                      title:
-                                          'Chưa có thực đơn vào ngày bạn chọn')
-                                  : Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (controller.listSession.isNotEmpty)
-                                          Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 5, right: 5),
-                                            child: Text(
-                                              "Khung giờ",
-                                              style: Get.textTheme.titleMedium,
-                                            ),
-                                          ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: controller.listSession
-                                                .map(
-                                                  (session) => Obx(
-                                                    () => GestureDetector(
-                                                      onTap: () {
-                                                        controller
-                                                                .selectedSessionId
-                                                                .value =
-                                                            session.id
-                                                                .toString();
-                                                        controller.getMenu(
-                                                            session.id!);
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                right: 5,
-                                                                left: 5),
-                                                        child: Card(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  right: 10),
-                                                          color: controller
-                                                                      .selectedSessionId
-                                                                      .value ==
-                                                                  session.id
-                                                                      .toString()
-                                                              ? ThemeColor
-                                                                  .textButtonColor
-                                                              : Colors.white,
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 10,
-                                                                    right: 10,
-                                                                    top: 5,
-                                                                    bottom: 5),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  const BorderRadius
-                                                                      .all(
-                                                                Radius.circular(
-                                                                    12),
-                                                              ),
-                                                              border:
-                                                                  Border.all(
-                                                                color:
-                                                                    Colors.grey,
-                                                                width: 1,
-                                                              ),
-                                                            ),
-                                                            child: Text(
-                                                              DateFormat('HH:mm - ')
-                                                                      .format(session
-                                                                          .deliveryStartTime!) +
-                                                                  DateFormat(
-                                                                          'HH:mm')
-                                                                      .format(session
-                                                                          .deliveryEndTime!),
-                                                              style: Get
-                                                                  .textTheme
-                                                                  .bodySmall!
-                                                                  .copyWith(
-                                                                color: controller
-                                                                            .selectedSessionId
-                                                                            .value ==
-                                                                        session
-                                                                            .id
-                                                                            .toString()
-                                                                    ? Colors
-                                                                        .white
-                                                                    : Colors
-                                                                        .black,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (controller.listSession.isNotEmpty)
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 5, right: 5),
+                                    child: Text(
+                                      "Khung giờ",
+                                      style: Get.textTheme.titleMedium,
+                                    ),
+                                  ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: controller.listSession
+                                        .map(
+                                          (session) => Obx(
+                                            () => GestureDetector(
+                                              onTap: () {
+                                                controller.selectedSessionId
+                                                        .value =
+                                                    session.id.toString();
+                                                controller.getMenu(session.id!);
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 5, left: 5),
+                                                child: Card(
+                                                  margin: const EdgeInsets.only(
+                                                      right: 10),
+                                                  color: controller
+                                                              .selectedSessionId
+                                                              .value ==
+                                                          session.id.toString()
+                                                      ? ThemeColor
+                                                          .textButtonColor
+                                                      : Colors.white,
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10,
+                                                            top: 5,
+                                                            bottom: 5),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        Radius.circular(12),
+                                                      ),
+                                                      border: Border.all(
+                                                        color: Colors.grey,
+                                                        width: 1,
+                                                      ),
+                                                    ),
+                                                    child: Text(
+                                                      DateFormat('HH:mm - ')
+                                                              .format(session
+                                                                  .deliveryStartTime!) +
+                                                          DateFormat('HH:mm')
+                                                              .format(session
+                                                                  .deliveryEndTime!),
+                                                      style: Get
+                                                          .textTheme.bodySmall!
+                                                          .copyWith(
+                                                        color: controller
+                                                                    .selectedSessionId
+                                                                    .value ==
+                                                                session.id
+                                                                    .toString()
+                                                            ? Colors.white
+                                                            : Colors.black,
                                                       ),
                                                     ),
                                                   ),
-                                                )
-                                                .toList(),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
+
                       const SizedBox(height: 10),
                       //Menu Food
                       Obx(
@@ -578,36 +529,28 @@ void showProfilesDialog(Function() onPressed) {
   HomeController controller = Get.put(HomeController());
   Get.dialog(AlertDialog(
     title: const Text('Chọn học sinh'),
-    content: LoadingScreen(
-      future: controller.getProfiles,
+    content: SizedBox(
+      width: Get.width,
       child: SizedBox(
-        width: Get.width,
-        height: Get.height * 0.4,
-        child: Column(
-          children: [
-            Obx(
-              () => SizedBox(
-                width: Get.width,
-                height: Get.height * 0.4,
-                child: controller.listProfile.isEmpty
-                    ? const IsEmptyWidget(title: 'Chưa có học sinh')
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: controller.listProfile.map((e) {
-                            return ItemProfile(
-                              model: e,
-                              onPressed: () => {
-                                currentProfile.value = e,
-                                Get.back(),
-                                onPressed(),
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ),
+        child: LoadingScreen(
+          future: controller.getProfiles,
+          messageNoData: 'Chưa có học sinh',
+          child: SingleChildScrollView(
+            child: Obx(
+              () => Column(
+                children: controller.listProfile.map((profile) {
+                  return ItemProfile(
+                    model: profile,
+                    onPressed: () => {
+                      currentProfile.value = profile,
+                      Get.back(),
+                      onPressed(),
+                    },
+                  );
+                }).toList(),
               ),
             ),
-          ],
+          ),
         ),
       ),
     ),
@@ -728,7 +671,7 @@ List<Widget> headerActionWidget() {
                       )
                     : GestureDetector(
                         onTap: () {
-                          Get.to(const StudentFormScreen());
+                          Get.to(() => const StudentFormScreen());
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, bottom: 5),
@@ -814,7 +757,7 @@ List<Widget> headerActionWidget() {
                       child: IconButton(
                         icon: const Icon(Iconsax.notification, size: 28),
                         onPressed: () {
-                          Get.to(const NotificationScreen());
+                          Get.to(() => const NotificationScreen());
                         },
                       ),
                     ),
@@ -864,7 +807,7 @@ List<Widget> headerActionWidget() {
                       child: IconButton(
                         icon: const Icon(Iconsax.shopping_cart, size: 28),
                         onPressed: () {
-                          Get.to(const CartScreen());
+                          Get.to(() => const CartScreen());
                         },
                       ),
                     ),
@@ -911,7 +854,7 @@ List<Widget> headerActionWidget() {
                     text: "Nạp tiền",
                     isNew: false,
                     onPressed: () {
-                      Get.to(const DepositeScreen());
+                      Get.to(() => const DepositeScreen());
                     },
                   ),
                   MainIconButton(
@@ -919,9 +862,7 @@ List<Widget> headerActionWidget() {
                     text: "Đổi thưởng",
                     isNew: true,
                     onPressed: () {
-                      showProfilesDialog(() {
-                        Get.to(const ExchangeGiftScreen());
-                      });
+                      Get.to(() => const ExchangeGiftScreen());
                     },
                   ),
                   MainIconButton(
@@ -929,9 +870,7 @@ List<Widget> headerActionWidget() {
                     text: "Trò chơi",
                     isNew: true,
                     onPressed: () {
-                      showProfilesDialog(() {
-                        Get.to(const GameSelectScreen());
-                      });
+                      Get.to(() => const GameSelectScreen());
                     },
                   ),
                 ],

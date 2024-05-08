@@ -1,104 +1,81 @@
-import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '../../enums/menu_index_enum.dart';
+import 'exchange_gift_history_tabview.dart';
+import 'gift_exchange_checkout_detail_screen.dart';
+import 'gift_detail_screen.dart';
+import 'loading_screen.dart';
+import 'splash_screen.dart';
+import '/enums/menu_index_enum.dart';
 import '/enums/status_enum.dart';
-import '/controllers/auth_controller.dart';
 import '/controllers/transaction_controller.dart';
 import '/contains/theme_color.dart';
 import '/controllers/exchange_gift_controller.dart';
 import '/utils/constants.dart';
-import 'exchange_gift_history_tabview.dart';
-import 'gift_exchange_checkout_detail_screen.dart';
-import 'error_screen.dart';
-import 'gift_detail_screen.dart';
-import 'loading_screen.dart';
+import '/views/widgets/image_default.dart';
 import '/utils/formater.dart';
-import 'splash_screen.dart';
 
 class ExchangeGiftScreen extends StatelessWidget {
   const ExchangeGiftScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-      AuthController authController = Get.put(AuthController());
-   
-    return LoadingScreen(
-      future: () async {
-        await authController.getCurrentUser();
-      },
-      child: Obx(
-        () => currentProfile.value == null
-            ? const ErrorScreen(message: 'Chưa có học sinh')
-            : Scaffold(
-                appBar: AppBar(
-                  leading: IconButton(
-                    icon:  const Icon(Iconsax.arrow_left_2),
-                    onPressed: () {
-                      changePage(MenuIndexState.home.index);
-                      Get.off(const SplashScreen());
-                    },
-                  ),
-                  title: const Text(
-                    'Đổi quà',
-                  ),
-                  actions: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Obx(
-                            () => Text(
-                              Formater.formatPoint(currentProfile
-                                  .value!.wallet!.balance
-                                  .toString()),
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          const Icon(Iconsax.gift,
-                              color: Colors.black, size: 20),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                body: const DefaultTabController(
-                  length: 3,
-                  child: Column(
-                    // mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TabBar(
-                        isScrollable: true,
-                        tabAlignment: TabAlignment.start,
-                        tabs: [
-                          Tab(text: 'Quà'),
-                          Tab(text: 'Tích điểm/ Dùng điểm'),
-                          Tab(text: 'Lịch sử đổi thưởng'),
-                        ],
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            ExchangeGiftTabView(), // Đổi thưởng
-                            PointManagementTabView(), // Lịch sử điểm
-                            ExchangeGiftHistoryTabView(), // Lịch sử
-                          ],
-                        ),
-                      ),
-                    ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Đổi thưởng',
+        ),
+        actions: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Obx(
+                  () => Text(
+                    Formater.formatPoint(
+                        currentProfile.value!.wallet!.balance.toString()),
+                    style: Get.textTheme.bodyMedium,
                   ),
                 ),
+                const SizedBox(width: 5),
+                const Icon(Iconsax.gift, color: Colors.black, size: 20),
+              ],
+            ),
+          ),
+        ],
+      ),
+      body: const DefaultTabController(
+        length: 3,
+        child: Column(
+          children: [
+            TabBar(
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              tabs: [
+                Tab(text: 'Quà'),
+                Tab(text: 'Tích điểm/ Dùng điểm'),
+                Tab(text: 'Lịch sử đổi thưởng'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  ExchangeGiftTabView(), // Đổi thưởng
+                  PointManagementTabView(), // Lịch sử điểm
+                  ExchangeGiftHistoryTabView(), // Lịch sử
+                ],
               ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -114,6 +91,7 @@ class PointManagementTabView extends GetView<TransactionController> {
       future: () async {
         await controller.getPointTransaction(currentProfile.value!.id!);
       },
+      messageNoData: 'Chưa có dữ liệu',
       child: SingleChildScrollView(
         child: Obx(
           () => Column(
@@ -265,6 +243,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
     Get.put(ExchangeGiftController());
     return LoadingScreen(
       future: controller.getData,
+      messageNoData: 'Chưa có dữ liệu',
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -274,7 +253,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
               children: controller.listData.map((gift) {
                 return GestureDetector(
                   onTap: () {
-                    Get.to(GiftDetailScreen(gift: gift));
+                    Get.to(() => GiftDetailScreen(gift: gift));
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 1),
@@ -372,7 +351,8 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
                                       if (currentProfile
                                               .value!.wallet!.balance! >
                                           gift.points!) {
-                                        Get.to(GiftCheckOutScreen(gift: gift));
+                                        Get.to(() =>
+                                            GiftCheckOutScreen(gift: gift));
                                       } else {
                                         Get.snackbar(
                                           'Đổi quà thất bại',

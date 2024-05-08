@@ -1,6 +1,4 @@
-import 'package:beanfast_customer/services/auth_service.dart';
-import 'package:beanfast_customer/utils/logger.dart';
-import 'package:dio/dio.dart';
+import 'dart:async';
 import 'package:get/get.dart';
 
 import '/utils/constants.dart';
@@ -11,6 +9,8 @@ import '/models/session.dart';
 import '/services/session_service.dart';
 import '/models/profile.dart';
 import '/services/profile_service.dart';
+import 'cart_controller.dart';
+import 'notification_controller.dart';
 
 class MenuModel {
   List<MenuDetail> listDiscountedCombo = [];
@@ -20,6 +20,7 @@ class MenuModel {
 }
 
 class HomeController extends GetxController {
+  Rx<bool> isRefetch = true.obs;
   var isMoneyVisible = false.obs;
   RxString moneyValue = '********* đ'.obs;
   //
@@ -29,6 +30,10 @@ class HomeController extends GetxController {
   Rx<String> selectedSessionId = ''.obs;
   RxString selectedCategoryId = 'Tất cả'.obs;
   List<String> listCategories = [];
+
+  void changeStateRefetch(bool state) {
+    isRefetch.value = state;
+  }
 
   Future getProfiles() async {
     try {
@@ -42,18 +47,13 @@ class HomeController extends GetxController {
           list.insert(0, profile);
         }
       }
-      listProfile.value = list;
+      return listProfile.value = list;
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> toggleMoneyVisibility() async {
-    try {
-      currentUser.value = await AuthService().getUser();
-    } on DioException catch (e) {
-      Get.snackbar('Lỗi', e.response!.data['message']);
-    }
+  void toggleMoneyVisibility() {
     isMoneyVisible.value = !isMoneyVisible.value;
     moneyValue.value = isMoneyVisible.value
         ? Formater.formatMoney(currentUser.value!.balance.toString())
@@ -68,14 +68,28 @@ class HomeController extends GetxController {
     selectedCategoryId.value = '';
   }
 
+  Future fetchData() async {
+    await Get.find<NotificationController>().fetchData(); //get notification
+    await Get.find<CartController>().fetchData(); //get cart cache
+    if (currentProfile.value != null) {
+      await getSession(currentProfile.value!.school!.id!,
+          selectedDate.value); //get session of profile
+      if (listSession.isNotEmpty) {
+        selectedSessionId.value = listSession[0].id!;
+        getMenu(selectedSessionId.value);
+        return true;
+      }
+    }
+  }
+
   Future getSession(String schoolId, DateTime dateTime) async {
     clear();
     try {
       listSession.value =
           await SessionService().getSessionsBySchoolId(schoolId, dateTime);
-      listSession
+      return listSession
           .sort((a, b) => a.deliveryStartTime!.compareTo(b.deliveryStartTime!));
-    } on DioException catch (e) {
+    } catch (e) {
       throw Exception(e);
     }
   }

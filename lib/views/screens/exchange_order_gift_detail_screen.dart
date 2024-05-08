@@ -20,15 +20,16 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingScreen(
-      future: () async {
-        await controller.getById(orderGiftId);
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Chi tiết đơn hàng'),
-        ),
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Chi tiết đơn hàng'),
+      ),
+      body: LoadingScreen(
+        future: () async {
+          await controller.getById(orderGiftId);
+        },
+        messageNoData: 'Chưa có dữ liệu',
+        child: SingleChildScrollView(
           child: Obx(
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +42,7 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                   padding: const EdgeInsets.all(10),
                   child: GestureDetector(
                     onTap: () {
-                      // Get.to(OrderTimeline(
+                      // Get.to( () => OrderTimeline(
                       //   order: controller.model.value,
                       // ));
                     },
@@ -392,18 +393,19 @@ void showCancelDialog(ExchangeGiftController controller, BuildContext context) {
                 Get.snackbar('Hệ thống', 'Vui lòng nhập lý do huỷ',
                     duration: const Duration(seconds: 1));
               } else {
-                 Get.back(); 
-              String reason;
-              if (controller.otherReason == '' &&
-                  controller.selectedValue != 3) {
-                reason =
-                    controller.cancelReasonOptions[controller.selectedValue]
-                        ['title'] as String;
-              } else {
-                reason = controller.otherReason;
-              }
+                Get.back();
+                String reason;
+                if (controller.otherReason == '' &&
+                    controller.selectedValue != 3) {
+                  reason =
+                      controller.cancelReasonOptions[controller.selectedValue]
+                          ['title'] as String;
+                } else {
+                  reason = controller.otherReason;
+                }
 
-              await controller.cancelExchangeGift(controller.model.value.id.toString(), reason);
+                await controller.cancelExchangeGift(
+                    controller.model.value.id.toString(), reason);
               }
             },
             child: Text('Huỷ đơn hàng',

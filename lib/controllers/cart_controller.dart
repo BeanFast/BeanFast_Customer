@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
+import '/utils/cache_manager.dart';
 import '/services/order_service.dart';
 import '/utils/logger.dart';
 import '/models/session.dart';
@@ -9,7 +10,6 @@ import '/models/menu_detail.dart';
 import '/models/profile.dart';
 import '/services/session_service.dart';
 import '/services/profile_service.dart';
-import 'auth_controller.dart';
 
 class CartController extends GetxController with CacheManager {
   RxInt itemCount = 0.obs;
@@ -46,7 +46,7 @@ class CartController extends GetxController with CacheManager {
     updateItemCount();
   }
 
-  Future getData() async {
+  Future fetchData() async {
     RxMap<String, Map<String, RxMap<String, RxInt>>>? listData = getCart();
     if (listData != null) {
       listCart = listData;

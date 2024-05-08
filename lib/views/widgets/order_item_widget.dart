@@ -1,14 +1,12 @@
-import 'package:beanfast_customer/views/widgets/image_default.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../../utils/formater.dart';
+import '/utils/formater.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/views/screens/order_detail_screen.dart';
-import '../../contains/theme_color.dart';
+import '/contains/theme_color.dart';
+import '/views/widgets/image_default.dart';
 import 'text_order_status_widget.dart';
 
 class OrderItem extends StatelessWidget {
@@ -18,7 +16,7 @@ class OrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(
+        Get.to(() =>
           OrderDetailScreen(orderId: order.id!),
         );
       },

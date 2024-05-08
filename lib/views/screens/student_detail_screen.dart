@@ -1,42 +1,27 @@
-import 'package:beanfast_customer/views/screens/student_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '../widgets/image_default.dart';
-import '/controllers/auth_controller.dart';
-import '/models/profile.dart';
-import '/utils/constants.dart';
+import '/controllers/profile_controller.dart';
+import '/views/widgets/image_default.dart';
 import '/views/screens/loading_screen.dart';
 import '/views//widgets/row_info_item_widget.dart';
 import 'student_form_screen.dart';
 
-class StudentDetailScreen extends GetView<AuthController> {
+class StudentDetailScreen extends GetView<ProfileController> {
   const StudentDetailScreen({super.key, required this.id});
   final String id;
 
   @override
   Widget build(BuildContext context) {
-    // Get.put(ProfileController());
-    Rx<Profile> model = Profile().obs;
-    return LoadingScreen(
-      future: () async {
-        await controller.getCurrentUser();
-        model.value =
-            currentUser.value!.profiles!.firstWhere((e) => e.id == id);
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Thông tin học sinh'),
-          leading: IconButton(
-            icon: const Icon(Iconsax.arrow_left_2),
-            onPressed: () {
-              Get.off(const StudentListScreen());
-            },
-          ),
-        ),
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Thông tin học sinh'),
+      ),
+      body: LoadingScreen(
+        future: () => controller.getById(id),
+        messageNoData: 'Chưa có dữ liệu',
+        child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Obx(
@@ -48,22 +33,23 @@ class StudentDetailScreen extends GetView<AuthController> {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: CustomNetworkImage(
-                        model.value.avatarPath.toString(),
+                        controller.model.value.avatarPath.toString(),
                         width: 50,
                         height: 50,
                         fit: BoxFit.cover,
                       ),
                     ),
                     title: Text(
-                      model.value.fullName.toString(),
+                      controller.model.value.fullName.toString(),
                       style: Get.textTheme.titleSmall,
                     ),
                     subtitle: Text(
-                      model.value.nickName.toString(),
+                      controller.model.value.nickName.toString(),
                     ),
                     trailing: TextButton(
                       onPressed: () {
-                        Get.to(StudentFormScreen(profileId: model.value.id));
+                        Get.to(() => StudentFormScreen(
+                            profileId: controller.model.value.id));
                       },
                       child: const Text(
                         'Thay đổi',
@@ -91,26 +77,31 @@ class StudentDetailScreen extends GetView<AuthController> {
                         children: [
                           RowInfoItemWidget(
                               title: 'Tên: ',
-                              data: model.value.fullName.toString()),
+                              data: controller.model.value.fullName.toString()),
                           RowInfoItemWidget(
                               title: 'Biệt danh: ',
-                              data: model.value.nickName.toString()),
+                              data: controller.model.value.nickName.toString()),
                           RowInfoItemWidget(
                               title: 'Giới tính: ',
-                              data: model.value.gender! ? 'Nam' : 'Nữ'),
+                              data: controller.model.value.gender!
+                                  ? 'Nam'
+                                  : 'Nữ'),
                           RowInfoItemWidget(
                               title: 'Ngày sinh: ',
                               data: DateFormat('dd/MM/yyyy')
-                                  .format(model.value.dob!)),
+                                  .format(controller.model.value.dob!)),
                           RowInfoItemWidget(
                               title: 'BMI: ',
-                              data: model.value.currentBMI.toString()),
+                              data:
+                                  controller.model.value.currentBMI.toString()),
                           RowInfoItemWidget(
                               title: 'Lớp: ',
-                              data: model.value.className.toString()),
+                              data:
+                                  controller.model.value.className.toString()),
                           RowInfoItemWidget(
                               title: 'Trường: ',
-                              data: model.value.school!.name.toString()),
+                              data: controller.model.value.school!.name
+                                  .toString()),
                         ],
                       ),
                     ),

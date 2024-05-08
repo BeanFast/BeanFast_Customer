@@ -81,7 +81,7 @@ class GiftDetailScreen extends StatelessWidget {
             ),
             SButton(
               onPressed: () {
-                Get.to(GiftCheckOutScreen(gift: gift));
+                Get.to(() =>GiftCheckOutScreen(gift: gift));
               },
               text: 'Đổi quà',
               color: ThemeColor.textButtonColor,

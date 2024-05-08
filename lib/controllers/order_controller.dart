@@ -33,7 +33,6 @@ class OrderController extends GetxController {
 
   RxList<Order> listData = <Order>[].obs;
   Rx<Order> model = Order().obs;
-  OrderStatus orderStatus = OrderStatus.preparing;
   Rx<DateTime> selectedDate = DateTime.now().obs;
   RxString dropdownValue = 'Hoàn thành 1'.obs;
 
@@ -66,14 +65,15 @@ class OrderController extends GetxController {
     }
   }
 
-  Future getByStatus() async {
+  Future fetchData(OrderStatus status) async {
     try {
-      listData.value = await OrderService().getByStatus(orderStatus);
+      listData.value = await OrderService().getByStatus(status);
       for (var e in listData) {
         e.orderActivities!.sort((a, b) => b.time!.compareTo(a.time!));
       }
-      listData.sort((a, b) => b.orderActivities!.last.time!
-          .compareTo(a.orderActivities!.last.time!));
+      listData.sort((a, b) => b.orderActivities!.first.time!
+          .compareTo(a.orderActivities!.first.time!));
+      return listData.isNotEmpty ? true : null;
     } catch (e) {
       throw Exception(e);
     }

@@ -6,10 +6,12 @@ import '/services/notification_service.dart';
 class NotificationController extends GetxController {
   RxBool allDone = false.obs;
   RxList<Notification> notifications = <Notification>[].obs;
-  Future<void> fetchData() async {
+  
+  Future fetchData() async {
     try {
       notifications.value = await NotificationService().getPage(1, 100);
       notifications.sort((a, b) => b.sendDate!.compareTo(a.sendDate!));
+      return notifications;
     } catch (e) {
       throw Exception(e);
     }

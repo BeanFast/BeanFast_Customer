@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '/views/widgets/sbutton.dart';
 import '/contains/theme_color.dart';
 import '/views/screens/login_screen.dart';
 import '/views/screens/register_screen.dart';
@@ -91,7 +91,7 @@ class WelcomeScreen extends StatelessWidget {
                 textStyle: Get.textTheme.titleMedium!
                     .copyWith(color: ThemeColor.textButtonColor),
                 onPressed: () {
-                  Get.to(LoginView());
+                  Get.to(() => const LoginView());
                 },
               ),
             ),
@@ -112,7 +112,7 @@ class WelcomeScreen extends StatelessWidget {
                 textStyle: Get.textTheme.titleMedium!
                     .copyWith(color: ThemeColor.itemColor),
                 onPressed: () {
-                  Get.to(RegisterView());
+                  Get.to(() => RegisterView());
                 },
               ),
             ),

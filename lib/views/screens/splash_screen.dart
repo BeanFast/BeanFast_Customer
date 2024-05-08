@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/controllers/profile_controller.dart';
 import '/controllers/auth_controller.dart';
 import '/enums/auth_state_enum.dart';
 import '/utils/constants.dart';
@@ -12,13 +13,12 @@ import 'onboarding_screen.dart';
 class SplashScreen extends GetView<AuthController> {
   const SplashScreen({super.key});
 
-  // final AuthController controller = Get.find();
-
   Future<void> initializeSettings() async {
-    logger.i('initializeSettings');
+    logger.w('initializeSettings');
     controller.checkLoginStatus();
     if (authState.value == AuthState.authenticated) {
-      await controller.getCurrentUser();
+      await controller.getUser();
+      await Get.find<ProfileController>().getCurrentProfile();
     }
   }
 
@@ -42,7 +42,6 @@ class SplashScreen extends GetView<AuthController> {
             switch (authState.value) {
               case AuthState.authenticated:
                 return const MainScreen();
-              // return const WelcomeView();
               case AuthState.unauthenticated:
                 return const OnBoardingPage();
               default:

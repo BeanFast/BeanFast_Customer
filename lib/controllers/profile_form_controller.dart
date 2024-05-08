@@ -11,6 +11,7 @@ import '/models/profile.dart';
 import '/models/school.dart';
 import '/views/screens/student_list_screen.dart';
 import '/utils/logger.dart';
+import 'profile_controller.dart';
 
 class ProfileFormController extends GetxController {
   Rx<Profile> model = Profile().obs;
@@ -157,8 +158,9 @@ class ProfileFormController extends GetxController {
           model.value.avatarPath = imagePath.value;
           await ProfileService().create(model.value);
         }
-
-        Get.off(const StudentListScreen());
+        
+        Get.find<ProfileController>().getAll();
+        Get.back();
       } on dio.DioException catch (e) {
         logger.e(e.response.toString());
         Get.snackbar('Lỗi', e.message.toString());

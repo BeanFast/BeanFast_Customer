@@ -52,7 +52,7 @@ class MainScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(const UserQRScreen());
+          Get.to(() =>const UserQRScreen());
         },
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),

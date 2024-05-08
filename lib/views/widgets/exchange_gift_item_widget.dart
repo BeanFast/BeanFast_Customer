@@ -17,7 +17,7 @@ class ExchangeGiftItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(OrderGiftDetailScreen(orderGiftId: exchangeGift.id!));
+        Get.to( () =>OrderGiftDetailScreen(orderGiftId: exchangeGift.id!));
       },
       child: Container(
         color: ThemeColor.itemColor,

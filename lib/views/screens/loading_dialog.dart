@@ -1,40 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
-class MyDialog extends StatelessWidget {
-  final Future<bool> checkoutOrder;
+class LoadingDialog extends StatelessWidget {
+  final Future<dynamic> Function() future;
+  final Widget child;
 
-  const MyDialog({super.key, required this.checkoutOrder});
+  const LoadingDialog({super.key, required this.future, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Checkout Order"),
-      content: FutureBuilder<bool>(
-        future: checkoutOrder,
+      // title: const Text("Checkout Order"),
+      content: FutureBuilder(
+        future: future(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return Center(
+              child: Lottie.asset(
+                'assets/images/loading.json',
+                width: 150,
+                height: 150,
+                fit: BoxFit.contain,
+              ),
+            );
           } else {
             if (snapshot.hasError) {
-              return const Icon(Icons.error, color: Colors.red);
+              return Center(
+                  child: Text(
+                'Error - snapshot.hasError: ${snapshot.error}',
+                style: const TextStyle(color: Colors.blue),
+              ));
             } else {
-              if (snapshot.data!) {
-                return const Icon(Icons.check_circle, color: Colors.green);
+              if (snapshot.data != null) {
+                return child;
               } else {
-                return const Icon(Icons.error, color: Colors.red);
+                return Center(
+                    child: Text(
+                  'Error - else: ${snapshot.error}',
+                  style: const TextStyle(color: Colors.blue),
+                ));
               }
             }
           }
         },
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Close'),
-        ),
-      ],
+      // actions: [
+      //   TextButton(
+      //     onPressed: () {
+      //       Navigator.of(context).pop();
+      //     },
+      //     child: const Text('Close'),
+      //   ),
+      // ],
     );
   }
 }

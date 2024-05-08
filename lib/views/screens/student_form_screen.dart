@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import '/views/widgets/image_default.dart';
 import '/views/screens/loading_screen.dart';
 import '/contains/theme_color.dart';
 import '/controllers/profile_form_controller.dart';
@@ -29,7 +29,9 @@ class StudentFormScreen extends GetView<ProfileFormController> {
           if (profileId != null) {
             await controller.getProfileById(profileId!);
           }
+          return true;
         },
+        messageNoData: 'Chưa có dữ liệu',
         child: Form(
           key: controller.formKey,
           child: Column(

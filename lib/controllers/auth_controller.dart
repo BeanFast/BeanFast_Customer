@@ -1,22 +1,16 @@
-import 'dart:ffi';
-
-import 'package:beanfast_customer/models/transaction.dart';
-import 'package:beanfast_customer/services/transaction_service.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '/utils/formater.dart';
+import '/utils/cache_manager.dart';
 import '/enums/menu_index_enum.dart';
-import '/models/profile.dart';
-import '/services/profile_service.dart';
 import '/views/screens/splash_screen.dart';
 import '/utils/constants.dart';
 import '/utils/logger.dart';
 import '/services/auth_service.dart';
+import '/services/transaction_service.dart';
 import '/enums/auth_state_enum.dart';
 
 class AuthController extends GetxController with CacheManager {
@@ -30,7 +24,7 @@ class AuthController extends GetxController with CacheManager {
   var isChecked = false.obs;
   RxInt playTimes = 0.obs;
 
- var islogoinPasswordVisible = false.obs;
+  var islogoinPasswordVisible = false.obs;
   void toggleLoginPasswordVisibility() {
     islogoinPasswordVisible.value = !islogoinPasswordVisible.value;
   }
@@ -39,6 +33,7 @@ class AuthController extends GetxController with CacheManager {
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
+
   var isRePasswordVisible = false.obs;
   void toggleRePasswordVisibility() {
     isRePasswordVisible.value = !isRePasswordVisible.value;
@@ -50,6 +45,17 @@ class AuthController extends GetxController with CacheManager {
 
   void changeAuthState(AuthState newState) {
     authState.value = newState;
+  }
+
+  
+
+  Future getUser() async {
+    try {
+      currentUser.value = await AuthService().getUser();
+      return currentUser.value;
+    } on DioException catch (e) {
+      Get.snackbar('Lỗi', e.response!.data['message']);
+    }
   }
 
   void checkLoginStatus() {
@@ -64,17 +70,11 @@ class AuthController extends GetxController with CacheManager {
         changeAuthState(AuthState.authenticated);
         return;
       }
-      // final currentTime = DateTime.now().millisecondsSinceEpoch;
-      // if (expiryTimestamp > currentTime) {
-      //   changeAuthState(AuthState.authenticated);
-      //   return;
-      // }
     }
     logOut();
   }
 
   Future login() async {
-    // Get.snackbar('login', 'login');
     try {
       logger.e('login');
       deviceToken = await _firebaseMessaging.getToken();
@@ -103,22 +103,6 @@ class AuthController extends GetxController with CacheManager {
     removeToken();
   }
 
-  Future getCurrentUser() async {
-    try {
-      currentUser.value = await AuthService().getUser();
-      List<Profile>? list = await ProfileService().getAll();
-      if (list.isNotEmpty) {
-        list.sort((a, b) => b.dob!.compareTo(a.dob!));
-        currentUser.value!.profiles = list;
-        currentProfile.value = currentProfile.value != null
-            ? list.firstWhere((e) => e.id == currentProfile.value!.id)
-            : list.first;
-      }
-    } on DioException catch (e) {
-      Get.snackbar('Lỗi', e.response!.data['message']);
-    }
-  }
-
   //---------------------------------------------------
 
   Future register() async {
@@ -134,47 +118,11 @@ class AuthController extends GetxController with CacheManager {
     }
     // var fullName = fullNameController.text;
   }
-  
 
   Future getPlayTime() async {
-    playTimes.value =
+    return playTimes.value =
         await TransactionService().getPlayTime(currentProfile.value!.id!);
   }
 }
 
-mixin CacheManager {
-  final box = GetStorage();
-  Future<bool> saveToken(String? token) async {
-    await box.write(CacheManagerKey.CUSTOMERTOKEN.toString(), token);
-    return true;
-  }
 
-  String? getToken() {
-    return box.read(CacheManagerKey.CUSTOMERTOKEN.toString());
-  }
-
-  Future<void> removeToken() async {
-    await box.remove(CacheManagerKey.CUSTOMERTOKEN.toString());
-  }
-
-  Future<bool> saveCart(
-      Map<String, Map<String, RxMap<String, RxInt>>> cart) async {
-    String json = Formater.rxMapToJson(cart);
-    await box.write(CacheManagerKey.CART.toString() + currentUser.value!.phone.toString(), json);
-    return true;
-  }
-
-  RxMap<String, Map<String, RxMap<String, RxInt>>>? getCart() {
-    String a = CacheManagerKey.CART.toString() + currentUser.value!.phone.toString();
-    String? json = box.read(CacheManagerKey.CART.toString() + currentUser.value!.phone.toString());
-    return json == null ? null : Formater.jsonToRxMap(json);
-  }
-
-  Future<void> removeCart() async {
-    
-    await box.remove(CacheManagerKey.CART.toString() + currentUser.value!.phone.toString());
-  }
-}
-
-// ignore: constant_identifier_names
-enum CacheManagerKey { CUSTOMERTOKEN, CART }

@@ -1,29 +1,25 @@
-import 'package:beanfast_customer/utils/logger.dart';
+import 'package:beanfast_customer/utils/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '/controllers/auth_controller.dart';
+import '../../contains/theme_color.dart';
 import '/controllers/user_controller.dart';
-import '/contains/theme_color.dart';
 import '/utils/constants.dart';
 import '/views/screens/loading_screen.dart';
-import '/views/screens/student_list_screen.dart';
 
 class AccountProfileScreen extends GetView<UserController> {
   const AccountProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(UserController());
-    AuthController authController = Get.put(AuthController());
-    return LoadingScreen(
-      future: () async {
-        await authController.getCurrentUser();
-      },
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: LoadingScreen(
+        future: controller.fetchData,
+        messageNoData: 'Chưa có dữ liệu',
+        child: Stack(
           children: [
             Positioned(
               top: 0,
@@ -36,11 +32,11 @@ class AccountProfileScreen extends GetView<UserController> {
                     color: ThemeColor.primaryColor.withOpacity(0.3),
                   ),
                   Positioned(
-                    top: 70,
+                    top: 50,
                     left: 10,
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Get.back();
                       },
                       icon: const Icon(
                         Iconsax.arrow_left_2,
@@ -116,49 +112,7 @@ class AccountProfileScreen extends GetView<UserController> {
                         child: IconButton(
                           icon: const Icon(Icons.edit, size: 15),
                           color: Colors.black,
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return Container(
-                                  padding: const EdgeInsets.only(
-                                    top: 20,
-                                    bottom: 20,
-                                    right: 10,
-                                    left: 10,
-                                  ),
-                                  child: Wrap(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        child: Center(
-                                          child: Text(
-                                            "Lựa chọn phương thức",
-                                            style: Get.textTheme.titleLarge,
-                                          ),
-                                        ),
-                                      ),
-                                      ListTile(
-                                        leading: const Icon(Iconsax.camera),
-                                        title: const Text('Chụp ảnh'),
-                                        onTap: () async {
-                                          controller.pickPhotoFormCamera();
-                                        },
-                                      ),
-                                      ListTile(
-                                        leading:
-                                            const Icon(Iconsax.gallery_add),
-                                        title: const Text(
-                                            'Chọn ảnh từ thư viện ảnh'),
-                                        onTap: () async {
-                                          controller.pickPhotoFormStorage();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
+                          onPressed: showUpdateAvatarDialog,
                         ),
                       ),
                     ),
@@ -195,34 +149,8 @@ class AccountProfileScreen extends GetView<UserController> {
                           trailing: IconButton(
                             icon: const Icon(Iconsax.edit),
                             onPressed: () {
-                              showDialog();
+                              showUpdateNameDialog();
                             },
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(const StudentListScreen());
-                        },
-                        child: Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.child_care),
-                            title: const Text('Số học sinh'),
-                            subtitle: Obx(
-                              () => Text(
-                                currentUser.value!.profiles!.length.toString(),
-                              ),
-                            ),
-                            trailing: IconButton(
-                                icon: const Icon(Iconsax.arrow_right_3),
-                                onPressed: () => {
-                                      logger.e(currentUser
-                                          .value!.profiles!.length
-                                          .toString()),
-                                      Get.to(
-                                        const StudentListScreen(),
-                                      ),
-                                    }),
                           ),
                         ),
                       ),
@@ -237,11 +165,51 @@ class AccountProfileScreen extends GetView<UserController> {
     );
   }
 
-  void showDialog() {
-    controller.imagePath.value = '';
-    if (currentUser.value!.fullName != null) {
-      controller.fullnameController.text = currentUser.value!.fullName!;
-    }
+  void showUpdateAvatarDialog() {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.only(
+          top: 20,
+          bottom: 20,
+          right: 10,
+          left: 10,
+        ),
+        child: Wrap(
+          children: <Widget>[
+            SizedBox(
+              child: Center(
+                child: Text(
+                  "Lựa chọn phương thức",
+                  style: Get.textTheme.titleLarge,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Iconsax.camera),
+              title: const Text('Chụp ảnh'),
+              onTap: () async {
+                Get.back();
+                await controller.pickPhoto(source: ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Iconsax.gallery_add),
+              title: const Text('Chọn ảnh từ thư viện ảnh'),
+              onTap: () async {
+                Get.back();
+                await controller.pickPhoto(source: ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: ThemeColor.bgColor,
+      elevation: 10,
+    );
+  }
+
+  void showUpdateNameDialog() {
+    controller.createForm();
     Get.dialog(
       Form(
         key: controller.formKey,

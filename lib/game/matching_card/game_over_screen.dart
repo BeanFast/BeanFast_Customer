@@ -91,7 +91,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
                     //get current user again
 
                     AuthController authController = Get.put(AuthController());
-                   await authController.getCurrentUser();
+                  //  await authController.getCurrentUser();
                    await authController.getPlayTime();
                    
                     Navigator.of(context).pop();

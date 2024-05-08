@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '/controllers/auth_controller.dart';
+import '/utils/cache_manager.dart';
 import '/utils/logger.dart';
 
 class AppInterceptor extends Interceptor with CacheManager {

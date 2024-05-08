@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import '../widgets/is_empty.dart';
 import '/contains/theme_color.dart';
 import '/controllers/home_controller.dart';
 import '/controllers/transaction_controller.dart';
@@ -18,277 +17,260 @@ class TransactionScreen extends GetView<TransactionController> {
     HomeController homeController = Get.put(HomeController());
     DateFormat formatter = DateFormat('HH:mm dd/MM/yy');
     Get.put(TransactionController());
-    return LoadingScreen(
-      future: controller.getTransaction,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Lịch sử giao dịch',
-          ),
-          // title: Container(
-          //   alignment: Alignment.center,
-          //   height: 40,
-          //   child: TextField(
-          //     style: const TextStyle(height: 1), // Adjust the height as needed
-          //     decoration: InputDecoration(
-          //       contentPadding: const EdgeInsets.only(right: 10),
-          //       hintText: 'Tìm kiếm giao dịch',
-          //       filled: true,
-          //       fillColor: Colors.white,
-          //       border: OutlineInputBorder(
-          //         borderRadius:
-          //             BorderRadius.circular(50), // Set the border radius to 10
-          //       ),
-          //       prefixIcon: const Icon(
-          //         Iconsax.search_normal,
-          //         size: 20,
-          //       ),
-          //     ),
-          //     onChanged: (value) {
-          //       controller.search(value);
-          //     },
-          //   ),
-          // ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Iconsax.filter_search,
-              ),
-              onPressed: () {
-                showFilterDialog(context);
-              },
-            ),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Lịch sử giao dịch',
         ),
-        body: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey
-                        .withOpacity(0.5), // Màu của đổ bóng và độ mờ
-                    spreadRadius: 5, // Độ lan rộng của đổ bóng
-                    blurRadius: 7, // Độ mờ của đổ bóng
-                    offset: const Offset(0, 3), // Vị trí của đổ bóng (dx, dy)
+        // title: Container(
+        //   alignment: Alignment.center,
+        //   height: 40,
+        //   child: TextField(
+        //     style: const TextStyle(height: 1), // Adjust the height as needed
+        //     decoration: InputDecoration(
+        //       contentPadding: const EdgeInsets.only(right: 10),
+        //       hintText: 'Tìm kiếm giao dịch',
+        //       filled: true,
+        //       fillColor: Colors.white,
+        //       border: OutlineInputBorder(
+        //         borderRadius:
+        //             BorderRadius.circular(50), // Set the border radius to 10
+        //       ),
+        //       prefixIcon: const Icon(
+        //         Iconsax.search_normal,
+        //         size: 20,
+        //       ),
+        //     ),
+        //     onChanged: (value) {
+        //       controller.search(value);
+        //     },
+        //   ),
+        // ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Iconsax.filter_search,
+            ),
+            onPressed: () {
+              showFilterDialog(context);
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              boxShadow: [
+                BoxShadow(
+                  color:
+                      Colors.grey.withOpacity(0.5), // Màu của đổ bóng và độ mờ
+                  spreadRadius: 5, // Độ lan rộng của đổ bóng
+                  blurRadius: 7, // Độ mờ của đổ bóng
+                  offset: const Offset(0, 3), // Vị trí của đổ bóng (dx, dy)
+                ),
+              ],
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+              ),
+            ),
+            height: 40,
+            child: Obx(
+              () => Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      homeController.isMoneyVisible.value
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      size: 16,
+                    ),
+                    onPressed: () {
+                      homeController.toggleMoneyVisibility();
+                    },
+                  ),
+                  Text(
+                    homeController.moneyValue.value,
+                    style: Get.textTheme.bodySmall,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
-                ),
-              ),
-              height: 40,
-              child: Obx(
-                () => Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        homeController.isMoneyVisible.value
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                        size: 16,
-                      ),
-                      onPressed: () {
-                        homeController.toggleMoneyVisibility();
-                      },
-                    ),
-                    Text(
-                      homeController.moneyValue.value,
-                      style: Get.textTheme.bodySmall,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
               ),
             ),
-            Obx(
-              () => Expanded(
-                child: controller.mapTransactions.isEmpty
-                    ? const IsEmptyWidget(title: 'Chưa có giao dịch nào')
-                    : SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: controller.mapTransactions.entries
-                              .map(
-                                (transaction) => Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      height: 50,
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        color:
-                                            Color.fromARGB(255, 198, 229, 245),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color.fromARGB(
-                                                255, 198, 229, 245),
-                                            spreadRadius: 1,
-                                            blurRadius: 1,
-                                            offset: Offset(0,
-                                                2), // changes position of shadow
-                                          ),
-                                        ],
-                                      ),
-                                      child: Text(
-                                        'Tháng ${transaction.key}',
-                                        style: Get.textTheme.titleMedium,
-                                      ),
+          ),
+          Expanded(
+            child: LoadingScreen(
+              future: controller.fetchData,
+              messageNoData: 'Chưa có lịch sử',
+              child: SingleChildScrollView(
+                child: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: controller.mapTransactions.entries
+                        .map(
+                          (transaction) => Column(
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                height: 50,
+                                alignment: Alignment.centerLeft,
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  color: Color.fromARGB(255, 198, 229, 245),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromARGB(255, 198, 229, 245),
+                                      spreadRadius: 1,
+                                      blurRadius: 1,
+                                      offset: Offset(
+                                          0, 2), // changes position of shadow
                                     ),
-                                    Column(
-                                      children:
-                                          transaction.value.map((element) {
-                                        var transactionType =
-                                            element.order!.code == null
-                                                ? "Nạp tiền"
-                                                : element.value! >= 0
-                                                    ? "Hoàn tiền"
-                                                    : "Thanh toán";
-                                        IconData iconData = element.value! > 0
-                                            ? Iconsax.wallet_add_1
-                                            : Iconsax.wallet_minus;
-                                        var color = element.value! >= 0
-                                            ? Colors.green
-                                            : Colors.red;
-                                        return Card(
-                                          child: Container(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Row(
+                                  ],
+                                ),
+                                child: Text(
+                                  'Tháng ${transaction.key}',
+                                  style: Get.textTheme.titleMedium,
+                                ),
+                              ),
+                              Column(
+                                children: transaction.value.map((element) {
+                                  var transactionType =
+                                      element.order!.code == null
+                                          ? "Nạp tiền"
+                                          : element.value! >= 0
+                                              ? "Hoàn tiền"
+                                              : "Thanh toán";
+                                  IconData iconData = element.value! > 0
+                                      ? Iconsax.wallet_add_1
+                                      : Iconsax.wallet_minus;
+                                  var color = element.value! >= 0
+                                      ? Colors.green
+                                      : Colors.red;
+                                  return Card(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              border: Border.all(
+                                                  color: Colors.grey),
+                                            ),
+                                            child: Icon(
+                                              iconData,
+                                              color: ThemeColor.iconColor,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            25),
-                                                    border: Border.all(
-                                                        color: Colors.grey),
-                                                  ),
-                                                  child: Icon(
-                                                    iconData,
-                                                    color: ThemeColor.iconColor,
+                                                Text(
+                                                  element.order!.code != null
+                                                      ? "$transactionType: #${element.order!.code!}"
+                                                      : transactionType,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: Get
+                                                      .textTheme.bodyLarge!
+                                                      .copyWith(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w700,
                                                   ),
                                                 ),
-                                                const SizedBox(width: 10),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        element.order!.code !=
-                                                                null
-                                                            ? "$transactionType: #${element.order!.code!}"
-                                                            : transactionType,
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            formatter.format(
+                                                                element.time!),
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: Get.textTheme
+                                                                .bodySmall,
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 5),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      width: 120,
+                                                      child: Text(
+                                                        element.value! > 0
+                                                            ? "+${Formater.formatMoney(element.value.toString())}"
+                                                            : Formater.formatMoney(
+                                                                element.value
+                                                                    .toString()),
                                                         maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: Get.textTheme
-                                                            .bodyLarge!
+                                                            .bodyMedium!
                                                             .copyWith(
-                                                          color: Colors.black,
+                                                          color: color,
                                                           fontWeight:
                                                               FontWeight.w700,
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 5),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  formatter.format(
-                                                                      element
-                                                                          .time!),
-                                                                  maxLines: 1,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: Get
-                                                                      .textTheme
-                                                                      .bodySmall,
-                                                                ),
-                                                                const SizedBox(
-                                                                    height: 5),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            alignment: Alignment
-                                                                .bottomRight,
-                                                            width: 120,
-                                                            child: Text(
-                                                              element.value! > 0
-                                                                  ? "+${Formater.formatMoney(element.value.toString())}"
-                                                                  : Formater.formatMoney(
-                                                                      element
-                                                                          .value
-                                                                          .toString()),
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: Get
-                                                                  .textTheme
-                                                                  .bodyMedium!
-                                                                  .copyWith(
-                                                                color: color,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        );
-                                      }).toList(),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
 void showFilterDialog(BuildContext context) {
-  
- final  TransactionController controller = Get.put(TransactionController());
+  final TransactionController controller = Get.put(TransactionController());
   showDialog(
     context: context,
     builder: (BuildContext context) {

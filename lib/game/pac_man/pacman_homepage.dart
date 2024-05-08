@@ -162,7 +162,7 @@ class _PacmanGameState extends State<PacmanGame> {
               'DDC8018A-06A6-4DC1-87C7-E02C053FDB0F', score);
           AuthController authController = Get.put(AuthController());
           //udpate ponit
-         await authController.getCurrentUser();
+        //  await authController.getCurrentUser();
            //udpate playtime
          await authController.getPlayTime();
 

@@ -1,12 +1,12 @@
-import 'package:beanfast_customer/contains/theme_color.dart';
-import 'package:beanfast_customer/controllers/cart_controller.dart';
-import 'package:beanfast_customer/utils/constants.dart';
-import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../screens/product_detail_screen.dart';
+import '/contains/theme_color.dart';
+import '/controllers/cart_controller.dart';
+import '/utils/constants.dart';
+import '/views/widgets/image_default.dart';
+import '/views/screens/product_detail_screen.dart';
 import '/models/menu_detail.dart';
 import '/utils/formater.dart';
 
@@ -45,13 +45,13 @@ class MenuItem extends GetView<CartController> {
                         GestureDetector(
                           onTap: () {
                             e.food!.price != e.price
-                                ? Get.to(
+                                ? Get.to( () =>
                                     ProductDetailScreen(
                                       food: e.food!,
                                       salePrice: e.price,
                                     ),
                                   )
-                                : Get.to(
+                                : Get.to( () =>
                                     ProductDetailScreen(food: e.food!),
                                   );
                           },
@@ -244,11 +244,11 @@ class MenuItem extends GetView<CartController> {
                     return GestureDetector(
                       onTap: () {
                         e.food!.price != e.price
-                            ? Get.to(ProductDetailScreen(
+                            ? Get.to( () =>ProductDetailScreen(
                                 food: e.food!,
                                 salePrice: e.price,
                               ))
-                            : Get.to(ProductDetailScreen(food: e.food!));
+                            : Get.to(() =>ProductDetailScreen(food: e.food!));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 8),

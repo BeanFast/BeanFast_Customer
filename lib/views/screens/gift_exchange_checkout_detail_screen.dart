@@ -341,7 +341,7 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                     onPressed: () async {
                       bool result =
                           await controller.createExchangeGift(gift.id!);
-                      Get.to(
+                      Get.to(() =>
                         ResultScreenWidget(
                           isSuccess: result,
                           content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',

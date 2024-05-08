@@ -15,15 +15,16 @@ class TransactionController extends GetxController {
   List<String> listMonth = [];
   List<String> listStatus = ['Tất cả', 'Nạp tiền', 'Mua hàng'];
 
-  Future getTransaction() async {
+  Future fetchData() async {
     listMonth.clear();
     listMonth.add('Tất cả');
     indexSelectedSortByMonth = 0.obs;
     indexSelectedSortByStatus = 0.obs;
     try {
       List<Transaction> transactions =
-          await TransactionService().getTransactions(1, 100);
+          await TransactionService().getTransactions(1, 100, true);
       setInitListTransaction(transactions);
+      return transactions;
     } catch (e) {
       throw Exception(e);
     }
@@ -62,7 +63,7 @@ class TransactionController extends GetxController {
       //     e.code!.toLowerCase().contains(value.toLowerCase()) ||
       //     e.name!.toLowerCase().contains(value.toLowerCase()))
       // .toList();
-      
+
       // setDataTable(currentModelList);
     }
   }
@@ -107,7 +108,7 @@ class TransactionController extends GetxController {
   Future getPointTransaction(String profileId) async {
     try {
       List<Transaction> transactions =
-          await TransactionService().getPointTransactions(profileId, 1, 100);
+          await TransactionService().getTransactions(1, 100, false);
       setInitListTransaction(transactions);
     } catch (e) {
       throw Exception(e);

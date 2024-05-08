@@ -20,18 +20,18 @@ class OrderDetailScreen extends GetView<OrderController> {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingScreen(
-      future: () async {
-        await controller.getById(orderId);
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Chi tiết đơn hàng'),
-        ),
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Chi tiết đơn hàng'),
+      ),
+      body: LoadingScreen(
+        future: () async {
+          await controller.getById(orderId);
+        },
+        messageNoData: 'Chưa có dữ liệu',
+        child: SingleChildScrollView(
           child: Obx(
-            () => 
-            Column(
+            () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BannerOrderStatus(
@@ -42,9 +42,9 @@ class OrderDetailScreen extends GetView<OrderController> {
                   padding: const EdgeInsets.all(10),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(OrderTimeline(
-                        order: controller.model.value,
-                      ));
+                      Get.to(() => OrderTimeline(
+                            order: controller.model.value,
+                          ));
                     },
                     child: Container(
                       color: ThemeColor.itemColor,
@@ -408,12 +408,12 @@ class OrderDetailScreen extends GetView<OrderController> {
               // Handle successful selection with reason (if applicable)
               //lý do huỷ radio value (có cả other reason)
 
-              Get.back(); 
+              Get.back();
               String reason;
               if (controller.otherReason == '' &&
                   controller.selectedValue != 3) {
                 reason =
-                    controller.cancelReasonOptions[controller.selectedValue!]
+                    controller.cancelReasonOptions[controller.selectedValue]
                         ['title'] as String;
               } else {
                 reason = controller.otherReason;

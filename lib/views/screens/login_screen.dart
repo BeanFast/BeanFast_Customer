@@ -180,7 +180,7 @@ class LoginView extends GetView<AuthController> {
                             onPressed: () {
                               controller.phoneController.clear();
                               controller.passwordController.clear();
-                              Get.to(RegisterView());
+                              Get.to(() =>RegisterView());
                             },
                             child: const Text('Đăng ký'),
                           ),

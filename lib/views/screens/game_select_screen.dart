@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/views/widgets/image_default.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -8,17 +7,16 @@ import '/game/matching_card/start_game_screen.dart';
 import '/game/pac_man/pacman_homepage.dart';
 import '/game/tetris/board.dart';
 import '/utils/constants.dart';
+import '/views/widgets/image_default.dart';
 import '/views/screens/loading_screen.dart';
 import '/controllers/auth_controller.dart';
-import 'error_screen.dart';
 
 class GameSelectScreen extends StatelessWidget {
   const GameSelectScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-      AuthController authController = Get.put(AuthController());
- 
+    AuthController authController = Get.put(AuthController());
 
     List<Game> games = [
       Game(
@@ -28,7 +26,7 @@ class GameSelectScreen extends StatelessWidget {
         image:
             'https://img.kwcdn.com/product/open/2023-12-13/1702469460222-0d8533f2967848f485a9eb3c287c883e-goods.jpeg?imageMogr2/auto-orient%7CimageView2/2/w/800/q/70/format/webp',
         onClick: () {
-          Get.to(const StartGameScreen());
+          Get.to(() => const StartGameScreen());
         },
       ),
       Game(
@@ -38,7 +36,7 @@ class GameSelectScreen extends StatelessWidget {
         image:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Pac_Man.svg/800px-Pac_Man.svg.png',
         onClick: () {
-          Get.to(const PacmanGame());
+          Get.to(() => const PacmanGame());
         },
       ),
       Game(
@@ -48,249 +46,225 @@ class GameSelectScreen extends StatelessWidget {
         image:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGs3JwFghtgDy5oy9HPWl794T3CGBHKvaELV9xsi2KJg&s',
         onClick: () {
-          Get.to(const GameBoard());
+          Get.to(() => const GameBoard());
         },
       ),
     ];
     //UI
-    return LoadingScreen(
-      future: () async {
-        await authController.getCurrentUser();
-        await authController.getPlayTime();
-      },
-      child: Obx(
-        () => currentProfile.value == null
-            ? const ErrorScreen(message: 'Chưa có học sinh')
-            : Scaffold(
-                appBar: AppBar(
-                  actions: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.black),
-                      ),
-                      child: Row(
-                        children: [
-                          const Text('Lượt chơi: '),
-                          Obx(
-                            () => Text(
-                              authController.playTimes.toString(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.black),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Obx(
-                            () => Text(
-                              Formater.formatPoint(currentProfile
-                                  .value!.wallet!.balance
-                                  .toString()),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          const Icon(
-                            Iconsax.gift,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.black),
+            ),
+            child: Row(
+              children: [
+                const Text('Lượt chơi: '),
+                Obx(
+                  () => Text(
+                    authController.playTimes.toString(),
+                  ),
                 ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    children: List.generate(
-                      games.length,
-                      (index) => GestureDetector(
-                        onTap: () {
-                          games[index].onClick();
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 0, top: 0),
-                          child: Card(
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  height: 110,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                        height: 110,
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(12),
-                                            bottomLeft: Radius.circular(12),
-                                          ),
-                                          child: CustomNetworkImage(
-                                            games[index].image,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.black),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Obx(
+                  () => Text(
+                    Formater.formatPoint(
+                        currentProfile.value!.wallet!.balance.toString()),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                const Icon(
+                  Iconsax.gift,
+                  color: Colors.black,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      body: LoadingScreen(
+        future: authController.getPlayTime,
+        messageNoData: 'Chưa có dữ liệu',
+        child: SingleChildScrollView(
+          child: Column(
+            children: List.generate(
+              games.length,
+              (index) => GestureDetector(
+                onTap: () {
+                  games[index].onClick();
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 0, top: 0),
+                  child: Card(
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: 110,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                height: 110,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    bottomLeft: Radius.circular(12),
+                                  ),
+                                  child: CustomNetworkImage(
+                                    games[index].image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 10,
+                                            top: 5,
+                                            right: 10,
+                                            bottom: 5),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10,
-                                                    top: 5,
-                                                    right: 10,
-                                                    bottom: 5),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      child: Text(
-                                                        games[index].name,
-                                                        style: Get.textTheme
-                                                            .bodyLarge,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Expanded(
-                                                      child: SizedBox(
-                                                        child: Text(
-                                                          games[index]
-                                                              .shortDescription,
-                                                          style: Get.textTheme
-                                                              .bodySmall!
-                                                              .copyWith(
-                                                            color:
-                                                                Colors.black54,
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 3,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                            SizedBox(
+                                              child: Text(
+                                                games[index].name,
+                                                style: Get.textTheme.bodyLarge,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
                                               ),
                                             ),
-                                            Container(
-                                              height: 40,
-                                              width: 100,
-                                              margin: const EdgeInsets.only(
-                                                  right: 10),
-                                              child: TextButton(
-                                                style: ButtonStyle(
-                                                  padding: MaterialStateProperty
-                                                      .all<EdgeInsets>(
-                                                          const EdgeInsets.all(
-                                                              5)),
-                                                  shape:
-                                                      MaterialStateProperty.all<
-                                                          RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                    ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Expanded(
+                                              child: SizedBox(
+                                                child: Text(
+                                                  games[index].shortDescription,
+                                                  style: Get
+                                                      .textTheme.bodySmall!
+                                                      .copyWith(
+                                                    color: Colors.black54,
                                                   ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 3,
                                                 ),
-                                                onPressed: () {
-                                                  if (authController
-                                                          .playTimes >=
-                                                      1) {
-                                                    games[index].onClick();
-                                                  } else {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return AlertDialog(
-                                                          title: const Text(
-                                                              'Thông báo'),
-                                                          content: const Text(
-                                                              'Bạn đã hết lượt chơi cho hôm nay!.'),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              child: const Text(
-                                                                  'OK'),
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                                child: Text('Chơi ngay',
-                                                    style: Get
-                                                        .textTheme.bodyLarge),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 0,
-                                  right: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6, vertical: 3),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(12),
-                                        topRight: Radius.circular(12),
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      width: 100,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          padding: MaterialStateProperty.all<
+                                                  EdgeInsets>(
+                                              const EdgeInsets.all(5)),
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          if (authController.playTimes >= 1) {
+                                            games[index].onClick();
+                                          } else {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title:
+                                                      const Text('Thông báo'),
+                                                  content: const Text(
+                                                      'Bạn đã hết lượt chơi cho hôm nay!.'),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: const Text('OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+                                        },
+                                        child: Text('Chơi ngay',
+                                            style: Get.textTheme.bodyLarge),
                                       ),
                                     ),
-                                    child: Text(
-                                      'NEW',
-                                      style: Get.textTheme.bodySmall!
-                                          .copyWith(color: Colors.white),
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 3),
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              'NEW',
+                              style: Get.textTheme.bodySmall!
+                                  .copyWith(color: Colors.white),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
               ),
+            ),
+          ),
+        ),
       ),
     );
   }
