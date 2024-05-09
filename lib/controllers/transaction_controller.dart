@@ -1,3 +1,4 @@
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +8,8 @@ import '/services/transaction_service.dart';
 import '/utils/constants.dart';
 
 class TransactionController extends GetxController {
+  final PagingController<int, Transaction> pagingController =
+      PagingController(firstPageKey: 0);
   Map<String, List<Transaction>> initListTransaction = {};
   RxMap<String, List<Transaction>> mapTransactions =
       <String, List<Transaction>>{}.obs;
@@ -14,6 +17,23 @@ class TransactionController extends GetxController {
   RxInt indexSelectedSortByStatus = 0.obs;
   List<String> listMonth = [];
   List<String> listStatus = ['Tất cả', 'Nạp tiền', 'Mua hàng'];
+
+  void fetchPage(int pageKey) async {
+    try {
+      // Replace this with your actual data fetching function
+      final newItems =
+          await TransactionService().getTransactions(pageKey, 5, true);
+      final isLastPage = newItems.isEmpty;
+      if (isLastPage) {
+        pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      pagingController.error = error;
+    }
+  }
 
   Future fetchData() async {
     listMonth.clear();

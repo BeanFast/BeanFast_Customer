@@ -7,6 +7,7 @@ import '/utils/constants.dart';
 import 'account_screen.dart';
 import 'home_screen.dart';
 import 'order_screen.dart';
+import 'transaction_screen copy.dart';
 import 'transaction_screen.dart';
 import '/contains/theme_color.dart';
 import 'user_qr.dart';
@@ -19,7 +20,8 @@ class MainScreen extends StatelessWidget {
     final List<Widget> screens = [
       const HomeScreen(),
       const OrderScreen(),
-      const TransactionScreen(),
+      MyListView(),
+      // const TransactionScreen(),
       const AccountScreen(),
     ];
 
@@ -52,7 +54,7 @@ class MainScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() =>const UserQRScreen());
+          Get.to(() => const UserQRScreen());
         },
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),

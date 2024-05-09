@@ -151,7 +151,8 @@ class TransactionScreen extends GetView<TransactionController> {
                                   var color = element.value! >= 0
                                       ? Colors.green
                                       : Colors.red;
-                                  return Card(
+                                  return 
+                                  Card(
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
                                       child: Row(
