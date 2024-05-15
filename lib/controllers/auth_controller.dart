@@ -47,8 +47,6 @@ class AuthController extends GetxController with CacheManager {
     authState.value = newState;
   }
 
-  
-
   Future getUser() async {
     try {
       currentUser.value = await AuthService().getUser();
@@ -88,7 +86,7 @@ class AuthController extends GetxController with CacheManager {
         Get.offAll(const SplashScreen());
       }
     } on DioException catch (e) {
-      Get.snackbar('Lỗi', e.response!.data['']);
+      Get.snackbar('Lỗi', e.response?.data['message'] ?? '');
     }
   }
 
@@ -124,5 +122,3 @@ class AuthController extends GetxController with CacheManager {
         await TransactionService().getPlayTime(currentProfile.value!.id!);
   }
 }
-
-
