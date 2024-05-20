@@ -1,15 +1,14 @@
 import 'package:beanfast_customer/models/notification.dart';
-import 'package:get/get.dart' as getx;
 
-import '/services/api_service.dart';
+import '../utils/constants.dart';
 
 class NotificationService {
   final String baseUrl = 'notifications';
 
-  final ApiService _apiService = getx.Get.put(ApiService());
+  // final ApiService apiService = getx.Get.put(ApiService());
 
   Future<List<Notification>> getPage(int pageNum, int pageSize) async {
-    final response = await _apiService.request.get('$baseUrl?page=1&size=100');
+    final response = await apiService.request.get('$baseUrl?page=1&size=100');
     List<Notification> notifications = [];
     if (response.statusCode == 200) {
       for (var e in response.data['data']["items"]) {
@@ -23,7 +22,7 @@ class NotificationService {
     Map<String, dynamic> data = {
       'NotificationIds': ids,
     };
-    final response = await _apiService.request.put(baseUrl, data: data);
+    final response = await apiService.request.put(baseUrl, data: data);
     return response.statusCode == 200;
   }
 }

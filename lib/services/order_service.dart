@@ -1,20 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
 
+import '../utils/constants.dart';
 import '/utils/logger.dart';
 import '/enums/status_enum.dart';
-import '/models/food.dart';
 import '/models/order.dart';
-import '/services/api_service.dart';
-import 'food_service.dart';
 
 class OrderService {
   final String baseUrl = 'orders';
-  final ApiService _apiService = getx.Get.put(ApiService());
+  // final ApiService apiService = getx.Get.put(ApiService());
 
   Future<List<Order>> getByStatus(OrderStatus status) async {
     final response =
-        await _apiService.request.get('$baseUrl?status=${status.code}');
+        await apiService.request.get('$baseUrl?status=${status.code}');
     List<Order> list = [];
     for (var e in response.data['data']) {
       list.add(Order.fromJson(e));
@@ -23,13 +20,8 @@ class OrderService {
   }
 
   Future<Order> getById(String id) async {
-    final response = await _apiService.request.get('$baseUrl/$id');
+    final response = await apiService.request.get('$baseUrl/$id');
     Order order = Order.fromJson(response.data['data']);
-    for (var i = 0; i < order.orderDetails!.length; i++) {
-      var responseFood =
-          await FoodService().getById(order.orderDetails![i].foodId!);
-      order.orderDetails![i].food = Food.fromJson(responseFood.data['data']);
-    }
     return order;
   }
 
@@ -37,7 +29,7 @@ class OrderService {
     FormData formData = FormData.fromMap({
       'Reason': reason,
     });
-    Response response = await _apiService.request
+    Response response = await apiService.request
         .put('$baseUrl/cancel/$orderId', data: formData);
     return response.statusCode == 200;
   }
@@ -59,7 +51,7 @@ class OrderService {
       'orderDetails': orderDetails,
     };
     logger.e('data - $data');
-    final response = await _apiService.request.post(baseUrl, data: data);
+    final response = await apiService.request.post(baseUrl, data: data);
     return response.statusCode == 201;
   }
 }

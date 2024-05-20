@@ -3,9 +3,7 @@ import 'dart:math';
 
 import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:beanfast_customer/controllers/transaction_controller.dart';
-import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 

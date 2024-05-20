@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../enums/menu_index_enum.dart';
-import '../utils/constants.dart';
-import '../views/screens/splash_screen.dart';
+import '/enums/menu_index_enum.dart';
+import '/utils/constants.dart';
+import '/views/screens/splash_screen.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/services/order_service.dart';
@@ -31,7 +31,7 @@ class OrderController extends GetxController {
     update();
   }
 
-  RxList<Order> listData = <Order>[].obs;
+  RxList<Order> dataList = <Order>[].obs;
   Rx<Order> model = Order().obs;
   Rx<DateTime> selectedDate = DateTime.now().obs;
   RxString dropdownValue = 'Hoàn thành 1'.obs;
@@ -49,6 +49,7 @@ class OrderController extends GetxController {
   Future getById(String id) async {
     try {
       model.value = await OrderService().getById(id);
+      return model;
     } catch (e) {
       throw Exception(e);
     }
@@ -67,13 +68,13 @@ class OrderController extends GetxController {
 
   Future fetchData(OrderStatus status) async {
     try {
-      listData.value = await OrderService().getByStatus(status);
-      for (var e in listData) {
+      dataList.value = await OrderService().getByStatus(status);
+      for (var e in dataList) {
         e.orderActivities!.sort((a, b) => b.time!.compareTo(a.time!));
       }
-      listData.sort((a, b) => b.orderActivities!.first.time!
+      dataList.sort((a, b) => b.orderActivities!.first.time!
           .compareTo(a.orderActivities!.first.time!));
-      return listData.isNotEmpty ? true : null;
+      return dataList.isNotEmpty ? true : null;
     } catch (e) {
       throw Exception(e);
     }

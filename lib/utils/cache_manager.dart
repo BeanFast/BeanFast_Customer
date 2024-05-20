@@ -29,8 +29,6 @@ mixin CacheManager {
   }
 
   RxMap<String, Map<String, RxMap<String, RxInt>>>? getCart() {
-    String a =
-        CacheManagerKey.CART.toString() + currentUser.value!.phone.toString();
     String? json = box.read(
         CacheManagerKey.CART.toString() + currentUser.value!.phone.toString());
     return json == null ? null : Formater.jsonToRxMap(json);

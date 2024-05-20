@@ -1,15 +1,14 @@
-import 'package:get/get.dart';
 
+import '../utils/constants.dart';
 import '/models/transaction.dart';
-import '/services/api_service.dart';
 
 class TransactionService {
   final String baseUrl = 'transactions';
-  final ApiService _apiService = Get.put(ApiService());
+  // final ApiService apiService = Get.put(ApiService());
 
   Future<dynamic> createVnpayRequest(int amount) async {
     var response =
-        await _apiService.request.post("$baseUrl/payment?amount=$amount");
+        await apiService.request.post("$baseUrl/payment?amount=$amount");
     return response.data['data'];
   }
 
@@ -21,12 +20,12 @@ class TransactionService {
       'points': points,
     };
     final response =
-        await _apiService.request.post('$baseUrl/games', data: data);
+        await apiService.request.post('$baseUrl/games', data: data);
     return response.statusCode == 200;
   }
 
   Future<List<Transaction>> getTransactions(int page, int size, bool isMoney) async {
-    var response = await _apiService.request.get(baseUrl,
+    var response = await apiService.request.get(baseUrl,
         queryParameters:
             Map.from({"page": page, "size": size, 'type': isMoney ? 'money' : 'points'}));
     List<Transaction> result = List.empty(growable: true);
@@ -40,7 +39,7 @@ class TransactionService {
 
   // Future<List<Transaction>> getPointTransactions(
   //     String profileId, int page, int size) async {
-  //   var response = await _apiService.request.get('$baseUrl/profiles/$profileId',
+  //   var response = await apiService.request.get('$baseUrl/profiles/$profileId',
   //       queryParameters:
   //           Map.from({"page": page, "size": size, 'type': 'points'}));
   //   List<Transaction> result = List.empty(growable: true);
@@ -54,7 +53,7 @@ class TransactionService {
   // }
 
   Future<int> getPlayTime(String profileId) async {
-    var response = await _apiService.request
+    var response = await apiService.request
         .get('$baseUrl/games/count/profiles/$profileId');
     var result = 0;
     if (response.statusCode == 200) {

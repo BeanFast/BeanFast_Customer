@@ -1,16 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
 
+import '../utils/constants.dart';
 import '/models/user.dart';
 import '/models/qrcode.dart';
-import '/services/api_service.dart';
 
 class UserService {
   final String baseUrl = 'users';
-  final ApiService _apiService = getx.Get.put(ApiService());
+  // final ApiService apiService = getx.Get.put(ApiService());
 
   Future<UserQrCode> updateQRCode() async {
-    final response = await _apiService.request.put('$baseUrl/qrCode');
+    final response = await apiService.request.put('$baseUrl/qrCode');
     return UserQrCode.fromJson(response.data['data']);
   }
 
@@ -25,7 +24,7 @@ class UserService {
             filename: 'uploadFile.jpg'),
       ));
     }
-    final response = await _apiService.request.put(baseUrl, data: formData);
+    final response = await apiService.request.put(baseUrl, data: formData);
     return response.statusCode == 200;
   }
 }

@@ -1,15 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
 
+import '../utils/constants.dart';
 import '/models/profile.dart';
-import '/services/api_service.dart';
 
 class ProfileService {
   final String baseUrl = 'profiles';
-  final ApiService _apiService = getx.Get.put(ApiService());
+  // final ApiService apiService = getx.Get.put(ApiService());
 
   Future<List<Profile>> getAll() async {
-    final response = await _apiService.request.get(baseUrl);
+    final response = await apiService.request.get(baseUrl);
     List<Profile> list = [];
     for (var e in response.data['data']) {
       list.add(Profile.fromJson(e));
@@ -18,12 +17,12 @@ class ProfileService {
   }
 
   Future<Profile> getById(String id) async {
-    final response = await _apiService.request.get('$baseUrl/$id');
+    final response = await apiService.request.get('$baseUrl/$id');
     return Profile.fromJson(response.data['data']);
   }
 
   Future<Response> deleteById(String id) async {
-    final response = await _apiService.request.delete('$baseUrl/$id');
+    final response = await apiService.request.delete('$baseUrl/$id');
     return response;
   }
 
@@ -41,7 +40,7 @@ class ProfileService {
       'SchoolId': model.school!.id,
       'Dob': model.dob,
     });
-    final response = await _apiService.request.post(baseUrl, data: formData);
+    final response = await apiService.request.post(baseUrl, data: formData);
     return response;
   }
 
@@ -65,7 +64,7 @@ class ProfileService {
       ));
     }
     final response =
-        await _apiService.request.put('$baseUrl/${model.id}', data: formData);
+        await apiService.request.put('$baseUrl/${model.id}', data: formData);
     return response.statusCode == 200;
   }
 }

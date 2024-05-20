@@ -20,18 +20,18 @@ class CartController extends GetxController with CacheManager {
   Map<String, MenuDetail> listMenuDetail = <String, MenuDetail>{};
   RxMap<String, String> listSessionDetailId =
       <String, String>{}.obs; // key: sessionId, value: sessionDetailId
-  RxMap<String, Map<String, RxMap<String, RxInt>>> listCart =
+  RxMap<String, Map<String, RxMap<String, RxInt>>> dataList =
       <String, Map<String, RxMap<String, RxInt>>>{}.obs;
 
   Future checkCartItem() async {
-    for (var profile in listCart.entries.toList()) {
+    for (var profile in dataList.entries.toList()) {
       for (var session in profile.value.entries.toList()) {
         for (var cart in session.value.entries.toList()) {
           bool result;
           try {
             result = await SessionService()
                 .checkCartItem(profile.key, session.key, cart.key);
-          } on DioException catch (e) {
+          } catch (e) {
             result = false;
           }
           if (!result) {
@@ -42,25 +42,25 @@ class CartController extends GetxController with CacheManager {
     }
 
     cleanCart();
-    await saveCart(listCart);
+    await saveCart(dataList);
     updateItemCount();
   }
 
   Future fetchData() async {
-    RxMap<String, Map<String, RxMap<String, RxInt>>>? listData = getCart();
-    if (listData != null) {
-      listCart = listData;
+    RxMap<String, Map<String, RxMap<String, RxInt>>>? cacheDataList = getCart();
+    if (cacheDataList != null) {
+      dataList = cacheDataList;
     }
-    logger.e('getCart - $listCart');
+    logger.e('getCart - $dataList');
     await checkCartItem();
-    logger.e('checkCartItem - $listCart');
-    for (var profile in listCart.entries) {
+    logger.e('checkCartItem - $dataList');
+    for (var profile in dataList.entries) {
       try {
         Profile profileData = await ProfileService().getById(profile.key);
         listProfile.putIfAbsent(profile.key, () => profileData);
       } catch (e) {
         //lỗi sẽ xóa dữ liệu trong cart
-        listCart.remove(profile.key);
+        dataList.remove(profile.key);
       }
       for (var session in profile.value.entries) {
         try {
@@ -82,7 +82,8 @@ class CartController extends GetxController with CacheManager {
     }
     updateTotal();
     updateItemCount();
-    logger.e('getData end - $listCart');
+    logger.e('getData end - $dataList');
+    return dataList;
   }
 
   void updateSessionDetail(String sessionId, String sessionDetailId) {
@@ -96,7 +97,7 @@ class CartController extends GetxController with CacheManager {
   Future<bool> checkout() async {
     try {
       await checkCartItem();
-      for (var cart in listCart.entries) {
+      for (var cart in dataList.entries) {
         for (var session in cart.value.entries) {
           Map<String, int> map = {};
           for (var menuDetail in session.value.entries) {
@@ -107,8 +108,8 @@ class CartController extends GetxController with CacheManager {
           logger.e(result.toString());
         }
       }
-      listCart.clear();
-      await saveCart(listCart);
+      dataList.clear();
+      await saveCart(dataList);
       return true;
       // changePage(MenuIndexState.order.index);
       // Get.offAll(const SplashScreen());
@@ -121,7 +122,7 @@ class CartController extends GetxController with CacheManager {
   void updateTotal() {
     total.value = 0;
     totalPrice = 0;
-    listCart.forEach((profileId, listSession) {
+    dataList.forEach((profileId, listSession) {
       listSession.forEach((sessionId, cart) {
         cart.forEach((key, value) {
           if (listMenuDetail[key] != null) {
@@ -135,7 +136,7 @@ class CartController extends GetxController with CacheManager {
 
   void updateItemCount() {
     itemCount.value = 0;
-    listCart.forEach((profileId, listSession) {
+    dataList.forEach((profileId, listSession) {
       listSession.forEach((sessionId, cart) {
         itemCount += cart.length;
       });
@@ -143,10 +144,10 @@ class CartController extends GetxController with CacheManager {
   }
 
   void cleanCart() {
-    if (listCart.values.isEmpty) {
-      listCart.clear();
+    if (dataList.values.isEmpty) {
+      dataList.clear();
     } else {
-      for (var profile in listCart.entries.toList()) {
+      for (var profile in dataList.entries.toList()) {
         if (profile.value.isNotEmpty) {
           for (var session in profile.value.entries.toList()) {
             if (session.value.isEmpty) {
@@ -157,7 +158,7 @@ class CartController extends GetxController with CacheManager {
             }
           }
         } else {
-          listCart.remove(profile.key);
+          dataList.remove(profile.key);
           // return;
         }
       }
@@ -166,9 +167,9 @@ class CartController extends GetxController with CacheManager {
 
   Future<void> increaseItemCart(
       String profileId, String sessionId, String menuDetailId) async {
-    if (listCart.containsKey(profileId)) {
+    if (dataList.containsKey(profileId)) {
       //if profileId đã có
-      Map<String, Map<String, RxInt>> listSession = listCart[profileId]!;
+      Map<String, Map<String, RxInt>> listSession = dataList[profileId]!;
       if (listSession.containsKey(sessionId)) {
         //sessionId đã có
         Map<String, RxInt> cart = listSession[sessionId]!;
@@ -180,22 +181,22 @@ class CartController extends GetxController with CacheManager {
       }
     } else {
       //profileId chưa tồn tại
-      listCart.putIfAbsent(
+      dataList.putIfAbsent(
           profileId,
           () => {
                 sessionId: {menuDetailId: 1.obs}.obs
               });
     }
-    await saveCart(listCart);
+    await saveCart(dataList);
     updateItemCount();
     updateTotal();
   }
 
   Future<void> decreaseItemCart(
       String profileId, String sessionId, String menuDetailId) async {
-    if (listCart.containsKey(profileId)) {
+    if (dataList.containsKey(profileId)) {
       //if profileId đã có
-      Map<String, Map<String, RxInt>> listSession = listCart[profileId]!;
+      Map<String, Map<String, RxInt>> listSession = dataList[profileId]!;
       if (listSession.containsKey(sessionId)) {
         //sessionId đã có
         Map<String, RxInt> cart = listSession[sessionId]!;
@@ -218,16 +219,16 @@ class CartController extends GetxController with CacheManager {
       //profileId chưa tồn tại
       return;
     }
-    await saveCart(listCart);
+    await saveCart(dataList);
     updateItemCount();
     updateTotal();
   }
 
   Future<void> deleteItemFromCart(
       String profileId, String sessionId, String menuDetailId) async {
-    if (listCart.containsKey(profileId)) {
+    if (dataList.containsKey(profileId)) {
       // If profileId exists
-      Map<String, Map<String, RxInt>> listSession = listCart[profileId]!;
+      Map<String, Map<String, RxInt>> listSession = dataList[profileId]!;
       if (listSession.containsKey(sessionId)) {
         // If sessionId exists
         Map<String, RxInt> cart = listSession[sessionId]!;
@@ -247,15 +248,15 @@ class CartController extends GetxController with CacheManager {
       // If profileId does not exist
       return;
     }
-    await saveCart(listCart);
+    await saveCart(dataList);
     updateItemCount();
     updateTotal();
   }
 
   bool ifAbsent(String profileId, String sessionId, String menuDetailId) {
-    if (listCart.containsKey(profileId)) {
-      if (listCart[profileId]!.containsKey(sessionId)) {
-        return listCart[profileId]![sessionId]!.containsKey(menuDetailId);
+    if (dataList.containsKey(profileId)) {
+      if (dataList[profileId]!.containsKey(sessionId)) {
+        return dataList[profileId]![sessionId]!.containsKey(menuDetailId);
       }
     }
     return false;

@@ -1,20 +1,14 @@
-import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
+import 'package:beanfast_customer/models/food.dart';
 
-import '/services/api_service.dart';
+import '/utils/constants.dart';
 
 class FoodService {
   final String baseUrl = 'foods';
 
-  final ApiService _apiService = getx.Get.put(ApiService());
-
-  // Future<dynamic> getAll() async {
-  //   final response = await _apiService.request.get(baseUrl);
-  //   return response.data;
-  // }
-
-  Future<Response> getById(String id) async {
-    final response = await _apiService.request.get('$baseUrl/$id');
-    return response;
+  // final ApiService _apiService = Get.put(ApiService());
+  
+  Future<Food> getById(String id) async {
+    final response = await apiService.request.get('$baseUrl/$id');
+    return Food.fromJson(response.data['data']);
   }
 }

@@ -18,7 +18,7 @@ class UserController extends GetxController {
   RxString imagePath = ''.obs;
   final TextEditingController fullnameController = TextEditingController();
 
-  RxList<Profile> listData = <Profile>[].obs;
+  RxList<Profile> dataList = <Profile>[].obs;
   Rx<User> model = User().obs;
 
   void createForm() {

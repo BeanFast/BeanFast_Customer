@@ -74,7 +74,7 @@ class CartScreen extends GetView<CartController> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Column(
-                    children: controller.listCart.entries.map((profile) {
+                    children: controller.dataList.entries.map((profile) {
                       return Column(
                         children: [
                           Container(
@@ -456,7 +456,7 @@ class CartScreen extends GetView<CartController> {
                             ),
                           ),
                         ),
-                        onPressed: controller.listCart.isEmpty
+                        onPressed: controller.dataList.isEmpty
                             ? null
                             : () {
                                 Get.to(() =>const CheckOutDetailScreen());

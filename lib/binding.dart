@@ -18,10 +18,3 @@ class MainBindingController extends Bindings {
     Get.put<NotificationController>(NotificationController(), permanent: true);
   }
 }
-
-// class HomeBindingController extends Bindings {
-//   @override
-//   void dependencies() {
-//     // Get.lazyPut<HomeController>(() => HomeController());
-//   }
-// }

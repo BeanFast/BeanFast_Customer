@@ -25,9 +25,7 @@ class OrderDetailScreen extends GetView<OrderController> {
         title: const Text('Chi tiết đơn hàng'),
       ),
       body: LoadingScreen(
-        future: () async {
-          await controller.getById(orderId);
-        },
+        future: () => controller.getById(orderId),
         messageNoData: 'Chưa có dữ liệu',
         child: SingleChildScrollView(
           child: Obx(

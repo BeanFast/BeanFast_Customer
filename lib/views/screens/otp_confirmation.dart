@@ -291,7 +291,7 @@ class OtpConfirmationView extends StatelessWidget {
                 onPressed: () async {
                   Get.snackbar('Hệ thống', 'Đăng ký thành công');
                   await otpController.verifyOtp();
-                  Get.offAll(LoginView());
+                  Get.offAll(const LoginView());
                 },
               )
             ],
@@ -312,7 +312,7 @@ class OTPController extends GetxController {
   RxString pin5 = "".obs;
   RxString pin6 = "".obs;
   String phone;
-  OTPController({required this.phone}) {}
+  OTPController({required this.phone});
   Future verifyOtp() async {
     var otpValue = pin1.value +
         pin2.value +

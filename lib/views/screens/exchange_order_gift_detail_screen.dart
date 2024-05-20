@@ -25,9 +25,7 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
         title: const Text('Chi tiết đơn hàng'),
       ),
       body: LoadingScreen(
-        future: () async {
-          await controller.getById(orderGiftId);
-        },
+        future: () => controller.getById(orderGiftId),
         messageNoData: 'Chưa có dữ liệu',
         child: SingleChildScrollView(
           child: Obx(

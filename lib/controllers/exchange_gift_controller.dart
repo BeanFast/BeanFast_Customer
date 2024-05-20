@@ -14,7 +14,7 @@ import '/utils/constants.dart';
 
 class ExchangeGiftController extends GetxController {
   ExchangeGiftStatus orderStatus = ExchangeGiftStatus.preparing;
-  RxList<Gift> listData = <Gift>[].obs;
+  RxList<Gift> dataList = <Gift>[].obs;
   RxList<ExchangeGift> listExchangeGiftData = <ExchangeGift>[].obs;
   //checkout
   Rx<ExchangeGift> model = ExchangeGift().obs;
@@ -68,9 +68,10 @@ class ExchangeGiftController extends GetxController {
     sessionDetailId.value = session.sessionDetails!.first.id;
   }
 
-  Future getData() async {
+  Future fetchData() async {
     try {
-      listData.value = await GiftService().getAll();
+      dataList.value = await GiftService().getAll();
+      return dataList;
     } catch (e) {
       throw Exception(e);
     }
@@ -80,6 +81,7 @@ class ExchangeGiftController extends GetxController {
     try {
       var data = await ExchangeGiftService().getById(id);
       model.value = data;
+      return model;
     } catch (e) {
       throw Exception(e);
     }
@@ -91,6 +93,7 @@ class ExchangeGiftController extends GetxController {
           .getByStatus(orderStatus, currentProfile.value!.id!);
       listExchangeGiftData
           .sort((a, b) => b.paymentDate!.compareTo(a.paymentDate!));
+      return listExchangeGiftData;
     } catch (e) {
       throw Exception(e);
     }

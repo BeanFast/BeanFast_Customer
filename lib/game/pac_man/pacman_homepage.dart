@@ -9,7 +9,6 @@ import 'package:beanfast_customer/game/pac_man/ghost3.dart';
 import 'package:beanfast_customer/game/pac_man/path.dart';
 import 'package:beanfast_customer/game/pac_man/pixel.dart';
 import 'package:beanfast_customer/game/pac_man/player.dart';
-import 'package:beanfast_customer/views/screens/game_select_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

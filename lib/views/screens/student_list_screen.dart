@@ -26,7 +26,7 @@ class StudentListScreen extends GetView<ProfileController> {
               () => Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: controller.listData.map((profile) {
+                    children: controller.dataList.map((profile) {
                       return GestureDetector(
                         onTap: () {
                           Get.to(() =>

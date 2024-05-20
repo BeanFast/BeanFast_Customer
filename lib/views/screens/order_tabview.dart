@@ -26,7 +26,7 @@ class OrderTabBarView extends GetView<OrderController> {
                 padding: const EdgeInsets.all(0),
                 child: Obx(
                   () => Column(
-                    children: controller.listData.map((order) {
+                    children: controller.dataList.map((order) {
                       return OrderItem(order: order);
                     }).toList(),
                   ),

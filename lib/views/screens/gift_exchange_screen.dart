@@ -7,8 +7,6 @@ import 'exchange_gift_history_tabview.dart';
 import 'gift_exchange_checkout_detail_screen.dart';
 import 'gift_detail_screen.dart';
 import 'loading_screen.dart';
-import 'splash_screen.dart';
-import '/enums/menu_index_enum.dart';
 import '/enums/status_enum.dart';
 import '/controllers/transaction_controller.dart';
 import '/contains/theme_color.dart';
@@ -242,7 +240,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
   Widget build(BuildContext context) {
     Get.put(ExchangeGiftController());
     return LoadingScreen(
-      future: controller.getData,
+      future: controller.fetchData,
       messageNoData: 'Chưa có dữ liệu',
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -250,7 +248,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
         child: SingleChildScrollView(
           child: Obx(
             () => Column(
-              children: controller.listData.map((gift) {
+              children: controller.dataList.map((gift) {
                 return GestureDetector(
                   onTap: () {
                     Get.to(() => GiftDetailScreen(gift: gift));

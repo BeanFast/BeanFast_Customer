@@ -72,23 +72,27 @@ class HomeController extends GetxController {
     await Get.find<NotificationController>().fetchData(); //get notification
     await Get.find<CartController>().fetchData(); //get cart cache
     if (currentProfile.value != null) {
-      await getSession(currentProfile.value!.school!.id!,
-          selectedDate.value); //get session of profile
+      await getSession(); //get session of profile
       if (listSession.isNotEmpty) {
         selectedSessionId.value = listSession[0].id!;
         getMenu(selectedSessionId.value);
-        return true;
+        //
       }
     }
+    return true;
   }
 
-  Future getSession(String schoolId, DateTime dateTime) async {
+  Future getSession() async {
+    if (currentProfile.value == null) {
+      return null;
+    }
     clear();
     try {
-      listSession.value =
-          await SessionService().getSessionsBySchoolId(schoolId, dateTime);
-      return listSession
+      listSession.value = await SessionService().getSessionsBySchoolId(
+          currentProfile.value!.school!.id!, selectedDate.value);
+      listSession
           .sort((a, b) => a.deliveryStartTime!.compareTo(b.deliveryStartTime!));
+      return listSession;
     } catch (e) {
       throw Exception(e);
     }

@@ -169,7 +169,7 @@ class MenuItem extends GetView<CartController> {
                                                       currentProfile.value!.id!,
                                                       sessionId,
                                                       e.id!)
-                                                  ? controller.listCart[
+                                                  ? controller.dataList[
                                                           currentProfile
                                                               .value!.id!]![
                                                           sessionId]![e.id!]
@@ -416,7 +416,7 @@ class MenuItem extends GetView<CartController> {
                                                               .value!.id!,
                                                           sessionId,
                                                           e.id!)
-                                                      ? controller.listCart[
+                                                      ? controller.dataList[
                                                               currentProfile
                                                                   .value!.id!]![
                                                               sessionId]![e.id!]

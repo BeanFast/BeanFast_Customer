@@ -25,9 +25,9 @@ class ResultScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: isSuccess ? ThemeColor.primaryColor : Colors.white,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: isSuccess ? ThemeColor.primaryColor : Colors.white,
+      // ),
       body: Container(
         padding: const EdgeInsets.all(10),
         color: isSuccess ? ThemeColor.primaryColor : Colors.white,

@@ -5,16 +5,16 @@ import '/models/profile.dart';
 import '/services/profile_service.dart';
 
 class ProfileController extends GetxController {
-  RxList<Profile> listData = <Profile>[].obs;
+  RxList<Profile> dataList = <Profile>[].obs;
   Rx<Profile> model = Profile().obs;
 
   Future getAll() async {
     try {
-      listData.value = await ProfileService().getAll();
-      if (listData.isNotEmpty) {
-        listData.sort((a, b) => b.dob!.compareTo(a.dob!));
+      dataList.value = await ProfileService().getAll();
+      if (dataList.isNotEmpty) {
+        dataList.sort((a, b) => b.dob!.compareTo(a.dob!));
       }
-      return listData;
+      return dataList;
     } catch (e) {
       throw Exception(e);
     }

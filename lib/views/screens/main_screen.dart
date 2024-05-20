@@ -8,7 +8,6 @@ import 'account_screen.dart';
 import 'home_screen.dart';
 import 'order_screen.dart';
 import 'transaction_screen copy.dart';
-import 'transaction_screen.dart';
 import '/contains/theme_color.dart';
 import 'user_qr.dart';
 
@@ -20,7 +19,7 @@ class MainScreen extends StatelessWidget {
     final List<Widget> screens = [
       const HomeScreen(),
       const OrderScreen(),
-      MyListView(),
+      const MyListView(),
       // const TransactionScreen(),
       const AccountScreen(),
     ];

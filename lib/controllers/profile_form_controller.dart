@@ -9,7 +9,6 @@ import '/services/profile_service.dart';
 import '/services/school_service.dart';
 import '/models/profile.dart';
 import '/models/school.dart';
-import '/views/screens/student_list_screen.dart';
 import '/utils/logger.dart';
 import 'profile_controller.dart';
 

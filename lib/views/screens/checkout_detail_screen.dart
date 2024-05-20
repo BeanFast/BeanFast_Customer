@@ -36,7 +36,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                 child: Column(
                   children: [
                     Column(
-                      children: controller.listCart.entries
+                      children: controller.dataList.entries
                           .map(
                             (profile) => Column(
                               children: profile.value.entries

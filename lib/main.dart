@@ -4,11 +4,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import 'package:timeago/src/messages/vi_messages.dart';     
+import 'package:timeago/timeago.dart';
+// import 'package:timeago/src/messages/vi_messages.dart';     
 import 'package:firebase_core/firebase_core.dart';
 import 'utils/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'binding.dart';
 import 'contains/theme.dart';
 import 'views/screens/splash_screen.dart';
@@ -114,7 +115,7 @@ void showFlutterNotificationBackground(RemoteMessage message) {
 
   AndroidNotification? android = message.notification?.android;
   print(notification!.body.toString());
-  if (notification != null && android != null && !kIsWeb) {
+  if (android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       notification.title!,
@@ -134,8 +135,8 @@ void showFlutterNotificationBackground(RemoteMessage message) {
 Future<void> main() async {
   await GetStorage.init(); // init local storage
   // Get.put(HomeController());
-  timeago.setLocaleMessages('vi', ViMessages());
-  timeago.setDefaultLocale('vi');
+  setLocaleMessages('vi', ViMessages());
+  setDefaultLocale('vi');
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
@@ -178,11 +179,6 @@ Future<void> main() async {
   //       details.exception.toString()); // the stack trace at the time
   // };
   runApp(const MyApp());
-  // try {
-  //   runApp(const MyApp());
-  // } catch (e) {
-  //   Get.snackbar('try', e.toString());
-  // }
 }
 
 class MyApp extends StatelessWidget {

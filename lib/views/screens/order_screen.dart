@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:intl/intl.dart';
 
 import '/enums/status_enum.dart';
 import '/controllers/order_controller.dart';
@@ -18,7 +16,7 @@ class OrderScreen extends GetView<OrderController> {
           title: const Text(
             'Lịch sử đơn hàng',
           ),
-          actions: [
+          actions: const [
             // GestureDetector(
             //   onTap: () async {
             //     final DateTimeRange? pickedDateRange =

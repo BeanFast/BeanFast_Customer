@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' as getx;
 
-import '/services/api_service.dart';
+import '/utils/constants.dart';
 import '/models/user.dart';
 import '/utils/logger.dart';
 
 class AuthService {
   final String baseUrl = 'auth';
-  final ApiService _apiService = getx.Get.put(ApiService());
+  // final ApiService apiService = getx.Get.put(ApiService());
 
   Future<Response> login(
       String phone, String password, String deviceToken) async {
@@ -17,7 +16,7 @@ class AuthService {
       'deviceToken': deviceToken,
     };
     final response =
-        await _apiService.request.post('$baseUrl/login', data: data);
+        await apiService.request.post('$baseUrl/login', data: data);
     logger.i(response.statusCode);
     logger.i(response.data);
     return response;
@@ -28,7 +27,7 @@ class AuthService {
       'phone': phone,
       'password': password,
     };
-    final response = await _apiService.request
+    final response = await apiService.request
         .post('$baseUrl/register', data: FormData.fromMap(data));
     logger.i(response.statusCode);
     logger.i(response.data);
@@ -39,7 +38,7 @@ class AuthService {
     Map<String, dynamic> data = {
       'phone': phone,
     };
-    final response = await _apiService.request.post('$baseUrl/otp', data: data);
+    final response = await apiService.request.post('$baseUrl/otp', data: data);
     logger.i(response.statusCode);
     logger.i(response.data);
     return response;
@@ -51,14 +50,14 @@ class AuthService {
       'otpValue': otpValue,
     };
     final response =
-        await _apiService.request.post('$baseUrl/otp/verify', data: data);
+        await apiService.request.post('$baseUrl/otp/verify', data: data);
     logger.i(response.statusCode);
     logger.i(response.data);
     return response;
   }
 
   Future<User> getUser() async {
-    final response = await _apiService.request.get('$baseUrl/current');
+    final response = await apiService.request.get('$baseUrl/current');
     return User.fromJson(response.data['data']);
   }
 }
