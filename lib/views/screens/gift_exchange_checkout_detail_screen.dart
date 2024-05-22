@@ -341,7 +341,7 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                     onPressed: () async {
                       bool result =
                           await controller.createExchangeGift(gift.id!);
-                      Get.to(() =>
+                      Get.offAll(() =>
                         ResultScreenWidget(
                           isSuccess: result,
                           content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
@@ -352,7 +352,9 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                           },
                           ontapNameRightSide: 'Đơn hàng',
                           ontapRightSide: () {
-                            Get.offAll(const ExchangeGiftScreen());
+                            changePage(MenuIndexState.home.index);
+                            Get.offAll(const SplashScreen());
+                            Get.to(const ExchangeGiftScreen());
                           },
                         ),
                       );

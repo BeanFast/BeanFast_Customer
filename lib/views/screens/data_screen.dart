@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EmptyDataScreen extends StatelessWidget {
+class DataScreen extends StatelessWidget {
+  final bool hasData;
+  final Widget child;
   final String message;
-  const EmptyDataScreen({super.key, required this.message});
+
+  const DataScreen(
+      {super.key,
+      required this.hasData,
+      required this.message,
+      required this.child});
 
   @override
   Widget build(BuildContext context) {
+    if (hasData) {
+      return child;
+    }
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

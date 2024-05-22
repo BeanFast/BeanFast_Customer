@@ -37,7 +37,8 @@ enum ExchangeGiftStatus {
 }
 
 enum OrderStatus {
-  preparing(3, 'Chờ chuẩn bị'),
+  preparing(2, 'Chờ chuẩn bị'),
+  cooking(3, 'Chờ chuẩn bị'),
   delivering(4, 'Chờ giao hàng'),
   completed(5, 'Hoàn thành'),
   cancelled(6, 'Đã hủy');
@@ -49,8 +50,10 @@ enum OrderStatus {
 
   static OrderStatus fromInt(int code) {
     switch (code) {
-      case 3:
+      case 2:
         return OrderStatus.preparing;
+      case 3:
+        return OrderStatus.cooking;
       case 4:
         return OrderStatus.delivering;
       case 5:

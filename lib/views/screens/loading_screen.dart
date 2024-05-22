@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import 'empty_data_screen.dart';
-
 class LoadingScreen extends StatelessWidget {
   final Future<dynamic> Function() future;
-  final String messageNoData;
   final Widget child;
 
   const LoadingScreen({
     super.key,
     required this.future,
-    required this.messageNoData,
     required this.child,
   });
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future:  future(),
+      future: future(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -37,11 +33,11 @@ class LoadingScreen extends StatelessWidget {
               style: const TextStyle(color: Colors.blue),
             ));
           } else {
-            if (snapshot.data != null) {
-              return child;
-            } else {
-              return EmptyDataScreen(message: messageNoData);
-            }
+            // if (snapshot.data != null) {
+            return child;
+            // } else {
+            //   return DataScreen(message: messageNoData);
+            // }
           }
         }
       },

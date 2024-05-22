@@ -12,6 +12,7 @@ class User extends BaseModel {
   String? avatarPath;
   // String? deviceToken;
   double? balance;
+  int? points;
   List<Profile>? profiles;
   UserQrCode? qrCode;
 
@@ -25,6 +26,7 @@ class User extends BaseModel {
     this.email,
     this.avatarPath,
     this.balance,
+    this.points,
     this.profiles,
     this.qrCode,
   }) : super(id: id, status: status);
@@ -42,6 +44,7 @@ class User extends BaseModel {
       balance: json['balance'] == null
           ? 0
           : double.parse(json['balance'].toString()),
+      points: json['points'] == null ? 0 : int.parse(json['points'].toString()),
       profiles: [],
     );
   }

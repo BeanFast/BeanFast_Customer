@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/views/screens/data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -7,7 +8,6 @@ import '/contains/theme_color.dart';
 import '/controllers/home_controller.dart';
 import '/controllers/transaction_controller.dart';
 import '/utils/formater.dart';
-import '/views/screens/loading_screen.dart';
 
 class TransactionScreen extends GetView<TransactionController> {
   const TransactionScreen({super.key});
@@ -101,164 +101,174 @@ class TransactionScreen extends GetView<TransactionController> {
             ),
           ),
           Expanded(
-            child: LoadingScreen(
-              future: controller.fetchData,
-              messageNoData: 'Chưa có lịch sử',
-              child: SingleChildScrollView(
-                child: Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: controller.mapTransactions.entries
-                        .map(
-                          (transaction) => Column(
-                            children: [
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                height: 50,
-                                alignment: Alignment.centerLeft,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  color: Color.fromARGB(255, 198, 229, 245),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromARGB(255, 198, 229, 245),
-                                      spreadRadius: 1,
-                                      blurRadius: 1,
-                                      offset: Offset(
-                                          0, 2), // changes position of shadow
-                                    ),
-                                  ],
+            child: SingleChildScrollView(
+              child: Obx(
+                () => DataScreen(
+                  hasData: controller.mapTransactions.isNotEmpty,
+                  message: 'Chưa có lịch sử',
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: controller.mapTransactions.entries
+                          .map(
+                            (transaction) => Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10),
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: Color.fromARGB(255, 198, 229, 245),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromARGB(
+                                            255, 198, 229, 245),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: Offset(0,
+                                            2), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Text(
+                                    'Tháng ${transaction.key}',
+                                    style: Get.textTheme.titleMedium,
+                                  ),
                                 ),
-                                child: Text(
-                                  'Tháng ${transaction.key}',
-                                  style: Get.textTheme.titleMedium,
-                                ),
-                              ),
-                              Column(
-                                children: transaction.value.map((element) {
-                                  var transactionType =
-                                      element.order!.code == null
-                                          ? "Nạp tiền"
-                                          : element.value! >= 0
-                                              ? "Hoàn tiền"
-                                              : "Thanh toán";
-                                  IconData iconData = element.value! > 0
-                                      ? Iconsax.wallet_add_1
-                                      : Iconsax.wallet_minus;
-                                  var color = element.value! >= 0
-                                      ? Colors.green
-                                      : Colors.red;
-                                  return 
-                                  Card(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              border: Border.all(
-                                                  color: Colors.grey),
+                                Column(
+                                  children: transaction.value.map((element) {
+                                    var transactionType =
+                                        element.order!.code == null
+                                            ? "Nạp tiền"
+                                            : element.value! >= 0
+                                                ? "Hoàn tiền"
+                                                : "Thanh toán";
+                                    IconData iconData = element.value! > 0
+                                        ? Iconsax.wallet_add_1
+                                        : Iconsax.wallet_minus;
+                                    var color = element.value! >= 0
+                                        ? Colors.green
+                                        : Colors.red;
+                                    return Card(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                border: Border.all(
+                                                    color: Colors.grey),
+                                              ),
+                                              child: Icon(
+                                                iconData,
+                                                color: ThemeColor.iconColor,
+                                              ),
                                             ),
-                                            child: Icon(
-                                              iconData,
-                                              color: ThemeColor.iconColor,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  element.order!.code != null
-                                                      ? "$transactionType: #${element.order!.code!}"
-                                                      : transactionType,
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: Get
-                                                      .textTheme.bodyLarge!
-                                                      .copyWith(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            formatter.format(
-                                                                element.time!),
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: Get.textTheme
-                                                                .bodySmall,
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 5),
-                                                        ],
-                                                      ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    element.order!.code !=
+                                                            null
+                                                        ? "$transactionType: #${element.order!.code!}"
+                                                        : transactionType,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: Get
+                                                        .textTheme.bodyLarge!
+                                                        .copyWith(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.bottomRight,
-                                                      width: 120,
-                                                      child: Text(
-                                                        element.value! > 0
-                                                            ? "+${Formater.formatMoney(element.value.toString())}"
-                                                            : Formater.formatMoney(
-                                                                element.value
-                                                                    .toString()),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: Get.textTheme
-                                                            .bodyMedium!
-                                                            .copyWith(
-                                                          color: color,
-                                                          fontWeight:
-                                                              FontWeight.w700,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .end,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              formatter.format(
+                                                                  element
+                                                                      .time!),
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: Get
+                                                                  .textTheme
+                                                                  .bodySmall,
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 5),
+                                                          ],
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                                      Container(
+                                                        alignment: Alignment
+                                                            .bottomRight,
+                                                        width: 120,
+                                                        child: Text(
+                                                          element.value! > 0
+                                                              ? "+${Formater.formatMoney(element.value.toString())}"
+                                                              : Formater.formatMoney(
+                                                                  element
+                                                                      .value
+                                                                      .toString()),
+                                                          maxLines: 1,
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                          style: Get.textTheme
+                                                              .bodyMedium!
+                                                              .copyWith(
+                                                            color: color,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
-                        )
-                        .toList(),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                 ),
               ),

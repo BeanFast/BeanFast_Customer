@@ -6,7 +6,7 @@ import '/services/profile_service.dart';
 
 class ProfileController extends GetxController {
   RxList<Profile> dataList = <Profile>[].obs;
-  Rx<Profile> model = Profile().obs;
+  Rx<Profile?> model = Rx<Profile?>(null);
 
   Future getAll() async {
     try {

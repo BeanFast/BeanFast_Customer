@@ -1,14 +1,15 @@
-
-import '../utils/constants.dart';
+import '/utils/constants.dart';
 import '/models/gift.dart';
 
 class GiftService {
   final String baseUrl = 'gifts';
 
-  // final ApiService apiService = getx.Get.put(ApiService());
-
-  Future<List<Gift>> getAll() async {
-    final response = await apiService.request.get('$baseUrl?page=1&size=100');
+  Future<List<Gift>> getAll(
+    int page,
+    int size,
+  ) async {
+    final response = await apiService.request
+        .get(baseUrl, queryParameters: Map.from({"page": page, "size": size}));
     List<Gift> list = [];
     for (var e in response.data['data']['items']) {
       list.add(Gift.fromJson(e));
@@ -20,6 +21,4 @@ class GiftService {
   //   final response = await apiService.request.get('$baseUrl/$id');
   //   return response;
   // }
-
-  
 }

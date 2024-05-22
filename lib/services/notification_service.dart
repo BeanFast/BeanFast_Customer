@@ -7,8 +7,9 @@ class NotificationService {
 
   // final ApiService apiService = getx.Get.put(ApiService());
 
-  Future<List<Notification>> getPage(int pageNum, int pageSize) async {
-    final response = await apiService.request.get('$baseUrl?page=1&size=100');
+  Future<List<Notification>> getPage(int page, int size) async {
+    final response = await apiService.request
+        .get(baseUrl, queryParameters: Map.from({"page": page, "size": size}));
     List<Notification> notifications = [];
     if (response.statusCode == 200) {
       for (var e in response.data['data']["items"]) {

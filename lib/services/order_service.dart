@@ -9,11 +9,13 @@ class OrderService {
   final String baseUrl = 'orders';
   // final ApiService apiService = getx.Get.put(ApiService());
 
-  Future<List<Order>> getByStatus(OrderStatus status) async {
-    final response =
-        await apiService.request.get('$baseUrl?status=${status.code}');
+  Future<List<Order>> getByStatus(
+      OrderStatus status, int page, int size) async {
+    final response = await apiService.request.get(baseUrl,
+        queryParameters:
+            Map.from({"page": page, "size": size, 'status': status.code}));
     List<Order> list = [];
-    for (var e in response.data['data']) {
+    for (var e in response.data['data']['items']) {
       list.add(Order.fromJson(e));
     }
     return list;
@@ -40,7 +42,7 @@ class OrderService {
     listCart.forEach((key, value) {
       Map<String, dynamic> orderDetail = {
         "quantity": value,
-        "note": "aa",
+        "note": "",
         "menuDetailId": key,
       };
       orderDetails.add(orderDetail);

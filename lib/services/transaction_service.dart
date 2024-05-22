@@ -1,4 +1,3 @@
-
 import '../utils/constants.dart';
 import '/models/transaction.dart';
 
@@ -12,10 +11,8 @@ class TransactionService {
     return response.data['data'];
   }
 
-  Future<bool> createGameTransaction(
-      String profileId, String gameId, int points) async {
+  Future<bool> createGameTransaction(String gameId, int points) async {
     Map<String, dynamic> data = {
-      'profileId': profileId,
       'gameId': gameId,
       'points': points,
     };
@@ -24,10 +21,14 @@ class TransactionService {
     return response.statusCode == 200;
   }
 
-  Future<List<Transaction>> getTransactions(int page, int size, bool isMoney) async {
+  Future<List<Transaction>> getTransactions(
+      int page, int size, bool isMoney) async {
     var response = await apiService.request.get(baseUrl,
-        queryParameters:
-            Map.from({"page": page, "size": size, 'type': isMoney ? 'money' : 'points'}));
+        queryParameters: Map.from({
+          "page": page,
+          "size": size,
+          'type': isMoney ? 'money' : 'points'
+        }));
     List<Transaction> result = List.empty(growable: true);
     if (response.statusCode == 200) {
       for (var e in response.data['data']["items"]) {
@@ -37,24 +38,9 @@ class TransactionService {
     return result;
   }
 
-  // Future<List<Transaction>> getPointTransactions(
-  //     String profileId, int page, int size) async {
-  //   var response = await apiService.request.get('$baseUrl/profiles/$profileId',
-  //       queryParameters:
-  //           Map.from({"page": page, "size": size, 'type': 'points'}));
-  //   List<Transaction> result = List.empty(growable: true);
-  //   if (response.statusCode == 200) {
-  //     for (var e in response.data['data']["items"]) {
-  //       result.add(Transaction.fromJson(e));
-  //     }
-  //     logger.e(result.length);
-  //   }
-  //   return result;
-  // }
-
-  Future<int> getPlayTime(String profileId) async {
+  Future<int> getPlayTime() async {
     var response = await apiService.request
-        .get('$baseUrl/games/count/profiles/$profileId');
+        .get('$baseUrl/games/count');
     var result = 0;
     if (response.statusCode == 200) {
       result = response.data['data'];

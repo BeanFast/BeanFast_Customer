@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '/enums/status_enum.dart';
-import '/controllers/order_controller.dart';
 import 'order_tabview.dart';
 
-class OrderScreen extends GetView<OrderController> {
+class OrderScreen extends StatelessWidget {
   const OrderScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(OrderController());
+    // Get.put(OrderController());
 
     return Scaffold(
         appBar: AppBar(
@@ -58,19 +56,18 @@ class OrderScreen extends GetView<OrderController> {
             //     ),
             //   ),
             // ),
-          
           ],
         ),
         body: const DefaultTabController(
-          length: 4,
+          length: 5,
           child: Column(
-            // mainAxisSize: MainAxisSize.min,
             children: [
               TabBar(
                 isScrollable: true,
                 tabAlignment: TabAlignment.start,
                 tabs: [
                   Tab(text: 'Đang chuẩn bị'),
+                  Tab(text: 'Đang chế biến'),
                   Tab(text: 'Đang giao'),
                   Tab(text: 'Hoàn thành'),
                   Tab(text: 'Đã hủy'),
@@ -82,6 +79,9 @@ class OrderScreen extends GetView<OrderController> {
                     OrderTabBarView(
                       orderStatus: OrderStatus.preparing,
                     ), // Đang chuẩn bị
+                    OrderTabBarView(
+                      orderStatus: OrderStatus.cooking,
+                    ), // Đang chế biến
                     OrderTabBarView(
                       orderStatus: OrderStatus.delivering,
                     ), // Đang giao
@@ -97,27 +97,5 @@ class OrderScreen extends GetView<OrderController> {
             ],
           ),
         ));
-  }
-}
-
-class OrderCancelledTab extends StatelessWidget {
-  const OrderCancelledTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('OrderCancelledTab'),
-    );
-  }
-}
-
-class OrderCompletedTab extends StatelessWidget {
-  const OrderCompletedTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('OrderCompletedTab'),
-    );
   }
 }

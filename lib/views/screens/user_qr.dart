@@ -30,7 +30,6 @@ class UserQRScreen extends GetView<ProfileQRController> {
               ),
               LoadingScreen(
                   future: controller.generateQRData,
-                  messageNoData: 'Chưa có mã',
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 50),
                     width: Get.width - 40,

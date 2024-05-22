@@ -12,8 +12,9 @@ import '/views/widgets/main_icon_button_widget.dart';
 import '/views/widgets/item_profile_widget.dart';
 import '/views/widgets/menu_item_widget.dart';
 import '/views/widgets/image_default.dart';
+import 'data_screen.dart';
 import 'deposit_screen.dart';
-import 'game_select_screen.dart';
+import 'game_menu_screen.dart';
 import 'gift_exchange_screen.dart';
 import 'cart_screen.dart';
 import 'loading_screen.dart';
@@ -34,7 +35,6 @@ class HomeScreen extends GetView<HomeController> {
       ),
       body: LoadingScreen(
         future: controller.fetchData,
-        messageNoData: 'Chưa có dữ liệu',
         child: RefreshIndicator(
           displacement: 0,
           onRefresh: controller.fetchData,
@@ -289,113 +289,126 @@ class HomeScreen extends GetView<HomeController> {
                         const SizedBox(height: 20),
                         LoadingScreen(
                           future: controller.getSession,
-                          messageNoData: 'Chưa có thực đơn',
                           child: Obx(
-                            () => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                //Sesion Selecter
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (controller.listSession.isNotEmpty)
-                                      Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 5, right: 5),
-                                        child: Text("Khung giờ",
-                                            style: Get.textTheme.titleMedium),
+                            () => DataScreen(
+                              hasData: controller.listSession.isNotEmpty,
+                              message: 'Chưa có thực đơn',
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //Sesion Selecter
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (controller.listSession.isNotEmpty)
+                                        Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 5, right: 5),
+                                          child: Text("Khung giờ",
+                                              style: Get.textTheme.titleMedium),
+                                        ),
+                                      const SizedBox(
+                                        height: 10,
                                       ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Obx(() => Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: controller.listSession
-                                                .map(
-                                                  (session) => GestureDetector(
-                                                    onTap: () {
-                                                      controller
-                                                              .selectedSessionId
-                                                              .value =
-                                                          session.id.toString();
-                                                      controller
-                                                          .getMenu(session.id!);
-                                                    },
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 5,
-                                                              left: 5),
-                                                      child: Card(
-                                                        margin: const EdgeInsets
-                                                            .only(right: 10),
-                                                        color: controller
-                                                                    .selectedSessionId
-                                                                    .value ==
-                                                                session.id
-                                                                    .toString()
-                                                            ? ThemeColor
-                                                                .textButtonColor
-                                                            : Colors.white,
-                                                        child: Container(
-                                                          padding:
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Obx(() => Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: controller.listSession
+                                                  .map(
+                                                    (session) =>
+                                                        GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                                .selectedSessionId
+                                                                .value =
+                                                            session.id
+                                                                .toString();
+                                                        controller.getMenu(
+                                                            session.id!);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                right: 5,
+                                                                left: 5),
+                                                        child: Card(
+                                                          margin:
                                                               const EdgeInsets
                                                                   .only(
-                                                                  left: 10,
-                                                                  right: 10,
-                                                                  top: 5,
-                                                                  bottom: 5),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                const BorderRadius
-                                                                    .all(
-                                                              Radius.circular(
-                                                                  12),
+                                                                  right: 10),
+                                                          color: controller
+                                                                      .selectedSessionId
+                                                                      .value ==
+                                                                  session.id
+                                                                      .toString()
+                                                              ? ThemeColor
+                                                                  .textButtonColor
+                                                              : Colors.white,
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 10,
+                                                                    right: 10,
+                                                                    top: 5,
+                                                                    bottom: 5),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .all(
+                                                                Radius.circular(
+                                                                    12),
+                                                              ),
+                                                              border:
+                                                                  Border.all(
+                                                                color:
+                                                                    Colors.grey,
+                                                                width: 1,
+                                                              ),
                                                             ),
-                                                            border: Border.all(
-                                                              color:
-                                                                  Colors.grey,
-                                                              width: 1,
-                                                            ),
-                                                          ),
-                                                          child: Text(
-                                                            DateFormat('HH:mm - ')
-                                                                    .format(session
-                                                                        .deliveryStartTime!) +
-                                                                DateFormat(
-                                                                        'HH:mm')
-                                                                    .format(session
-                                                                        .deliveryEndTime!),
-                                                            style: Get.textTheme
-                                                                .bodySmall!
-                                                                .copyWith(
-                                                              color: controller
-                                                                          .selectedSessionId
-                                                                          .value ==
-                                                                      session.id
-                                                                          .toString()
-                                                                  ? Colors.white
-                                                                  : Colors
-                                                                      .black,
+                                                            child: Text(
+                                                              DateFormat('HH:mm - ')
+                                                                      .format(session
+                                                                          .deliveryStartTime!) +
+                                                                  DateFormat(
+                                                                          'HH:mm')
+                                                                      .format(session
+                                                                          .deliveryEndTime!),
+                                                              style: Get
+                                                                  .textTheme
+                                                                  .bodySmall!
+                                                                  .copyWith(
+                                                                color: controller
+                                                                            .selectedSessionId
+                                                                            .value ==
+                                                                        session
+                                                                            .id
+                                                                            .toString()
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                )
-                                                .toList(),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                                  )
+                                                  .toList(),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -545,23 +558,24 @@ void showProfilesDialog(Function() onPressed) {
       child: SizedBox(
         child: LoadingScreen(
           future: controller.getProfiles,
-          messageNoData: 'Chưa có học sinh',
-          child: SingleChildScrollView(
-            child: Obx(
-              () => Column(
-                children: controller.listProfile.map((profile) {
-                  return ItemProfile(
-                    model: profile,
-                    onPressed: () => {
-                      currentProfile.value = profile,
-                      Get.back(),
-                      onPressed(),
-                    },
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
+          child: Obx(() => DataScreen(
+                hasData: controller.listProfile.isNotEmpty,
+                message: 'Chưa có học sinh',
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: controller.listProfile.map((profile) {
+                      return ItemProfile(
+                        model: profile,
+                        onPressed: () => {
+                          currentProfile.value = profile,
+                          Get.back(),
+                          onPressed(),
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+              )),
         ),
       ),
     ),
@@ -572,8 +586,6 @@ List<Widget> headerActionWidget() {
   Get.put(CartController());
 
   HomeController controller = Get.put(HomeController());
-  NotificationController notificationController =
-      Get.put(NotificationController());
   CartController cartController = Get.put(CartController());
 
   return <Widget>[
@@ -773,9 +785,7 @@ List<Widget> headerActionWidget() {
                   ),
                   Obx(
                     () => Visibility(
-                      visible: notificationController.notifications
-                          .where((n) => n.readDate == null)
-                          .isNotEmpty,
+                      visible: !Get.find<NotificationController>().allDone.value,
                       child: Positioned(
                         top: 5,
                         right: 3,
@@ -786,19 +796,19 @@ List<Widget> headerActionWidget() {
                             shape: BoxShape.circle,
                             color: Colors.red,
                           ),
-                          child: Center(
-                            child: Text(
-                              notificationController.notifications
-                                  .where((n) => n.readDate == null)
-                                  .length
-                                  .toString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          // child: Center(
+                          //   child: Text(
+                          //     notificationController.notifications
+                          //         .where((n) => n.readDate == null)
+                          //         .length
+                          //         .toString(),
+                          //     style: const TextStyle(
+                          //       color: Colors.white,
+                          //       fontSize: 10,
+                          //       fontWeight: FontWeight.bold,
+                          //     ),
+                          //   ),
+                          // ),
                         ),
                       ),
                     ),
@@ -879,7 +889,7 @@ List<Widget> headerActionWidget() {
                     text: "Trò chơi",
                     isNew: true,
                     onPressed: () {
-                      Get.to(() => const GameSelectScreen());
+                      Get.to(() => const GameMenuScreen());
                     },
                   ),
                 ],

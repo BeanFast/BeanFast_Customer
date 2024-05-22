@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '/controllers/game_menu_controller.dart';
 import '/utils/formater.dart';
 import '/game/matching_card/start_game_screen.dart';
 import '/game/pac_man/pacman_homepage.dart';
@@ -9,14 +10,13 @@ import '/game/tetris/board.dart';
 import '/utils/constants.dart';
 import '/views/widgets/image_default.dart';
 import '/views/screens/loading_screen.dart';
-import '/controllers/auth_controller.dart';
 
-class GameSelectScreen extends StatelessWidget {
-  const GameSelectScreen({super.key});
+class GameMenuScreen extends GetView<GameMenuController> {
+  const GameMenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.put(AuthController());
+   Get.put(GameMenuController());
 
     List<Game> games = [
       Game(
@@ -66,7 +66,7 @@ class GameSelectScreen extends StatelessWidget {
                 const Text('Lượt chơi: '),
                 Obx(
                   () => Text(
-                    authController.playTimes.toString(),
+                    controller.playTimes.toString(),
                   ),
                 ),
               ],
@@ -85,7 +85,7 @@ class GameSelectScreen extends StatelessWidget {
                 Obx(
                   () => Text(
                     Formater.formatPoint(
-                        currentProfile.value!.wallet!.balance.toString()),
+                        currentUser.value!.points.toString()),
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -100,8 +100,7 @@ class GameSelectScreen extends StatelessWidget {
         ],
       ),
       body: LoadingScreen(
-        future: authController.getPlayTime,
-        messageNoData: 'Chưa có dữ liệu',
+        future: controller.fetchData,
         child: SingleChildScrollView(
           child: Column(
             children: List.generate(
@@ -202,7 +201,7 @@ class GameSelectScreen extends StatelessWidget {
                                           ),
                                         ),
                                         onPressed: () {
-                                          if (authController.playTimes >= 1) {
+                                          if (controller.playTimes >= 1) {
                                             games[index].onClick();
                                           } else {
                                             showDialog(

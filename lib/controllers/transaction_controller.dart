@@ -1,11 +1,9 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '/models/transaction.dart';
 import '/services/transaction_service.dart';
-import '/utils/constants.dart';
 
 class TransactionController extends GetxController {
   final PagingController<int, Transaction> pagingController =
@@ -18,35 +16,33 @@ class TransactionController extends GetxController {
   List<String> listMonth = [];
   List<String> listStatus = ['Tất cả', 'Nạp tiền', 'Mua hàng'];
 
-  void fetchPage(int pageKey) async {
-    try {
-      // Replace this with your actual data fetching function
-      final newItems =
-          await TransactionService().getTransactions(pageKey, 5, true);
-      final isLastPage = newItems.isEmpty;
-      if (isLastPage) {
-        pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      pagingController.error = error;
-    }
+  @override
+  void onInit() {
+    super.onInit();
+    pagingController.addPageRequestListener((pageKey) async {
+      await fetchData(pageKey);
+    });
   }
 
-  Future fetchData() async {
+  Future<void> fetchData(int pageKey) async {
     listMonth.clear();
     listMonth.add('Tất cả');
     indexSelectedSortByMonth = 0.obs;
     indexSelectedSortByStatus = 0.obs;
     try {
-      List<Transaction> transactions =
-          await TransactionService().getTransactions(1, 100, true);
-      setInitListTransaction(transactions);
-      return transactions;
-    } catch (e) {
-      throw Exception(e);
+      final newData =
+          await TransactionService().getTransactions(pageKey, 5, true);
+
+      final isLastPage = newData.isEmpty;
+      if (isLastPage) {
+        pagingController.appendLastPage(newData);
+      } else {
+        final nextPageKey = pageKey + 1;
+        pagingController.appendPage(newData, nextPageKey);
+        setInitListTransaction(newData);
+      }
+    } catch (error) {
+      pagingController.error = error;
     }
   }
 
@@ -125,22 +121,10 @@ class TransactionController extends GetxController {
     }
   }
 
-  Future getPointTransaction(String profileId) async {
-    try {
-      List<Transaction> transactions =
-          await TransactionService().getTransactions(1, 100, false);
-      setInitListTransaction(transactions);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
 
-  Future createGameTransaction(String gameId, int points) async {
-    try {
-      bool result = await TransactionService()
-          .createGameTransaction(currentProfile.value!.id!, gameId, points);
-    } on DioException catch (e) {
-      throw Exception(e);
-    }
+  @override
+  void onClose() {
+    pagingController.dispose();
+    super.onClose();
   }
 }

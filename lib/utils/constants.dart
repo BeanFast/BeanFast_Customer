@@ -15,3 +15,17 @@ Rx<AuthState> authState = AuthState.unauthenticated.obs;
 void changePage(int index) {
   selectedMenuIndex.value = index;
 }
+
+List<Map<String, dynamic>> get cancelOrderReasonOptions => [
+      {'value': 0, 'title': 'Đặt nhầm món'},
+      {'value': 1, 'title': 'Thay đổi kế hoạch'},
+      {'value': 2, 'title': 'Không liên hệ được với quán'},
+      {'value': 3, 'title': 'Lý do khác'},
+    ];
+
+List<Map<String, dynamic>> get cancelExchangeGiftReasonOptions => [
+      {'title': 'Đặt nhầm quà', 'value': 0},
+      {'title': 'Thay đổi kế hoạch', 'value': 1},
+      {'title': 'Không liên hệ được với quán', 'value': 2},
+      {'title': 'Lý do khác', 'value': 3},
+    ];

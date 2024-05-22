@@ -29,9 +29,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
           if (profileId != null) {
             await controller.getProfileById(profileId!);
           }
-          return true;
         },
-        messageNoData: 'Chưa có dữ liệu',
         child: Form(
           key: controller.formKey,
           child: Column(

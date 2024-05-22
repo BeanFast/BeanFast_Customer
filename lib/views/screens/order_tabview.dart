@@ -1,9 +1,10 @@
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/models/order.dart';
+import 'data_screen.dart';
 import '/controllers/order_controller.dart';
-import '/contains/theme_color.dart';
-import 'loading_screen.dart';
 import '/enums/status_enum.dart';
 import '/views/widgets/order_item_widget.dart';
 
@@ -13,27 +14,25 @@ class OrderTabBarView extends GetView<OrderController> {
   const OrderTabBarView({super.key, required this.orderStatus});
   @override
   Widget build(BuildContext context) {
-    return LoadingScreen(
-      future: () => controller.fetchData(orderStatus),
-      messageNoData: 'Chưa có dữ liệu',
-      child: SingleChildScrollView(
-        child: Container(
-          color: ThemeColor.bgColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Obx(
-                  () => Column(
-                    children: controller.dataList.map((order) {
-                      return OrderItem(order: order);
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
+    Get.put(OrderController());
+    controller.orderStatus = orderStatus;
+    controller.resetPagingController();
+    return PagedListView<int, Order>(
+      pagingController: controller.pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Order>(
+        itemBuilder: (context, item, index) {
+          return OrderItem(order: item);
+        },
+        noItemsFoundIndicatorBuilder: (context) => const DataScreen(
+          hasData: false,
+          message: 'Chưa có đơn hàng',
+          child: Center(),
+        ),
+        firstPageErrorIndicatorBuilder: (context) => const Center(
+          child: Text('Lỗi tải trang'),
+        ),
+        newPageErrorIndicatorBuilder: (context) => const Center(
+          child: Text('Lỗi tải trang mới'),
         ),
       ),
     );

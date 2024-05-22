@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:beanfast_customer/controllers/auth_controller.dart';
-import 'package:beanfast_customer/controllers/transaction_controller.dart';
-import 'package:beanfast_customer/game/pac_man/ghost.dart';
-import 'package:beanfast_customer/game/pac_man/ghost2.dart';
-import 'package:beanfast_customer/game/pac_man/ghost3.dart';
-import 'package:beanfast_customer/game/pac_man/path.dart';
-import 'package:beanfast_customer/game/pac_man/pixel.dart';
-import 'package:beanfast_customer/game/pac_man/player.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '/controllers/game_menu_controller.dart';
+import '/game/pac_man/ghost.dart';
+import '/game/pac_man/ghost2.dart';
+import '/game/pac_man/ghost3.dart';
+import '/game/pac_man/path.dart';
+import '/game/pac_man/pixel.dart';
+import '/game/pac_man/player.dart';
 
 class PacmanGame extends StatefulWidget {
   const PacmanGame({super.key});
@@ -155,15 +155,10 @@ class _PacmanGameState extends State<PacmanGame> {
             player = -1;
           });
           //send data to server
-          TransactionController transactionController =
-              Get.put(TransactionController());
-         await transactionController.createGameTransaction(
+
+          GameMenuController controller = Get.put(GameMenuController());
+          await controller.sendPoints(
               'DDC8018A-06A6-4DC1-87C7-E02C053FDB0F', score);
-          AuthController authController = Get.put(AuthController());
-          //udpate ponit
-        //  await authController.getCurrentUser();
-           //udpate playtime
-         await authController.getPlayTime();
 
           showDialog(
               barrierDismissible: false,
@@ -172,9 +167,7 @@ class _PacmanGameState extends State<PacmanGame> {
                 return WillPopScope(
                   onWillPop: () async => false,
                   child: AlertDialog(
-                    title: const Center(
-                        child: Text(
-                            "Game Over!")),
+                    title: const Center(child: Text("Game Over!")),
                     content: Text(
                       "Điểm của bạn: $score",
                       style: const TextStyle(fontSize: 16),
@@ -186,7 +179,7 @@ class _PacmanGameState extends State<PacmanGame> {
                           GestureDetector(
                             onTap: () {
                               if (!mounted) return;
-                              if (authController.playTimes.value >= 1) {
+                              if (controller.playTimes.value >= 1) {
                                 setState(() {
                                   player = numberInRow * 14 + 1;
                                   ghost = numberInRow * 2 - 2;

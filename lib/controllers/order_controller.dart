@@ -1,38 +1,25 @@
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/enums/menu_index_enum.dart';
+import '../enums/menu_index_enum.dart';
+import '../views/screens/splash_screen.dart';
 import '/utils/constants.dart';
-import '/views/screens/splash_screen.dart';
 import '/enums/status_enum.dart';
 import '/models/order.dart';
 import '/services/order_service.dart';
 
 class OrderController extends GetxController {
-  final RxInt _selectedValue = RxInt(-1);
-  final RxString _otherReason = RxString('');
+  OrderStatus orderStatus = OrderStatus.preparing;
+  PagingController<int, Order> pagingController =
+      PagingController(firstPageKey: 1);
 
-  int get selectedValue => _selectedValue.value;
-  String get otherReason => _otherReason.value;
-
-  void handleRadioValueChanged(int? value) {
-    if (value != null) {
-      _selectedValue.value = value;
-      if (value != 3) {
-        _otherReason.value = '';
-      }
-      update();
-    }
-  }
-
-  void handleOtherReasonChanged(String reason) {
-    _otherReason.value = reason;
-    update();
-  }
+  final RxInt selectedValue = RxInt(-1);
+  final TextEditingController otherReasonController = TextEditingController();
 
   RxList<Order> dataList = <Order>[].obs;
-  Rx<Order> model = Order().obs;
+  Rx<Order?> model = Rx<Order?>(null);
   Rx<DateTime> selectedDate = DateTime.now().obs;
   RxString dropdownValue = 'Hoàn thành 1'.obs;
 
@@ -46,37 +33,79 @@ class OrderController extends GetxController {
     dropdownValue.value = status;
   }
 
-  Future getById(String id) async {
-    try {
-      model.value = await OrderService().getById(id);
-      return model;
-    } catch (e) {
-      throw Exception(e);
-    }
+  void resetPagingController() {
+    pagingController.dispose();
+    pagingController = PagingController(firstPageKey: 1);
+    pagingController.addPageRequestListener((pageKey) async {
+      await fetchData(pageKey);
+    });
   }
 
-  Future cancelOrder(String id, String reason) async {
+  Future fetchData(int pageKey) async {
     try {
-      await OrderService().cancelOrder(id, reason);
-      Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
-      changePage(MenuIndexState.order.index);
-      Get.offAll(const SplashScreen());
-    } on DioException catch (e) {
-      Get.snackbar('Lỗi', e.response!.data['message']);
-    }
-  }
-
-  Future fetchData(OrderStatus status) async {
-    try {
-      dataList.value = await OrderService().getByStatus(status);
-      for (var e in dataList) {
+      var data = await OrderService().getByStatus(orderStatus, pageKey, 5);
+      for (var e in data) {
         e.orderActivities!.sort((a, b) => b.time!.compareTo(a.time!));
       }
-      dataList.sort((a, b) => b.orderActivities!.first.time!
+      data.sort((a, b) => b.orderActivities!.first.time!
           .compareTo(a.orderActivities!.first.time!));
-      return dataList.isNotEmpty ? true : null;
+
+      final isLastPage = data.isEmpty;
+      if (isLastPage) {
+        pagingController.appendLastPage(data);
+      } else {
+        final nextPageKey = pageKey + 1;
+        pagingController.appendPage(data, nextPageKey);
+      }
     } catch (e) {
       throw Exception(e);
     }
+  }
+
+  Future getById(String id) async {
+    model.value = null;
+    try {
+      model.value = await OrderService().getById(id);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  void handleRadioValueChanged(int? value) {
+    if (value != null) {
+      selectedValue.value = value;
+    }
+  }
+
+  Future cancelOrder(String id) async {
+    if (selectedValue.value == -1) {
+      Get.snackbar('Thông báo', 'Vui lòng nhập lý do');
+    } else if (selectedValue.value == 3 && otherReasonController.text.isEmpty) {
+      Get.snackbar('Hệ thống', 'Vui lòng nhập lý do huỷ',
+          duration: const Duration(seconds: 1));
+    } else {
+      String reason;
+      if (selectedValue.value != 3) {
+        reason =
+            cancelOrderReasonOptions[selectedValue.value]['title'] as String;
+      } else {
+        reason = otherReasonController.text;
+      }
+      //call api
+      try {
+        await OrderService().cancelOrder(id, reason);
+        Get.snackbar('Hệ thống', 'Huỷ đơn hàng thành công');
+        changePage(MenuIndexState.order.index);
+        Get.offAll(const SplashScreen());
+      } on DioException catch (e) {
+        Get.snackbar('Lỗi', e.response!.data['message']);
+      }
+    }
+  }
+
+  @override
+  void onClose() {
+    pagingController.dispose();
+    super.onClose();
   }
 }

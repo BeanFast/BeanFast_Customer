@@ -3,6 +3,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/game_menu_controller.dart';
 import '../../controllers/transaction_controller.dart';
 
 class GameOverScreen extends StatefulWidget {
@@ -82,19 +83,12 @@ class _GameOverScreenState extends State<GameOverScreen> {
                         MaterialStateProperty.all<Color>(Colors.green),
                   ),
                   onPressed: () async {
-                    //send data to server
-                    TransactionController transactionController =
-                        Get.put(TransactionController());
-                   await transactionController.createGameTransaction(
-                        'B2F1C432-8282-42B2-9C5B-39706E28E736', 5);
-                    //get current user again
-
-                    AuthController authController = Get.put(AuthController());
-                  //  await authController.getCurrentUser();
-                   await authController.getPlayTime();
-                   
-                    Navigator.of(context).pop();
-                    Navigator.pop(context);
+                    GameMenuController controller =
+                        Get.put(GameMenuController());
+                    await controller.sendPoints(
+                        '8BF8D76C-B74E-4F30-B104-D03729E11315', 5);
+                    Get.back();
+                    Get.back();
                   },
                   child: const Text("Hoàn thành",
                       style: TextStyle(fontSize: 18, color: Colors.white)),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 
+import '../../controllers/game_menu_controller.dart';
 import 'piece.dart';
 import 'pixel.dart';
 import 'values.dart';
@@ -245,13 +246,10 @@ class _GameBoardState extends State<GameBoard> {
   // game over message
   Future<void> showGameOverDialog() async {
     //send data to server
-    TransactionController transactionController =
-        Get.put(TransactionController());
-    await transactionController.createGameTransaction(
+    GameMenuController controller = Get.put(GameMenuController());
+    await controller.sendPoints(
         'B2F1C432-8282-42B2-9C5B-39706E28E736', currentScore);
-    AuthController authController = Get.put(AuthController());
-    // await authController.getCurrentUser();
-    await authController.getPlayTime();
+
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -267,7 +265,7 @@ class _GameBoardState extends State<GameBoard> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (authController.playTimes >= 1) {
+                    if (controller.playTimes >= 1) {
                       resetGame();
                       Navigator.pop(context);
                     } else {
@@ -323,7 +321,6 @@ class _GameBoardState extends State<GameBoard> {
                     resetGame();
                     Navigator.of(context).pop(true);
                     Navigator.of(context).pop(true);
-                    
                   },
                   child: Container(
                     padding: const EdgeInsets.all(10),

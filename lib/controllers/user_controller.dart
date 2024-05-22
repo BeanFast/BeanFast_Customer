@@ -33,7 +33,6 @@ class UserController extends GetxController {
       currentUser.value = await AuthService().getUser();
       List<Profile> list = await ProfileService().getAll();
       currentUser.value!.profiles = list;
-      return currentUser.value;
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
     }

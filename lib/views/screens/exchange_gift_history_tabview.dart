@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '/views/widgets/exchange_gift_item_widget.dart';
 import '/controllers/exchange_gift_controller.dart';
-import '/contains/theme_color.dart';
+import '/models/exchange_gift.dart';
+import '/views/screens/data_screen.dart';
+import '/views/widgets/exchange_gift_item_widget.dart';
 import '/enums/status_enum.dart';
-import 'loading_screen.dart';
 
 class ExchangeGiftHistoryTabBarView extends GetView<ExchangeGiftController> {
   final ExchangeGiftStatus exchangeGiftStatus;
@@ -15,37 +16,23 @@ class ExchangeGiftHistoryTabBarView extends GetView<ExchangeGiftController> {
   @override
   Widget build(BuildContext context) {
     controller.orderStatus = exchangeGiftStatus;
-    return LoadingScreen(
-      future: controller.getExchangeGiftByStatus,
-      messageNoData: 'Chưa có lịch sử',
-      child: SingleChildScrollView(
-        child: Container(
-          color: ThemeColor.bgColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Obx(
-                  () => controller.listExchangeGiftData.isEmpty
-                      ? SizedBox(
-                          height: Get.height * 0.6,
-                          child: Center(
-                            child: Image.asset(
-                              "assets/images/order_image.png",
-                            ),
-                          ),
-                        )
-                      : Column(
-                          children: controller.listExchangeGiftData
-                              .map((exchangeGift) {
-                            return ExchangeGiftItem(exchangeGift: exchangeGift);
-                          }).toList(),
-                        ),
-                ),
-              ),
-            ],
-          ),
+    controller.resetExchangeGiftPagingController();
+    return PagedListView<int, ExchangeGift>(
+      pagingController: controller.pagingExchangeGiftController,
+      builderDelegate: PagedChildBuilderDelegate<ExchangeGift>(
+        itemBuilder: (context, item, index) {
+          return ExchangeGiftItem(exchangeGift: item);
+        },
+        noItemsFoundIndicatorBuilder: (context) => const DataScreen(
+          hasData: false,
+          message: 'Chưa có đơn hàng',
+          child: Center(),
+        ),
+        firstPageErrorIndicatorBuilder: (context) => const Center(
+          child: Text('Lỗi tải trang'),
+        ),
+        newPageErrorIndicatorBuilder: (context) => const Center(
+          child: Text('Lỗi tải trang mới'),
         ),
       ),
     );
