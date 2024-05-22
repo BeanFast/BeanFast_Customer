@@ -6,8 +6,8 @@ import '/models/transaction.dart';
 import '/services/transaction_service.dart';
 
 class TransactionController extends GetxController {
-  final PagingController<int, Transaction> pagingController =
-      PagingController(firstPageKey: 0);
+  PagingController<int, Transaction> pagingController =
+      PagingController(firstPageKey: 1);
   Map<String, List<Transaction>> initListTransaction = {};
   RxMap<String, List<Transaction>> mapTransactions =
       <String, List<Transaction>>{}.obs;
@@ -16,9 +16,9 @@ class TransactionController extends GetxController {
   List<String> listMonth = [];
   List<String> listStatus = ['Tất cả', 'Nạp tiền', 'Mua hàng'];
 
-  @override
-  void onInit() {
-    super.onInit();
+  void resetPagingController() {
+    pagingController.dispose();
+    pagingController = PagingController(firstPageKey: 1);
     pagingController.addPageRequestListener((pageKey) async {
       await fetchData(pageKey);
     });
@@ -120,7 +120,6 @@ class TransactionController extends GetxController {
       int a = initListTransaction.length;
     }
   }
-
 
   @override
   void onClose() {

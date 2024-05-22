@@ -26,7 +26,6 @@ class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 140,
@@ -550,7 +549,7 @@ class HomeScreen extends GetView<HomeController> {
 }
 
 void showProfilesDialog(Function() onPressed) {
-  HomeController controller = Get.put(HomeController());
+  HomeController controller = Get.find();
   Get.dialog(AlertDialog(
     title: const Text('Chọn học sinh'),
     content: SizedBox(
@@ -585,7 +584,7 @@ void showProfilesDialog(Function() onPressed) {
 List<Widget> headerActionWidget() {
   Get.put(CartController());
 
-  HomeController controller = Get.put(HomeController());
+  HomeController controller = Get.find();
   CartController cartController = Get.put(CartController());
 
   return <Widget>[

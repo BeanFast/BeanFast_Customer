@@ -17,7 +17,7 @@ class CartScreen extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.put(HomeController());
+    HomeController homeController = Get.find();
 
     return Scaffold(
       appBar: AppBar(

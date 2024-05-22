@@ -134,7 +134,6 @@ void showFlutterNotificationBackground(RemoteMessage message) {
 
 Future<void> main() async {
   await GetStorage.init(); // init local storage
-  // Get.put(HomeController());
   setLocaleMessages('vi', ViMessages());
   setDefaultLocale('vi');
   WidgetsFlutterBinding.ensureInitialized();

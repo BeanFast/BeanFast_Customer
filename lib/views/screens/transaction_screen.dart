@@ -2,8 +2,10 @@ import 'package:beanfast_customer/views/screens/data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/transaction.dart';
 import '/contains/theme_color.dart';
 import '/controllers/home_controller.dart';
 import '/controllers/transaction_controller.dart';
@@ -14,9 +16,9 @@ class TransactionScreen extends GetView<TransactionController> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.put(HomeController());
-    DateFormat formatter = DateFormat('HH:mm dd/MM/yy');
+    HomeController homeController = Get.find();
     Get.put(TransactionController());
+    controller.resetPagingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -101,175 +103,112 @@ class TransactionScreen extends GetView<TransactionController> {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Obx(
-                () => DataScreen(
-                  hasData: controller.mapTransactions.isNotEmpty,
-                  message: 'Chưa có lịch sử',
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: controller.mapTransactions.entries
-                          .map(
-                            (transaction) => Column(
+            child: PagedListView<int, Transaction>(
+              pagingController: controller.pagingController,
+              builderDelegate: PagedChildBuilderDelegate<Transaction>(
+                itemBuilder: (context, item, index) {
+                  var transactionType = item.order!.code == null
+                      ? "Nạp tiền"
+                      : item.value! >= 0
+                          ? "Hoàn tiền"
+                          : "Thanh toán";
+                  IconData iconData = item.value! > 0
+                      ? Iconsax.wallet_add_1
+                      : Iconsax.wallet_minus;
+                  var color = item.value! >= 0 ? Colors.green : Colors.red;
+                  return Card(
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            child: Icon(
+                              iconData,
+                              color: ThemeColor.iconColor,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  height: 50,
-                                  alignment: Alignment.centerLeft,
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Color.fromARGB(255, 198, 229, 245),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Color.fromARGB(
-                                            255, 198, 229, 245),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        offset: Offset(0,
-                                            2), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: Text(
-                                    'Tháng ${transaction.key}',
-                                    style: Get.textTheme.titleMedium,
+                                Text(
+                                  item.order!.code != null
+                                      ? "$transactionType: #${item.order!.code!}"
+                                      : transactionType,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                Column(
-                                  children: transaction.value.map((element) {
-                                    var transactionType =
-                                        element.order!.code == null
-                                            ? "Nạp tiền"
-                                            : element.value! >= 0
-                                                ? "Hoàn tiền"
-                                                : "Thanh toán";
-                                    IconData iconData = element.value! > 0
-                                        ? Iconsax.wallet_add_1
-                                        : Iconsax.wallet_minus;
-                                    var color = element.value! >= 0
-                                        ? Colors.green
-                                        : Colors.red;
-                                    return Card(
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 50,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                border: Border.all(
-                                                    color: Colors.grey),
-                                              ),
-                                              child: Icon(
-                                                iconData,
-                                                color: ThemeColor.iconColor,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    element.order!.code !=
-                                                            null
-                                                        ? "$transactionType: #${element.order!.code!}"
-                                                        : transactionType,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: Get
-                                                        .textTheme.bodyLarge!
-                                                        .copyWith(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 5),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .end,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              formatter.format(
-                                                                  element
-                                                                      .time!),
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: Get
-                                                                  .textTheme
-                                                                  .bodySmall,
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 5),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .bottomRight,
-                                                        width: 120,
-                                                        child: Text(
-                                                          element.value! > 0
-                                                              ? "+${Formater.formatMoney(element.value.toString())}"
-                                                              : Formater.formatMoney(
-                                                                  element
-                                                                      .value
-                                                                      .toString()),
-                                                          maxLines: 1,
-                                                          overflow:
-                                                              TextOverflow
-                                                                  .ellipsis,
-                                                          style: Get.textTheme
-                                                              .bodyMedium!
-                                                              .copyWith(
-                                                            color: color,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                                const SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            DateFormat('HH:mm dd/MM/yy')
+                                                .format(item.time!),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Get.textTheme.bodySmall,
+                                          ),
+                                          const SizedBox(height: 5),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.bottomRight,
+                                      width: 120,
+                                      child: Text(
+                                        item.value! > 0
+                                            ? "+${Formater.formatMoney(item.value.toString())}"
+                                            : Formater.formatMoney(
+                                                item.value.toString()),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            Get.textTheme.bodyMedium!.copyWith(
+                                          color: color,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                    );
-                                  }).toList(),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          )
-                          .toList(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  );
+                },
+                noItemsFoundIndicatorBuilder: (context) => const DataScreen(
+                  hasData: false,
+                  message: 'Chưa có lịch sử',
+                  child: Center(),
+                ),
+                firstPageErrorIndicatorBuilder: (context) => const Center(
+                  child: Text('Lỗi tải trang'),
+                ),
+                newPageErrorIndicatorBuilder: (context) => const Center(
+                  child: Text('Lỗi tải trang mới'),
                 ),
               ),
             ),
