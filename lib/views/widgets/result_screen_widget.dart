@@ -29,12 +29,15 @@ class ResultScreenWidget extends StatelessWidget {
         backgroundColor: isSuccess ? ThemeColor.primaryColor : Colors.white,
       ),
       body: Container(
+       
         padding: const EdgeInsets.all(10),
         color: isSuccess ? ThemeColor.primaryColor : Colors.white,
-        height: 170,
+        height: 230,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 50,),
             isSuccess
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
