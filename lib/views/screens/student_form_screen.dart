@@ -471,13 +471,19 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                                                   Colors.grey),
                                                         ),
                                                         child:
-                                                            CustomNetworkImage(
-                                                          controller
-                                                              .filteredSchools[
-                                                                  index]
-                                                              .imagePath!,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                            ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          25),
+                                                              child: CustomNetworkImage(
+                                                                                                                        controller
+                                                                .filteredSchools[
+                                                                    index]
+                                                                .imagePath!,
+                                                                                                                        fit: BoxFit.cover,
+                                                                                                                      ),
+                                                            ),
                                                       ),
                                                       title: Text(controller
                                                           .filteredSchools[
