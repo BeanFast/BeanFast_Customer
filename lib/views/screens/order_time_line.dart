@@ -118,27 +118,15 @@ class OrderTimeline extends StatelessWidget {
                     contentsAlign: ContentsAlign.basic,
                     oppositeContentsBuilder: (context, index) => Container(
                       padding: const EdgeInsets.only(right: 20, top: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                              DateFormat('HH:mm dd/MM/yy')
-                                  .format(order.orderActivities![index].time!),
-                              style: Get.textTheme.bodySmall),
-                        ],
-                      ),
+                      child: Text(
+                          DateFormat('HH:mm dd/MM/yy')
+                              .format(order.orderActivities![index].time!),
+                          style: Get.textTheme.bodySmall),
                     ),
                     contentsBuilder: (context, index) => Container(
                       padding: const EdgeInsets.only(left: 20, top: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(order.orderActivities![index].name.toString(),
-                              style: Get.textTheme.bodySmall),
-                        ],
-                      ),
+                      child: Text(order.orderActivities![index].name.toString(),
+                          style: Get.textTheme.bodySmall),
                     ),
                     indicatorBuilder: (context, index) {
                       if (index == 0) {
