@@ -784,7 +784,8 @@ List<Widget> headerActionWidget() {
                   ),
                   Obx(
                     () => Visibility(
-                      visible: !Get.find<NotificationController>().allDone.value,
+                      visible:
+                          !Get.find<NotificationController>().allDone.value,
                       child: Positioned(
                         top: 5,
                         right: 3,
@@ -795,19 +796,6 @@ List<Widget> headerActionWidget() {
                             shape: BoxShape.circle,
                             color: Colors.red,
                           ),
-                          // child: Center(
-                          //   child: Text(
-                          //     notificationController.notifications
-                          //         .where((n) => n.readDate == null)
-                          //         .length
-                          //         .toString(),
-                          //     style: const TextStyle(
-                          //       color: Colors.white,
-                          //       fontSize: 10,
-                          //       fontWeight: FontWeight.bold,
-                          //     ),
-                          //   ),
-                          // ),
                         ),
                       ),
                     ),
