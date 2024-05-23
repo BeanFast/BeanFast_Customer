@@ -20,7 +20,7 @@ class AccountProfileScreen extends GetView<UserController> {
         future: controller.fetchData,
         child: Obx(
           () => DataScreen(
-            hasData: currentUser.value == null ? true : false,
+            hasData: currentUser.value != null ? true : false,
             message: 'Chưa có dữ liệu',
             child: Stack(
               children: [
