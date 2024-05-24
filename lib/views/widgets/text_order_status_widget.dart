@@ -14,6 +14,9 @@ class TextOrderStatus extends StatelessWidget {
       case OrderStatus.preparing:
         color = Colors.black54;
         break;
+      case OrderStatus.cooking:
+        color = Colors.black54;
+        break;
       case OrderStatus.delivering:
         color = Colors.black54;
         break;

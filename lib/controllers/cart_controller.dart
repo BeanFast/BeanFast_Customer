@@ -169,15 +169,15 @@ class CartController extends GetxController with CacheManager {
       String profileId, String sessionId, String menuDetailId) async {
     if (dataList.containsKey(profileId)) {
       //if profileId đã có
-      Map<String, Map<String, RxInt>> listSession = dataList[profileId]!;
-      if (listSession.containsKey(sessionId)) {
+      Map<String, Map<String, RxInt>> cartSessionList = dataList[profileId]!;
+      if (cartSessionList.containsKey(sessionId)) {
         //sessionId đã có
-        Map<String, RxInt> cart = listSession[sessionId]!;
+        Map<String, RxInt> cart = cartSessionList[sessionId]!;
         cart.update(menuDetailId, (value) => cart[menuDetailId]! + 1,
             ifAbsent: () => 1.obs);
       } else {
         //if sessionId chưa tồn tại
-        listSession.putIfAbsent(sessionId, () => {menuDetailId: 1.obs});
+        cartSessionList.putIfAbsent(sessionId, () => {menuDetailId: 1.obs}.obs);
       }
     } else {
       //profileId chưa tồn tại
@@ -196,10 +196,10 @@ class CartController extends GetxController with CacheManager {
       String profileId, String sessionId, String menuDetailId) async {
     if (dataList.containsKey(profileId)) {
       //if profileId đã có
-      Map<String, Map<String, RxInt>> listSession = dataList[profileId]!;
-      if (listSession.containsKey(sessionId)) {
+      Map<String, Map<String, RxInt>> cartSessionList = dataList[profileId]!;
+      if (cartSessionList.containsKey(sessionId)) {
         //sessionId đã có
-        Map<String, RxInt> cart = listSession[sessionId]!;
+        Map<String, RxInt> cart = cartSessionList[sessionId]!;
         if (cart.containsKey(menuDetailId)) {
           cart.update(menuDetailId, (value) => cart[menuDetailId]! - 1);
           //remove

@@ -60,8 +60,8 @@ class HomeScreen extends GetView<HomeController> {
                               size: 16,
                               color: Colors.black,
                             ),
-                            onPressed: () {
-                              controller.toggleMoneyVisibility();
+                            onPressed: () async {
+                              await controller.toggleMoneyVisibility();
                             },
                           ),
                           Text(
