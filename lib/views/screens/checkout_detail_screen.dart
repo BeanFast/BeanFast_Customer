@@ -413,85 +413,94 @@ class CheckOutDetailScreen extends GetView<CartController> {
                               ),
                             ),
                           ),
-                          onPressed: () async {
-                            if (currentUser.value!.balance! <
-                                controller.total.value) {
-                              showDialog(
-                                context: context,
-                                // barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  // Return object of type Dialog
-                                  return AlertDialog(
-                                    content: SizedBox(
-                                      height: 160,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            width: Get.width,
-                                            height: 100,
-                                            child: Lottie.asset(
-                                              "assets/unsuccess.json",
-                                              repeat: true,
-                                              fit: BoxFit.contain,
-                                              // animate: true,
+                          onPressed: controller.isSubmitting.value
+                              ? null
+                              : () async {
+                                  if (currentUser.value!.balance! <
+                                      controller.total.value) {
+                                    showDialog(
+                                      context: context,
+                                      // barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        // Return object of type Dialog
+                                        return AlertDialog(
+                                          content: SizedBox(
+                                            height: 160,
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  width: Get.width,
+                                                  height: 100,
+                                                  child: Lottie.asset(
+                                                    "assets/unsuccess.json",
+                                                    repeat: true,
+                                                    fit: BoxFit.contain,
+                                                    // animate: true,
+                                                  ),
+                                                ),
+                                                const Text('Thông báo',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                const SizedBox(height: 10),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Số dư không đủ, ',
+                                                      style: Get
+                                                          .textTheme.bodyLarge,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Get.to(() =>
+                                                            const DepositeScreen());
+                                                      },
+                                                      child: Text(
+                                                        'nạp thêm',
+                                                        style: Get.textTheme
+                                                            .bodyLarge!
+                                                            .copyWith(
+                                                                color: const Color
+                                                                    .fromRGBO(
+                                                                    240,
+                                                                    103,
+                                                                    24,
+                                                                    1)),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          const Text('Thông báo',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold)),
-                                          const SizedBox(height: 10),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'Số dư không đủ, ',
-                                                style: Get.textTheme.bodyLarge,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Get.to(() =>
-                                                      const DepositeScreen());
-                                                },
-                                                child: Text(
-                                                  'nạp thêm',
-                                                  style: Get
-                                                      .textTheme.bodyLarge!
-                                                      .copyWith(
-                                                          color: const Color
-                                                              .fromRGBO(
-                                                              240, 103, 24, 1)),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    bool result = await controller.checkout();
+                                    Get.offAll(
+                                      () => ResultScreenWidget(
+                                        isSuccess: result,
+                                        content:
+                                            'Cảm ơn bạn đã ủng hộ BeanFast!.',
+                                        ontapNameLeftSide: 'Trang chủ',
+                                        ontapLeftSide: () {
+                                          changePage(MenuIndexState.home.index);
+                                          Get.offAll(const SplashScreen());
+                                        },
+                                        ontapNameRightSide: 'Đơn hàng',
+                                        ontapRightSide: () {
+                                          changePage(
+                                              MenuIndexState.order.index);
+                                          Get.offAll(const SplashScreen());
+                                        },
                                       ),
-                                    ),
-                                  );
+                                    );
+                                  }
                                 },
-                              );
-                            } else {
-                              bool result = await controller.checkout();
-                              Get.offAll(
-                                () => ResultScreenWidget(
-                                  isSuccess: result,
-                                  content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
-                                  ontapNameLeftSide: 'Trang chủ',
-                                  ontapLeftSide: () {
-                                    changePage(MenuIndexState.home.index);
-                                    Get.offAll(const SplashScreen());
-                                  },
-                                  ontapNameRightSide: 'Đơn hàng',
-                                  ontapRightSide: () {
-                                    changePage(MenuIndexState.order.index);
-                                    Get.offAll(const SplashScreen());
-                                  },
-                                ),
-                              );
-                            }
-                          },
                           child: Text(
                             'Đặt hàng',
                             style: Get.textTheme.titleLarge!

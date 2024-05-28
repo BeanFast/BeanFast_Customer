@@ -339,35 +339,38 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                         ),
                       ),
                     ),
-                    onPressed: () async {
-                      if (controller.selectedSession.value != null) {
-                        var sessionDetail = controller
-                            .selectedSession.value!.sessionDetails!
-                            .firstWhere((e) =>
-                                e.id! == controller.sessionDetailId.value);
-                        if (sessionDetail.location!.name != null) {
-                          bool result =
-                              await controller.createExchangeGift(gift.id!);
-                          Get.offAll(
-                            () => ResultScreenWidget(
-                              isSuccess: result,
-                              content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
-                              ontapNameLeftSide: 'Trang chủ',
-                              ontapLeftSide: () {
-                                changePage(MenuIndexState.home.index);
-                                Get.offAll(const SplashScreen());
-                              },
-                              ontapNameRightSide: 'Đơn hàng',
-                              ontapRightSide: () {
-                                changePage(MenuIndexState.home.index);
-                                Get.offAll(const SplashScreen());
-                                Get.to(const ExchangeGiftScreen());
-                              },
-                            ),
-                          );
-                        }
-                      }
-                    },
+                    onPressed: controller.isSubmitting.value
+                        ? null
+                        : () async {
+                            if (controller.selectedSession.value != null) {
+                              var sessionDetail = controller
+                                  .selectedSession.value!.sessionDetails!
+                                  .firstWhere((e) =>
+                                      e.id! ==
+                                      controller.sessionDetailId.value);
+                              if (sessionDetail.location!.name != null) {
+                                bool result = await controller
+                                    .createExchangeGift(gift.id!);
+                                Get.offAll(
+                                  () => ResultScreenWidget(
+                                    isSuccess: result,
+                                    content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
+                                    ontapNameLeftSide: 'Trang chủ',
+                                    ontapLeftSide: () {
+                                      changePage(MenuIndexState.home.index);
+                                      Get.offAll(const SplashScreen());
+                                    },
+                                    ontapNameRightSide: 'Đơn hàng',
+                                    ontapRightSide: () {
+                                      changePage(MenuIndexState.home.index);
+                                      Get.offAll(const SplashScreen());
+                                      Get.to(const ExchangeGiftScreen());
+                                    },
+                                  ),
+                                );
+                              }
+                            }
+                          },
                     child: Text(
                       'Đặt hàng',
                       style: Get.textTheme.titleLarge!

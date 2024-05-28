@@ -16,9 +16,7 @@ import 'profile_controller.dart';
 class ProfileFormController extends GetxController {
   Rx<Profile> model = Profile().obs;
   Rx<bool> isImageFile = true.obs;
-
   RxBool isSubmitting = false.obs;
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   RxString imagePath = ''.obs;

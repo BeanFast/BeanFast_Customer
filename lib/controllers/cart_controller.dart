@@ -22,7 +22,7 @@ class CartController extends GetxController with CacheManager {
       <String, String>{}.obs; // key: sessionId, value: sessionDetailId
   RxMap<String, Map<String, RxMap<String, RxInt>>> dataList =
       <String, Map<String, RxMap<String, RxInt>>>{}.obs;
-
+  RxBool isSubmitting = false.obs;
   Future checkCartItem() async {
     for (var profile in dataList.entries.toList()) {
       for (var session in profile.value.entries.toList()) {

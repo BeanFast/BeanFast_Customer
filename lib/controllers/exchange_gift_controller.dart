@@ -20,6 +20,7 @@ import '/utils/logger.dart';
 import '/utils/constants.dart';
 
 class ExchangeGiftController extends GetxController {
+   RxBool isSubmitting = false.obs;
   //exchange gift tabview
   ExchangeGiftStatus orderStatus = ExchangeGiftStatus.preparing;
   PagingController<int, ExchangeGift> pagingExchangeGiftController =
