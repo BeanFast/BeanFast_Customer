@@ -14,7 +14,7 @@ class RegisterView extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     Get.put(AuthController());
-    
+
     return WillPopScope(
       onWillPop: () async {
         controller.errorMessage.value = '';
@@ -24,7 +24,6 @@ class RegisterView extends GetView<AuthController> {
         return true;
       },
       child: Scaffold(
-        
         appBar: AppBar(
           title: const Text(
             'Đăng ký',
@@ -196,29 +195,30 @@ class RegisterView extends GetView<AuthController> {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      GradientButton(
-                        text: 'Đăng ký',
-                        onPressed: () async {
-                          if (controller.isChecked.value == true) {
-                            controller.errorMessage.value = '';
-                            if (_formKey.currentState!.validate()) {
-                              controller.errorMessage.value = '';
-                              await controller.register();
-                              Get.to(
-                                () => const OtpConfirmationView(),
-                                binding: BindingsBuilder(() {
-                                  Get.put(OTPController(
-                                    phone: controller.phoneController.text,
-                                  ));
-                                }),
-                              );
-                            }
-                          } else {
-                            controller.errorMessage.value =
-                                'Vui lòng chấp nhận điều khoản';
-                          }
-                        },
-                      ),
+                      Obx(() => GradientButton(
+                            disable: controller.isSubmitting.value,
+                            text: 'Đăng ký',
+                            onPressed: () async {
+                              if (controller.isChecked.value == true) {
+                                controller.errorMessage.value = '';
+                                if (_formKey.currentState!.validate()) {
+                                  controller.errorMessage.value = '';
+                                  await controller.register();
+                                  Get.to(
+                                    () => const OtpConfirmationView(),
+                                    binding: BindingsBuilder(() {
+                                      Get.put(OTPController(
+                                        phone: controller.phoneController.text,
+                                      ));
+                                    }),
+                                  );
+                                }
+                              } else {
+                                controller.errorMessage.value =
+                                    'Vui lòng chấp nhận điều khoản';
+                              }
+                            },
+                          )),
                     ],
                   ),
                 ),

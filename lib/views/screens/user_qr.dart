@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:beanfast_customer/views/screens/data_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,24 +30,27 @@ class UserQRScreen extends GetView<ProfileQRController> {
                 height: 10,
               ),
               LoadingScreen(
-                  future: controller.generateQRData,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 50),
-                    width: Get.width - 40,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Đưa mã này cho nhân viên',
-                          style: Get.textTheme.bodyLarge!
-                              .copyWith(color: Colors.black54),
-                        ),
-                        QrImageView(
-                          data: controller.qrData.value.toString(),
-                          version: QrVersions.auto,
-                        ),
-                        Obx(
-                          () => SizedBox(
+                future: controller.generateQRData,
+                child: Obx(
+                  () => DataScreen(
+                    hasData: controller.qrData.value != null ? true : false,
+                    message: 'Chưa có dữ liệu',
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 50),
+                      width: Get.width - 40,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Đưa mã này cho nhân viên',
+                            style: Get.textTheme.bodyLarge!
+                                .copyWith(color: Colors.black54),
+                          ),
+                          QrImageView(
+                            data: controller.qrData.value.toString(),
+                            version: QrVersions.auto,
+                          ),
+                          SizedBox(
                             height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -69,10 +73,12 @@ class UserQRScreen extends GetView<ProfileQRController> {
                               ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

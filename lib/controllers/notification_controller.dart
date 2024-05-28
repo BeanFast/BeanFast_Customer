@@ -53,14 +53,6 @@ class NotificationController extends GetxController {
   }
 
   @override
-  void onInit() {
-    pagingController.addPageRequestListener((pageKey) async {
-      await fetchData(pageKey);
-    });
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     pagingController.dispose();
     super.onClose();

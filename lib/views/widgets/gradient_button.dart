@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class GradientButton extends StatelessWidget {
+  final bool disable;
   final String text;
   final VoidCallback onPressed;
 
   const GradientButton({
     super.key,
+    required this.disable,
     required this.text,
     required this.onPressed,
   });
@@ -29,7 +31,7 @@ class GradientButton extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: onPressed,
+        onPressed: disable ? null : onPressed,
         child: Ink(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -45,8 +47,8 @@ class GradientButton extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             child: Text(text,
-                style:
-                    Get.textTheme.titleMedium!.copyWith(color: ThemeColor.itemColor)),
+                style: Get.textTheme.titleMedium!
+                    .copyWith(color: ThemeColor.itemColor)),
           ),
         ),
       ),
