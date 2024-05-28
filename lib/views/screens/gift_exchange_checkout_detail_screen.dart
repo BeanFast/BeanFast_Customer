@@ -86,18 +86,19 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                                     Text(currentProfile.value!.school!.name
                                         .toString()),
                                     Obx(
-                                      () => Text(controller
-                                                  .selectedSession.value ==
-                                              null
-                                          ? 'Chưa chọn địa điểm nhận hàng'
-                                          : controller.selectedSession.value!
-                                              .sessionDetails!
-                                              .firstWhere((e) =>
-                                                  e.id! ==
-                                                  controller.sessionDetailId.value)
-                                              .location!
-                                              .name
-                                              .toString()),
+                                      () => Text(
+                                          controller.selectedSession.value ==
+                                                  null
+                                              ? 'Chưa chọn địa điểm nhận hàng'
+                                              : controller.selectedSession
+                                                  .value!.sessionDetails!
+                                                  .firstWhere((e) =>
+                                                      e.id! ==
+                                                      controller.sessionDetailId
+                                                          .value)
+                                                  .location!
+                                                  .name
+                                                  .toString()),
                                     ),
                                   ],
                                 ),
@@ -201,8 +202,9 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                                                     style: Get
                                                         .textTheme.bodyLarge!
                                                         .copyWith(
-                                                      color: const Color.fromARGB(
-                                                      255, 26, 128, 30),
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255, 26, 128, 30),
                                                     ),
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -311,10 +313,9 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                           Formater.formatPoint(
                             gift.points.toString(),
                           ),
-                          style:  const TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
-                              color: Color.fromARGB(
-                                                      255, 26, 128, 30),
+                              color: Color.fromARGB(255, 26, 128, 30),
                               fontWeight: FontWeight.bold)),
                     ],
                   ),
@@ -339,25 +340,33 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                       ),
                     ),
                     onPressed: () async {
-                      bool result =
-                          await controller.createExchangeGift(gift.id!);
-                      Get.offAll(() =>
-                        ResultScreenWidget(
-                          isSuccess: result,
-                          content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
-                          ontapNameLeftSide: 'Trang chủ',
-                          ontapLeftSide: () {
-                            changePage(MenuIndexState.home.index);
-                            Get.offAll(const SplashScreen());
-                          },
-                          ontapNameRightSide: 'Đơn hàng',
-                          ontapRightSide: () {
-                            changePage(MenuIndexState.home.index);
-                            Get.offAll(const SplashScreen());
-                            Get.to(const ExchangeGiftScreen());
-                          },
-                        ),
-                      );
+                      if (controller.selectedSession.value != null) {
+                        var sessionDetail = controller
+                            .selectedSession.value!.sessionDetails!
+                            .firstWhere((e) =>
+                                e.id! == controller.sessionDetailId.value);
+                        if (sessionDetail.location!.name != null) {
+                          bool result =
+                              await controller.createExchangeGift(gift.id!);
+                          Get.offAll(
+                            () => ResultScreenWidget(
+                              isSuccess: result,
+                              content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
+                              ontapNameLeftSide: 'Trang chủ',
+                              ontapLeftSide: () {
+                                changePage(MenuIndexState.home.index);
+                                Get.offAll(const SplashScreen());
+                              },
+                              ontapNameRightSide: 'Đơn hàng',
+                              ontapRightSide: () {
+                                changePage(MenuIndexState.home.index);
+                                Get.offAll(const SplashScreen());
+                                Get.to(const ExchangeGiftScreen());
+                              },
+                            ),
+                          );
+                        }
+                      }
                     },
                     child: Text(
                       'Đặt hàng',
@@ -461,7 +470,8 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                         child: ListTile(
                           title: Text(sessionDetail.location!.name.toString()),
                           onTap: () {
-                            controller.sessionDetailId.value = sessionDetail.id!;
+                            controller.sessionDetailId.value =
+                                sessionDetail.id!;
                             Get.back();
                           },
                         ),

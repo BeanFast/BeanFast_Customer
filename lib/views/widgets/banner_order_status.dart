@@ -30,6 +30,17 @@ class BannerOrderStatus extends StatelessWidget {
         // color = Colors.grey[300]!;
 
         break;
+      case OrderStatus.cooking:
+        {
+          text = const Text(
+            'Đơn hàng của bạn đang được chế biến',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          );
+          icon = const Icon(Iconsax.box_time, color: Colors.white, size: 60);
+        }
+        // color = Colors.grey[300]!;
+
+        break;
       case OrderStatus.delivering:
         {
           text = Text(
