@@ -463,12 +463,10 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                         style: Get.textTheme
                                                             .bodyLarge!
                                                             .copyWith(
-                                                                color: const Color
-                                                                    .fromRGBO(
-                                                                    240,
-                                                                    103,
-                                                                    24,
-                                                                    1)),
+                                                          color: const Color
+                                                              .fromRGBO(
+                                                              240, 103, 24, 1),
+                                                        ),
                                                       ),
                                                     ),
                                                   ],
@@ -480,6 +478,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                       },
                                     );
                                   } else {
+                                    controller.isSubmitting.value = true;
                                     bool result = await controller.checkout();
                                     Get.offAll(
                                       () => ResultScreenWidget(
@@ -500,6 +499,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                       ),
                                     );
                                   }
+                                  controller.isSubmitting.value = false;
                                 },
                           child: Text(
                             'Đặt hàng',

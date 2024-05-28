@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '/utils/cache_manager.dart';
 import '/services/order_service.dart';
@@ -95,6 +96,7 @@ class CartController extends GetxController with CacheManager {
   }
 
   Future<bool> checkout() async {
+    isSubmitting.value = true;
     try {
       await checkCartItem();
       for (var cart in dataList.entries) {
@@ -115,7 +117,10 @@ class CartController extends GetxController with CacheManager {
       // Get.offAll(const SplashScreen());
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
+
       return false;
+    } finally {
+      isSubmitting.value = false;
     }
   }
 

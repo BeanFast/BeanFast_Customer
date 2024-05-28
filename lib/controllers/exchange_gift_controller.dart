@@ -157,6 +157,7 @@ class ExchangeGiftController extends GetxController {
   }
 
   Future<bool> createExchangeGift(String giftId) async {
+    isSubmitting.value = true;
     try {
       bool result = await ExchangeGiftService().createExchangeGift(
           giftId, currentProfile.value!.id!, sessionDetailId.value!);
@@ -164,6 +165,8 @@ class ExchangeGiftController extends GetxController {
     } on dio.DioException catch (e) {
       messages = e.response!.data['message'];
       return false;
+    }finally {
+      isSubmitting.value = false;
     }
   }
 
