@@ -135,9 +135,9 @@ class ProfileFormController extends GetxController {
       isSubmitting.value = true;
       try {
         //form
-        model.value.fullName = fullnameController.text.trim();
-        model.value.nickName = nickNameController.text.trim();
-        model.value.className = classController.text.trim();
+        model.value.fullName = fullnameController.text.trim().capitalize;
+        model.value.nickName = nickNameController.text.trim().capitalize;
+        model.value.className = classController.text.trim().capitalize;
         model.value.dob = selectedDate.value;
 
         model.value.bmis = [Bmi()];
