@@ -16,9 +16,7 @@ import 'profile_controller.dart';
 class ProfileFormController extends GetxController {
   Rx<Profile> model = Profile().obs;
   Rx<bool> isImageFile = true.obs;
-
   RxBool isSubmitting = false.obs;
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   RxString imagePath = ''.obs;
@@ -137,9 +135,9 @@ class ProfileFormController extends GetxController {
       isSubmitting.value = true;
       try {
         //form
-        model.value.fullName = fullnameController.text.trim();
-        model.value.nickName = nickNameController.text.trim();
-        model.value.className = classController.text.trim();
+        model.value.fullName = fullnameController.text.trim().capitalize;
+        model.value.nickName = nickNameController.text.trim().capitalize;
+        model.value.className = classController.text.trim().capitalize;
         model.value.dob = selectedDate.value;
 
         model.value.bmis = [Bmi()];

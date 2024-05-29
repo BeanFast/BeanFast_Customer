@@ -87,7 +87,7 @@ class UserController extends GetxController {
       return;
     }
     try {
-      model.value.fullName = fullnameController.text.trim();
+      model.value.fullName = fullnameController.text.trim().capitalize;
       await UserService().updateUser(model.value);
       Get.snackbar('Thông báo', 'Thành công');
       await fetchData();

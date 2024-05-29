@@ -38,8 +38,8 @@ enum ExchangeGiftStatus {
 
 enum OrderStatus {
   preparing(2, 'Chờ chuẩn bị'),
-  cooking(3, 'Chờ chuẩn bị'),
-  delivering(4, 'Chờ giao hàng'),
+  cooking(3, 'Đang chế biến'),
+  delivering(4, 'Đang giao hàng'),
   completed(5, 'Hoàn thành'),
   cancelled(6, 'Đã hủy');
 

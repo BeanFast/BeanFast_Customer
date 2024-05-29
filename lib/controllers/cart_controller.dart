@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../utils/constants.dart';
 import '/utils/cache_manager.dart';
@@ -23,7 +24,7 @@ class CartController extends GetxController with CacheManager {
       <String, String>{}.obs; // key: sessionId, value: sessionDetailId
   RxMap<String, Map<String, RxMap<String, RxInt>>> dataList =
       <String, Map<String, RxMap<String, RxInt>>>{}.obs;
-
+  RxBool isSubmitting = false.obs;
   Future checkCartItem() async {
     for (var profile in dataList.entries.toList()) {
       for (var session in profile.value.entries.toList()) {
@@ -106,6 +107,7 @@ class CartController extends GetxController with CacheManager {
   }
 
   Future<bool> checkout() async {
+    isSubmitting.value = true;
     try {
       await checkCartItem();
       for (var cart in dataList.entries) {
@@ -126,7 +128,10 @@ class CartController extends GetxController with CacheManager {
       // Get.offAll(const SplashScreen());
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response!.data['message']);
+
       return false;
+    } finally {
+      isSubmitting.value = false;
     }
   }
 

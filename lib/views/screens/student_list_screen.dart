@@ -23,57 +23,60 @@ class StudentListScreen extends GetView<ProfileController> {
         child: Column(
           children: [
             Obx(
-              () => DataScreen(
-                hasData: controller.dataList.isNotEmpty,
-                message: 'Chưa có học sinh',
-                child: Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: controller.dataList.map((profile) {
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(() =>
-                                StudentDetailScreen(id: profile.id.toString()));
-                          },
-                          child: Card(
-                            child: ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: CustomNetworkImage(
-                                  profile.avatarPath.toString(),
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
+              () => Expanded(
+                child: DataScreen(
+                  hasData: controller.dataList.isNotEmpty,
+                  message: 'Chưa có học sinh',
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: controller.dataList.map((profile) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(() =>
+                                  StudentDetailScreen(id: profile.id.toString()));
+                            },
+                            child: Card(
+                              child: ListTile(
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: CustomNetworkImage(
+                                    profile.avatarPath.toString(),
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                profile.fullName.toString(),
-                                style: Get.textTheme.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.w500,
+                                title: Text(
+                                  profile.fullName.toString(),
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                              subtitle: Text(
-                                profile.className.toString(),
-                                style: Get.textTheme.bodySmall!.copyWith(
-                                  color: Colors.black54,
+                                subtitle: Text(
+                                  profile.className.toString(),
+                                  style: Get.textTheme.bodySmall!.copyWith(
+                                    color: Colors.black54,
+                                  ),
                                 ),
-                              ),
-                              trailing: IconButton(
-                                onPressed: () {
-                                  Get.to(() =>
-                                      StudentFormScreen(profileId: profile.id));
-                                },
-                                icon: const Icon(Iconsax.edit),
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    Get.to(() =>
+                                        StudentFormScreen(profileId: profile.id));
+                                  },
+                                  icon: const Icon(Iconsax.edit),
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
+       
             Container(
               width: Get.width,
               height: 60,

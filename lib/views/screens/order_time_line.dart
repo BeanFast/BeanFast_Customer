@@ -133,38 +133,38 @@ class OrderTimeline extends StatelessWidget {
                         return const OutlinedDotIndicator(
                           color: Colors.green,
                           size: 25,
-                          child: Icon(
-                            Iconsax.box_tick,
-                            size: 15,
-                          ),
+                          // child: Icon(
+                          //   Iconsax.box_tick,
+                          //   size: 15,
+                          // ),
                         );
-                      } else if (index == 1) {
-                        return const OutlinedDotIndicator(
-                          color: Colors.grey,
-                          size: 25,
-                          child: Icon(
-                            Iconsax.car,
-                            size: 15,
-                          ),
-                        );
-                      } else if (index == 3) {
-                        return const OutlinedDotIndicator(
-                          color: Colors.grey,
-                          size: 25,
-                          child: Icon(
-                            Iconsax.box,
-                            size: 15,
-                          ),
-                        );
-                      } else if (index == 4) {
-                        return const OutlinedDotIndicator(
-                          color: Colors.grey,
-                          size: 25,
-                          child: Icon(
-                            Iconsax.note_text4,
-                            size: 15,
-                          ),
-                        );
+                      // } else if (index == 1) {
+                      //   return const OutlinedDotIndicator(
+                      //     color: Colors.grey,
+                      //     size: 25,
+                      //     child: Icon(
+                      //       Iconsax.car,
+                      //       size: 15,
+                      //     ),
+                      //   );
+                      // } else if (index == 3) {
+                      //   return const OutlinedDotIndicator(
+                      //     color: Colors.grey,
+                      //     size: 25,
+                      //     child: Icon(
+                      //       Iconsax.box,
+                      //       size: 15,
+                      //     ),
+                      //   );
+                      // } else if (index == 4) {
+                      //   return const OutlinedDotIndicator(
+                      //     color: Colors.grey,
+                      //     size: 25,
+                      //     child: Icon(
+                      //       Iconsax.note_text4,
+                      //       size: 15,
+                      //     ),
+                      //   );
                       } else {
                         return const OutlinedDotIndicator(
                           color: Colors.grey,
