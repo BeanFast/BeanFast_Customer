@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/controllers/notification_controller.dart';
+import 'package:beanfast_customer/services/notification_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -5,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:timeago/timeago.dart';
-// import 'package:timeago/src/messages/vi_messages.dart';     
+// import 'package:timeago/src/messages/vi_messages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utils/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -111,6 +113,7 @@ Future<void> showFlutterNotificationForeground(RemoteMessage message) async {
 void showFlutterNotificationBackground(RemoteMessage message) {
   // print(message.data);
   print("message");
+  NotificationController().resetPagingController();
   RemoteNotification? notification = message.notification;
 
   AndroidNotification? android = message.notification?.android;

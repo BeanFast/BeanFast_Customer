@@ -15,6 +15,7 @@ class AuthService {
       'password': password,
       'deviceToken': deviceToken,
     };
+    print("deviceToken: $deviceToken");
     final response =
         await apiService.request.post('$baseUrl/login', data: data);
     logger.i(response.statusCode);
