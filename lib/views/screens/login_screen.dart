@@ -110,7 +110,8 @@ class LoginView extends GetView<AuthController> {
                                 },
                               ),
                             ),
-                            obscureText: !controller.islogoinPasswordVisible.value,
+                            obscureText:
+                                !controller.islogoinPasswordVisible.value,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Vui lòng nhập mật khẩu';
@@ -161,14 +162,15 @@ class LoginView extends GetView<AuthController> {
                     // ),
                     // const SizedBox(height: 20),
                     FadeInUp(
-                      child: GradientButton(
-                        text: 'Đăng nhập',
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            await controller.login();
-                          }
-                        },
-                      ),
+                      child: Obx(() => GradientButton(
+                            disable: controller.isSubmitting.value,
+                            text: 'Đăng nhập',
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                await controller.login();
+                              }
+                            },
+                          )),
                     ),
                     const SizedBox(height: 10),
                     FadeInUp(
@@ -180,7 +182,7 @@ class LoginView extends GetView<AuthController> {
                             onPressed: () {
                               controller.phoneController.clear();
                               controller.passwordController.clear();
-                              Get.to(() =>RegisterView());
+                              Get.to(() => RegisterView());
                             },
                             child: const Text('Đăng ký'),
                           ),

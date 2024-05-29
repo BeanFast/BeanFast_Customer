@@ -30,14 +30,6 @@ class SplashScreen extends GetView<AuthController> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return waitingView();
         } else {
-          // if (snapshot.hasError) {
-          //   logger.e('snapshot.hasError');
-          //   // if (AuthState.unauthenticated) {
-
-          //   // }
-          //   return ErrorView(errorMessage: snapshot.error.toString());
-          // } else {
-          // logger.e('else');
           return Obx(() {
             switch (authState.value) {
               case AuthState.authenticated:
@@ -45,7 +37,7 @@ class SplashScreen extends GetView<AuthController> {
               case AuthState.unauthenticated:
                 return const OnBoardingPage();
               default:
-                return const ErrorScreen(message: 'Lỗi xác thực đăng nhập'); //
+                return const ErrorScreen(message: 'Lỗi xác thực đăng nhập');
             }
           });
           // }

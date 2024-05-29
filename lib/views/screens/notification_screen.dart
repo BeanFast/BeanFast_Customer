@@ -13,6 +13,7 @@ class NotificationScreen extends GetView<NotificationController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.resetPagingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text(

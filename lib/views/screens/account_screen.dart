@@ -234,10 +234,8 @@ class AccountScreen extends GetView<UserController> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    showProfilesDialog(() {
-                                      Get.to(
+                                     Get.to(
                                           () => const ExchangeGiftScreen());
-                                    });
                                   },
                                   child: Container(
                                     color: ThemeColor.itemColor,
@@ -246,20 +244,15 @@ class AccountScreen extends GetView<UserController> {
                                       icon: Iconsax.gift,
                                       iconColor: Colors.black,
                                       onTap: () {
-                                        showProfilesDialog(() {
-                                          Get.to(() =>
-                                              const ExchangeGiftScreen());
-                                        });
+                                        Get.to(
+                                          () => const ExchangeGiftScreen());
                                       },
                                     ),
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    showProfilesDialog(() {
-                                      Get.back();
                                       Get.to(() => const GameMenuScreen());
-                                    });
                                   },
                                   child: Container(
                                     color: ThemeColor.itemColor,
@@ -268,11 +261,7 @@ class AccountScreen extends GetView<UserController> {
                                       icon: Iconsax.game,
                                       iconColor: Colors.black,
                                       onTap: () {
-                                        showProfilesDialog(() {
-                                          Get.back();
-                                          Get.to(
-                                              () => const GameMenuScreen());
-                                        });
+                                          Get.to(() => const GameMenuScreen());
                                       },
                                     ),
                                   ),

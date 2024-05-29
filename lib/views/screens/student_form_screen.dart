@@ -470,20 +470,19 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                                                               color:
                                                                   Colors.grey),
                                                         ),
-                                                        child:
-                                                            ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          25),
-                                                              child: CustomNetworkImage(
-                                                                                                                        controller
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(25),
+                                                          child:
+                                                              CustomNetworkImage(
+                                                            controller
                                                                 .filteredSchools[
                                                                     index]
                                                                 .imagePath!,
-                                                                                                                        fit: BoxFit.cover,
-                                                                                                                      ),
-                                                            ),
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
                                                       ),
                                                       title: Text(controller
                                                           .filteredSchools[
@@ -585,16 +584,18 @@ class StudentFormScreen extends GetView<ProfileFormController> {
                   ),
                 ),
               ),
-              GradientButton(
-                text: 'Lưu Thông tin',
-                onPressed: () async {
-                  if (controller.imagePath.value.isEmpty) {
-                    Get.snackbar('Hệ thống', 'Vui lòng chọn ảnh');
-                  } else if (controller.formKey.currentState!.validate()) {
-                    await controller.submitForm(profileId != null);
-                  }
-                },
-              )
+              Obx(() => GradientButton(
+                    disable: controller.isSubmitting.value,
+                    text: 'Lưu Thông tin',
+                    onPressed: () async {
+                      if (controller.imagePath.value.isEmpty) {
+                        Get.snackbar('Hệ thống', 'Vui lòng chọn ảnh');
+                      } else if (controller.formKey.currentState!.validate()) {
+                        // Get.back();
+                        await controller.submitForm(profileId != null);
+                      }
+                    },
+                  )),
             ],
           ),
         ),

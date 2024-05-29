@@ -363,6 +363,7 @@ class DepositeScreen extends GetView<DepositeController> {
                 ),
               ),
               GradientButton(
+                disable: false,
                 text: 'Nạp tiền',
                 onPressed: () async {
                   //

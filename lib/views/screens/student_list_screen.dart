@@ -23,10 +23,10 @@ class StudentListScreen extends GetView<ProfileController> {
         child: Column(
           children: [
             Obx(
-              () => DataScreen(
-                hasData: controller.dataList.isNotEmpty,
-                message: 'Chưa có học sinh',
-                child: Expanded(
+              () => Expanded(
+                child: DataScreen(
+                  hasData: controller.dataList.isNotEmpty,
+                  message: 'Chưa có học sinh',
                   child: SingleChildScrollView(
                     child: Column(
                       children: controller.dataList.map((profile) {
@@ -74,6 +74,7 @@ class StudentListScreen extends GetView<ProfileController> {
                 ),
               ),
             ),
+       
             Container(
               width: Get.width,
               height: 60,

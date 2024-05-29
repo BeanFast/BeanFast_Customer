@@ -26,6 +26,10 @@ class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(CartController());
+
+    CartController cartController = Get.put(CartController());
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 140,
@@ -154,11 +158,12 @@ class HomeScreen extends GetView<HomeController> {
                                               firstDate: DateTime.now(),
                                               lastDate: DateTime.now().add(
                                                   const Duration(days: 365)),
-                                            ).then((value) {
+                                            ).then((value) async {
                                               if (value != null) {
                                                 controller
                                                     .updateSelectedDate(value);
                                                 controller.now.value = value;
+                                                await controller.getSession();
                                               }
                                             });
                                           },
@@ -582,8 +587,6 @@ void showProfilesDialog(Function() onPressed) {
 }
 
 List<Widget> headerActionWidget() {
-  Get.put(CartController());
-
   HomeController controller = Get.find();
   CartController cartController = Get.put(CartController());
 
@@ -613,11 +616,11 @@ List<Widget> headerActionWidget() {
                           });
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 10, bottom: 5),
+                          padding: const EdgeInsets.only(left: 15, bottom: 5),
                           child: Container(
                             padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 3, bottom: 3),
-                            width: Get.width * 0.6,
+                                left: 10, right: 10, top: 3, bottom: 3),
+                            width: Get.width - 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
                               border: Border.all(
@@ -769,13 +772,12 @@ List<Widget> headerActionWidget() {
               Stack(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 5),
                     width: 50,
                     height: 50,
                     child: Align(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.center,
                       child: IconButton(
-                        icon: const Icon(Iconsax.notification, size: 28),
+                        icon: const Icon(Iconsax.notification, size: 24),
                         onPressed: () {
                           Get.to(() => const NotificationScreen());
                         },
@@ -787,10 +789,10 @@ List<Widget> headerActionWidget() {
                       visible:
                           !Get.find<NotificationController>().allDone.value,
                       child: Positioned(
-                        top: 5,
-                        right: 3,
-                        width: 20,
-                        height: 20,
+                        top: 15,
+                        right: 12,
+                        width: 10,
+                        height: 10,
                         child: Container(
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
@@ -805,13 +807,12 @@ List<Widget> headerActionWidget() {
               Stack(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 5),
                     width: 50,
                     height: 50,
                     child: Align(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.center,
                       child: IconButton(
-                        icon: const Icon(Iconsax.shopping_cart, size: 28),
+                        icon: const Icon(Iconsax.shopping_cart, size: 24),
                         onPressed: () {
                           Get.to(() => const CartScreen());
                         },
@@ -824,8 +825,8 @@ List<Widget> headerActionWidget() {
                       child: Positioned(
                         top: 5,
                         right: 3,
-                        width: 20,
-                        height: 20,
+                        width: 18,
+                        height: 18,
                         child: Container(
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,

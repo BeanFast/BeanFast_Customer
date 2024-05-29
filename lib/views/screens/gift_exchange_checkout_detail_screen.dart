@@ -86,18 +86,19 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                                     Text(currentProfile.value!.school!.name
                                         .toString()),
                                     Obx(
-                                      () => Text(controller
-                                                  .selectedSession.value ==
-                                              null
-                                          ? 'Chưa chọn địa điểm nhận hàng'
-                                          : controller.selectedSession.value!
-                                              .sessionDetails!
-                                              .firstWhere((e) =>
-                                                  e.id! ==
-                                                  controller.sessionDetailId.value)
-                                              .location!
-                                              .name
-                                              .toString()),
+                                      () => Text(
+                                          controller.selectedSession.value ==
+                                                  null
+                                              ? 'Chưa chọn địa điểm nhận hàng'
+                                              : controller.selectedSession
+                                                  .value!.sessionDetails!
+                                                  .firstWhere((e) =>
+                                                      e.id! ==
+                                                      controller.sessionDetailId
+                                                          .value)
+                                                  .location!
+                                                  .name
+                                                  .toString()),
                                     ),
                                   ],
                                 ),
@@ -201,8 +202,9 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                                                     style: Get
                                                         .textTheme.bodyLarge!
                                                         .copyWith(
-                                                      color: const Color.fromARGB(
-                                                      255, 26, 128, 30),
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255, 26, 128, 30),
                                                     ),
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -311,58 +313,74 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                           Formater.formatPoint(
                             gift.points.toString(),
                           ),
-                          style:  const TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
-                              color: Color.fromARGB(
-                                                      255, 26, 128, 30),
+                              color: Color.fromARGB(255, 26, 128, 30),
                               fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
                 const SizedBox(width: 10),
-                SizedBox(
-                  height: 50,
-                  width: 140,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Colors.white), // Text color
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          ThemeColor.textButtonColor), // Background color
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(5)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(color: ThemeColor.textButtonColor),
+                Obx(
+                  () => SizedBox(
+                    height: 50,
+                    width: 140,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.white), // Text color
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            ThemeColor.textButtonColor), // Background color
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.all(5)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(color: ThemeColor.textButtonColor),
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: () async {
-                      bool result =
-                          await controller.createExchangeGift(gift.id!);
-                      Get.offAll(() =>
-                        ResultScreenWidget(
-                          isSuccess: result,
-                          content: 'Cảm ơn bạn đã ủng hộ BeanFast!.',
-                          ontapNameLeftSide: 'Trang chủ',
-                          ontapLeftSide: () {
-                            changePage(MenuIndexState.home.index);
-                            Get.offAll(const SplashScreen());
-                          },
-                          ontapNameRightSide: 'Đơn hàng',
-                          ontapRightSide: () {
-                            changePage(MenuIndexState.home.index);
-                            Get.offAll(const SplashScreen());
-                            Get.to(const ExchangeGiftScreen());
-                          },
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'Đặt hàng',
-                      style: Get.textTheme.titleLarge!
-                          .copyWith(color: Colors.white),
+                      onPressed: controller.isSubmitting.value
+                          ? null
+                          : () async {
+                              controller.isSubmitting.value = true;
+                              if (controller.selectedSession.value != null) {
+                                var sessionDetail = controller
+                                    .selectedSession.value!.sessionDetails!
+                                    .firstWhere((e) =>
+                                        e.id! ==
+                                        controller.sessionDetailId.value);
+                                if (sessionDetail.location!.name != null) {
+                                  bool result = await controller
+                                      .createExchangeGift(gift.id!);
+                                  Get.offAll(
+                                    () => ResultScreenWidget(
+                                      isSuccess: result,
+                                      content:
+                                          'Cảm ơn bạn đã ủng hộ BeanFast!.',
+                                      ontapNameLeftSide: 'Trang chủ',
+                                      ontapLeftSide: () {
+                                        changePage(MenuIndexState.home.index);
+                                        Get.offAll(const SplashScreen());
+                                      },
+                                      ontapNameRightSide: 'Đơn hàng',
+                                      ontapRightSide: () {
+                                        changePage(MenuIndexState.home.index);
+                                        Get.offAll(const SplashScreen());
+                                        Get.to(const ExchangeGiftScreen());
+                                      },
+                                    ),
+                                  );
+                                }
+                              }
+                              controller.isSubmitting.value = false;
+                            },
+                      child: Text(
+                        'Đặt hàng',
+                        style: Get.textTheme.titleLarge!
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
@@ -461,7 +479,8 @@ class GiftCheckOutScreen extends GetView<ExchangeGiftController> {
                         child: ListTile(
                           title: Text(sessionDetail.location!.name.toString()),
                           onTap: () {
-                            controller.sessionDetailId.value = sessionDetail.id!;
+                            controller.sessionDetailId.value =
+                                sessionDetail.id!;
                             Get.back();
                           },
                         ),

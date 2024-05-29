@@ -1,3 +1,4 @@
+import 'package:beanfast_customer/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
@@ -15,7 +16,7 @@ import 'profile_controller.dart';
 class ProfileFormController extends GetxController {
   Rx<Profile> model = Profile().obs;
   Rx<bool> isImageFile = true.obs;
-
+  RxBool isSubmitting = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   RxString imagePath = ''.obs;
@@ -131,11 +132,12 @@ class ProfileFormController extends GetxController {
       return;
     }
     if (formKey.currentState!.validate()) {
+      isSubmitting.value = true;
       try {
         //form
-        model.value.fullName = fullnameController.text.trim();
-        model.value.nickName = nickNameController.text.trim();
-        model.value.className = classController.text.trim();
+        model.value.fullName = fullnameController.text.trim().capitalize;
+        model.value.nickName = nickNameController.text.trim().capitalize;
+        model.value.className = classController.text.trim().capitalize;
         model.value.dob = selectedDate.value;
 
         model.value.bmis = [Bmi()];
@@ -157,12 +159,19 @@ class ProfileFormController extends GetxController {
           model.value.avatarPath = imagePath.value;
           await ProfileService().create(model.value);
         }
-        
-        Get.find<ProfileController>().getAll();
+        if (model.value.id != null) {
+          Get.find<ProfileController>().getById(model.value.id!);
+        } else {
+          Get.find<ProfileController>().getAll();
+        }
+        if (currentProfile.value == null) {
+          Get.find<ProfileController>().getCurrentProfile();
+        }
         Get.back();
       } on dio.DioException catch (e) {
-        logger.e(e.response.toString());
         Get.snackbar('Lỗi', e.message.toString());
+      } finally {
+        isSubmitting.value = false;
       }
     } else {
       Get.snackbar('Lỗi', 'Thông tin chưa chính xác');

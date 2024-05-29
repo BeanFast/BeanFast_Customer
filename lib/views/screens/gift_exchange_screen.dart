@@ -301,7 +301,7 @@ class ExchangeGiftTabView extends GetView<ExchangeGiftController> {
                                 ),
                               ),
                               onPressed: () {
-                                if (currentProfile.value!.wallet!.balance! >
+                                if (currentUser.value!.points! >=
                                     item.points!) {
                                   Get.to(() => GiftCheckOutScreen(gift: item));
                                 } else {

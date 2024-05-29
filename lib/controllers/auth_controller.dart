@@ -10,10 +10,10 @@ import '/views/screens/splash_screen.dart';
 import '/utils/constants.dart';
 import '/utils/logger.dart';
 import '/services/auth_service.dart';
-import '/services/transaction_service.dart';
 import '/enums/auth_state_enum.dart';
 
 class AuthController extends GetxController with CacheManager {
+  RxBool isSubmitting = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
@@ -72,6 +72,7 @@ class AuthController extends GetxController with CacheManager {
   }
 
   Future login() async {
+    isSubmitting.value = true;
     try {
       logger.e('login');
       deviceToken = await _firebaseMessaging.getToken();
@@ -86,6 +87,8 @@ class AuthController extends GetxController with CacheManager {
       }
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response?.data['message'] ?? '');
+    }finally{
+      isSubmitting.value = false;
     }
   }
 
@@ -105,6 +108,7 @@ class AuthController extends GetxController with CacheManager {
   Future register() async {
     var phone = phoneController.text;
     var password = passwordController.text;
+    isSubmitting.value = true;
     try {
       await AuthService().register(phone, password);
       await AuthService().sendOtp(phone);
@@ -112,6 +116,8 @@ class AuthController extends GetxController with CacheManager {
       if (e.response!.statusCode == 400) {
         errorMessage.value = e.response!.data.toString();
       }
+    }finally{
+      isSubmitting.value = false;
     }
     // var fullName = fullNameController.text;
   }

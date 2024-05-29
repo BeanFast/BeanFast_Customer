@@ -73,7 +73,7 @@ class HomeController extends GetxController {
 
   Future fetchData() async {
     // await Get.find<NotificationController>().fetchData(); //get notification
-    await Get.find<CartController>().fetchData(); //get cart cache
+    await Get.find<CartController>().fetchCartData(); //get cart cache
     if (currentProfile.value != null) {
       await getSession(); //get session of profile
       if (listSession.isNotEmpty) {

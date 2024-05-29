@@ -1,3 +1,5 @@
+import 'package:beanfast_customer/contains/theme_color.dart';
+import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +27,9 @@ class StudentDetailScreen extends GetView<ProfileController> {
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Obx(
-              () => DataScreen(hasData: controller.model.value != null,message: 'Chưa có dữ liệu',
+              () => DataScreen(
+                hasData: controller.model.value != null,
+                message: 'Chưa có dữ liệu',
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,10 +83,12 @@ class StudentDetailScreen extends GetView<ProfileController> {
                             children: [
                               RowInfoItemWidget(
                                   title: 'Tên: ',
-                                  data: controller.model.value!.fullName.toString()),
+                                  data: controller.model.value!.fullName
+                                      .toString()),
                               RowInfoItemWidget(
                                   title: 'Biệt danh: ',
-                                  data: controller.model.value!.nickName.toString()),
+                                  data: controller.model.value!.nickName
+                                      .toString()),
                               RowInfoItemWidget(
                                   title: 'Giới tính: ',
                                   data: controller.model.value!.gender!
@@ -94,12 +100,12 @@ class StudentDetailScreen extends GetView<ProfileController> {
                                       .format(controller.model.value!.dob!)),
                               RowInfoItemWidget(
                                   title: 'BMI: ',
-                                  data:
-                                      controller.model.value!.currentBMI.toString()),
+                                  data: controller.model.value!.currentBMI
+                                      .toString()),
                               RowInfoItemWidget(
                                   title: 'Lớp: ',
-                                  data:
-                                      controller.model.value!.className.toString()),
+                                  data: controller.model.value!.className
+                                      .toString()),
                               RowInfoItemWidget(
                                   title: 'Trường: ',
                                   data: controller.model.value!.school!.name
@@ -107,6 +113,19 @@ class StudentDetailScreen extends GetView<ProfileController> {
                             ],
                           ),
                         ),
+                      ),
+                      const SizedBox(height: 20),
+                      Center(
+                        child: SButton(
+                            color: ThemeColor.itemColor,
+                            borderColor: ThemeColor.textButtonColor,
+                            text: 'Xoá học sinh',
+                            textStyle: Get.textTheme.bodyMedium!.copyWith(
+                              color: ThemeColor.textButtonColor,
+                            ),
+                            onPressed: () {
+                              showDeleteChildDialog();
+                            }),
                       ),
                     ],
                   ),
@@ -118,4 +137,38 @@ class StudentDetailScreen extends GetView<ProfileController> {
       ),
     );
   }
+}
+
+void showDeleteChildDialog() {
+  Get.dialog(
+    AlertDialog(
+      surfaceTintColor: Colors.white,
+      backgroundColor: ThemeColor.itemColor,
+      title: const Text('Xác nhận'),
+      content: SizedBox(
+        height: 40,
+        child: Text(
+          'Bạn có chắc chắn muốn xoá học sinh này không?',
+          style: Get.textTheme.bodyLarge,
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+            // controller.deleteChild(id);
+          },
+          child: Text('Xoá',
+              style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red)),
+        ),
+        TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text('Đóng',
+              style: Get.textTheme.bodyMedium!.copyWith(color: Colors.grey)),
+        ),
+      ],
+    ),
+  );
 }

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:lottie/lottie.dart';
 
 import '/contains/theme_color.dart';
@@ -286,14 +287,15 @@ class OtpConfirmationView extends StatelessWidget {
                       ),
                     )),
               const SizedBox(height: 60),
-              GradientButton(
-                text: 'Xác nhận OTP',
-                onPressed: () async {
-                  Get.snackbar('Hệ thống', 'Đăng ký thành công');
-                  await otpController.verifyOtp();
-                  Get.offAll(const LoginView());
-                },
-              )
+              Obx(() => GradientButton(
+                    disable: otpController.isSubmitting.value,
+                    text: 'Xác nhận OTP',
+                    onPressed: () async {
+                      Get.snackbar('Hệ thống', 'Đăng ký thành công');
+                      await otpController.verifyOtp();
+                      Get.offAll(const LoginView());
+                    },
+                  ))
             ],
           ),
         ),
@@ -303,6 +305,7 @@ class OtpConfirmationView extends StatelessWidget {
 }
 
 class OTPController extends GetxController {
+  RxBool isSubmitting = false.obs;
   var counter = (59).obs; // 1 minute 30 seconds
   Timer? _timer;
   RxString pin1 = "".obs;
@@ -320,10 +323,13 @@ class OTPController extends GetxController {
         pin4.value +
         pin5.value +
         pin6.value;
+    isSubmitting.value = true;
     try {
       await AuthService().verifyOtp(phone, otpValue);
     } on DioException catch (e) {
       logger.e(e.response!.data.toString());
+    } finally {
+      isSubmitting.value = false;
     }
   }
 
