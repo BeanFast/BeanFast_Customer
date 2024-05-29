@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/utils/constants.dart';
 import '/views/screens/exchange_order_gift_detail_screen.dart';
 import '/views/widgets/image_default.dart';
 import '/contains/theme_color.dart';
@@ -32,7 +31,7 @@ class ExchangeGiftItem extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      currentProfile.value!.fullName.toString(),
+                      exchangeGift.profile!.fullName.toString(),
                       style: Get.textTheme.titleSmall,
                     ),
                   ),

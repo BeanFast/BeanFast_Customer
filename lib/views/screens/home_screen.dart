@@ -582,8 +582,6 @@ void showProfilesDialog(Function() onPressed) {
 }
 
 List<Widget> headerActionWidget() {
-  Get.put(CartController());
-
   HomeController controller = Get.find();
   CartController cartController = Get.put(CartController());
 

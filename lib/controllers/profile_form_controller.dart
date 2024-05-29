@@ -161,8 +161,11 @@ class ProfileFormController extends GetxController {
           model.value.avatarPath = imagePath.value;
           await ProfileService().create(model.value);
         }
-        Get.find<ProfileController>().getById(model.value.id!);
-        Get.find<ProfileController>().getAll();
+        if (model.value.id != null) {
+          Get.find<ProfileController>().getById(model.value.id!);
+        } else {
+          Get.find<ProfileController>().getAll();
+        }
         if (currentProfile.value == null) {
           Get.find<ProfileController>().getCurrentProfile();
         }

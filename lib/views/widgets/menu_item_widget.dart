@@ -11,7 +11,6 @@ import '/models/menu_detail.dart';
 import '/utils/formater.dart';
 
 class MenuItem extends GetView<CartController> {
-  // final void Function() onTap;
   final String title;
   final String sessionId;
   final List<MenuDetail> list;
@@ -20,7 +19,6 @@ class MenuItem extends GetView<CartController> {
   const MenuItem({
     super.key,
     required this.sessionId,
-    // required this.onTap,
     required this.list,
     required this.title,
     required this.isCombo,
@@ -30,7 +28,9 @@ class MenuItem extends GetView<CartController> {
     return Visibility(
       visible: list.isNotEmpty,
       child: isCombo
-          ? Column(
+          ?
+//combo
+          Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -39,20 +39,21 @@ class MenuItem extends GetView<CartController> {
                 ),
                 const SizedBox(height: 5),
                 Row(
-                  children: list.map((e) {
+                  children: list.map((menuDetail) {
                     return Stack(
                       children: [
                         GestureDetector(
                           onTap: () {
-                            e.food!.price != e.price
-                                ? Get.to( () =>
-                                    ProductDetailScreen(
-                                      food: e.food!,
-                                      salePrice: e.price,
+                            menuDetail.food!.price != menuDetail.price
+                                ? Get.to(
+                                    () => ProductDetailScreen(
+                                      food: menuDetail.food!,
+                                      salePrice: menuDetail.price,
                                     ),
                                   )
-                                : Get.to( () =>
-                                    ProductDetailScreen(food: e.food!),
+                                : Get.to(
+                                    () => ProductDetailScreen(
+                                        food: menuDetail.food!),
                                   );
                           },
                           child: Card(
@@ -68,7 +69,7 @@ class MenuItem extends GetView<CartController> {
                                       topRight: Radius.circular(12),
                                     ),
                                     child: CustomNetworkImage(
-                                      e.food!.imagePath.toString(),
+                                      menuDetail.food!.imagePath.toString(),
                                       fit: BoxFit.cover,
                                       width: 170,
                                       height: 100,
@@ -79,7 +80,7 @@ class MenuItem extends GetView<CartController> {
                                     padding: const EdgeInsets.only(
                                         left: 10, right: 10),
                                     child: Text(
-                                      e.food!.name.toString(),
+                                      menuDetail.food!.name.toString(),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: Get.textTheme.bodySmall,
@@ -94,14 +95,16 @@ class MenuItem extends GetView<CartController> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Visibility(
-                                          visible: e.food!.price != e.price,
+                                          visible: menuDetail.food!.price !=
+                                              menuDetail.price,
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
                                               Text(
-                                                Formater.formatMoney(
-                                                    e.food!.price.toString()),
+                                                Formater.formatMoney(menuDetail
+                                                    .food!.price
+                                                    .toString()),
                                                 style: Get.textTheme.bodyLarge!
                                                     .copyWith(
                                                   color: Colors.grey,
@@ -119,7 +122,7 @@ class MenuItem extends GetView<CartController> {
                                           child: SizedBox(
                                             child: Text(
                                               Formater.formatMoney(
-                                                  e.price.toString()),
+                                                  menuDetail.price.toString()),
                                               style: Get.textTheme.bodyLarge!
                                                   .copyWith(
                                                 color: const Color.fromRGBO(
@@ -134,65 +137,23 @@ class MenuItem extends GetView<CartController> {
                                     ),
                                   ),
                                   Obx(
-                                    () => Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Visibility(
-                                          visible: controller.ifAbsent(
+                                    () => MenuCartBox(
+                                      count: controller
+                                              .dataList[
+                                                  currentProfile.value!.id!]
+                                                  ?[sessionId]?[menuDetail.id!]?.value
+                                               ??
+                                          0,
+                                      decrease: () =>
+                                          controller.decreaseItemCart(
                                               currentProfile.value!.id!,
                                               sessionId,
-                                              e.id!),
-                                          child: SizedBox(
-                                            width: 40,
-                                            child: IconButton(
-                                              onPressed: () {
-                                                controller.decreaseItemCart(
-                                                    currentProfile.value!.id!,
-                                                    sessionId,
-                                                    e.id!);
-                                              },
-                                              icon: const Icon(
-                                                  Iconsax.minus_square),
-                                            ),
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible: controller.ifAbsent(
+                                              menuDetail.id!),
+                                      increase: () =>
+                                          controller.increaseItemCart(
                                               currentProfile.value!.id!,
                                               sessionId,
-                                              e.id!),
-                                          child: Container(
-                                            width: 30,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              controller.ifAbsent(
-                                                      currentProfile.value!.id!,
-                                                      sessionId,
-                                                      e.id!)
-                                                  ? controller.dataList[
-                                                          currentProfile
-                                                              .value!.id!]![
-                                                          sessionId]![e.id!]
-                                                      .toString()
-                                                  : '0',
-                                              style: Get.textTheme.bodyLarge,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 40,
-                                          child: IconButton(
-                                            onPressed: () {
-                                              controller.increaseItemCart(
-                                                  currentProfile.value!.id!,
-                                                  sessionId,
-                                                  e.id!);
-                                            },
-                                            icon:
-                                                const Icon(Iconsax.add_square),
-                                          ),
-                                        ),
-                                      ],
+                                              menuDetail.id!),
                                     ),
                                   ),
                                 ],
@@ -201,7 +162,7 @@ class MenuItem extends GetView<CartController> {
                           ),
                         ),
                         Visibility(
-                          visible: e.food!.price != e.price,
+                          visible: menuDetail.food!.price != menuDetail.price,
                           child: Positioned(
                             top: 4,
                             right: 4,
@@ -231,7 +192,9 @@ class MenuItem extends GetView<CartController> {
                 ),
               ],
             )
-          : Column(
+          :
+//food
+          Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -240,15 +203,16 @@ class MenuItem extends GetView<CartController> {
                 ),
                 const SizedBox(height: 10),
                 Column(
-                  children: list.map((e) {
+                  children: list.map((menuDetail) {
                     return GestureDetector(
                       onTap: () {
-                        e.food!.price != e.price
-                            ? Get.to( () =>ProductDetailScreen(
-                                food: e.food!,
-                                salePrice: e.price,
-                              ))
-                            : Get.to(() =>ProductDetailScreen(food: e.food!));
+                        menuDetail.food!.price != menuDetail.price
+                            ? Get.to(() => ProductDetailScreen(
+                                  food: menuDetail.food!,
+                                  salePrice: menuDetail.price,
+                                ))
+                            : Get.to(() =>
+                                ProductDetailScreen(food: menuDetail.food!));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 8),
@@ -276,7 +240,7 @@ class MenuItem extends GetView<CartController> {
                                           bottomLeft: Radius.circular(12),
                                         ),
                                         child: CustomNetworkImage(
-                                          e.food!.imagePath.toString(),
+                                          menuDetail.food!.imagePath.toString(),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -293,7 +257,8 @@ class MenuItem extends GetView<CartController> {
                                           children: [
                                             SizedBox(
                                               child: Text(
-                                                e.food!.name.toString(),
+                                                menuDetail.food!.name
+                                                    .toString(),
                                                 style: Get.textTheme.bodyMedium,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
@@ -302,7 +267,7 @@ class MenuItem extends GetView<CartController> {
                                             const Spacer(),
                                             SizedBox(
                                               child: Text(
-                                                'Loại: ${e.food!.category!.name}',
+                                                'Loại: ${menuDetail.food!.category!.name}',
                                                 style: Get.textTheme.bodySmall!
                                                     .copyWith(
                                                   color: Colors.black54,
@@ -320,15 +285,17 @@ class MenuItem extends GetView<CartController> {
                                               children: [
                                                 Visibility(
                                                   visible:
-                                                      e.food!.price != e.price,
+                                                      menuDetail.food!.price !=
+                                                          menuDetail.price,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        Formater.formatMoney(e
-                                                            .food!.price
-                                                            .toString()),
+                                                        Formater.formatMoney(
+                                                            menuDetail
+                                                                .food!.price
+                                                                .toString()),
                                                         style: Get.textTheme
                                                             .bodyLarge!
                                                             .copyWith(
@@ -349,7 +316,8 @@ class MenuItem extends GetView<CartController> {
                                                   child: SizedBox(
                                                     child: Text(
                                                       Formater.formatMoney(
-                                                          e.price.toString()),
+                                                          menuDetail.price
+                                                              .toString()),
                                                       style: Get
                                                           .textTheme.bodyLarge!
                                                           .copyWith(
@@ -378,69 +346,24 @@ class MenuItem extends GetView<CartController> {
                                         ),
                                       ),
                                       child: Obx(
-                                        () => Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Visibility(
-                                              visible: controller.ifAbsent(
+                                        () => MenuCartBox(
+                                          count: controller
+                                              .dataList[
+                                                  currentProfile.value!.id!]
+                                                  ?[sessionId]?[menuDetail.id!]?.value
+
+                                               ??
+                                          0,
+                                          decrease: () =>
+                                              controller.decreaseItemCart(
                                                   currentProfile.value!.id!,
                                                   sessionId,
-                                                  e.id!),
-                                              child: SizedBox(
-                                                width: 40,
-                                                child: IconButton(
-                                                  onPressed: () {
-                                                    controller.decreaseItemCart(
-                                                        currentProfile
-                                                            .value!.id!,
-                                                        sessionId,
-                                                        e.id!);
-                                                  },
-                                                  icon: const Icon(
-                                                      Iconsax.minus_square),
-                                                ),
-                                              ),
-                                            ),
-                                            Visibility(
-                                              visible: controller.ifAbsent(
+                                                  menuDetail.id!),
+                                          increase: () =>
+                                              controller.increaseItemCart(
                                                   currentProfile.value!.id!,
                                                   sessionId,
-                                                  e.id!),
-                                              child: Container(
-                                                width: 30,
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  controller.ifAbsent(
-                                                          currentProfile
-                                                              .value!.id!,
-                                                          sessionId,
-                                                          e.id!)
-                                                      ? controller.dataList[
-                                                              currentProfile
-                                                                  .value!.id!]![
-                                                              sessionId]![e.id!]
-                                                          .toString()
-                                                      : '0',
-                                                  style:
-                                                      Get.textTheme.bodyLarge,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 40,
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  controller.increaseItemCart(
-                                                      currentProfile.value!.id!,
-                                                      sessionId,
-                                                      e.id!);
-                                                },
-                                                icon: const Icon(
-                                                    Iconsax.add_square),
-                                              ),
-                                            ),
-                                          ],
+                                                  menuDetail.id!),
                                         ),
                                       ),
                                     ),
@@ -449,7 +372,8 @@ class MenuItem extends GetView<CartController> {
                               ),
                             ),
                             Visibility(
-                              visible: e.food!.price != e.price,
+                              visible:
+                                  menuDetail.food!.price != menuDetail.price,
                               child: Positioned(
                                 top: 4,
                                 right: 4,
@@ -483,5 +407,53 @@ class MenuItem extends GetView<CartController> {
               ],
             ),
     );
+  }
+}
+
+class MenuCartBox extends StatelessWidget {
+  const MenuCartBox(
+      {super.key,
+      required this.count,
+      required this.decrease,
+      required this.increase});
+  final int count;
+  final Function() decrease;
+  final Function() increase;
+
+  @override
+  Widget build(BuildContext context) {
+    return  Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Visibility(
+              visible: count != 0,
+              child: SizedBox(
+                width: 40,
+                child: IconButton(
+                  onPressed: decrease,
+                  icon: const Icon(Iconsax.minus_square),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: count != 0,
+              child: Container(
+                width: 30,
+                alignment: Alignment.center,
+                child: Text(
+                  count.toString(),
+                  style: Get.textTheme.bodyLarge,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 40,
+              child: IconButton(
+                onPressed: increase,
+                icon: const Icon(Iconsax.add_square),
+              ),
+            ),
+          ],
+        );
   }
 }

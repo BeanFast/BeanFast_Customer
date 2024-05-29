@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
+import '../utils/constants.dart';
 import '/utils/cache_manager.dart';
 import '/services/order_service.dart';
 import '/utils/logger.dart';
@@ -26,34 +27,48 @@ class CartController extends GetxController with CacheManager {
   Future checkCartItem() async {
     for (var profile in dataList.entries.toList()) {
       for (var session in profile.value.entries.toList()) {
-        for (var cart in session.value.entries.toList()) {
+        for (var menuDetail in session.value.entries.toList()) {
           bool result;
           try {
             result = await SessionService()
-                .checkCartItem(profile.key, session.key, cart.key);
+                .checkCartItem(profile.key, session.key, menuDetail.key);
           } catch (e) {
             result = false;
           }
           if (!result) {
-            session.value.remove(cart.key);
+            removeItemFromCart(profile.key, session.key, menuDetail.key);
           }
         }
       }
     }
 
     cleanCart();
-    await saveCart(dataList);
+     saveCart(dataList);
+    updateItemCount();
+  }
+
+  void resetData() {
+    dataList.value = {};
+    itemCount.value = 0;
+    total.value = 0;
+  }
+
+  Future fetchCartData() async {
+    resetData();
+    RxMap<String, Map<String, RxMap<String, RxInt>>>? cacheDataList =
+        getCart(currentUser.value!.phone.toString());
+    if (cacheDataList == null) {
+      return;
+    }
+    dataList = cacheDataList;
+    logger.e('getCart - $dataList');
+    await checkCartItem();
+    logger.e('checkCartItem - $dataList');
+    updateTotal();
     updateItemCount();
   }
 
   Future fetchData() async {
-    RxMap<String, Map<String, RxMap<String, RxInt>>>? cacheDataList = getCart();
-    if (cacheDataList != null) {
-      dataList = cacheDataList;
-    }
-    logger.e('getCart - $dataList');
-    await checkCartItem();
-    logger.e('checkCartItem - $dataList');
     for (var profile in dataList.entries) {
       try {
         Profile profileData = await ProfileService().getById(profile.key);
@@ -80,10 +95,6 @@ class CartController extends GetxController with CacheManager {
         }
       }
     }
-    updateTotal();
-    updateItemCount();
-    logger.e('getData end - $dataList');
-    return dataList;
   }
 
   void updateSessionDetail(String sessionId, String sessionDetailId) {
@@ -109,7 +120,7 @@ class CartController extends GetxController with CacheManager {
         }
       }
       dataList.clear();
-      await saveCart(dataList);
+      saveCart(dataList);
       return true;
       // changePage(MenuIndexState.order.index);
       // Get.offAll(const SplashScreen());
@@ -169,15 +180,15 @@ class CartController extends GetxController with CacheManager {
       String profileId, String sessionId, String menuDetailId) async {
     if (dataList.containsKey(profileId)) {
       //if profileId đã có
-      Map<String, Map<String, RxInt>> cartSessionList = dataList[profileId]!;
-      if (cartSessionList.containsKey(sessionId)) {
+      if (dataList[profileId]!.containsKey(sessionId)) {
         //sessionId đã có
-        Map<String, RxInt> cart = cartSessionList[sessionId]!;
-        cart.update(menuDetailId, (value) => cart[menuDetailId]! + 1,
-            ifAbsent: () => 1.obs);
+        dataList[profileId]![sessionId]!
+            .update(menuDetailId, (value) => value + 1, ifAbsent: () => 1.obs);
       } else {
         //if sessionId chưa tồn tại
-        cartSessionList.putIfAbsent(sessionId, () => {menuDetailId: 1.obs}.obs);
+        dataList[profileId]!
+            .putIfAbsent(sessionId, () => {menuDetailId: 0.obs}.obs);
+             dataList[profileId]![sessionId]![menuDetailId]!.value =1 ;
       }
     } else {
       //profileId chưa tồn tại
@@ -187,7 +198,7 @@ class CartController extends GetxController with CacheManager {
                 sessionId: {menuDetailId: 1.obs}.obs
               });
     }
-    await saveCart(dataList);
+    saveCart(dataList);
     updateItemCount();
     updateTotal();
   }
@@ -196,69 +207,47 @@ class CartController extends GetxController with CacheManager {
       String profileId, String sessionId, String menuDetailId) async {
     if (dataList.containsKey(profileId)) {
       //if profileId đã có
-      Map<String, Map<String, RxInt>> cartSessionList = dataList[profileId]!;
-      if (cartSessionList.containsKey(sessionId)) {
+      if (dataList[profileId]!.containsKey(sessionId)) {
         //sessionId đã có
-        Map<String, RxInt> cart = cartSessionList[sessionId]!;
-        if (cart.containsKey(menuDetailId)) {
-          cart.update(menuDetailId, (value) => cart[menuDetailId]! - 1);
-          //remove
-          if (cart[menuDetailId]!.value == 0) {
-            cart.remove(menuDetailId);
+        if (dataList[profileId]![sessionId]!.containsKey(menuDetailId)) {
+          if (dataList[profileId]![sessionId]![menuDetailId]!.value - 1 != 0) {
+            dataList[profileId]![sessionId]!
+                .update(menuDetailId, (value) => value - 1);
+          } else {
+            //remove
+            dataList[profileId]![sessionId]!.remove(menuDetailId);
             cleanCart();
           }
-        } else {
-          //if menuDetailId chưa tồn tại
-          return;
         }
-      } else {
-        //if sessionId chưa tồn tại
-        return;
       }
-    } else {
-      //profileId chưa tồn tại
-      return;
     }
-    await saveCart(dataList);
+    saveCart(dataList);
     updateItemCount();
     updateTotal();
   }
 
-  Future<void> deleteItemFromCart(
+  Future<void> removeItemFromCart(
       String profileId, String sessionId, String menuDetailId) async {
-    if (dataList.containsKey(profileId)) {
-      // If profileId exists
-      Map<String, Map<String, RxInt>> listSession = dataList[profileId]!;
-      if (listSession.containsKey(sessionId)) {
-        // If sessionId exists
-        Map<String, RxInt> cart = listSession[sessionId]!;
-        if (cart.containsKey(menuDetailId)) {
-          // If menuDetailId exists, remove it
-          cart.remove(menuDetailId);
-          cleanCart();
-        } else {
-          // If menuDetailId does not exist
-          return;
-        }
-      } else {
-        // If sessionId does not exist
-        return;
-      }
-    } else {
-      // If profileId does not exist
-      return;
-    }
-    await saveCart(dataList);
+    dataList[profileId]?[sessionId]?.remove(menuDetailId);
+    cleanCart();
+    saveCart(dataList);
     updateItemCount();
     updateTotal();
   }
 
-  bool ifAbsent(String profileId, String sessionId, String menuDetailId) {
+  bool ifAbse1nt(String profileId, String sessionId, String menuDetailId) {
+    dataList[profileId]?[sessionId]?[menuDetailId] ?? 0;
     if (dataList.containsKey(profileId)) {
       if (dataList[profileId]!.containsKey(sessionId)) {
         return dataList[profileId]![sessionId]!.containsKey(menuDetailId);
       }
     }
     return false;
+  }
+
+  @override
+ void onClose()  {
+    saveCart(dataList);
+    super.onClose();
   }
 }

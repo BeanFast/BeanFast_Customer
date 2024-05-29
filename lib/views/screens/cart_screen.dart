@@ -135,6 +135,42 @@ class CartScreen extends GetView<CartController> {
                                                                 bottom: 5),
                                                         child: Row(
                                                           children: [
+                                                            Text('Nhận hàng vào',
+                                                                style: Get
+                                                                    .textTheme
+                                                                    .bodyMedium),
+                                                            Text(
+                                                              ' ${DateFormat('HH:mm - ').format(controller.listSession[session.key]!.deliveryStartTime!)}',
+                                                              style: Get.textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .green),
+                                                            ),
+                                                            Text(
+                                                              ' ${DateFormat('HH:mm, dd/MM/yyyy').format(controller.listSession[session.key]!.deliveryEndTime!)}',
+                                                              style: Get.textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .green),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                                top: 5,
+                                                                bottom: 5),
+                                                        child: Row(
+                                                          children: [
                                                             Text('Mở đặt đến',
                                                                 style: Get
                                                                     .textTheme
@@ -169,35 +205,17 @@ class CartScreen extends GetView<CartController> {
                                                                         (direction) async {
                                                                       return await showDeleteDialog(
                                                                         () async {
-                                                                          await controller.deleteItemFromCart(
+                                                                          await controller.removeItemFromCart(
                                                                               profile.key,
                                                                               session.key,
                                                                               menuDetail.key);
                                                                           Get.back();
                                                                         },
                                                                       );
-                                                                      // showDialog(
-                                                                      //   context:
-                                                                      //       context,
-                                                                      //   builder:
-                                                                      //       (BuildContext context) {
-                                                                      //     return AlertDialog(
-                                                                      //       title: const Text("Xác nhận"),
-                                                                      //       content: const Text("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?"),
-                                                                      //       actions: <Widget>[
-                                                                      //         TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text("Xoá")),
-                                                                      //         TextButton(
-                                                                      //           onPressed: () => Navigator.of(context).pop(false),
-                                                                      //           child: const Text("Huỷ"),
-                                                                      //         ),
-                                                                      //       ],
-                                                                      //     );
-                                                                      //   },
-                                                                      // );
                                                                     },
                                                                     onDismissed:
                                                                         (direction) {
-                                                                      controller.deleteItemFromCart(
+                                                                      controller.removeItemFromCart(
                                                                           profile
                                                                               .key,
                                                                           session
@@ -323,7 +341,7 @@ class CartScreen extends GetView<CartController> {
                                                                                               if (menuDetail.value.value == 1) {
                                                                                                 showDeleteDialog(
                                                                                                   () async {
-                                                                                                    await controller.deleteItemFromCart(profile.key, session.key, menuDetail.key);
+                                                                                                    await controller.removeItemFromCart(profile.key, session.key, menuDetail.key);
                                                                                                     Get.back();
                                                                                                   },
                                                                                                 );
