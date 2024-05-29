@@ -114,26 +114,31 @@ Future<void> showFlutterNotificationForeground(RemoteMessage message) async {
 void showFlutterNotificationBackground(RemoteMessage message) {
   // print(message.data);
   print("message");
-  NotificationController().resetPagingController();
-  RemoteNotification? notification = message.notification;
 
+  NotificationController notificationController =
+      Get.put(NotificationController());
+
+  RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
   print(notification!.body.toString());
-  if (android != null && !kIsWeb) {
-    flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      notification.title!,
-      notification.body!,
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          icon: '@mipmap/ic_launcher',
-        ),
-      ),
-    );
-  }
+  notificationController.countUnreadNotifications().then((value) => {
+        if (android != null && !kIsWeb)
+          {
+            flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title!,
+              notification.body!,
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  icon: '@mipmap/ic_launcher',
+                ),
+              ),
+            )
+          }
+      });
 }
 
 Future<void> main() async {

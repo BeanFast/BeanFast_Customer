@@ -33,7 +33,7 @@ class NotificationController extends GetxController {
 
   void resetPagingController() {
     notifications.clear();
-    pagingController.dispose();
+    // pagingController.dispose();
     pagingController = PagingController(firstPageKey: 1);
     pagingController.addPageRequestListener((pageKey) async {
       await fetchData(pageKey);
@@ -53,6 +53,7 @@ class NotificationController extends GetxController {
 
   Future countUnreadNotifications() async {
     final response = await NotificationService().countUnreadNotifications();
+    print("unread noti: " + response.toString());
     if (response != -1) {
       unreadNotificationCount.value = response;
     }

@@ -26,10 +26,6 @@ class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(CartController());
-
-    CartController cartController = Get.put(CartController());
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 140,
@@ -589,7 +585,9 @@ void showProfilesDialog(Function() onPressed) {
 List<Widget> headerActionWidget() {
   HomeController controller = Get.find();
   CartController cartController = Get.put(CartController());
-
+  NotificationController notificationController =
+      Get.put(NotificationController());
+  notificationController.countUnreadNotifications();
   return <Widget>[
     SizedBox(
       width: Get.width,
@@ -787,7 +785,7 @@ List<Widget> headerActionWidget() {
                   Obx(
                     () => Visibility(
                       visible:
-                          !Get.find<NotificationController>().allDone.value,
+                          notificationController.unreadNotificationCount > 0,
                       child: Positioned(
                         top: 15,
                         right: 12,
@@ -797,6 +795,18 @@ List<Widget> headerActionWidget() {
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.red,
+                          ),
+                          child: Center(
+                            child: Text(
+                              notificationController
+                                  .unreadNotificationCount.value
+                                  .toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -886,6 +896,6 @@ List<Widget> headerActionWidget() {
           ),
         ],
       ),
-    ),
+    )
   ];
 }

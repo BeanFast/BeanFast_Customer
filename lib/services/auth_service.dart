@@ -30,8 +30,6 @@ class AuthService {
     };
     final response = await apiService.request
         .post('$baseUrl/register', data: FormData.fromMap(data));
-    logger.i(response.statusCode);
-    logger.i(response.data);
     return response;
   }
 
