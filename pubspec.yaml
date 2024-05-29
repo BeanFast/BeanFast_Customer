@@ -52,6 +52,7 @@ dependencies:
   uuid: ^4.4.0
   timeago: ^3.1.0
   flutter_quill: ^9.3.7
+  connectivity: ^3.0.6
   #game
   confetti: ^0.7.0
   flip_card: ^0.6.0

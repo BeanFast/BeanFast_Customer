@@ -158,11 +158,12 @@ class HomeScreen extends GetView<HomeController> {
                                               firstDate: DateTime.now(),
                                               lastDate: DateTime.now().add(
                                                   const Duration(days: 365)),
-                                            ).then((value) {
+                                            ).then((value) async {
                                               if (value != null) {
                                                 controller
                                                     .updateSelectedDate(value);
                                                 controller.now.value = value;
+                                                await controller.getSession();
                                               }
                                             });
                                           },
@@ -548,56 +549,6 @@ class HomeScreen extends GetView<HomeController> {
           ),
         ),
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          color: ThemeColor.textButtonColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Stack(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              child: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: const Icon(Icons.shopping_cart_outlined, size: 24),
-                  onPressed: () {
-                    Get.to(() => const CartScreen());
-                  },
-                ),
-              ),
-            ),
-            Obx(
-              () => Visibility(
-                visible: cartController.itemCount.value != 0,
-                child: Positioned(
-                  top: 5,
-                  right: 3,
-                  width: 20,
-                  height: 20,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.red,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "2" + cartController.itemCount.value.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -669,7 +620,7 @@ List<Widget> headerActionWidget() {
                           child: Container(
                             padding: const EdgeInsets.only(
                                 left: 10, right: 10, top: 3, bottom: 3),
-                            width: Get.width * 0.8,
+                            width: Get.width - 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
                               border: Border.all(
@@ -821,11 +772,10 @@ List<Widget> headerActionWidget() {
               Stack(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 5),
                     width: 50,
                     height: 50,
                     child: Align(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.center,
                       child: IconButton(
                         icon: const Icon(Iconsax.notification, size: 24),
                         onPressed: () {
@@ -854,51 +804,50 @@ List<Widget> headerActionWidget() {
                   ),
                 ],
               ),
-              //   Stack(
-              //     children: [
-              //       Container(
-              //         margin: const EdgeInsets.only(top: 5),
-              //         width: 50,
-              //         height: 50,
-              //         child: Align(
-              //           alignment: Alignment.topRight,
-              //           child: IconButton(
-              //             icon: const Icon(Iconsax.shopping_cart, size: 28),
-              //             onPressed: () {
-              //               Get.to(() => const CartScreen());
-              //             },
-              //           ),
-              //         ),
-              //       ),
-              //       Obx(
-              //         () => Visibility(
-              //           visible: cartController.itemCount.value != 0,
-              //           child: Positioned(
-              //             top: 5,
-              //             right: 3,
-              //             width: 20,
-              //             height: 20,
-              //             child: Container(
-              //               decoration: const BoxDecoration(
-              //                 shape: BoxShape.circle,
-              //                 color: Colors.red,
-              //               ),
-              //               child: Center(
-              //                 child: Text(
-              //                   cartController.itemCount.value.toString(),
-              //                   style: const TextStyle(
-              //                     color: Colors.white,
-              //                     fontSize: 10,
-              //                     fontWeight: FontWeight.bold,
-              //                   ),
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
+              Stack(
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        icon: const Icon(Iconsax.shopping_cart, size: 24),
+                        onPressed: () {
+                          Get.to(() => const CartScreen());
+                        },
+                      ),
+                    ),
+                  ),
+                  Obx(
+                    () => Visibility(
+                      visible: cartController.itemCount.value != 0,
+                      child: Positioned(
+                        top: 5,
+                        right: 3,
+                        width: 18,
+                        height: 18,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                          child: Center(
+                            child: Text(
+                              cartController.itemCount.value.toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
           Column(
