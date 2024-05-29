@@ -1,10 +1,8 @@
-import 'package:beanfast_customer/controllers/auth_controller.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/game_menu_controller.dart';
-import '../../controllers/transaction_controller.dart';
 
 class GameOverScreen extends StatefulWidget {
   final int duration;

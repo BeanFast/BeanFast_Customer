@@ -771,7 +771,7 @@ List<Widget> headerActionWidget() {
               const Spacer(),
               Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 50,
                     height: 50,
                     child: Align(
@@ -806,7 +806,7 @@ List<Widget> headerActionWidget() {
               ),
               Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 50,
                     height: 50,
                     child: Align(

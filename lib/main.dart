@@ -13,7 +13,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'binding.dart';
 import 'contains/theme.dart';
 import 'views/screens/network_screen.dart';
-import 'views/screens/splash_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();

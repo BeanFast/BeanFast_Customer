@@ -33,11 +33,7 @@ class LoadingScreen extends StatelessWidget {
               style: const TextStyle(color: Colors.blue),
             ));
           } else {
-            // if (snapshot.data != null) {
             return child;
-            // } else {
-            //   return DataScreen(message: messageNoData);
-            // }
           }
         }
       },
