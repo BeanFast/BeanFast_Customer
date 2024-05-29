@@ -19,10 +19,10 @@ class ProductDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Stack(children: [
           Container(
-            padding: const EdgeInsets.only(left: 5, right: 5),
+            padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
             child: Column(
               children: [
-                const SizedBox(height: 20),
+              
                 ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: CustomNetworkImage(
