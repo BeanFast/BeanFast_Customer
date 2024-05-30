@@ -10,7 +10,7 @@ enum Status {
 }
 
 enum ExchangeGiftStatus {
-  preparing(1, 'Chờ chuẩn bị'),
+  preparing(1, 'Đang chuẩn bị'),
   delivering(4, 'Chờ giao hàng'),
   completed(5, 'Hoàn thành'),
   cancelled(6, 'Đã hủy');
@@ -37,7 +37,7 @@ enum ExchangeGiftStatus {
 }
 
 enum OrderStatus {
-  preparing(2, 'Chờ chuẩn bị'),
+  preparing(2, 'Đang chuẩn bị'),
   cooking(3, 'Đang chế biến'),
   delivering(4, 'Đang giao hàng'),
   completed(5, 'Hoàn thành'),
