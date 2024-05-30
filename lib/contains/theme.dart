@@ -39,6 +39,7 @@ class AppTheme {
       color: ThemeColor.primaryColor,
       titleTextStyle:
           DTextTheme.textTheme.titleLarge!.copyWith(color: Colors.black),
+          centerTitle: true,
     ),
     snackBarTheme: SnackBarThemeData(backgroundColor: ThemeColor.bgColor),
     navigationRailTheme: NavigationRailThemeData(

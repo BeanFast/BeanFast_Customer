@@ -787,10 +787,10 @@ List<Widget> headerActionWidget() {
                       visible:
                           notificationController.unreadNotificationCount > 0,
                       child: Positioned(
-                        top: 15,
-                        right: 12,
-                        width: 10,
-                        height: 10,
+                        top: 5,
+                        right: 4,
+                        width: 18,
+                        height: 18,
                         child: Container(
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
