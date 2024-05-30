@@ -147,7 +147,7 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                                           child: Text(
                                             Formater.formatPoint(
                                               controller
-                                                  .model.value!.gift!.points
+                                                  .model.value!.points
                                                   .toString(),
                                             ),
                                             maxLines: 1,
@@ -183,7 +183,7 @@ class OrderGiftDetailScreen extends GetView<ExchangeGiftController> {
                                 ),
                                 Text(
                                   Formater.formatPoint(controller
-                                      .model.value!.gift!.points
+                                      .model.value!.points
                                       .toString()),
                                   style: Get.textTheme.bodySmall!.copyWith(
                                     color:

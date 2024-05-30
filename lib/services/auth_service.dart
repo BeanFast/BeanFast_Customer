@@ -15,6 +15,7 @@ class AuthService {
       'password': password,
       'deviceToken': deviceToken,
     };
+    print("deviceToken: $deviceToken");
     final response =
         await apiService.request.post('$baseUrl/login', data: data);
     logger.i(response.statusCode);
@@ -29,8 +30,6 @@ class AuthService {
     };
     final response = await apiService.request
         .post('$baseUrl/register', data: FormData.fromMap(data));
-    logger.i(response.statusCode);
-    logger.i(response.data);
     return response;
   }
 

@@ -13,7 +13,7 @@ class Category extends BaseModel {
     this.code,
     this.name,
     this.imagePath,
-  });
+  }) : super(id: id, status: status);
 
   factory Category.fromJson(dynamic json) => Category(
         id: json['id'],
@@ -22,17 +22,4 @@ class Category extends BaseModel {
         name: json["name"],
         imagePath: json['imagePath'],
       );
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     "accessToken": accessToken.toString(),
-  //     "id": id.toString(),
-  //     "storeId": storeId.toString(),
-  //     "name": name,
-  //     "username": userName,
-  //     "role": userRole,
-  //     "status": status,
-  //     "picUrl": picUrl ?? "",
-  //   };
-  // }
 }

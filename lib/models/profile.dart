@@ -86,17 +86,4 @@ class Profile extends BaseModel {
           json['wallet'] == null ? Wallet() : Wallet.fromJson(json['wallet']),
     );
   }
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     "accessToken": accessToken.toString(),
-  //     "id": id.toString(),
-  //     "storeId": storeId.toString(),
-  //     "name": name,
-  //     "username": userName,
-  //     "role": userRole,
-  //     "status": status,
-  //     "picUrl": picUrl ?? "",
-  //   };
-  // }
 }

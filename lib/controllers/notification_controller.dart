@@ -9,14 +9,13 @@ class NotificationController extends GetxController {
       PagingController(firstPageKey: 1);
   RxBool allDone = true.obs;
   List<Notification> notifications = [];
-
+  RxInt unreadNotificationCount = 0.obs;
   Future<void> fetchData(int pageKey) async {
     try {
       final newData = await NotificationService().getPage(pageKey, 5);
       notifications.addAll(newData);
       if (allDone.value) {
-        if (notifications.where((n) => n.readDate == null)
-                          .isNotEmpty) {
+        if (notifications.where((n) => n.readDate == null).isNotEmpty) {
           allDone.value = false;
         }
       }
@@ -34,7 +33,7 @@ class NotificationController extends GetxController {
 
   void resetPagingController() {
     notifications.clear();
-    pagingController.dispose();
+    // pagingController.dispose();
     pagingController = PagingController(firstPageKey: 1);
     pagingController.addPageRequestListener((pageKey) async {
       await fetchData(pageKey);
@@ -49,6 +48,14 @@ class NotificationController extends GetxController {
     if (result) {
       resetPagingController();
       allDone.value = true;
+    }
+  }
+
+  Future countUnreadNotifications() async {
+    final response = await NotificationService().countUnreadNotifications();
+    print("unread noti: " + response.toString());
+    if (response != -1) {
+      unreadNotificationCount.value = response;
     }
   }
 

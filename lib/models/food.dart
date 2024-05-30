@@ -37,28 +37,19 @@ class Food extends BaseModel {
   }
 
   factory Food.fromJson(dynamic json) => Food(
-      id: json['id'],
-      status: json['status'],
-      categoryId: json["categoryId"],
-      code: json["code"],
-      name: json['name'],
-      price: double.parse(json['price'].toString()),
-      description: json['description'],
-      isCombo: json['isCombo'],
-      imagePath: json['imagePath'] ??
-          'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
-      category: Category.fromJson(json['category']));
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     "accessToken": accessToken.toString(),
-  //     "id": id.toString(),
-  //     "storeId": storeId.toString(),
-  //     "name": name,
-  //     "username": userName,
-  //     "role": userRole,
-  //     "status": status,
-  //     "picUrl": picUrl ?? "",
-  //   };
-  // }
+        id: json['id'],
+        status: json['status'],
+        categoryId: json["categoryId"],
+        code: json["code"],
+        name: json['name'],
+        price:
+            json['price'] == null ? 0 : double.parse(json['price'].toString()),
+        description: json['description'],
+        isCombo: json['isCombo'],
+        imagePath: json['imagePath'] ??
+            'https://domf5oio6qrcr.cloudfront.net/medialibrary/8371/bigstock-Hamburger-And-French-Fries-263887.jpg',
+        category: json['category'] == null
+            ? Category()
+            : Category.fromJson(json['category']),
+      );
 }
