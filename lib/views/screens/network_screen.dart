@@ -1,10 +1,10 @@
-import 'package:beanfast_customer/contains/theme_color.dart';
-import 'package:beanfast_customer/views/widgets/sbutton.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
-
-import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter/material.dart';
+
+import '/contains/theme_color.dart';
+import '/views/widgets/sbutton.dart';
 import 'splash_screen.dart';
 
 class NetworkScreen extends GetView<NetworkController> {

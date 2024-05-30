@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-import '../utils/constants.dart';
+import '/utils/constants.dart';
 import '/utils/cache_manager.dart';
 import '/services/order_service.dart';
 import '/utils/logger.dart';
@@ -61,7 +61,7 @@ class CartController extends GetxController with CacheManager {
       return;
     }
     dataList = cacheDataList;
-    logger.e('getCart - $dataList');
+    logger.e('get cart cache- $dataList');
     await checkCartItem();
     logger.e('checkCartItem - $dataList');
     updateTotal();
@@ -69,6 +69,8 @@ class CartController extends GetxController with CacheManager {
   }
 
   Future fetchData() async {
+    await checkCartItem();
+    logger.e('fetchData - checkCartItem - $dataList');
     for (var profile in dataList.entries) {
       try {
         Profile profileData = await ProfileService().getById(profile.key);
@@ -174,6 +176,7 @@ class CartController extends GetxController with CacheManager {
           }
         } else {
           dataList.remove(profile.key);
+          // cleanCart();
           // return;
         }
       }
