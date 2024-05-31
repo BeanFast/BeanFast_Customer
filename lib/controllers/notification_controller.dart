@@ -53,7 +53,7 @@ class NotificationController extends GetxController {
 
   Future countUnreadNotifications() async {
     final response = await NotificationService().countUnreadNotifications();
-    print("unread noti: " + response.toString());
+    print("unread noti: $response");
     if (response != -1) {
       unreadNotificationCount.value = response;
     }

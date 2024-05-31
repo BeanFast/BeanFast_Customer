@@ -97,6 +97,7 @@ class CartController extends GetxController with CacheManager {
         }
       }
     }
+    updateTotal();
   }
 
   void updateSessionDetail(String sessionId, String sessionDetailId) {

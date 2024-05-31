@@ -28,7 +28,7 @@ class NotificationService {
   }
 
   Future<int> countUnreadNotifications() async {
-    final response = await apiService.request.get(baseUrl + "/count/unread");
+    final response = await apiService.request.get("$baseUrl/count/unread");
     if (response.statusCode == 200) {
       return response.data['data'];
     }
