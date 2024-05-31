@@ -87,7 +87,7 @@ class AuthController extends GetxController with CacheManager {
       }
     } on DioException catch (e) {
       Get.snackbar('Lỗi', e.response?.data['message'] ?? '');
-    }finally{
+    } finally {
       isSubmitting.value = false;
     }
   }
@@ -113,14 +113,14 @@ class AuthController extends GetxController with CacheManager {
       await AuthService().register(phone, password);
       await AuthService().sendOtp(phone);
     } on DioException catch (e) {
-      if (e.response!.statusCode == 400) {
-        errorMessage.value = e.response!.data.toString();
-      }
-    }finally{
+      Get.snackbar('Lỗi', e.response?.data['message'] ?? '');
+      // if (e.response!.statusCode == 400) {
+      //   errorMessage.value = e.response!.data.toString();
+      // }
+      rethrow;
+    } finally {
       isSubmitting.value = false;
     }
     // var fullName = fullNameController.text;
   }
-
-  
 }

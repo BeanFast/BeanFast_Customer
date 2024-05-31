@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -203,15 +204,20 @@ class RegisterView extends GetView<AuthController> {
                                 controller.errorMessage.value = '';
                                 if (_formKey.currentState!.validate()) {
                                   controller.errorMessage.value = '';
-                                  await controller.register();
-                                  Get.to(
-                                    () => const OtpConfirmationView(),
-                                    binding: BindingsBuilder(() {
-                                      Get.put(OTPController(
-                                        phone: controller.phoneController.text,
-                                      ));
-                                    }),
-                                  );
+                                  try {
+                                    await controller.register();
+                                    Get.to(
+                                      () => const OtpConfirmationView(),
+                                      binding: BindingsBuilder(() {
+                                        Get.put(OTPController(
+                                          phone:
+                                              controller.phoneController.text,
+                                        ));
+                                      }),
+                                    );
+                                  } on DioException catch (e) {
+                                    print(e.message);
+                                  }
                                 }
                               } else {
                                 controller.errorMessage.value =
