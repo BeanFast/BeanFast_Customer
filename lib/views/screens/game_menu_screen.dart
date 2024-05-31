@@ -105,159 +105,154 @@ class GameMenuScreen extends GetView<GameMenuController> {
           child: Column(
             children: List.generate(
               games.length,
-              (index) => GestureDetector(
-                onTap: () {
-                  games[index].onClick();
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 0, top: 0),
-                  child: Card(
-                    child: Stack(
-                      children: [
-                        SizedBox(
-                          height: 110,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                height: 110,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    bottomLeft: Radius.circular(12),
-                                  ),
-                                  child: CustomNetworkImage(
-                                    games[index].image,
-                                    fit: BoxFit.cover,
-                                  ),
+              (index) => Container(
+                margin: const EdgeInsets.only(bottom: 0, top: 0),
+                child: Card(
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        height: 110,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              height: 110,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12),
+                                ),
+                                child: CustomNetworkImage(
+                                  games[index].image,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        padding: const EdgeInsets.only(
-                                            left: 10,
-                                            top: 5,
-                                            right: 10,
-                                            bottom: 5),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              child: Text(
-                                                games[index].name,
-                                                style: Get.textTheme.bodyLarge,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Expanded(
-                                              child: SizedBox(
-                                                child: Text(
-                                                  games[index].shortDescription,
-                                                  style: Get
-                                                      .textTheme.bodySmall!
-                                                      .copyWith(
-                                                    color: Colors.black54,
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 3,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 40,
-                                      width: 100,
-                                      margin: const EdgeInsets.only(right: 10),
-                                      child: TextButton(
-                                        style: ButtonStyle(
-                                          padding: MaterialStateProperty.all<
-                                                  EdgeInsets>(
-                                              const EdgeInsets.all(5)),
-                                          shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 10,
+                                          top: 5,
+                                          right: 10,
+                                          bottom: 5),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            child: Text(
+                                              games[index].name,
+                                              style: Get.textTheme.bodyLarge,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
                                             ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                          if (controller.playTimes >= 1) {
-                                            games[index].onClick();
-                                          } else {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title:
-                                                      const Text('Thông báo'),
-                                                  content: const Text(
-                                                      'Bạn đã hết lượt chơi cho hôm nay!.'),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child: const Text('OK'),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          }
-                                        },
-                                        child: Text('Chơi ngay',
-                                            style: Get.textTheme.bodyLarge),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Expanded(
+                                            child: SizedBox(
+                                              child: Text(
+                                                games[index].shortDescription,
+                                                style: Get
+                                                    .textTheme.bodySmall!
+                                                    .copyWith(
+                                                  color: Colors.black54,
+                                                ),
+                                                overflow:
+                                                    TextOverflow.ellipsis,
+                                                maxLines: 3,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 3),
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
+                                  ),
+                                  Container(
+                                    height: 40,
+                                    width: 100,
+                                    margin: const EdgeInsets.only(right: 10),
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        padding: MaterialStateProperty.all<
+                                                EdgeInsets>(
+                                            const EdgeInsets.all(5)),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        if (controller.playTimes >= 1) {
+                                          games[index].onClick();
+                                        } else {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title:
+                                                    const Text('Thông báo'),
+                                                content: const Text(
+                                                    'Bạn đã hết lượt chơi cho hôm nay!.'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: const Text('OK'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
+                                      },
+                                      child: Text('Chơi ngay',
+                                          style: Get.textTheme.bodyLarge),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Text(
-                              'NEW',
-                              style: Get.textTheme.bodySmall!
-                                  .copyWith(color: Colors.white),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 3),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
                             ),
                           ),
+                          child: Text(
+                            'NEW',
+                            style: Get.textTheme.bodySmall!
+                                .copyWith(color: Colors.white),
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
