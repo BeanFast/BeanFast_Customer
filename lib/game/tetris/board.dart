@@ -247,7 +247,6 @@ class _GameBoardState extends State<GameBoard> {
     GameMenuController controller = Get.put(GameMenuController());
     await controller.sendPoints(
         'B2F1C432-8282-42B2-9C5B-39706E28E736', currentScore);
-
     showDialog(
       barrierDismissible: false,
       context: context,

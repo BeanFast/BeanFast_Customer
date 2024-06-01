@@ -34,7 +34,7 @@ class BannerOrderExchangeGiftStatus extends StatelessWidget {
       case ExchangeGiftStatus.delivering:
         {
           text = Text(
-            'Đơn hàng sẽ được giao vào lúc ${DateFormat('HH:mm').format(exchangeGift.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('HH:mm dd/MM/yy').format(exchangeGift.sessionDetail!.session!.deliveryEndTime!)}. Vui lòng kiểm tra trước khi nhận hàng',
+            'Đơn hàng sẽ được giao vào lúc ${DateFormat('HH:mm dd/MM/yy').format(exchangeGift.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('HH:mm dd/MM/yy').format(exchangeGift.sessionDetail!.session!.deliveryEndTime!)}. Vui lòng kiểm tra trước khi nhận hàng',
             style: const TextStyle(
               color: Colors.white,
             ),
