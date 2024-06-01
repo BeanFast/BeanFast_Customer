@@ -291,21 +291,21 @@ class OrderDetailScreen extends GetView<OrderController> {
                         ),
                       ),
                     //feedback
-                    if (controller.model.value!.status ==
-                        OrderStatus.completed.code)
-                      Center(
-                        child: SButton(
-                          color: ThemeColor.textButtonColor,
-                          borderColor: ThemeColor.textButtonColor,
-                          text: 'Đánh giá đơn hàng',
-                          textStyle: Get.textTheme.titleMedium!.copyWith(
-                            color: ThemeColor.itemColor,
-                          ),
-                          onPressed: () {
-// showFeedbackDialog(controller, context);
-                          },
-                        ),
-                      ),
+//                     if (controller.model.value!.status ==
+//                         OrderStatus.completed.code)
+//                       Center(
+//                         child: SButton(
+//                           color: ThemeColor.textButtonColor,
+//                           borderColor: ThemeColor.textButtonColor,
+//                           text: 'Đánh giá đơn hàng',
+//                           textStyle: Get.textTheme.titleMedium!.copyWith(
+//                             color: ThemeColor.itemColor,
+//                           ),
+//                           onPressed: () {
+// // showFeedbackDialog(controller, context);
+//                           },
+//                         ),
+//                       ),
                     const SizedBox(height: 50),
                   ],
                 ),

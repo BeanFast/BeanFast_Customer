@@ -253,9 +253,9 @@ class CartController extends GetxController with CacheManager {
     return false;
   }
 
-  @override
- void onClose()  {
-    saveCart(dataList);
-    super.onClose();
-  }
+//   @override
+//  void onClose()  {
+//     saveCart(dataList);
+//     super.onClose();
+//   }
 }
