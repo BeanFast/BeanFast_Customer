@@ -44,7 +44,7 @@ class BannerOrderStatus extends StatelessWidget {
       case OrderStatus.delivering:
         {
           text = Text(
-            'Đơn hàng sẽ được giao vào lúc ${DateFormat('HH:mm').format(order.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('HH:mm dd/MM/yy').format(order.sessionDetail!.session!.deliveryEndTime!)}. Vui lòng kiểm tra trước khi nhận hàng',
+            'Đơn hàng sẽ được giao vào lúc ${DateFormat('HH:mm dd/MM/yy').format(order.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('HH:mm dd/MM/yy').format(order.sessionDetail!.session!.deliveryEndTime!)}. Vui lòng kiểm tra trước khi nhận hàng',
             style: const TextStyle(
               color: Colors.white,
             ),
