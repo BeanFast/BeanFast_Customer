@@ -54,6 +54,11 @@ class HomeController extends GetxController {
     }
   }
 
+  void resetMoneyVisible() {
+    isMoneyVisible = false.obs;
+    moneyValue = '********* đ'.obs;
+  }
+
   Future toggleMoneyVisibility() async {
     isMoneyVisible.value = !isMoneyVisible.value;
     if (isMoneyVisible.value) {

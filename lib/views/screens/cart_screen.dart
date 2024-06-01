@@ -19,7 +19,7 @@ class CartScreen extends GetView<CartController> {
   Widget build(BuildContext context) {
     Get.put(CartController());
     HomeController homeController = Get.put(HomeController());
-
+    homeController.resetMoneyVisible();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Giỏ hàng'),

@@ -17,6 +17,7 @@ class TransactionScreen extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     HomeController homeController = Get.put(HomeController());
+    homeController.resetMoneyVisible();
     Get.put(TransactionController());
     controller.resetPagingController();
     return Scaffold(

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../utils/constants.dart';
+import '/utils/constants.dart';
 import '/models/profile.dart';
 import '/services/profile_service.dart';
 
@@ -28,6 +28,8 @@ class ProfileController extends GetxController {
         currentProfile.value = currentProfile.value != null
             ? list.firstWhere((e) => e.id == currentProfile.value!.id)
             : list.first;
+      } else {
+        currentProfile.value = null;
       }
     } catch (e) {
       throw Exception(e);
@@ -48,16 +50,9 @@ class ProfileController extends GetxController {
       await ProfileService().deleteById(id);
       Get.back();
       await getAll();
+      await getCurrentProfile();
     } catch (e) {
       throw Exception(e);
     }
   }
-
-  // Future getCurrentProfile(String id) async {
-  //   try {
-  //     currentProfile.value = await ProfileService().getById(id);
-  //   } catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
 }
