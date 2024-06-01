@@ -128,8 +128,10 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                                     .sessionDetails!
                                                                     .where((e) =>
                                                                         e.id! ==
-                                                                        controller
-                                                                            .listSessionDetailId[session.key])
+                                                                        controller.listSessionDetailId[
+                                                                            profile
+                                                                                .key]![session
+                                                                            .key])
                                                                     .first
                                                                     .location!
                                                                     .name
@@ -142,6 +144,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                                                               onPressed: () {
                                                                 gateSelection(
                                                                     context,
+                                                                    profile.key,
                                                                     session
                                                                         .key);
                                                               },
@@ -520,7 +523,8 @@ class CheckOutDetailScreen extends GetView<CartController> {
     );
   }
 
-  Future<dynamic> gateSelection(BuildContext context, String sessionId) {
+  Future<dynamic> gateSelection(
+      BuildContext context, String profileId, String sessionId) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -544,7 +548,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
                           title: Text(sessionDetail.location!.name.toString()),
                           onTap: () {
                             controller.updateSessionDetail(
-                                sessionId, sessionDetail.id!);
+                                profileId, sessionId, sessionDetail.id!);
                             Get.back();
                           },
                         ),

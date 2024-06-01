@@ -163,9 +163,7 @@ class ProfileFormController extends GetxController {
         } else {
           await Get.put(ProfileController()).getAll();
         }
-        if (currentProfile.value == null) {
-          await Get.put(ProfileController()).getCurrentProfile();
-        }
+        await Get.put(ProfileController()).getCurrentProfile();
         Get.back();
       } on dio.DioException catch (e) {
         Get.snackbar('Lỗi', e.message.toString());
