@@ -45,9 +45,11 @@ class OrderDetailScreen extends GetView<OrderController> {
                       padding: const EdgeInsets.all(10),
                       child: GestureDetector(
                         onTap: () {
-                          Get.to(() => OrderTimeline(
-                                order: controller.model.value!,
-                              ));
+                          Get.to(
+                            () => OrderTimeline(
+                              order: controller.model.value!,
+                            ),
+                          );
                         },
                         child: Container(
                           color: ThemeColor.itemColor,
@@ -87,6 +89,10 @@ class OrderDetailScreen extends GetView<OrderController> {
                                           "Từ ${DateFormat('HH:mm').format(controller.model.value!.sessionDetail!.session!.deliveryStartTime!)} đến ${DateFormat('HH:mm, dd/MM/yy').format(controller.model.value!.sessionDetail!.session!.deliveryEndTime!)}",
                                           style: Get.textTheme.bodyMedium),
                                     ],
+                                  ),
+                                  trailing: const Icon(
+                                    Iconsax.arrow_circle_right,
+                                    size: 20,
                                   ),
                                 ),
                             ],

@@ -293,7 +293,7 @@ class HomeScreen extends GetView<HomeController> {
                           child: Obx(
                             () => DataScreen(
                               hasData: controller.listSession.isNotEmpty,
-                              message: 'Chưa có thực đơn',
+                              message: 'Chưa có thực đơn cho hôm nay',
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
