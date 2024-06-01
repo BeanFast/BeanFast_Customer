@@ -14,6 +14,7 @@ class StudentListScreen extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Danh sách học sinh'),

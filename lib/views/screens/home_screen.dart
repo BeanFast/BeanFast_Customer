@@ -26,6 +26,7 @@ class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 140,

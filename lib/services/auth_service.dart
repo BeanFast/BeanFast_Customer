@@ -6,7 +6,6 @@ import '/utils/logger.dart';
 
 class AuthService {
   final String baseUrl = 'auth';
-  // final ApiService apiService = getx.Get.put(ApiService());
 
   Future<Response> login(
       String phone, String password, String deviceToken) async {

@@ -53,7 +53,7 @@ class ProfileService {
       'Class': model.className,
       'Gender': model.gender,
       'NickName': model.nickName,
-      'SchoolId': model.school!.id,
+      'SchoolId': model.schoolId,
       'Dob': model.dob,
     });
     if (isUpdateImage) {

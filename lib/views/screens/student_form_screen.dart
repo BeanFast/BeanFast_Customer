@@ -18,11 +18,7 @@ class StudentFormScreen extends GetView<ProfileFormController> {
   Widget build(BuildContext context) {
     Get.put(ProfileFormController());
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Thông tin học sinh',
-        ),
-      ),
+      appBar: AppBar(title: const Text('Thông tin học sinh')),
       body: LoadingScreen(
         future: () async {
           await controller.getSchools();

@@ -25,6 +25,7 @@ class MenuItem extends GetView<CartController> {
   });
   @override
   Widget build(Object context) {
+    Get.put(CartController());
     return Visibility(
       visible: list.isNotEmpty,
       child: isCombo

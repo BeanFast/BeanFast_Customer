@@ -17,6 +17,7 @@ class StudentDetailScreen extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thông tin học sinh'),
@@ -137,8 +138,6 @@ class StudentDetailScreen extends GetView<ProfileController> {
       ),
     );
   }
-}
-
 void showDeleteChildDialog() {
   Get.dialog(
     AlertDialog(
@@ -154,9 +153,9 @@ void showDeleteChildDialog() {
       ),
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             Get.back();
-            // controller.deleteChild(id);
+            await controller.deleteById(id);
           },
           child: Text('Xoá',
               style: Get.textTheme.bodyMedium!.copyWith(color: Colors.red)),
@@ -172,3 +171,5 @@ void showDeleteChildDialog() {
     ),
   );
 }
+}
+

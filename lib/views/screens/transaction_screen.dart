@@ -1,14 +1,14 @@
-import 'package:beanfast_customer/views/screens/data_screen.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 
-import '../../models/transaction.dart';
+import '/models/transaction.dart';
 import '/contains/theme_color.dart';
 import '/controllers/home_controller.dart';
 import '/controllers/transaction_controller.dart';
+import 'data_screen.dart';
 import '/utils/formater.dart';
 
 class TransactionScreen extends GetView<TransactionController> {
@@ -16,38 +16,12 @@ class TransactionScreen extends GetView<TransactionController> {
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = Get.find();
+    HomeController homeController = Get.put(HomeController());
     Get.put(TransactionController());
     controller.resetPagingController();
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Lịch sử giao dịch',
-        ),
-        // title: Container(
-        //   alignment: Alignment.center,
-        //   height: 40,
-        //   child: TextField(
-        //     style: const TextStyle(height: 1), // Adjust the height as needed
-        //     decoration: InputDecoration(
-        //       contentPadding: const EdgeInsets.only(right: 10),
-        //       hintText: 'Tìm kiếm giao dịch',
-        //       filled: true,
-        //       fillColor: Colors.white,
-        //       border: OutlineInputBorder(
-        //         borderRadius:
-        //             BorderRadius.circular(50), // Set the border radius to 10
-        //       ),
-        //       prefixIcon: const Icon(
-        //         Iconsax.search_normal,
-        //         size: 20,
-        //       ),
-        //     ),
-        //     onChanged: (value) {
-        //       controller.search(value);
-        //     },
-        //   ),
-        // ),
+        title: const Text('Lịch sử giao dịch'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(

@@ -18,7 +18,7 @@ class SplashScreen extends GetView<AuthController> {
     controller.checkLoginStatus();
     if (authState.value == AuthState.authenticated) {
       await controller.getUser();
-      await Get.find<ProfileController>().getCurrentProfile();
+      await Get.put(ProfileController()).getCurrentProfile();
     }
   }
 

@@ -1,4 +1,3 @@
-import 'package:beanfast_customer/controllers/notification_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'utils/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import '/controllers/notification_controller.dart';
 import 'binding.dart';
 import 'contains/theme.dart';
 import 'views/screens/network_screen.dart';

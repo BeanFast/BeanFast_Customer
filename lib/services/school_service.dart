@@ -4,15 +4,6 @@ import '/models/school.dart';
 
 class SchoolService {
   final String baseUrl = 'schools';
-  // final ApiService apiService = getx.Get.put(ApiService());
-
-  // Future<List<School>> getSchoolsBySchoolId(
-
-  //   for (var e in response.data['data']) {
-  //     list.add(School.fromJson(e));
-  //   }
-  //   return list;
-  // }
 
   Future<List<School>> getAll() async {
     final response = await apiService.request.get(baseUrl);

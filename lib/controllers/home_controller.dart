@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 
-import '../services/auth_service.dart';
+import '/services/auth_service.dart';
 import '/utils/constants.dart';
 import '/utils/formater.dart';
 import '/models/menu_detail.dart';
@@ -72,8 +72,7 @@ class HomeController extends GetxController {
   }
 
   Future fetchData() async {
-    // await Get.find<NotificationController>().fetchData(); //get notification
-    await Get.find<CartController>().fetchCartData(); //get cart cache
+    await Get.put(CartController()).fetchCartData(); //get cart cache
     if (currentProfile.value != null) {
       await getSession(); //get session of profile
       if (listSession.isNotEmpty) {

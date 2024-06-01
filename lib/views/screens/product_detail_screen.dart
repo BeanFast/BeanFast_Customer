@@ -13,7 +13,6 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(CartController());
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(

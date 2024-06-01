@@ -22,7 +22,7 @@ class DepositeScreen extends GetView<DepositeController> {
   Widget build(BuildContext context) {
     Get.put(DepositeController());
     final formKey = GlobalKey<FormState>();
-    HomeController homeController = Get.find();
+    HomeController homeController = Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
           title: const Text(

@@ -145,8 +145,7 @@ class ProfileFormController extends GetxController {
         model.value.bmis!.last.weight = double.parse(weightController.text);
         model.value.bmis!.last.age =
             DateTime.now().year - model.value.dob!.year;
-        model.value.school = School();
-        model.value.school!.id = selectedSchool.value!.id!;
+        model.value.schoolId = selectedSchool.value!.id!;
         model.value.gender = gender.value == 'Nam' ? true : false;
         //
         if (isUpdate) {
@@ -160,12 +159,12 @@ class ProfileFormController extends GetxController {
           await ProfileService().create(model.value);
         }
         if (model.value.id != null) {
-          Get.find<ProfileController>().getById(model.value.id!);
+          await Get.put(ProfileController()).getById(model.value.id!);
         } else {
-          Get.find<ProfileController>().getAll();
+          await Get.put(ProfileController()).getAll();
         }
         if (currentProfile.value == null) {
-          Get.find<ProfileController>().getCurrentProfile();
+          await Get.put(ProfileController()).getCurrentProfile();
         }
         Get.back();
       } on dio.DioException catch (e) {

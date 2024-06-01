@@ -22,14 +22,13 @@ class ProfileController extends GetxController {
 
   Future getCurrentProfile() async {
     try {
-      List<Profile>? list = await ProfileService().getAll();
+      List<Profile> list = await ProfileService().getAll();
       if (list.isNotEmpty) {
         list.sort((a, b) => b.dob!.compareTo(a.dob!));
         currentProfile.value = currentProfile.value != null
             ? list.firstWhere((e) => e.id == currentProfile.value!.id)
             : list.first;
       }
-      return currentProfile;
     } catch (e) {
       throw Exception(e);
     }
@@ -39,6 +38,16 @@ class ProfileController extends GetxController {
     try {
       model.value = await ProfileService().getById(id);
       return model.value;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future deleteById(String id) async {
+    try {
+      await ProfileService().deleteById(id);
+      Get.back();
+      await getAll();
     } catch (e) {
       throw Exception(e);
     }

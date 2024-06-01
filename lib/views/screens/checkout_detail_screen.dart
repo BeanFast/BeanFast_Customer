@@ -22,6 +22,7 @@ class CheckOutDetailScreen extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(CartController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thanh toán'),
