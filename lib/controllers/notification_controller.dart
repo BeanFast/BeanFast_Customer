@@ -7,18 +7,12 @@ import '/services/notification_service.dart';
 class NotificationController extends GetxController {
   PagingController<int, Notification> pagingController =
       PagingController(firstPageKey: 1);
-  RxBool allDone = true.obs;
   List<Notification> notifications = [];
   RxInt unreadNotificationCount = 0.obs;
   Future<void> fetchData(int pageKey) async {
     try {
       final newData = await NotificationService().getPage(pageKey, 5);
       notifications.addAll(newData);
-      if (allDone.value) {
-        if (notifications.where((n) => n.readDate == null).isNotEmpty) {
-          allDone.value = false;
-        }
-      }
       final isLastPage = newData.isEmpty;
       if (isLastPage) {
         pagingController.appendLastPage(newData);
@@ -33,7 +27,7 @@ class NotificationController extends GetxController {
 
   void resetPagingController() {
     notifications.clear();
-    // pagingController.dispose();
+    pagingController.dispose();
     pagingController = PagingController(firstPageKey: 1);
     pagingController.addPageRequestListener((pageKey) async {
       await fetchData(pageKey);
@@ -41,21 +35,22 @@ class NotificationController extends GetxController {
   }
 
   Future<void> markAsRead() async {
-    var result = await NotificationService().markAsRead(notifications
-        .where((e) => e.readDate == null)
-        .map((e) => e.id!)
-        .toList());
-    if (result) {
+    // var result = await NotificationService().markAsRead(notifications
+    //     .where((e) => e.readDate == null)
+    //     .map((e) => e.id!)
+    //     .toList());
+    // if (result) {
       resetPagingController();
-      allDone.value = true;
-    }
+      await countUnreadNotifications();
+    // }
   }
 
   Future countUnreadNotifications() async {
-    final response = await NotificationService().countUnreadNotifications();
-    print("unread noti: $response");
-    if (response != -1) {
-      unreadNotificationCount.value = response;
+    try {
+      unreadNotificationCount.value =
+          await NotificationService().countUnreadNotifications();
+    } catch (e) {
+      unreadNotificationCount.value = 0;
     }
   }
 

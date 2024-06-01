@@ -11,6 +11,7 @@ import '/services/session_service.dart';
 import '/models/profile.dart';
 import '/services/profile_service.dart';
 import 'cart_controller.dart';
+import 'notification_controller.dart';
 
 class MenuModel {
   List<MenuDetail> listDiscountedCombo = [];
@@ -73,6 +74,7 @@ class HomeController extends GetxController {
 
   Future fetchData() async {
     await Get.put(CartController()).fetchCartData(); //get cart cache
+    await Get.put(NotificationController()).countUnreadNotifications();
     if (currentProfile.value != null) {
       await getSession(); //get session of profile
       if (listSession.isNotEmpty) {

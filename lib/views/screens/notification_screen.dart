@@ -27,8 +27,8 @@ class NotificationScreen extends GetView<NotificationController> {
               color: Colors.black,
               size: 30,
             ),
-            onPressed: () {
-              controller.markAsRead();
+            onPressed: () async {
+              await controller.markAsRead();
             },
           ),
         ],
