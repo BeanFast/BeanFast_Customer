@@ -30,6 +30,7 @@ class ExchangeGiftScreen extends GetView<ExchangeGiftController> {
         title: const Text(
           'Đổi thưởng',
         ),
+        centerTitle: false,
         actions: <Widget>[
           Container(
             margin: const EdgeInsets.only(right: 20),
@@ -127,7 +128,9 @@ class PointTransactionHistoryTabView extends GetView<ExchangeGiftController> {
                         Text(
                           item.exchangeGift!.code != null
                               ? "Đổi quà: #${item.exchangeGift!.code!}"
-                              : "Chơi game: ${item.game!.name}",
+                              : item.game!.name != null
+                                  ? "Chơi game: ${item.game!.name}"
+                                  : "Hoàn thành đơn hàng: #${item.order!.code}",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Get.textTheme.bodyLarge!.copyWith(
