@@ -37,7 +37,7 @@ class ProfileService {
           filename: 'uploadFile.jpg'),
       'Gender': model.gender,
       'NickName': model.nickName,
-      'SchoolId': model.school!.id,
+      'SchoolId': model.schoolId,
       'Dob': model.dob,
     });
     final response = await apiService.request.post(baseUrl, data: formData);
