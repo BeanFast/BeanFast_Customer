@@ -33,7 +33,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-
+    GameMenuController controller = Get.put(GameMenuController());
     return Scaffold(
       body: Stack(
         alignment: Alignment.topCenter,
@@ -75,21 +75,24 @@ class _GameOverScreenState extends State<GameOverScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.green),
+                Obx(
+                  () => ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                    ),
+                    onPressed: controller.isSubmitting.value == true
+                        ? null
+                        : () async {
+                            controller.isSubmitting.value = true;
+                            await controller.sendPoints(
+                                '8BF8D76C-B74E-4F30-B104-D03729E11315', 10);
+                            Get.back();
+                            Get.back();
+                          },
+                    child: const Text("Hoàn thành",
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
-                  onPressed: () async {
-                    GameMenuController controller =
-                        Get.put(GameMenuController());
-                    await controller.sendPoints(
-                        '8BF8D76C-B74E-4F30-B104-D03729E11315', 5);
-                    Get.back();
-                    Get.back();
-                  },
-                  child: const Text("Hoàn thành",
-                      style: TextStyle(fontSize: 18, color: Colors.white)),
                 ),
               ],
             ),

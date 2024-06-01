@@ -43,7 +43,7 @@ class CartController extends GetxController with CacheManager {
     }
 
     cleanCart();
-     saveCart(dataList);
+    saveCart(dataList);
     updateItemCount();
   }
 
@@ -196,7 +196,7 @@ class CartController extends GetxController with CacheManager {
         //if sessionId chưa tồn tại
         dataList[profileId]!
             .putIfAbsent(sessionId, () => {menuDetailId: 0.obs}.obs);
-             dataList[profileId]![sessionId]![menuDetailId]!.value =1 ;
+        dataList[profileId]![sessionId]![menuDetailId]!.value = 1;
       }
     } else {
       //profileId chưa tồn tại
